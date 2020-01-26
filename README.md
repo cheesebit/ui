@@ -2,7 +2,7 @@
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
-[![Coveralls][coveralls-badge]][coveralls]
+[![Coverage Status](https://coveralls.io/repos/github/cheesebit/ui/badge.svg)](https://coveralls.io/github/cheesebit/ui)
 
 ## Welcome
 
