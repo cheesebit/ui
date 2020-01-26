@@ -1,0 +1,15 @@
+$colors: (
+  color-primary: #73d2de,
+  color-secondary: #d81159,
+  color-white: white,
+  color-red: red,
+  color-black: #444
+);
+
+@function color($color-name, $color-variant: null) {
+  @if ($color-variant != null) {
+    @return map-get(map-get($colors, color-#{$color-name}), $color-variant);
+  } @else {
+    @return map-get($colors, color-#{$color-name});
+  }
+}

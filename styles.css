@@ -1,0 +1,106 @@
+:root {
+  --white: white;
+  --red: red;
+  --spacing: 8px; }
+
+/* Set core body defaults */
+body {
+  scroll-behavior: smooth;
+  text-rendering: optimizeSpeed; }
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important; } }
+
+.u-is-hidden {
+  display: none !important;
+  opacity: 0 !important; }
+
+.u-is-borderless {
+  border: none !important; }
+
+.u-is-top-borderless {
+  border-top: none !important;
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important; }
+
+.u-is-right-borderless {
+  border-right: none !important;
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important; }
+
+.u-is-bottom-borderless {
+  border-bottom: none !important;
+  border-bottom-right-radius: 0 !important;
+  border-bottom-left-radius: 0 !important; }
+
+.u-is-left-borderless {
+  border-left: none !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important; }
+
+.u-is-paddingless {
+  padding: 0 !important; }
+
+.u-is-top-paddingless {
+  padding-top: 0 !important; }
+
+.u-is-right-paddingless {
+  padding-right: 0 !important; }
+
+.u-is-bottom-paddingless {
+  padding-bottom: 0 !important; }
+
+.u-is-left-paddingless {
+  padding-left: 0 !important; }
+
+.u-is-marginless {
+  padding: 0 !important; }
+
+.u-rotate-45 {
+  transform: rotate(45deg) !important; }
+
+.u-rotate-90 {
+  transform: rotate(90deg) !important; }
+
+.u-rotate-135 {
+  transform: rotate(135deg) !important; }
+
+.u-rotate-180 {
+  transform: rotate(180deg) !important; }
+
+.u-rotate-225 {
+  transform: rotate(225deg) !important; }
+
+.u-rotate-270 {
+  transform: rotate(270deg) !important; }
+
+.u-rotate-315 {
+  transform: rotate(315deg) !important; }
+
+.u-rotate-360 {
+  transform: rotate(360deg) !important; }
+
+.c-icon {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: inline-flex;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: 1;
+  padding: 8px;
+  padding: var(--spacing, 8px); }
+  .c-icon--sm {
+    height: 0.5em;
+    width: 0.5em; }
+  .c-icon--md {
+    height: 1em;
+    width: 1em; }
+  .c-icon--lg {
+    height: 1.5em;
+    width: 1.5em; }

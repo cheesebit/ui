@@ -1,0 +1,25 @@
+@import './settings.colors';
+@import './settings.layers';
+@import './settings.spacing';
+@import './settings.typography';
+
+@function merge($maps...) {
+  $collection: ();
+
+  @each $map in $maps {
+    @each $key, $value in $map {
+      $collection: map-merge($collection, (#{$key}: $value));
+    }
+  }
+
+  @return $collection;
+}
+
+$variables: merge(
+  $colors,
+  $layers,
+  $spacings,
+  $font-families,
+  $font-sizes,
+  $font-weights
+);

@@ -1,0 +1,13 @@
+$base-spacing: 8px;
+
+$spacings: (
+  spacing-md: $base-spacing,
+  spacing-sm: calc(#{$base-spacing} * 0.5),
+  spacing-xs: calc(#{$base-spacing} * 0.25),
+  spacing-lg: calc(#{$base-spacing} * 1.5),
+  spacing-xg: calc(#{$base-spacing} * 2)
+);
+
+@function spacing($spacing-name) {
+  @return map-get($spacings, spacing-#{$spacing-name});
+}

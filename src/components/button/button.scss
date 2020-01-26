@@ -1,0 +1,139 @@
+@import '../../styles/tools/index';
+@import '../../styles/settings/index';
+
+.cb-button {
+  @include interactable(black);
+  @include disableable;
+  @include font;
+  @include transition(all);
+
+  @include var(background, color-black);
+  @include var(color, color-white);
+  @include var(border-color, color-black);
+
+  &:active {
+    @include var(background, color-secondary);
+    @include var(border-color, color-secondary);
+  }
+
+  border-width: 1px;
+  border-style: solid;
+
+  cursor: pointer;
+  user-select: none;
+  text-decoration: none;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  @include var(padding, spacing-md);
+
+  &.-low-emphasis {
+    border-color: transparent;
+    background: transparent;
+
+    @include var(color, color-primary);
+  }
+
+  &.-medium-emphasis {
+    @include var(border-color, color-primary);
+    @include var(color, color-primary);
+
+    background: transparent;
+
+    @include hoverable {
+      @include var(background, color-primary);
+      @include var(color, color-white);
+    }
+  }
+
+  &.-high-emphasis {
+    @include var(background, color-primary);
+    @include var(border-color, color-primary);
+    @include var(color, color-white);
+  }
+
+  &.-small {
+    min-height: 42px;
+    min-width: 42px;
+
+    & + & {
+      margin: 0 0 0 36px;
+    }
+  }
+
+  &.-medium {
+    min-height: 60px;
+    min-width: 60px;
+
+    & + & {
+      margin: 0 0 0 24px;
+    }
+  }
+
+  &.-large {
+    min-height: 72px;
+    min-width: 72px;
+
+    & + & {
+      margin: 0 0 0 16px;
+    }
+  }
+
+  &.is-primary {
+    @include interactable(primary);
+
+    @include var(background, color-primary);
+    @include var(color, color-white);
+    @include var(border-color, color-primary);
+
+    &:active {
+      @include var(background, color-primary);
+      @include var(border-color, color-primary);
+    }
+
+    &.is-outline {
+      border-color: transparent;
+      background: transparent;
+
+      @include var(color, color-primary);
+
+      &:hover {
+        @include var(border-color, color-primary);
+      }
+    }
+  }
+
+  &.is-secondary {
+    @include interactable(secondary);
+
+    @include var(background, color-secondary);
+    @include var(color, color-white);
+    @include var(border-color, color-secondary);
+
+    &:active {
+      @include var(background, color-secondary);
+      @include var(border-color, color-secondary);
+    }
+
+    &.is-outline {
+      border-color: transparent;
+      background: transparent;
+
+      @include var(color, color-secondary);
+
+      &:hover {
+        @include var(border-color, color-secondary);
+      }
+    }
+  }
+
+  & + & {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+
+    @include var(margin-left, spacing-md);
+  }
+}

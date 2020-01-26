@@ -1,0 +1,33 @@
+@import url('https://fonts.googleapis.com/css?family=Barlow:300,400,700,800&display=swap');
+
+$font-sizes: (
+  font-size-default: 1.25rem,
+  font-size-md: 16px,
+  font-size-sm: 1rem,
+  font-size-lg: 1.5rem
+);
+
+@function font-size($font-size-name: default) {
+  @return map-get($font-sizes, font-size-#{$font-size-name});
+}
+
+$font-weights: (
+  font-weight-default: 400,
+  font-weight-medium: 300,
+  font-weight-bold: 700
+);
+
+@function font-weight($font-weight-name: default) {
+  @return map-get($font-weights, font-weight-#{$font-weight-name});
+}
+
+$font-families: (
+  font-family-default: (
+    'Barlow',
+    serif
+  )
+);
+
+@function font-family($font-family-name: default) {
+  @return map-get($font-families, font-family-#{$font-family-name});
+}

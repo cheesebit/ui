@@ -1,0 +1,9 @@
+$layers: (
+  layer-default: 0
+);
+
+@function layer($layer-name: default) {
+  $layer-name: layer-#{$layer-name};
+
+  @return map-get($layers, $layer-name);
+}
