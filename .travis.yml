@@ -2,14 +2,25 @@ sudo: false
 
 language: node_js
 node_js:
-  - 8
+  - 10
 
-before_install:
-  - npm install codecov.io coveralls
+install:
+  - npm ci
 
-after_success:
-  - cat ./coverage/lcov.info | ./node_modules/codecov.io/bin/codecov.io.js
-  - cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+script:
+  - echo "Running tests ..."
+  - npm test
+  - echo "Building storybook docs ..."
+  - npm run build-storybook
+
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: $GITHUB_TOKEN # Set in the settings page of your repository, as a secure variable
+  keep_history: true
+  local_dir: ./docs
+  on:
+    branch: master
 
 branches:
   only:

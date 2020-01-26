@@ -62,8 +62,6 @@
 }
 
 @mixin interactable($color-name) {
-  $color: color($color-name);
-
   outline: none !important;
   opacity: 1;
 
@@ -72,19 +70,17 @@
     opacity: 0.85;
   }
 
-  $shadow-color: rgba(color($color-name), 0.4);
-
   &.is-focused,
   &:focus {
     outline: 0;
     animation: highlight 1.5s ease-in-out;
-    box-shadow: 0 0 0 $shadow-color;
+    box-shadow: 0 0 0 color($color-name);
     animation: pulse 2s;
   }
 
   @keyframes pulse {
     0% {
-      box-shadow: 0 0 0 0 $shadow-color;
+      box-shadow: 0 0 0 0 color($color-name);
     }
     70% {
       box-shadow: 0 0 0 10px transparent;

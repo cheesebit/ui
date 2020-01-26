@@ -81,59 +81,59 @@
     }
   }
 
-  &.is-primary {
-    @include interactable(primary);
+  // &.is-primary {
+  //   @include interactable(primary);
 
-    @include var(background, color-primary);
-    @include var(color, color-white);
-    @include var(border-color, color-primary);
+  //   @include var(background, color-primary);
+  //   @include var(color, color-white);
+  //   @include var(border-color, color-primary);
 
-    &:active {
-      @include var(background, color-primary);
-      @include var(border-color, color-primary);
-    }
+  //   &:active {
+  //     @include var(background, color-primary);
+  //     @include var(border-color, color-primary);
+  //   }
 
-    &.is-outline {
-      border-color: transparent;
-      background: transparent;
+  //   &.is-outline {
+  //     border-color: transparent;
+  //     background: transparent;
 
-      @include var(color, color-primary);
+  //     @include var(color, color-primary);
 
-      &:hover {
-        @include var(border-color, color-primary);
-      }
-    }
-  }
+  //     &:hover {
+  //       @include var(border-color, color-primary);
+  //     }
+  //   }
+  // }
 
-  &.is-secondary {
-    @include interactable(secondary);
+  // &.is-secondary {
+  //   @include interactable(secondary);
 
-    @include var(background, color-secondary);
-    @include var(color, color-white);
-    @include var(border-color, color-secondary);
+  //   @include var(background, color-secondary);
+  //   @include var(color, color-white);
+  //   @include var(border-color, color-secondary);
 
-    &:active {
-      @include var(background, color-secondary);
-      @include var(border-color, color-secondary);
-    }
+  //   &:active {
+  //     @include var(background, color-secondary);
+  //     @include var(border-color, color-secondary);
+  //   }
 
-    &.is-outline {
-      border-color: transparent;
-      background: transparent;
+  //   &.is-outline {
+  //     border-color: transparent;
+  //     background: transparent;
 
-      @include var(color, color-secondary);
+  //     @include var(color, color-secondary);
 
-      &:hover {
-        @include var(border-color, color-secondary);
-      }
-    }
-  }
+  //     &:hover {
+  //       @include var(border-color, color-secondary);
+  //     }
+  //   }
+  // }
 
-  & + & {
-    margin-top: 0;
-    margin-right: 0;
-    margin-bottom: 0;
+  // & + & {
+  //   margin-top: 0;
+  //   margin-right: 0;
+  //   margin-bottom: 0;
 
-    @include var(margin-left, spacing-md);
-  }
+  //   @include var(margin-left, spacing-md);
+  // }
 }
