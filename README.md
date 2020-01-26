@@ -16,7 +16,7 @@ Helpfult feedbacks are totally appreciated.
 
 This is (and it might always be) an ongoing work, since I will keep adding, changing, removing, improving and fixing components as they go live in my own applications.
 
-[build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
+[build-badge]: https://travis-ci.com/cheesebit/ui.svg?branch=master
 [build]: https://travis-ci.org/user/repo
 [npm-badge]: https://img.shields.io/npm/v/npm-package.png?style=flat-square
 [npm]: https://www.npmjs.org/package/npm-package
