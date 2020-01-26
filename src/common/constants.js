@@ -1,4 +1,5 @@
 export const DEFAULT = {
   ARRAY: [],
-  OBJECT: {}
+  OBJECT: {},
+  STRING: ""
 };

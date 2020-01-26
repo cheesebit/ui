@@ -1,0 +1,27 @@
+.cc-link {
+  @include font;
+  @include interactable;
+  @include disableable;
+
+  @include transition(background color);
+
+  @include var(color, color-primary);
+
+  cursor: pointer;
+  text-decoration: none;
+
+  &:visited {
+    @include var(color, color-primary);
+  }
+
+  @include hoverable {
+    @include var(color, color-secondary);
+  }
+
+  & + & {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    @include var(margin-left, spacing-md);
+  }
+}

@@ -8,8 +8,8 @@ install:
   - npm ci
 
 script:
-  - echo "Running tests ..."
-  - npm test
+  - echo "Running test coverage..."
+  - npm run coverage
   - echo "Building storybook docs ..."
   - npm run build-storybook
 
@@ -18,7 +18,7 @@ deploy:
   skip_cleanup: true
   github_token: $GITHUB_TOKEN # Set in the settings page of your repository, as a secure variable
   keep_history: true
-  local_dir: ./docs
+  local_dir: docs
   on:
     branch: master
 

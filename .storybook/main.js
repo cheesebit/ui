@@ -1,7 +1,7 @@
 const webpackConfig = require('./setup/webpack');
 
 module.exports = {
-  stories: ['../src/**/*.stories.js'],
+  stories: ['./pages/**/*.stories.(js|mdx)', '../src/**/*.stories.(js|mdx)'],
   addons: [
     '@storybook/addon-actions',
     '@storybook/addon-links',

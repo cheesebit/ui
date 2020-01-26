@@ -1,0 +1,10 @@
+@import '../../styles/tools/index';
+@import '../../styles/settings/index';
+
+.cb-plaground {
+  @include font;
+  @include var(padding, spacing-md);
+
+  display: flex;
+  flex-direction: column;
+}

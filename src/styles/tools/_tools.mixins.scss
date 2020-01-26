@@ -61,7 +61,7 @@
   }
 }
 
-@mixin interactable($color-name) {
+@mixin interactable($color-name: color-primary) {
   outline: none !important;
   opacity: 1;
 

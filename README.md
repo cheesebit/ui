@@ -12,9 +12,11 @@ This is my very own playground for components I've built, either for my own deli
 
 I've put my heart here and I do hope someone can make good usage of it - for learning or productivity purposes - as much as I did (actually still do).
 
-Helpfult feedbacks are totally appreciated.
+Helpful feedbacks are totally appreciated.
 
 This is (and it might always be) an ongoing work, since I will keep adding, changing, removing, improving and fixing components as they go live in my own applications.
+
+Checkout our docs at [our Github Page](https://cheesebit.github.io/ui).
 
 [build-badge]: https://travis-ci.com/cheesebit/ui.svg?branch=master
 [build]: https://travis-ci.org/user/repo
@@ -35,7 +37,7 @@ This is (and it might always be) an ongoing work, since I will keep adding, chan
 
 ## Who am I?
 
-I'm Welington, Frontend Engineer at Hotmart.
+I'm [Welington, Frontend Engineer](https://www.linkedin.com/in/welingtonsilva/) at Hotmart.
 
 I've been working with UI development for the last 5+ years (although I've worked as full stack dev for 4+ years before that).
 

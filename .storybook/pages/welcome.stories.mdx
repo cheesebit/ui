@@ -1,0 +1,50 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import packageJson from '../../package.json';
+import { Link } from '../../src/components/link';
+import { Playground } from '../../src/components/playground';
+
+<Meta title="Welcome" />
+
+<h1>Welcome to Cheesebit UI</h1>
+
+<Playground>
+  <article>
+    <p>
+      Hi there, thank you very much for being here.
+    </p>
+    <p>
+      This is my very own playground for components I've built, either for my own delight, or to be used in one of my projects.
+    </p>
+    <p>
+      I've put my heart here and I do hope someone can make good usage of it - for learning or productivity purposes - as much as I did (actually still do).
+    </p>
+    <p>
+      Helpful feedbacks are totally appreciated.
+    </p>
+    <p>
+      This is (and it might always be) an ongoing work, since I will keep adding, changing, removing, improving and fixing components as they go live in my own applications.
+    </p>
+  </article>
+  <article>
+    <h2>How to use it</h2>
+    <p>
+      Currently we are working with the version
+      <code>{packageJson.version}</code>
+    </p>
+    <p>I haven't published a version yet, but I'll add the instructions here as soon as I do.</p>
+  </article>
+  <article>
+    <h2>How can I report an issue?</h2>
+    <p>
+      You can go to the{' '}
+      <Link
+        alt="Cheesebit UI issues page on Github"
+        target="_blank"
+        href="https://github.com/cheesebit/ui/issues"
+      >
+        issues page
+      </Link>{' '}
+      and fill out an issue.
+    </p>
+  </article>
+</Playground>
