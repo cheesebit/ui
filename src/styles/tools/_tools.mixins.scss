@@ -1,8 +1,8 @@
 @import '../settings/index';
 
 @mixin var($property, $name) {
-  #{$property}: map-get($variables, $name);
-  #{$property}: var(--cb-#{$name}, map-get($variables, $name));
+  #{$property}: map-get($vars, $name);
+  #{$property}: var(--cb-#{$name}, map-get($vars, $name));
 }
 
 @mixin font() {

@@ -15,7 +15,7 @@
   @return $collection;
 }
 
-$variables: merge(
+$vars: merge(
   $colors,
   $layers,
   $spacings,

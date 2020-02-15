@@ -37,7 +37,7 @@ Checkout our docs at [our Github Page](https://cheesebit.github.io/ui).
 
 ## Who am I?
 
-I'm [Welington, Frontend Engineer](https://www.linkedin.com/in/welingtonsilva/) at Hotmart.
+I'm [Welington](https://www.linkedin.com/in/welingtonsilva/) , Frontend Engineer at Hotmart.
 
 I've been working with UI development for the last 5+ years (although I've worked as full stack dev for 4+ years before that).
 

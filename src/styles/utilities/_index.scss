@@ -1,0 +1,9 @@
+@import '../tools/index';
+
+.u-is-hidden {
+  @include hidden;
+}
+
+.u-is-visually-hidden {
+  @include hidden(true);
+}

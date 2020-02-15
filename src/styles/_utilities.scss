@@ -1,9 +1,1 @@
-@import './tools/tools.mixins';
-
-.u-is-hidden {
-  @include hidden;
-}
-
-.u-is-visually-hidden {
-  @include hidden(true);
-}
+@import './utilities/index';
