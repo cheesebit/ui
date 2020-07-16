@@ -1,0 +1,14 @@
+@import '../../styles/index.scss';
+
+.cb-icon {
+  @include transition(opacity transform);
+  pointer-events: none;
+
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+
+  fill: currentColor;
+
+  transform-origin: 50% 50%;
+}

@@ -1,0 +1,28 @@
+.cb-overlay {
+  @include transition(background);
+  @include font;
+
+  position: absolute;
+  @include var(margin, spacing-0);
+  @include var(padding, spacing-8);
+
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  backdrop-filter: blur(10px);
+
+  &.-light {
+    background: rgba(color(white), 0.85);
+  }
+
+  &.-dark {
+    background: rgba(color(gray-500), 0.5);
+  }
+}

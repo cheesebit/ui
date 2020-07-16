@@ -1,5 +1,8 @@
 $layers: (
-  layer-default: 0
+  layer-0: 0,
+  layer-1: 1,
+  layer-2: 2,
+  layer-3: 3,
 );
 
 @function layer($layer-name: default) {

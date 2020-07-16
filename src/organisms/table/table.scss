@@ -1,0 +1,16 @@
+.cb-table {
+  display: block;
+
+  @include var(background, color-gray-200);
+
+  & > .row {
+    display: flex;
+
+    @include var(background, color-white);
+    @include m(spacing-0);
+  }
+
+  & > .row > .cell {
+    flex: 1;
+  }
+}

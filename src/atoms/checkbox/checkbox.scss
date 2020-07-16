@@ -1,0 +1,50 @@
+.cb-checkbox {
+  @include font;
+  @include disableable;
+  @include interactable;
+
+  align-items: center;
+  justify-content: flex-start;
+
+  .check {
+    @include var(color, color-white);
+
+    fill: currentColor;
+    position: absolute;
+  }
+
+  .selector:first-of-type {
+    @include focusable;
+    @include bordered;
+
+    @include transition(background color border-color);
+
+    cursor: pointer !important;
+    appearance: none;
+    outline: none;
+
+    @include var(border-color, color-gray-400);
+    @include var(background-color, color-white);
+
+    flex-shrink: 0;
+
+    height: 16px;
+    width: 16px;
+
+    &:checked {
+      @include var(border-color, color-primary-500);
+      @include var(background-color, color-primary-500);
+    }
+  }
+
+  @include hoverable {
+    .selector {
+      @include var(border-color, color-gray-500);
+
+      &:checked {
+        @include var(border-color, color-primary-700);
+        @include var(background-color, color-primary-700);
+      }
+    }
+  }
+}

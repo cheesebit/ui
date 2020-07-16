@@ -7,17 +7,30 @@
 
 @mixin font() {
   @include var(font-family, font-family-default);
-  @include var(font-size, font-size-md);
   @include var(font-weight, font-weight-default);
+  @include var(font-size, font-size-base);
+  @include var(line-height, line-height-default);
+  @include var(color, color-gray-700);
+
+  font-style: normal;
+  font-stretch: normal;
+  letter-spacing: normal;
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 @mixin gradient($start, $end) {
   background-image: linear-gradient(to right, $start 0%, $end 51%, $start 100%);
 }
 
+@mixin shadow($opacity: 0.2) {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, $opacity);
+}
+
 @mixin transition(
   $properties: (
-    all
+    all,
   ),
   $duration: 0.25s,
   $delay: null,
@@ -41,81 +54,142 @@
   transition: $value;
 }
 
-// Mixin to quickly apply accessible hiding to elements.
-@mixin hidden($accessible: false) {
-  border: 0 !important;
-  clip: rect(0 0 0 0) !important;
-  clip-path: inset(50%) !important;
-  height: 1px !important;
-  margin: -1px !important;
-  overflow: hidden !important;
-  padding: 0 !important;
-  position: absolute !important;
-  white-space: nowrap !important;
-  width: 1px !important;
-  pointer-events: none;
+@mixin interactable {
+  overflow: visible;
+  position: relative;
 
-  @if $accessible != false {
-    display: none !important;
-    opacity: 0 !important;
-  }
-}
-
-@mixin interactable($color-name: color-primary) {
+  cursor: pointer;
   outline: none !important;
   opacity: 1;
+}
 
-  &.is-hovered,
-  &:hover {
-    opacity: 0.85;
+@mixin focusable($color: rgba(color(primary-200), 0.5)) {
+  outline: none;
+
+  &:focus,
+  &.is-focused {
+    box-shadow: 0 0 0 0.2rem $color;
+    @content;
   }
+}
 
-  &.is-focused,
-  &:focus {
-    outline: 0;
-    animation: highlight 1.5s ease-in-out;
-    box-shadow: 0 0 0 color($color-name);
-    animation: pulse 2s;
-  }
-
-  @keyframes pulse {
-    0% {
-      box-shadow: 0 0 0 0 color($color-name);
-    }
-    70% {
-      box-shadow: 0 0 0 10px transparent;
-    }
-    100% {
-      box-shadow: 0 0 0 0 transparent;
+@mixin hoverable {
+  &:not(.is-disabled):not(:disabled) {
+    &:hover {
+      @content;
     }
   }
 }
 
-@mixin disableable() {
+@mixin disableable {
   &.is-disabled,
   &:disabled {
     cursor: not-allowed;
     opacity: 0.25;
 
     user-select: none;
+
+    &:active {
+      pointer-events: none;
+    }
   }
 }
 
-@mixin rounded($border-radius: 4px) {
+@mixin rounded($border-radius: 0.25rem) {
   border-radius: $border-radius;
 }
 
-@mixin ellipsize($truncation-boundary) {
-  max-width: $truncation-boundary;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+@mixin bordered(
+  $top: true,
+  $right: true,
+  $bottom: true,
+  $left: true,
+  $color: color(gray-400)
+) {
+  @if $top {
+    border-top: 1px solid $color;
+  } @else {
+    border-top: none;
+  }
+
+  @if $right {
+    border-right: 1px solid $color;
+  } @else {
+    border-right: none;
+  }
+
+  @if $bottom {
+    border-bottom: 1px solid $color;
+  } @else {
+    border-bottom: none;
+  }
+
+  @if $left {
+    border-left: 1px solid $color;
+  } @else {
+    border-left: none;
+  }
 }
 
-@mixin hoverable() {
-  &:not(.is-disabled):not(:disabled) {
-    &:hover {
-      @content;
-    }
+@mixin p($value: spacing-4) {
+  @include px($value);
+  @include py($value);
+}
+
+@mixin px($value: spacing-4) {
+  @include var(padding-right, $value);
+  @include var(padding-left, $value);
+}
+
+@mixin py($value: spacing-4) {
+  @include var(padding-top, $value);
+  @include var(padding-bottom, $value);
+}
+
+@mixin m($value: spacing-4) {
+  @include mx($value);
+  @include my($value);
+}
+
+@mixin mx($value: spacing-4) {
+  @include var(margin-right, $value);
+  @include var(margin-left, $value);
+}
+
+@mixin my($value: spacing-4) {
+  @include var(margin-top, $value);
+  @include var(margin-bottom, $value);
+}
+
+@mixin truncate($limit: 100%, $important: false) {
+  @if ($important == 'important') {
+    $important: unquote('!important');
+  } @else {
+    $important: null;
+  }
+
+  max-width: $limit $important;
+  white-space: nowrap $important;
+  overflow: hidden $important;
+  text-overflow: ellipsis $important;
+}
+
+// Mixin to quickly apply accessible hiding to elements.
+@mixin hidden($accessible: false) {
+  @if $accessible != false {
+    display: none !important;
+    opacity: 0 !important;
+  } @else {
+    border: 0 !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    height: 1px !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    position: absolute !important;
+    white-space: nowrap !important;
+    width: 1px !important;
+    pointer-events: none;
   }
 }

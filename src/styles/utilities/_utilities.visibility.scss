@@ -1,0 +1,7 @@
+.cb-u-is-hidden {
+  @include hidden;
+}
+
+.cb-u-is-visually-hidden {
+  @include hidden(true);
+}

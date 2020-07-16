@@ -1,0 +1,27 @@
+.cb-link {
+  @include font;
+  @include interactable;
+  @include disableable;
+
+  @include transition(background color);
+
+  text-decoration: none;
+
+  padding: 0;
+  margin: 0;
+
+  &,
+  &:visited {
+    @include var(color, color-primary-500);
+  }
+
+  @include hoverable {
+    @include var(color, color-secondary-400);
+  }
+
+  & + & {
+    @include my(spacing-0);
+    @include var(margin-left, spacing-4);
+    @include var(margin-right, spacing-0);
+  }
+}

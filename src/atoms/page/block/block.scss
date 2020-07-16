@@ -1,0 +1,20 @@
+.cb-block {
+  @include font;
+
+  display: flex;
+  flex-direction: column;
+
+  border-bottom: 1px solid;
+  @include var(border-bottom-color, color-gray-300);
+
+  @include px(spacing-4);
+  @include py(spacing-4);
+
+  &.-main {
+    @include var(border-bottom-color, color-gray-400);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+}

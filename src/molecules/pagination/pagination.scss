@@ -1,0 +1,12 @@
+.cb-pagination {
+  @include font;
+  @include bordered($right: false, $bottom: false, $left: false);
+  @include p(spacing-2);
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+}

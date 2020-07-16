@@ -1,0 +1,45 @@
+# This file is a template, and might need editing before it works on your project.
+# Official framework image. Look for the different tagged releases at:
+# https://hub.docker.com/r/library/node/tags/
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+before_script:
+  - export NPM_PACKAGE_VERSION="$(cat package.json | grep version | head -1 |
+    awk '-F:' '{ print $2 }' | sed 's/[",]//g' | tr -d '[[:space:]]' | sed
+    's/-dev$//')"
+
+stages:
+  - test
+  - build
+
+test:
+  stage: test
+  script:
+    - npm install
+    - npm run coverage
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
+  only:
+    - master
+  except:
+    - tags
+# pages:
+#   script:
+#     - npm install
+#   artifacts:
+#     paths:
+#       - public
+# deploy:
+# stage: deploy
+# environment: integration
+# script:
+#   - "do something!"
+# only:
+#   - development
+# except:
+#   - tags
+# tags:
+#   - deploy

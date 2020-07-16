@@ -1,0 +1,45 @@
+.cb-list {
+  display: flex;
+  flex-direction: column;
+
+  > .item {
+    @include font;
+    @include disableable;
+    @include transition(background);
+
+    @include var(background, color-white);
+
+    min-height: 42px;
+    align-items: center;
+
+    &.is-highlighted {
+      @include var(background, color-gray-300);
+    }
+  }
+
+  &.-bordered {
+    > .item {
+      @include bordered(
+        $top: false,
+        $right: false,
+        $left: false,
+        $color: color(gray-300)
+      );
+    }
+  }
+
+  &.-hoverable {
+    > .item {
+      @include interactable;
+      @include hoverable {
+        @include var(background, color-gray-300);
+      }
+    }
+  }
+
+  &.-striped {
+    > .item:nth-of-type(odd) {
+      @include var(background, color-gray-200);
+    }
+  }
+}

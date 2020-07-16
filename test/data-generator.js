@@ -1,4 +1,10 @@
 import ChanceJS from 'chance';
+import { customAlphabet } from 'nanoid';
+
+const nanoid = customAlphabet(
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZ_abcdefghijklmnopqrstuvwxyz-',
+  15,
+);
 
 import { DEFAULT } from '../src/common/constants';
 
@@ -28,17 +34,6 @@ const generateArray = ({ template, amount }) => {
   return data;
 };
 
-const asGenerator = func => (...args) => func.apply(chance, args);
-
-const generateAnimal = asGenerator(chance.animal);
-const generateGuid = asGenerator(chance.guid);
-const generateName = asGenerator(chance.name);
-const generateNatural = asGenerator(chance.natural);
-const generateParagraph = asGenerator(chance.paragraph);
-const generateSentence = asGenerator(chance.sentence);
-const generateUrl = asGenerator(chance.url);
-const generateWord = asGenerator(chance.word);
-
 const generatePick = (array, options) => {
   const { quantity = 1, allowRepeat = true } = options || DEFAULT.OBJECT;
 
@@ -55,15 +50,22 @@ const generatePick = (array, options) => {
   return picked;
 };
 
+const asGenerator = func => (...args) => func.apply(chance, args);
+
 export default {
-  animal: generateAnimal,
+  animal: asGenerator(chance.animal),
   array: generateArray,
-  guid: generateGuid,
-  name: generateName,
-  natural: generateNatural,
-  paragraph: generateParagraph,
+  bool: asGenerator(chance.bool),
+  company: asGenerator(chance.company),
+  float: asGenerator(chance.floating),
+  id: asGenerator(nanoid),
+  name: asGenerator(chance.name),
+  natural: asGenerator(chance.natural),
+  paragraph: asGenerator(chance.paragraph),
   pick: generatePick,
-  sentence: generateSentence,
-  url: generateUrl,
-  word: generateWord
+  profession: asGenerator(chance.ssn),
+  sentence: asGenerator(chance.sentence),
+  syllable: asGenerator(chance.syllable),
+  url: asGenerator(chance.url),
+  word: asGenerator(chance.word),
 };

@@ -1,0 +1,44 @@
+$background: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+
+.cb-spinner {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  > .circle {
+    font-size: 5px;
+
+    width: 10em;
+    height: 10em;
+    border-radius: 50%;
+    box-shadow: $background, 2px 1px 0px color(gray-600);
+
+    animation: cb-spinner-animation 0.7s linear infinite;
+  }
+
+  &.-primary > .circle {
+    box-shadow: $background, 2px 1px 0px color(primary-100);
+  }
+
+  &.-secondary > .circle {
+    box-shadow: $background, 2px 1px 0px color(secondary-500);
+  }
+
+  &.-terciary > .circle {
+    box-shadow: $background, 2px 1px 0px color(terciary-500);
+  }
+}
+
+@keyframes cb-spinner-animation {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,30 @@
+.cb-page {
+  display: block;
+  width: 100%;
+
+  & > .header,
+  & > .body {
+    @include font;
+  }
+
+  & > .header {
+    display: flex;
+    align-items: center;
+
+    @include px(spacing-0);
+    @include py(spacing-4);
+
+    margin: 0;
+  }
+
+  & > .body {
+    @include bordered;
+    @include rounded;
+
+    display: block;
+    @include var(border-color, color-gray-400);
+
+    padding: 0;
+    margin: 0;
+  }
+}

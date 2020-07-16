@@ -1,3 +1,8 @@
+import Adapter from 'enzyme-adapter-react-16';
+import Enzyme from 'enzyme';
+
+Enzyme.configure({ adapter: new Adapter() });
+
 /**
  * Returns node(s) with the given data-test attribute.
  *

@@ -1,4 +1,4 @@
-import { DEFAULT } from '../../src/common/constants';
+import { DEFAULT } from '../../src/utils/constants';
 import getMatchMediaMock from './matchmedia.mock';
 
 const DEFAULT_WIDTH = 1920;
@@ -7,7 +7,7 @@ const DEFAULT_HEIGHT = 978;
 const updateMatchMedia = ({ ...options }) => {
   const matchMediaMock = getMatchMediaMock({
     type: 'screen',
-    ...options
+    ...options,
   });
 
   window.matchMedia = matchMediaMock.matchMedia;
@@ -38,6 +38,6 @@ export default config => {
       updateMatchMedia({ width, height });
 
       global.window.dispatchEvent(resizeEvent);
-    }
+    },
   };
 };

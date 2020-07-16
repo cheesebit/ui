@@ -1,0 +1,66 @@
+.cb-field {
+  @include font;
+  @include disableable;
+
+  display: flex;
+  flex-flow: column wrap;
+
+  & > .label {
+    @include var(font-size, font-size-xs);
+
+    display: inline-flex;
+    text-transform: uppercase;
+  }
+
+  & > .prompt {
+    @include var(font-size, font-size-sm);
+    @include var(margin-top, spacing-1);
+
+    display: inline-flex;
+  }
+
+  & > .content {
+    @include var(margin-top, spacing-1);
+
+    display: flex;
+
+    width: 100%;
+  }
+
+  .tooltip {
+    @include var(color, color-gray-600);
+
+    display: inline-flex;
+
+    justify-content: center;
+    align-items: center;
+  }
+
+  &.-success {
+    .tooltip,
+    & > .prompt {
+      @include var(color, color-success);
+    }
+  }
+
+  &.-danger {
+    .tooltip,
+    & > .prompt {
+      @include var(color, color-danger);
+    }
+  }
+
+  &.-warn {
+    .tooltip,
+    & > .prompt {
+      @include var(color, color-warn);
+    }
+  }
+
+  &.-info {
+    .tooltip,
+    & > .prompt {
+      @include var(color, color-info);
+    }
+  }
+}

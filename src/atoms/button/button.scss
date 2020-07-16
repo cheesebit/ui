@@ -1,0 +1,113 @@
+@import '../../styles/index.scss';
+
+.cb-button {
+  @include transition(all);
+
+  @include font;
+  @include interactable;
+  @include disableable;
+
+  align-items: center;
+  justify-content: center;
+
+  text-decoration: none;
+  text-transform: uppercase;
+
+  @include var(background, color-white);
+  @include var(border-color, color-gray-400);
+  @include var(color, color-gray-600);
+
+  @include focusable {
+    @include var(z-index, layer-1);
+  }
+
+  @include hoverable {
+    @include var(background, color-white);
+    @include var(border-color, color-gray-500);
+    @include var(color, color-gray-600);
+  }
+
+  & + & {
+    @include my(spacing-0);
+    @include var(margin-left, spacing-4);
+    @include var(margin-right, spacing-0);
+  }
+
+  &.-flat {
+    @include var(background, color-primary-500);
+    @include var(border-color, color-primary-500);
+    @include var(color, color-white);
+
+    @include hoverable {
+      @include var(background, color-secondary-300);
+      @include var(border-color, color-secondary-300);
+      @include var(color, color-white);
+    }
+
+    & + & {
+      @include my(spacing-0);
+      @include var(margin-left, spacing-4);
+      @include var(margin-right, spacing-0);
+    }
+  }
+
+  &.-ghost {
+    @include var(background, color-transparent);
+    @include var(border-color, color-primary-500);
+    @include var(color, color-primary-500);
+
+    @include hoverable {
+      @include var(background, color-primary-500);
+      @include var(border-color, color-primary-500);
+      @include var(color, color-white);
+    }
+  }
+
+  &.-text {
+    @include var(background, color-transparent);
+    @include var(border-color, color-transparent);
+    @include var(color, color-primary-500);
+
+    @include hoverable {
+      @include var(background, color-transparent);
+      @include var(border-color, color-transparent);
+      @include var(color, color-secondary-300);
+    }
+  }
+
+  &.-small {
+    @include var(font-size, font-size-sm);
+    height: 42px;
+    flex: 0 0 42px;
+
+    & + & {
+      @include my(spacing-0);
+      @include var(margin-left, spacing-4);
+      @include var(margin-right, spacing-0);
+    }
+  }
+
+  &.-medium {
+    @include var(font-size, font-size-base);
+    height: 60px;
+    flex: 0 0 60px;
+  }
+
+  &.-large {
+    @include var(font-size, font-size-lg);
+    height: 72px;
+    flex: 0 0 72px;
+
+    & + & {
+      @include my(spacing-0);
+      @include var(margin-left, spacing-2);
+      @include var(margin-right, spacing-0);
+    }
+  }
+
+  .leading,
+  .trailing,
+  .children {
+    pointer-events: none;
+  }
+}

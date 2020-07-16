@@ -1,0 +1,72 @@
+.cb-dropdown {
+  @include font;
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+
+  & > .toggle {
+    @include var(font-size, font-size-base);
+
+    text-transform: initial;
+  }
+
+  & > .menu {
+    @include transition(max-height opacity);
+
+    @include shadow(0.25);
+    @include var(z-index, layer-3);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    opacity: 1;
+
+    position: absolute;
+
+    margin: 0;
+    padding: 0;
+
+    top: calc(100% - 1px);
+  }
+
+  & > .menu > .item {
+    @include interactable;
+    @include disableable;
+
+    @include focusable {
+      @include var(z-index, layer-1);
+    }
+
+    & > .children {
+      @include truncate;
+    }
+  }
+
+  &.-unroll-stretched {
+    & > .menu {
+      left: 0 !important;
+      right: 0 !important;
+    }
+  }
+
+  &.-unroll-right {
+    & > .menu {
+      left: 0;
+      right: auto;
+    }
+  }
+
+  &.-unroll-left {
+    & > .menu {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  &.is-collapsed {
+    & > .menu {
+      max-height: 0;
+    }
+  }
+}

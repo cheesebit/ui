@@ -1,0 +1,40 @@
+.cb-input {
+  @include transition(all);
+
+  @include font;
+
+  @include disableable;
+  @include bordered($top: false, $right: false, $left: false);
+
+  @include var(background, color-white);
+  @include var(border-color, color-gray-400);
+  @include var(color, color-gray-600);
+  @include var(caret-color, color-primary-400);
+
+  @include focusable {
+    @include var(border-color, color-primary-400);
+  }
+
+  @include hoverable {
+    @include var(border-color, color-gray-500);
+  }
+
+  @include px(spacing-4);
+  @include py(spacing-2);
+
+  &.-success {
+    @include var(border-color, color-success);
+  }
+
+  &.-danger {
+    @include var(border-color, color-danger);
+  }
+
+  &.-warn {
+    @include var(border-color, color-warn);
+  }
+
+  &.-info {
+    @include var(border-color, color-info);
+  }
+}
