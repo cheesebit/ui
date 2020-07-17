@@ -29,7 +29,6 @@ Checkout our docs at [our Github Page](https://cheesebit.github.io/ui).
 ## Technical references
 
 - [A modern CSS reset](https://dev.to/hankchizljaw/a-modern-css-reset-6p3)
-- [Button design](https://blog.prototypr.io/8-rules-for-perfect-button-design-185d1202ee9c)
 - CSS naming/architectures
   - [ITCSS](https://www.xfive.co/blog/itcss-scalable-maintainable-css-architecture/)
   - [RSCSS](https://rscss.io/)
