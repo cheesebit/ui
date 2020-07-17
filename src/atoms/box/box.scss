@@ -31,8 +31,6 @@
     text-align: left;
     line-height: 2rem;
 
-    white-space: nowrap;
-
     @include px(spacing-0);
     @include py(spacing-0);
     @include mx(spacing-0);
@@ -42,12 +40,11 @@
   .leading + .children,
   .children + .trailing,
   .leading + .trailing {
-    @include var(margin-left, spacing-2);
+    @include var(margin-left, spacing-4);
   }
 
   &.-stretched {
     & > .children {
-      justify-content: flex-start;
       flex: 1;
     }
   }
