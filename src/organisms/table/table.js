@@ -7,8 +7,6 @@ import { List } from '../../atoms/list';
 import { DEFAULT } from '../../common/constants';
 
 import { Checkbox } from '../../atoms/checkbox';
-import { Dropdown } from '../../molecules/dropdown';
-import generator from '../../../test/data-generator';
 
 import './table.scss';
 
@@ -29,95 +27,80 @@ class Table extends React.PureComponent {
     return data ?? DEFAULT.ARRAY;
   }
 
+  get style() {
+    const widths = [];
+
+    for (let column of this.columns) {
+      widths.push(column?.props?.style?.width ?? '1fr');
+    }
+
+    return {
+      gridTemplateColumns: widths.join(' '),
+    };
+  }
+
   render() {
     const { id } = this.props;
 
+    /**
+     * TODO: Remove literal objects/arrays
+     * TODO: Isolate children (think of a better way to pass props into box's children)
+     * TODO: Break this component into super small parts
+     */
     return (
-      <List
-        id={id}
-        className={this.classes}
-        bordered
-        hoverable
-        data-test="cb-table"
-      >
+      <section id={id} className={this.classes} data-test="cb-table">
         <Box
           stretched
+          data-test="header"
           className="header row"
           paddingless={['vertical']}
           borderless={['horizontal', 'top']}
           leading={<Checkbox />}
-        >
-          {this.columns.map(column => (
-            <Box
-              key={column.name}
-              as="span"
-              borderless
-              paddingless
-              className="header cell"
-              data-test={column.name}
-            >
-              {column.name}
-            </Box>
-          ))}
-        </Box>
-
-        {this.data.map(entry => (
-          <List.Item
-            key={entry.id}
-            stretched
-            className="body row"
-            paddingless={['vertical']}
-            data-test="row"
-            leading={<Checkbox />}
-            trailing={
-              <Dropdown
-                toggle={({ disabled, collapsed, onClick }) => (
-                  <Dropdown.Toggle
-                    disabled={disabled}
-                    collapsed={collapsed}
-                    onClick={onClick}
-                    icon="more-horizontal"
-                    borderless
-                    trailing={null}
-                  />
-                )}
-                items={[
-                  {
-                    id: generator.id(),
-                    icon: 'create',
-                    children: 'Edit',
-                    onClick: () => {
-                      alert(`You wanted to edit`);
-                    },
-                  },
-                  {
-                    id: generator.id(),
-                    icon: 'close',
-                    children: 'Delete',
-                    onClick: () => {
-                      alert(`You wanted to delete`);
-                    },
-                  },
-                ]}
-                unroll="left"
-              />
-            }
-          >
-            {this.columns.map(column => (
+          children={{
+            style: this.style,
+            children: this.columns.map(column => (
               <Box
                 key={column.name}
                 as="span"
                 borderless
+                paddingless={['horizontal']}
                 className="cell"
                 data-test={column.name}
-                paddingless={['horizontal']}
               >
-                {entry[column.name]}
+                {column.name}
               </Box>
-            ))}
-          </List.Item>
-        ))}
-      </List>
+            )),
+          }}
+        />
+        <List data-test="body" className="body" bordered hoverable striped>
+          {this.data.map(entry => (
+            <List.Item
+              key={entry.id}
+              stretched
+              className="row"
+              paddingless={['vertical']}
+              data-test="row"
+              leading={<Checkbox />}
+              children={{
+                style: this.style,
+                children: this.columns.map(column => (
+                  <Box
+                    key={column.name}
+                    as="span"
+                    borderless
+                    className="cell"
+                    data-test={column.name}
+                    paddingless={['horizontal']}
+                    style={column?.props?.style}
+                  >
+                    {entry[column.name]}
+                  </Box>
+                )),
+              }}
+            />
+          ))}
+        </List>
+      </section>
     );
   }
 }

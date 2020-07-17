@@ -3,22 +3,28 @@
 
   @include var(background, color-gray-200);
 
-  & > .row {
+  & > .row,
+  & > .body > .row {
     display: flex;
 
     @include var(background, color-white);
     @include m(spacing-0);
+
+    & > .children {
+      display: grid;
+    }
   }
 
-  & > .row .cell {
-    flex: 1 0 auto;
-  }
-
-  & > .row .header {
-    @include var(font-size, font-size-xs);
+  & > .header .cell {
+    @include var(font-size, font-size-sm);
     @include var(font-weight, font-weight-medium);
+    @include var(color, color-gray-500);
 
     text-decoration: none;
-    text-transform: uppercase;
+    text-transform: capitalize;
+  }
+
+  .row .cell {
+    flex: 1 0 auto;
   }
 }

@@ -6,6 +6,7 @@ import { findByTestAttr, asTestAttr } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 import { prop } from '../../common/toolset';
 import { data } from 'autoprefixer';
+import { divide } from 'ramda';
 
 const COLUMNS = [
   {
@@ -33,7 +34,7 @@ const generateTableData = () =>
         syllable: generator.syllable(),
       };
     },
-    amount: generator.natural({ min: 5, max: 10 }),
+    amount: generator.natural({ min: 2, max: 5 }),
   });
 
 describe('Table', () => {
@@ -51,9 +52,9 @@ describe('Table', () => {
       const entry = props.data[i];
 
       for (let column of props.columns) {
-        expect(rows.at(i).find(asTestAttr(column.name)).dive().text()).toEqual(
-          String(entry[column.name]),
-        );
+        expect(
+          rows.at(i).dive().dive().find(asTestAttr(column.name)).dive().text(),
+        ).toEqual(String(entry[column.name]));
       }
     }
   });
