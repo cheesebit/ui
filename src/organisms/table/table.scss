@@ -10,7 +10,15 @@
     @include m(spacing-0);
   }
 
-  & > .row > .cell {
-    flex: 1;
+  & > .row .cell {
+    flex: 1 0 auto;
+  }
+
+  & > .row .header {
+    @include var(font-size, font-size-xs);
+    @include var(font-weight, font-weight-medium);
+
+    text-decoration: none;
+    text-transform: uppercase;
   }
 }

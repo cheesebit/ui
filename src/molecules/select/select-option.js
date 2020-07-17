@@ -19,9 +19,8 @@ class SelectOption extends React.PureComponent {
         {...others}
         onClick={this.handleClick}
         data-test="option"
-      >
-        {children}
-      </Dropdown.Item>
+        children={children}
+      />
     );
   }
 }

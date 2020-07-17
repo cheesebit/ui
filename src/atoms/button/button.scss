@@ -13,7 +13,7 @@
   text-decoration: none;
   text-transform: uppercase;
 
-  @include var(background, color-white);
+  @include var(background, color-transparent);
   @include var(border-color, color-gray-400);
   @include var(color, color-gray-600);
 
@@ -22,7 +22,7 @@
   }
 
   @include hoverable {
-    @include var(background, color-white);
+    @include var(background, color-transparent);
     @include var(border-color, color-gray-500);
     @include var(color, color-gray-600);
   }
