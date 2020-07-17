@@ -1,0 +1,5 @@
+# Table
+
+## Technical references
+
+- [Table design](https://medium.com/design-with-figma/the-ultimate-guide-to-designing-data-tables-7db29713a85a)

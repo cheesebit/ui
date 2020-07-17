@@ -35,12 +35,6 @@ class Box extends React.PureComponent {
     );
   }
 
-  get style() {
-    const { size, style = DEFAULT.OBJECT } = this.props;
-
-    return { ...style, width: size, height: size };
-  }
-
   renderLeading() {
     const { leading } = this.props;
 
@@ -79,7 +73,6 @@ class Box extends React.PureComponent {
         data-test="cb-box"
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
-        style={this.style}
       >
         {this.renderLeading()}
         {this.renderChildren()}
@@ -115,11 +108,6 @@ Box.propTypes = {
         'vertical',
       ]),
     ),
-  ]),
-  children: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.func,
   ]),
   trailing: PropTypes.oneOfType([
     PropTypes.node,

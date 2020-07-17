@@ -108,7 +108,7 @@ $active-indicator-height: spacing(1);
     @include font;
 
     position: relative;
-    animation: cb-enter normal 0.5s ease-out 1;
+    animation: cb-enter normal 0.25s ease-out 1;
 
     display: none;
   }
@@ -125,10 +125,10 @@ $active-indicator-height: spacing(1);
 @keyframes cb-enter {
   from {
     opacity: 0;
-    transform: translateY(2%);
+    transform: translateX(5px);
   }
   to {
     opacity: 1;
-    transform: translateY(0%);
+    transform: translateX(0%);
   }
 }
