@@ -4,7 +4,7 @@ import { Icon } from '../../atoms/icon';
 import { List } from '../../atoms/list';
 import DropdownContext from './dropdown-context';
 
-const DropdownItem = ({ icon, onClick, ...others }) => {
+const DropdownItem = ({ icon, onClick, children, ...others }) => {
   return (
     <DropdownContext.Consumer>
       {({ toggle, collapsed }) => (
@@ -24,7 +24,9 @@ const DropdownItem = ({ icon, onClick, ...others }) => {
           }}
           as="button"
           type="button"
-        />
+        >
+          <span className="children">{children}</span>
+        </List.Item>
       )}
     </DropdownContext.Consumer>
   );

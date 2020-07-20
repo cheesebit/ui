@@ -1,0 +1,48 @@
+@import '../../styles/index.scss';
+
+.cb-box2 {
+  @include font;
+  @include bordered;
+
+  display: inline-grid;
+  grid-auto-flow: column;
+
+  @include var(column-gap, spacing-4);
+
+  @include m(spacing-0);
+  @include px(spacing-4);
+  @include py(spacing-2);
+
+  text-decoration: none;
+
+  & > .leading,
+  & > .trailing {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    @include px(spacing-0);
+    @include py(spacing-0);
+    @include mx(spacing-0);
+    @include my(spacing-0);
+
+    line-height: 1rem;
+  }
+
+  // & > .children {
+  //   display: inline-block;
+  //   text-align: left;
+  //   line-height: 2rem;
+
+  //   @include px(spacing-0);
+  //   @include py(spacing-0);
+  //   @include mx(spacing-0);
+  //   @include my(spacing-0);
+  // }
+
+  // .leading + .children,
+  // .children + .trailing,
+  // .leading + .trailing {
+  //   @include var(margin-left, spacing-4);
+  // }
+}

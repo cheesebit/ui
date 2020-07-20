@@ -1,18 +1,10 @@
 .cb-table {
-  display: block;
+  display: flex;
+  flex-direction: column;
 
-  @include var(background, color-gray-200);
-
-  & > .row,
-  & > .body > .row {
-    display: flex;
-
-    @include var(background, color-white);
-    @include m(spacing-0);
-
-    & > .children {
-      display: grid;
-    }
+  & > .header,
+  & > .body {
+    flex: 1;
   }
 
   & > .header .cell {
@@ -22,9 +14,5 @@
 
     text-decoration: none;
     text-transform: capitalize;
-  }
-
-  .row .cell {
-    flex: 1 0 auto;
   }
 }

@@ -41,6 +41,14 @@ Block.propTypes = {
   main: PropTypes.bool,
   borderless: PropTypes.oneOfType([
     PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
     PropTypes.arrayOf(
       PropTypes.oneOf([
         'top',
@@ -54,6 +62,14 @@ Block.propTypes = {
   ]),
   paddingless: PropTypes.oneOfType([
     PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
     PropTypes.arrayOf(
       PropTypes.oneOf([
         'top',

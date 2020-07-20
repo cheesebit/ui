@@ -3,16 +3,18 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
 import { Box } from '../../atoms/box';
-import { List } from '../../atoms/list';
-import { DEFAULT } from '../../common/constants';
-
 import { Checkbox } from '../../atoms/checkbox';
+import { DEFAULT } from '../../common/constants';
+import { Dropdown } from '../../molecules/dropdown';
+import { List } from '../../atoms/list';
 
 import './table.scss';
 
 class Table extends React.PureComponent {
   get classes() {
-    return classNames('cb-table', {});
+    const { className } = this.props;
+
+    return classNames('cb-table', {}, className);
   }
 
   get columns() {
@@ -35,6 +37,7 @@ class Table extends React.PureComponent {
     }
 
     return {
+      display: 'grid',
       gridTemplateColumns: widths.join(' '),
     };
   }
@@ -53,51 +56,76 @@ class Table extends React.PureComponent {
           stretched
           data-test="header"
           className="header row"
-          paddingless={['vertical']}
+          paddingless="vertical"
           borderless={['horizontal', 'top']}
           leading={<Checkbox />}
-          children={{
-            style: this.style,
-            children: this.columns.map(column => (
+        >
+          <div style={this.style}>
+            {this.columns.map(column => (
               <Box
                 key={column.name}
                 as="span"
                 borderless
-                paddingless={['horizontal']}
+                paddingless="horizontal"
                 className="cell"
                 data-test={column.name}
               >
                 {column.name}
               </Box>
-            )),
-          }}
-        />
+            ))}
+          </div>
+        </Box>
         <List data-test="body" className="body" bordered hoverable striped>
           {this.data.map(entry => (
             <List.Item
               key={entry.id}
               stretched
               className="row"
-              paddingless={['vertical']}
               data-test="row"
               leading={<Checkbox />}
-              children={{
-                style: this.style,
-                children: this.columns.map(column => (
+              padding="vertical"
+              trailing={
+                <Dropdown
+                  unroll="left"
+                  toggle={({ disabled, collapsed, onClick }) => (
+                    <Dropdown.Toggle
+                      disabled={disabled}
+                      collapsed={collapsed}
+                      onClick={onClick}
+                      icon="more-horizontal"
+                      trailing={null}
+                      borderless
+                    />
+                  )}
+                  items={[
+                    {
+                      id: 1,
+                      children: 'Editar',
+                      icon: 'create',
+                      onClick: () => {
+                        alert('Hi ' + entry[this.columns[0].name]);
+                      },
+                    },
+                  ]}
+                />
+              }
+            >
+              <div style={this.style}>
+                {this.columns.map(column => (
                   <Box
                     key={column.name}
                     as="span"
                     borderless
                     className="cell"
+                    paddingless
                     data-test={column.name}
-                    paddingless={['horizontal']}
                     style={column?.props?.style}
                   >
                     {entry[column.name]}
                   </Box>
-                )),
-              }}
-            />
+                ))}
+              </div>
+            </List.Item>
           ))}
         </List>
       </section>
@@ -115,3 +143,20 @@ Table.propTypes = {
 };
 
 export default Table;
+
+// children={{
+//   style: this.style,
+//   children: this.columns.map(column => (
+//     <Box
+//       key={column.name}
+//       as="span"
+//       borderless
+//       className="cell"
+//       paddingless="horizontal"
+//       data-test={column.name}
+//       style={column?.props?.style}
+//     >
+//       {entry[column.name]}
+//     </Box>
+//   )),
+// }}

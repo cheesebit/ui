@@ -29,7 +29,7 @@
   & > .children {
     display: inline-block;
     text-align: left;
-    line-height: 2rem;
+    // line-height: 2rem;
 
     @include px(spacing-0);
     @include py(spacing-0);

@@ -1,15 +1,16 @@
+import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
-import { resolveProp } from '../../common/props-toolset';
+
+import { Box } from '../box';
 import { equals, omit } from '../../common/toolset';
 import { evaluateBorderless } from '../../common/props-toolset';
-import { Box } from '../box';
 import { Icon } from '../icon';
+import { resolveProp } from '../../common/props-toolset';
+
 import './button.scss';
 
 const OMITTED_PROPS = ['leading', 'emphasis', 'icon'];
-const PADDINGLESS = ['top', 'bottom'];
 
 export const Emphasis = {
   flat: 'flat',
@@ -64,13 +65,13 @@ class Button extends React.PureComponent {
       <Box
         as="button"
         data-test="cb-button"
-        paddingless={PADDINGLESS}
+        paddingless="vertical"
         {...omit(OMITTED_PROPS, others)}
         type={type}
         className={this.classes}
         leading={this.renderLeading()}
       >
-        {children}
+        {children && <span className="children">{children}</span>}
       </Box>
     );
   }

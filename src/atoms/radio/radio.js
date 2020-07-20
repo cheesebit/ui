@@ -6,15 +6,25 @@ import { Icon } from '../icon';
 
 import './radio.scss';
 
-const PADDINGLESS = ['left', 'right'];
-
-const Radio = ({ className, children, disabled, ...others }) => {
+const Radio = ({
+  borderless,
+  children,
+  className,
+  disabled,
+  paddingless,
+  stretched,
+  trailing,
+  ...others
+}) => {
   return (
     <Box
       as="label"
-      borderless
-      paddingless={PADDINGLESS}
+      borderless={borderless}
+      paddingless={paddingless}
+      stretched={stretched}
+      trailing={trailing}
       className={classNames('cb-radio', { 'is-disabled': disabled }, className)}
+      data-test="cb-radio"
       leading={
         <React.Fragment>
           <input
@@ -26,11 +36,16 @@ const Radio = ({ className, children, disabled, ...others }) => {
           <Icon name="circle" className="circle" size={10} />
         </React.Fragment>
       }
-      data-test="cb-radio"
     >
       {children}
     </Box>
   );
+};
+
+Radio.defaultProps = {
+  borderless: true,
+  paddingless: 'horizontal',
+  stretched: false,
 };
 
 export default Radio;

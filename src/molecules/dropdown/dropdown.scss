@@ -28,6 +28,7 @@
     padding: 0;
 
     top: calc(100% - 1px);
+    min-width: 10rem;
   }
 
   & > .menu > .item {
@@ -40,6 +41,10 @@
 
     & > .children {
       @include truncate;
+
+      display: inline-block;
+      text-align: left;
+      line-height: 2rem;
     }
   }
 

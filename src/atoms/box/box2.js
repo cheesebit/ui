@@ -9,12 +9,11 @@ import {
   evaluatePaddingless,
 } from '../../common/props-toolset';
 
-import './box.scss';
+import './box2.scss';
 
 const OMITTED_PROPS = [
   'as',
   'borderless',
-  'children',
   'leading',
   'paddingless',
   'stretched',
@@ -26,12 +25,27 @@ class Box extends React.PureComponent {
     const { borderless, paddingless, stretched, className } = this.props;
 
     return classNames(
-      'cb-box',
+      'cb-box2',
       { '-stretched': stretched },
       evaluateBorderless(borderless),
       evaluatePaddingless(paddingless),
       className,
     );
+  }
+
+  get style() {
+    const { leading, children, trailing, style } = this.props;
+
+    const widths = [];
+
+    !isNil(leading) && widths.push('min-content');
+    !isNil(children) && widths.push('1fr');
+    !isNil(trailing) && widths.push('min-content');
+
+    return {
+      gridTemplateColumns: widths.join(' '),
+      ...style,
+    };
   }
 
   renderLeading() {
@@ -40,16 +54,6 @@ class Box extends React.PureComponent {
     return (
       !isNil(leading) && (
         <span className="leading" {...resolveProp(leading, 'children')} />
-      )
-    );
-  }
-
-  renderChildren() {
-    const { children } = this.props;
-
-    return (
-      !isNil(children) && (
-        <span className="children" {...resolveProp(children, 'children')} />
       )
     );
   }
@@ -65,16 +69,17 @@ class Box extends React.PureComponent {
   }
 
   render() {
-    const { as: Tag = 'div', ...others } = this.props;
+    const { as: Tag = 'div', children, ...others } = this.props;
 
     return (
       <Tag
         data-test="cb-box"
         {...omit(OMITTED_PROPS, others)}
+        style={this.style}
         className={this.classes}
       >
         {this.renderLeading()}
-        {this.renderChildren()}
+        {children}
         {this.renderTrailing()}
       </Tag>
     );
@@ -82,6 +87,7 @@ class Box extends React.PureComponent {
 }
 
 Box.propTypes = {
+  children: PropTypes.node,
   leading: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,

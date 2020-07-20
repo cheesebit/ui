@@ -17,6 +17,14 @@
   @include var(border-color, color-gray-400);
   @include var(color, color-gray-600);
 
+  & > .children {
+    @include truncate;
+
+    display: inline-block;
+    text-align: left;
+    line-height: 2rem;
+  }
+
   @include focusable {
     @include var(z-index, layer-1);
   }

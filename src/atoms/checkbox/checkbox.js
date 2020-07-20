@@ -6,19 +6,29 @@ import { Icon } from '../icon';
 
 import './checkbox.scss';
 
-const PADDINGLESS = ['left', 'right'];
-
-const Checkbox = ({ className, children, disabled, ...others }) => {
+const Checkbox = ({
+  borderless,
+  children,
+  className,
+  disabled,
+  paddingless,
+  stretched,
+  trailing,
+  ...others
+}) => {
   return (
     <Box
       as="label"
-      borderless
-      paddingless={PADDINGLESS}
+      borderless={borderless}
+      paddingless={paddingless}
+      stretched={stretched}
+      trailing={trailing}
       className={classNames(
         'cb-checkbox',
         { 'is-disabled': disabled },
         className,
       )}
+      data-test="cb-checkbox"
       leading={
         <React.Fragment>
           <input
@@ -30,11 +40,16 @@ const Checkbox = ({ className, children, disabled, ...others }) => {
           <Icon name="check" className="check" size={14} />
         </React.Fragment>
       }
-      data-test="cb-checkbox"
     >
       {children}
     </Box>
   );
+};
+
+Checkbox.defaultProps = {
+  borderless: true,
+  paddingless: 'horizontal',
+  stretched: false,
 };
 
 export default Checkbox;
