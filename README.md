@@ -24,7 +24,7 @@ This is (and it might always be) an ongoing work, since I will keep adding,
 changing, upgrading, improving and fixing components as they go live in my own
 applications.
 
-<!-- Checkout our docs at [our Github Page](https://cheesebit.github.io/ui). -->
+Checkout our docs and demo [here](https://ui.cheesebit.io).
 
 ## Technical references
 
