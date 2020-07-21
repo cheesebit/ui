@@ -47,6 +47,7 @@ class Table extends React.PureComponent {
 
     /**
      * TODO: Remove literal objects/arrays
+     * TODO: Remove fake row actions (dropdown)
      * TODO: Isolate children (think of a better way to pass props into box's children)
      * TODO: Break this component into super small parts
      */
@@ -59,6 +60,31 @@ class Table extends React.PureComponent {
           paddingless="vertical"
           borderless={['horizontal', 'top']}
           leading={<Checkbox />}
+          trailing={
+            <Dropdown
+              unroll="left"
+              toggle={({ disabled, collapsed, onClick }) => (
+                <Dropdown.Toggle
+                  disabled={disabled}
+                  collapsed={collapsed}
+                  onClick={onClick}
+                  icon="more-horizontal"
+                  trailing={null}
+                  borderless
+                />
+              )}
+              items={[
+                {
+                  id: 1,
+                  children: 'Editar Colunas',
+                  icon: 'create',
+                  onClick: () => {
+                    alert('Hi ' + entry[this.columns[0].name]);
+                  },
+                },
+              ]}
+            />
+          }
         >
           <div style={this.style}>
             {this.columns.map(column => (

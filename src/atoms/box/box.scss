@@ -5,6 +5,7 @@
   @include bordered;
 
   display: inline-flex;
+  align-items: center;
 
   @include m(spacing-0);
   @include px(spacing-4);

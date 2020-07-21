@@ -6,6 +6,7 @@
 
   display: inline-grid;
   grid-auto-flow: column;
+  align-items: center;
 
   @include var(column-gap, spacing-4);
 
