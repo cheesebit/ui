@@ -61,15 +61,6 @@ class OverflowWatcher extends React.Component {
         const childWidth = getWidth(childElement, options);
         const nextOccupiedWidth = occupiedWidth + childWidth;
 
-        console.log(
-          '>',
-          `[${to}] `,
-          childWidth,
-          nextOccupiedWidth,
-          ' of ',
-          availableWidth,
-        );
-
         if (nextOccupiedWidth > availableWidth) {
           to--;
           break;

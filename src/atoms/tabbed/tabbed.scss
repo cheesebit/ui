@@ -50,6 +50,7 @@ $active-indicator-height: spacing(1);
 
     position: relative;
     display: inline-flex;
+    height: 56px;
 
     cursor: pointer;
     user-select: none;
@@ -108,7 +109,7 @@ $active-indicator-height: spacing(1);
     @include font;
 
     position: relative;
-    animation: cb-enter normal 0.25s ease-out 1;
+    animation: cb-animation-enter normal 0.25s ease-out 1;
 
     display: none;
   }
@@ -119,16 +120,5 @@ $active-indicator-height: spacing(1);
     &:checked + .panel {
       display: block;
     }
-  }
-}
-
-@keyframes cb-enter {
-  from {
-    opacity: 0;
-    transform: translateX(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0%);
   }
 }

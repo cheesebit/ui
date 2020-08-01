@@ -24,7 +24,7 @@ const Badge = ({ className, children, variant, ...others }) => {
   );
 
   return (
-    <span className={classes} data-test="cb-badge" {...others}>
+    <span className={classes} data-testid="cb-badge" {...others}>
       {children}
     </span>
   );

@@ -25,7 +25,7 @@ const Spinner = ({ children, className, variant, size, ...others }) => {
   );
 
   return (
-    <div className={classes} {...others} data-test="cb-spinner">
+    <div className={classes} {...others} data-testid="cb-spinner">
       <span className="circle" style={{ fontSize: size }} />
       {children}
     </div>

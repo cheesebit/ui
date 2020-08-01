@@ -19,7 +19,7 @@ const List = ({
 
   return (
     <Tag
-      data-test="cb-list"
+      data-testid="cb-list"
       role="list"
       {...others}
       className={classNames(

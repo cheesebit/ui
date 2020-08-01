@@ -40,7 +40,7 @@ class Tab extends React.PureComponent {
 
     return (
       <Box
-        data-test="tab"
+        data-testid="tab"
         borderless
         {...others}
         as="label"

@@ -1,50 +1,49 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Badge, Variant } from './index';
-import { findByTestAttr } from '../../../test/helpers';
+import { render, screen } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Badge', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
+    render(<Badge {...props} />);
 
-    const wrapper = shallow(<Badge {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-badge');
-
-    expect(component).toHaveLength(1);
-    expect(component.contains(props.children)).toBe(true);
+    expect(screen.getByTestId('cb-badge')).toHaveTextContent(props.children);
   });
 
   describe('with variant', () => {
     it(`renders correctly with variant ${Variant.primary}`, () => {
       const props = { children: generator.word(), variant: Variant.primary };
 
-      const wrapper = shallow(<Badge {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-badge');
+      render(<Badge {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-primary')).toBe(true);
+      const component = screen.getByTestId('cb-badge');
+
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toHaveClass('-primary');
     });
 
     it(`renders correctly with variant ${Variant.secondary}`, () => {
       const props = { children: generator.word(), variant: Variant.secondary };
 
-      const wrapper = shallow(<Badge {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-badge');
+      render(<Badge {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-secondary')).toBe(true);
+      const component = screen.getByTestId('cb-badge');
+
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toHaveClass('-secondary');
     });
 
     it(`renders correctly with variant ${Variant.terciary}`, () => {
       const props = { children: generator.word(), variant: Variant.terciary };
 
-      const wrapper = shallow(<Badge {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-badge');
+      render(<Badge {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-terciary')).toBe(true);
+      const component = screen.getByTestId('cb-badge');
+
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toHaveClass('-terciary');
     });
   });
 });

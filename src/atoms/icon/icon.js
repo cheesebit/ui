@@ -38,7 +38,7 @@ class Icon extends React.PureComponent {
         className={this.classes}
         aria-label={name}
         style={this.style}
-        data-test="cb-icon"
+        data-testid="cb-icon"
       />
     );
   }

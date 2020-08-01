@@ -8,4 +8,4 @@ npm-debug.log*
 .npmrc
 .vscode
 .idea
-.zero
+*.code-workspace

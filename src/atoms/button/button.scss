@@ -6,6 +6,7 @@
   @include font;
   @include interactable;
   @include disableable;
+  @include rounded;
 
   align-items: center;
   justify-content: center;
@@ -21,7 +22,7 @@
     @include truncate;
 
     display: inline-block;
-    text-align: left;
+    text-align: center;
     line-height: 2rem;
   }
 
@@ -85,8 +86,8 @@
 
   &.-small {
     @include var(font-size, font-size-sm);
-    height: 42px;
-    flex: 0 0 42px;
+    height: 40px;
+    min-width: 40px;
 
     & + & {
       @include my(spacing-0);
@@ -97,14 +98,14 @@
 
   &.-medium {
     @include var(font-size, font-size-base);
-    height: 60px;
-    flex: 0 0 60px;
+    height: 56px;
+    min-width: 56px;
   }
 
   &.-large {
     @include var(font-size, font-size-lg);
     height: 72px;
-    flex: 0 0 72px;
+    min-width: 72px;
 
     & + & {
       @include my(spacing-0);

@@ -4,7 +4,8 @@
   @include font;
 
   @include disableable;
-  @include bordered($top: false, $right: false, $left: false);
+  @include bordered;
+  @include rounded;
 
   @include var(background, color-white);
   @include var(border-color, color-gray-400);
@@ -21,6 +22,8 @@
 
   @include px(spacing-4);
   @include py(spacing-2);
+
+  height: 40px;
 
   &.-success {
     @include var(border-color, color-success);

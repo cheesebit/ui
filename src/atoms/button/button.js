@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { equals, omit } from '../../common/toolset';
-import { evaluateBorderless } from '../../common/props-toolset';
 import { Icon } from '../icon';
 import { resolveProp } from '../../common/props-toolset';
 
@@ -29,7 +28,7 @@ export const Size = {
  */
 class Button extends React.PureComponent {
   get classes() {
-    const { borderless, className, emphasis, size } = this.props;
+    const { className, emphasis, size, roundless } = this.props;
 
     return classNames(
       'cb-button',
@@ -41,7 +40,6 @@ class Button extends React.PureComponent {
         '-medium': equals(size, Size.medium),
         '-large': equals(size, Size.large),
       },
-      evaluateBorderless(borderless),
       className,
     );
   }
@@ -64,7 +62,7 @@ class Button extends React.PureComponent {
     return (
       <Box
         as="button"
-        data-test="cb-button"
+        data-testid="cb-button"
         paddingless="vertical"
         {...omit(OMITTED_PROPS, others)}
         type={type}
@@ -135,7 +133,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: null,
-  size: Size.small,
+  size: Size.medium,
   type: 'button',
   disabled: false,
 };

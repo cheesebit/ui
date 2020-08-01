@@ -4,20 +4,90 @@ import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
 import { Dropdown } from '../dropdown';
-import { equals, isFunction } from '../../common/toolset';
+import {
+  equals,
+  isFunction,
+  omit,
+  getID,
+  isEmpty,
+  keys,
+} from '../../common/toolset';
+import { Icon } from '../../atoms/icon';
+import { DataManager } from '../../common/data-manager/';
+import { Mode } from '../../common/attribute-manager';
 import Option from './select-option';
+import Selectors from './selectors';
+import { getUpdateID, toValue } from './helpers';
+
+const [SELECTED, VISIBLE] = ['selected', 'visible'];
+const OMITTED_PROPS = ['adapter', 'options', 'placeholder'];
 
 class Select extends React.PureComponent {
   constructor(props) {
     super(props);
 
-    const { value } = props;
+    const { value, multiple } = props;
     this.state = {
       selected: value,
+      execution: null,
     };
 
+    this.adapter = Selectors.getAdapter(props);
+    this.manager = new DataManager({
+      adapter: this.adapter,
+      attributes: {
+        selected: multiple ? Mode.propagate : Mode.unique,
+        visible: Mode.path,
+      },
+      data: this.options,
+    });
     this.optionByID = {};
+
+    console.log(this.manager);
+
     this.setup(props);
+  }
+
+  componentDidMount() {
+    const ids = Selectors.getValue(this.props);
+
+    if (isEmpty(ids)) {
+      return;
+    }
+
+    this.manager.set(SELECTED, ids, true);
+
+    this.setState({
+      execution: getUpdateID(),
+    });
+  }
+
+  componentDidUpdate(prevProps) {
+    const { options, value } = this.props;
+    let changed = false;
+
+    if (!equals(prevProps.options, options)) {
+      this.manager.data = options;
+      this.manager.set(VISIBLE, keys(this.manager.data), true);
+
+      changed = true;
+    }
+
+    if (!equals(prevProps.value, value)) {
+      this.manager.reset(SELECTED);
+
+      const ids = Selectors.getValue(this.props);
+      this.manager.set(SELECTED, ids, true);
+      this.manager.set(VISIBLE, id, true);
+
+      changed = true;
+    }
+
+    if (changed) {
+      this.setState({
+        execution: getUpdateID(),
+      });
+    }
   }
 
   get classes() {
@@ -32,6 +102,22 @@ class Select extends React.PureComponent {
     return options || DEFAULT.ARRAY;
   }
 
+  get selected() {
+    const getNode = id => this.manager.getNode(id)?.node;
+
+    const ids = keys(this.manager.getAttribute(SELECTED));
+    const nodes = ids.map(getNode);
+
+    return nodes;
+  }
+
+  get value() {
+    const { multiple } = this.props;
+    const value = toValue(this.selected, multiple);
+
+    return value;
+  }
+
   setup(props) {
     const options = props?.options || DEFAULT.ARRAY;
 
@@ -44,15 +130,16 @@ class Select extends React.PureComponent {
 
   publish = () => {
     const { id, onChange, name } = this.props;
-    const { selected } = this.state;
 
-    onChange?.({ target: { id, name, value: this.optionByID[selected] } });
+    onChange?.({ target: { id, name, value: this.value } });
   };
 
   handleSelect = ({ value }) => {
+    this.manager.set(SELECTED, value, true);
+
     this.setState(
       {
-        selected: value,
+        execution: getUpdateID(),
       },
       this.publish,
     );
@@ -65,14 +152,15 @@ class Select extends React.PureComponent {
   };
 
   renderOption = option => {
-    const { selected } = this.state;
     const { label, value, ...others } = option;
 
     return (
       <Option
         key={value}
         className={classNames({
-          'is-highlighted': equals(selected, value),
+          'is-highlighted': Boolean(
+            this.manager.getAttributeByNodeID(SELECTED, value),
+          ),
         })}
         {...others}
         onClick={this.handleSelect}
@@ -92,7 +180,7 @@ class Select extends React.PureComponent {
         collapsed,
         disabled,
         onClick,
-        value: this.optionByID[selected],
+        value: this.value,
       });
     }
 
@@ -101,9 +189,17 @@ class Select extends React.PureComponent {
         disabled={disabled}
         collapsed={collapsed}
         onClick={onClick}
-        borderless={['top', 'horizontal']}
+        trailing={
+          <span>
+            <Icon
+              className={classNames({ 'cb-u-rotate-180': !collapsed })}
+              name="expand-more"
+              size={16}
+            />
+          </span>
+        }
       >
-        {this.optionByID[selected]?.label || placeholder}
+        {this.value?.label || placeholder}
       </Dropdown.Toggle>
     );
   };
@@ -111,12 +207,12 @@ class Select extends React.PureComponent {
   render() {
     return (
       <Dropdown
+        data-testid="cb-select"
+        {...omit(OMITTED_PROPS, this.props)}
         className={this.classes}
         toggle={this.renderToggle}
-        unroll="stretched"
-        data-test="cb-select"
       >
-        <Dropdown.Items hoverable data-test="options">
+        <Dropdown.Items hoverable data-testid="options">
           {this.renderOptions()}
         </Dropdown.Items>
       </Dropdown>
@@ -137,8 +233,10 @@ Select.propTypes = {
 };
 
 Select.defaultProps = {
+  id: getID(),
   value: null,
   placeholder: 'Select',
+  unroll: 'stretched',
 };
 
 Select.Items = Dropdown.Items;

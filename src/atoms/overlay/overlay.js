@@ -21,7 +21,7 @@ const Overlay = ({ className, children, theme, ...others }) => (
       },
       className,
     )}
-    data-test="cb-overlay"
+    data-testid="cb-overlay"
     {...others}
   >
     {children}

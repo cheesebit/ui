@@ -10,7 +10,7 @@ const PageBody = ({ className, children, borderless, ...others }) => {
     <article
       {...others}
       className={classNames('body', className, evaluateBorderless(borderless))}
-      data-test="page-body"
+      data-testid="page-body"
     >
       {children}
     </article>

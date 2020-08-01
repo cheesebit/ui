@@ -118,7 +118,7 @@ class Dropdown extends React.PureComponent {
     return (
       <DropdownContext.Provider value={this.value}>
         <div
-          data-test="cb-dropdown"
+          data-testid="cb-dropdown"
           {...omit(OMITTED_PROPS, others)}
           ref={ref}
           className={classNames(this.classes)}

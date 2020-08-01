@@ -18,7 +18,7 @@ class SelectOption extends React.PureComponent {
         id={value}
         {...others}
         onClick={this.handleClick}
-        data-test="option"
+        data-testid="option"
         children={children}
       />
     );

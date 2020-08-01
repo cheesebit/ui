@@ -8,7 +8,7 @@ const Card = ({ className, children, ...props }) => {
     <div
       {...props}
       className={classNames('cb-card', className)}
-      data-test="cb-test"
+      data-testid="cb-test"
     >
       {children}
     </div>

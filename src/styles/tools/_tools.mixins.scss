@@ -1,8 +1,14 @@
 @import '../settings/index';
 
-@mixin var($property, $name) {
-  #{$property}: map-get($vars, $name);
-  #{$property}: var(--cb-#{$name}, map-get($vars, $name));
+@mixin var($property, $name, $important: false) {
+  @if ($important == 'important') {
+    $important: unquote('!important');
+  } @else {
+    $important: null;
+  }
+
+  #{$property}: map-get($vars, $name) $important;
+  #{$property}: var(--cb-#{$name}, map-get($vars, $name)) $important;
 }
 
 @mixin font() {
@@ -24,7 +30,7 @@
   background-image: linear-gradient(to right, $start 0%, $end 51%, $start 100%);
 }
 
-@mixin shadow($opacity: 0.2) {
+@mixin shadow($opacity: 0.25) {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, $opacity);
 }
 
@@ -75,7 +81,8 @@
 
 @mixin hoverable {
   &:not(.is-disabled):not(:disabled) {
-    &:hover {
+    &:hover,
+    &:active {
       @content;
     }
   }
@@ -95,7 +102,7 @@
   }
 }
 
-@mixin rounded($border-radius: 0.25rem) {
+@mixin rounded($border-radius: 0.125rem) {
   border-radius: $border-radius;
 }
 

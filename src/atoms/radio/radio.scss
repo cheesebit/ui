@@ -6,18 +6,11 @@
   align-items: center;
   justify-content: flex-start;
 
-  .circle {
-    @include var(color, color-white);
-
-    fill: currentColor;
-    position: absolute;
-  }
-
   .selector:first-of-type {
     @include focusable;
     @include bordered;
 
-    @include transition(background color border-color);
+    @include transition(color border-color);
 
     cursor: pointer !important;
     appearance: none;
@@ -32,9 +25,20 @@
     height: 16px;
     width: 16px;
 
+    ~ .circle {
+      @include transition(background color);
+      @include var(color, color-white);
+
+      fill: currentColor;
+      position: absolute;
+    }
+
     &:checked {
       @include var(border-color, color-primary-500);
-      @include var(background-color, color-primary-500);
+
+      ~ .circle {
+        @include var(color, color-primary-500);
+      }
     }
   }
 
@@ -44,7 +48,10 @@
 
       &:checked {
         @include var(border-color, color-primary-700);
-        @include var(background-color, color-primary-700);
+
+        ~ .circle {
+          @include var(color, color-primary-700);
+        }
       }
     }
   }

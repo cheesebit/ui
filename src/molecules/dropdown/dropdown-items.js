@@ -20,7 +20,7 @@ const DropdownItems = ({
 
   return (
     <List
-      data-test="items"
+      data-testid="items"
       {...others}
       hoverable={hoverable}
       className={classNames('menu', className)}

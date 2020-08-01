@@ -35,7 +35,7 @@ class Panel extends React.PureComponent {
           name={tabbed}
           onFocus={this.handleFocus}
           value={id}
-          data-test="panel-radio"
+          data-testid="panel-radio"
         />
         <article {...others} style={this.style} className={this.classes}>
           {children}

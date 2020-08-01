@@ -2,6 +2,10 @@
   @include hidden;
 }
 
+.cb-u-is-invisible {
+  visibility: hidden !important;
+}
+
 .cb-u-is-visually-hidden {
   @include hidden(true);
 }

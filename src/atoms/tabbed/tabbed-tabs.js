@@ -143,7 +143,7 @@ class Tabs extends React.PureComponent {
       <div
         ref={ref}
         className={this.classes}
-        data-test="cb-tabs"
+        data-testid="cb-tabs"
         role="tablist"
         style={style}
       >

@@ -10,7 +10,7 @@ const DropdownItem = ({ icon, onClick, children, ...others }) => {
       {({ toggle, collapsed }) => (
         <List.Item
           leading={icon && <Icon name={icon} />}
-          data-test="item"
+          data-testid="item"
           {...others}
           {...(collapsed && { tabIndex: '-1' })}
           borderless

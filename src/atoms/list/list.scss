@@ -32,7 +32,7 @@
     > .item {
       @include interactable;
       @include hoverable {
-        @include var(background, color-gray-300);
+        @include var(background, color-gray-100);
       }
     }
   }

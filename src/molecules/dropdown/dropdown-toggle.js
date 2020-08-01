@@ -7,9 +7,15 @@ import { isNil } from '../../common/toolset';
 
 class DropdownToggle extends React.PureComponent {
   get classes() {
-    const { className } = this.props;
+    const { className, collapsed } = this.props;
 
-    return classNames('toggle', className);
+    return classNames(
+      'toggle',
+      {
+        '-flat': !collapsed,
+      },
+      className,
+    );
   }
 
   renderArrow = () => {
@@ -35,7 +41,7 @@ class DropdownToggle extends React.PureComponent {
 
     return (
       <Button
-        data-test="toggle"
+        data-testid="toggle"
         stretched
         trailing={this.renderArrow()}
         {...others}

@@ -126,7 +126,7 @@ class Image extends React.PureComponent {
 
   renderError = () => {
     return (
-      <div className="error" style={this.style} data-test="image-error">
+      <div className="error" style={this.style} data-testid="image-error">
         :(
       </div>
     );
@@ -137,7 +137,7 @@ class Image extends React.PureComponent {
     const { src, srcSet, className, options, alt, ...others } = this.props;
 
     return (
-      <div {...others} className={this.classes} data-test="cb-image">
+      <div {...others} className={this.classes} data-testid="cb-image">
         <img
           ref={this.image}
           alt={alt}

@@ -8,7 +8,7 @@ const ActiveTabIndicator = ({ ...props }) => {
     <span
       {...props}
       className="active-indicator"
-      data-test="active-indicator"
+      data-testid="active-indicator"
     />
   );
 };

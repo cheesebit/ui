@@ -6,7 +6,7 @@ const PageHeader = ({ className, children, ...others }) => {
     <header
       {...others}
       className={classNames('header', className)}
-      data-test="page-header"
+      data-testid="page-header"
     >
       {children}
     </header>

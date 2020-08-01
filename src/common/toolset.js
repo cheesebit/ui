@@ -1,6 +1,10 @@
 // export { default as throttle } from 'lodash.throttle';
 const debounce = require('lodash.debounce');
-const { customAlphabet } = require('nanoid');
+const get = require('lodash.get');
+const set = require('lodash.set');
+const unset = require('lodash.unset');
+
+const { customAlphabet, nanoid: defaultNanoid } = require('nanoid');
 const R = require('ramda');
 
 const { complement, curryN } = R;
@@ -11,23 +15,31 @@ const nanoid = customAlphabet(
 );
 
 export const {
+  assoc,
   clamp,
   compose,
+  concat,
+  dissoc,
   equals,
   isEmpty,
   isNil,
   keys,
+  map,
+  mergeDeepWith,
   omit,
-  mergeRight: merge,
   path,
   prop,
   range,
   reject,
-  values,
+  toPairs: entries,
   trim,
+  until,
+  values,
 } = R;
 
-export { debounce };
+export const merge = mergeDeepWith(concat);
+
+export { debounce, get, set, unset };
 
 /**
  * @function
@@ -120,6 +132,19 @@ export const getID = id => {
 };
 
 /**
+ * Returns the given ID or generates a random GUID if none is provided.
+ * @param {number|string} id - (Optional) ID to be returned
+ * @returns {number|string} the given ID or the generated one, if none was provided.
+ */
+export const getIDGenerator = (alphabet, size) => {
+  if ([alphabet, size].some(isFalsy)) {
+    return defaultNanoid;
+  }
+
+  return customAlphabet(alphabet, size);
+};
+
+/**
  * @function
  * Wraps up a promise execution and the proper error handling to avoid
  * nested try/catch block for async/await statements.
@@ -137,5 +162,14 @@ export function to(promise) {
       return [err, void 0];
     });
 }
+
+/**
+ * @function
+ * Throws an error with the given message. Useful as default value for mandatory arguments.
+ * @param {string} message - Custom error message
+ */
+export const mandatory = (message = 'required') => {
+  throw new Error(message);
+};
 
 export const compact = reject(isFalsy);

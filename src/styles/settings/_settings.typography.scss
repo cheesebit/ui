@@ -1,6 +1,8 @@
 // @import url('https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@300;400;500;700&display=swap');
 // @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;700&display=swap');
+// @import url('https://fonts.googleapis.com/css2?family=Recursive:wght@300;400;600;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@200;400;500;700&display=swap');
 
 $font-sizes: (
   font-size-xs: 0.75rem,
@@ -20,7 +22,7 @@ $font-sizes: (
 }
 
 $font-weights: (
-  font-weight-light: 300,
+  font-weight-light: 200,
   font-weight-default: 400,
   font-weight-medium: 500,
   font-weight-bold: 700,
@@ -32,7 +34,7 @@ $font-weights: (
 
 $font-families: (
   font-family-default: (
-    'Barlow',
+    'Heebo',
     sans-serif,
   ),
 );

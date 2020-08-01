@@ -41,6 +41,7 @@ module.exports = [
       pagination: `${MOLECULES_PATH_PREFIX}/pagination/index`,
       select: `${MOLECULES_PATH_PREFIX}/select/index`,
       table: `${ORGANISMS_PATH_PREFIX}/table/index`,
+      wizard: `${ORGANISMS_PATH_PREFIX}/wizard/index`,
       'click-outside': `${HOC_PATH_PREFIX}/click-outside/index.js`,
       'media-query-watcher': `${HOC_PATH_PREFIX}/media-query-watcher/index.js`,
       'overflow-watcher': `${HOC_PATH_PREFIX}/overflow-watcher/index.js`,
@@ -52,7 +53,8 @@ module.exports = [
       // del({ targets: [`dist/${pkg.version}`] }),
       external(),
       scss({
-        output: `dist/${pkg.version}/styles.css`,
+        // output: `dist/${pkg.version}/styles.css`, version specific
+        output: 'dist/styles.css',
         prefix: `
           @import "./src/styles/_settings.scss";
           @import "./src/styles/_tools.scss";
@@ -68,11 +70,7 @@ module.exports = [
       resolve({
         preferBuiltins: true,
       }),
-      commonjs({
-        namedExports: {
-          'react-is': ['isValidElementType', 'isContextConsumer'],
-        },
-      }),
+      commonjs(),
       svgr(),
       terser(),
       gzip(),
@@ -84,7 +82,8 @@ module.exports = [
     ],
     output: [
       {
-        dir: `dist/${pkg.version}`,
+        // dir: `dist/${pkg.version}`, version specific
+        dir: 'dist',
         format: 'esm',
         sourcemap: true,
       },

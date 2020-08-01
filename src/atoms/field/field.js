@@ -78,9 +78,9 @@ class Field extends React.PureComponent {
         mode={mode}
         position={position}
         text={text}
-        data-test="field-tooltip"
+        data-testid="field-tooltip"
       >
-        <Anchor data-test="tooltip-anchor">
+        <Anchor data-testid="tooltip-anchor">
           <Icon size={12} {...resolveProp(icon, 'name')} />
         </Anchor>
       </Tooltip>
@@ -104,9 +104,9 @@ class Field extends React.PureComponent {
       <div
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
-        data-test="cb-field"
+        data-testid="cb-field"
       >
-        <span className="label" data-test="field-label">
+        <span className="label" data-testid="field-label">
           {label}
         </span>
         <Box
@@ -116,11 +116,11 @@ class Field extends React.PureComponent {
           paddingless
           stretched
           trailing={this.renderTrailing()}
-          data-test="field-content"
+          data-testid="field-content"
         >
           {children}
         </Box>
-        <span className="prompt" data-test="field-prompt">
+        <span className="prompt" data-testid="field-prompt">
           {this.renderPrompt()}
         </span>
       </div>

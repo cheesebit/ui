@@ -1,6 +1,5 @@
 .cb-pagination {
   @include font;
-  @include bordered($right: false, $bottom: false, $left: false);
   @include p(spacing-2);
 
   display: flex;

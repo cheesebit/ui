@@ -1,3 +1,16 @@
+import { render, queries } from '@testing-library/react';
+import '@testing-library/jest-dom/extend-expect';
+
+const customRender = (ui, options) =>
+  render(ui, { queries: { ...queries }, ...options });
+
+// re-export everything
+export * from '@testing-library/react';
+
+// override render method
+export { customRender as render };
+
+// ------- enzyme
 import Adapter from 'enzyme-adapter-react-16';
 import Enzyme from 'enzyme';
 
@@ -24,5 +37,5 @@ export function findByTestAttr(wrapper, value) {
  * @returns {EnzymeSelector}
  */
 export function asTestAttr(value) {
-  return `[data-test="${value}"]`;
+  return `[data-testid="${value}"]`;
 }

@@ -111,7 +111,7 @@ class Tabbed extends React.PureComponent {
 
     return (
       <section
-        data-test="c-tabbed"
+        data-testid="c-tabbed"
         {...omit(OMITTED_PROPS, others)}
         id={this.id}
         className={this.classes}

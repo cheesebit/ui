@@ -28,7 +28,7 @@ const Checkbox = ({
         { 'is-disabled': disabled },
         className,
       )}
-      data-test="cb-checkbox"
+      data-testid="cb-checkbox"
       leading={
         <React.Fragment>
           <input

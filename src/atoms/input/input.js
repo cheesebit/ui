@@ -51,7 +51,7 @@ class Input extends React.PureComponent {
         ref={forwardedRef}
         className={this.classes}
         type={type}
-        data-test="cb-input"
+        data-testid="cb-input"
       />
     );
   }

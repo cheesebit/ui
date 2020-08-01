@@ -24,7 +24,7 @@ const Radio = ({
       stretched={stretched}
       trailing={trailing}
       className={classNames('cb-radio', { 'is-disabled': disabled }, className)}
-      data-test="cb-radio"
+      data-testid="cb-radio"
       leading={
         <React.Fragment>
           <input
@@ -33,7 +33,7 @@ const Radio = ({
             disabled={disabled}
             className="selector"
           />
-          <Icon name="circle" className="circle" size={10} />
+          <Icon name="circle" className="circle" size={16} />
         </React.Fragment>
       }
     >

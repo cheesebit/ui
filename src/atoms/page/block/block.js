@@ -30,7 +30,7 @@ const Block = ({
         className,
       )}
       role="section"
-      data-test="cb-block"
+      data-testid="cb-block"
     >
       {children}
     </section>

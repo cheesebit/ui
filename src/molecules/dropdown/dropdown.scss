@@ -12,9 +12,10 @@
   }
 
   & > .menu {
+    @include rounded;
     @include transition(max-height opacity);
 
-    @include shadow(0.25);
+    @include shadow;
     @include var(z-index, layer-3);
 
     overflow-x: hidden;
@@ -24,7 +25,9 @@
 
     position: absolute;
 
-    margin: 0;
+    @include mx(spacing-0);
+    @include var(margin-bottom, spacing-0);
+    @include var(margin-top, spacing-2);
     padding: 0;
 
     top: calc(100% - 1px);

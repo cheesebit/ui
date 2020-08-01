@@ -69,7 +69,7 @@ class Box extends React.PureComponent {
 
     return (
       <Tag
-        data-test="cb-box"
+        data-testid="cb-box"
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
       >

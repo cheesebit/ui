@@ -52,10 +52,10 @@ class Table extends React.PureComponent {
      * TODO: Break this component into super small parts
      */
     return (
-      <section id={id} className={this.classes} data-test="cb-table">
+      <section id={id} className={this.classes} data-testid="cb-table">
         <Box
           stretched
-          data-test="header"
+          data-testid="header"
           className="header row"
           paddingless="vertical"
           borderless={['horizontal', 'top']}
@@ -94,20 +94,20 @@ class Table extends React.PureComponent {
                 borderless
                 paddingless="horizontal"
                 className="cell"
-                data-test={column.name}
+                data-testid={column.name}
               >
                 {column.name}
               </Box>
             ))}
           </div>
         </Box>
-        <List data-test="body" className="body" bordered hoverable striped>
+        <List data-testid="body" className="body" bordered hoverable striped>
           {this.data.map(entry => (
             <List.Item
               key={entry.id}
               stretched
               className="row"
-              data-test="row"
+              data-testid="row"
               leading={<Checkbox />}
               padding="vertical"
               trailing={
@@ -144,7 +144,7 @@ class Table extends React.PureComponent {
                     borderless
                     className="cell"
                     paddingless
-                    data-test={column.name}
+                    data-testid={column.name}
                     style={column?.props?.style}
                   >
                     {entry[column.name]}
@@ -179,7 +179,7 @@ export default Table;
 //       borderless
 //       className="cell"
 //       paddingless="horizontal"
-//       data-test={column.name}
+//       data-testid={column.name}
 //       style={column?.props?.style}
 //     >
 //       {entry[column.name]}
