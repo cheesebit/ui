@@ -6,16 +6,18 @@ import { asTestAttr, findByTestAttr } from '../../../test/helpers';
 import { Icon } from '../icon';
 import { shallow, mount } from 'enzyme';
 import generator from '../../../test/data-generator';
+import { render, screen } from '../../../test/helpers';
 
 describe('Button', () => {
   it('renders correctly', () => {
-    const label = generator.word();
+    const props = { children: generator.word() };
 
-    const wrapper = shallow(<Button>{label}</Button>);
-    const component = findByTestAttr(wrapper, 'cb-button').dive();
+    render(<Button {...props} />);
 
-    expect(component).toHaveLength(1);
-    expect(component.text()).toEqual(label);
+    const component = screen.getByTestId('cb-button');
+
+    expect(component).toBeInTheDocument();
+    expect(component).toHaveTextContent(props.children);
   });
 
   describe('emphasis', () => {

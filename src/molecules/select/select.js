@@ -43,8 +43,6 @@ class Select extends React.PureComponent {
     });
     this.optionByID = {};
 
-    console.log(this.manager);
-
     this.setup(props);
   }
 

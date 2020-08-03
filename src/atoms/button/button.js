@@ -133,7 +133,7 @@ Button.propTypes = {
 
 Button.defaultProps = {
   className: null,
-  size: Size.medium,
+  size: Size.small,
   type: 'button',
   disabled: false,
 };

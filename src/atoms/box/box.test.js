@@ -1,9 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Box } from './index';
-import { findByTestAttr, asTestAttr } from '../../../test/helpers';
-import { keys, values, toArray } from '../../common/toolset';
+import { keys, toArray } from '../../common/toolset';
+import { render, screen, getByText } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 const SIDES = {
@@ -19,11 +18,11 @@ describe('Box', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
 
-    const wrapper = shallow(<Box {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-box');
+    render(<Box {...props} />);
 
-    expect(component).toHaveLength(1);
-    expect(component.contains(props.children)).toBe(true);
+    const component = screen.getByTestId('cb-box');
+
+    expect(component).toHaveTextContent(props.children);
   });
 
   it('renders as <tag> correctly', () => {
@@ -32,8 +31,12 @@ describe('Box', () => {
       as: generator.pick(['div', 'span', 'section']),
     };
 
-    const wrapper = shallow(<Box {...props} />);
-    expect(wrapper.find(`${props.as}${asTestAttr('cb-box')}`)).toHaveLength(1);
+    render(<Box {...props} />);
+
+    const component = screen.getByTestId('cb-box', { selector: props.as });
+
+    expect(component).toHaveTextContent(props.children);
+    expect(component).toBeInTheDocument();
   });
 
   it('renders leading correctly', () => {
@@ -42,13 +45,11 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Box {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-box');
+    render(<Box {...props} />);
+    const component = screen.getByTestId('cb-box');
 
-    const leading = component.find('.leading');
-
-    expect(leading).toHaveLength(1);
-    expect(leading.contains(props.leading)).toBe(true);
+    expect(component).toHaveTextContent(props.children);
+    expect(getByText(component, props.leading)).toBeTruthy();
   });
 
   it('renders trailing correctly', () => {
@@ -57,13 +58,11 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Box {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-box');
+    render(<Box {...props} />);
+    const component = screen.getByTestId('cb-box');
 
-    const trailing = component.find('.trailing');
-
-    expect(trailing).toHaveLength(1);
-    expect(trailing.contains(props.trailing)).toBe(true);
+    expect(component).toHaveTextContent(props.children);
+    expect(getByText(component, props.trailing)).toBeTruthy();
   });
 
   it('renders stretched correctly', () => {
@@ -72,11 +71,11 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Box {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-box');
+    render(<Box {...props} />);
+    const component = screen.getByTestId('cb-box');
 
-    expect(component).toHaveLength(1);
-    expect(component.hasClass('-stretched')).toBe(true);
+    expect(component).toHaveTextContent(props.children);
+    expect(component).toHaveClass('-stretched');
   });
 
   describe('with paddingless', () => {
@@ -86,11 +85,11 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('cb-no-padding')).toBe(true);
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toHaveClass('cb-no-padding');
     });
 
     it('renders paddingless disabled correctly', () => {
@@ -99,11 +98,16 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('cb-no-padding')).toBe(false);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-padding');
+      expect(component).not.toHaveClass('cb-no-top-padding');
+      expect(component).not.toHaveClass('cb-no-right-padding');
+      expect(component).not.toHaveClass('cb-no-bottom-padding');
+      expect(component).not.toHaveClass('cb-no-left-padding');
     });
 
     it('renders single sided paddingless correctly', () => {
@@ -114,12 +118,14 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-padding');
       for (let s of toArray(SIDES[side])) {
-        expect(component.hasClass(`cb-no-${s}-padding`)).toBe(true);
+        expect(component).toHaveClass(`cb-no-${s}-padding`);
       }
     });
 
@@ -133,13 +139,16 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-padding');
+
       for (let side of sides) {
         for (let s of toArray(SIDES[side])) {
-          expect(component.hasClass(`cb-no-${s}-padding`)).toBe(true);
+          expect(component).toHaveClass(`cb-no-${s}-padding`);
         }
       }
     });
@@ -152,11 +161,11 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('cb-no-border')).toBe(true);
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toHaveClass('cb-no-border');
     });
 
     it('renders borderless disabled correctly', () => {
@@ -165,11 +174,16 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('cb-no-border')).toBe(false);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-border');
+      expect(component).not.toHaveClass('cb-no-top-border');
+      expect(component).not.toHaveClass('cb-no-right-border');
+      expect(component).not.toHaveClass('cb-no-bottom-border');
+      expect(component).not.toHaveClass('cb-no-left-border');
     });
 
     it('renders single sided borderless correctly', () => {
@@ -180,12 +194,14 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-border');
       for (let s of toArray(SIDES[side])) {
-        expect(component.hasClass(`cb-no-${s}-border`)).toBe(true);
+        expect(component).toHaveClass(`cb-no-${s}-border`);
       }
     });
 
@@ -199,13 +215,16 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      const wrapper = shallow(<Box {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-box');
+      render(<Box {...props} />);
+      const component = screen.getByTestId('cb-box');
 
-      expect(component).toHaveLength(1);
+      expect(component).toHaveTextContent(props.children);
+
+      expect(component).not.toHaveClass('cb-no-border');
+
       for (let side of sides) {
         for (let s of toArray(SIDES[side])) {
-          expect(component.hasClass(`cb-no-${s}-border`)).toBe(true);
+          expect(component).toHaveClass(`cb-no-${s}-border`);
         }
       }
     });
