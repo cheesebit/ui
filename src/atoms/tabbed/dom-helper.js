@@ -4,6 +4,7 @@ export default {
 
     if (radioElement) {
       radioElement.checked = true;
+      radioElement.focus();
     }
   },
   getActiveTab: ({ tabbed }) => {

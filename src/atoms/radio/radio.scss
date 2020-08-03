@@ -22,8 +22,8 @@
     border-radius: 50%;
     flex-shrink: 0;
 
-    height: 16px;
-    width: 16px;
+    @include var(height, spacing-4);
+    @include var(width, spacing-4);
 
     ~ .circle {
       @include transition(background color);

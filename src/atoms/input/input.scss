@@ -23,7 +23,7 @@
   @include px(spacing-4);
   @include py(spacing-2);
 
-  height: 40px;
+  height: 56px;
 
   &.-success {
     @include var(border-color, color-success);

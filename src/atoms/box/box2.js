@@ -58,6 +58,16 @@ class Box extends React.PureComponent {
     );
   }
 
+  renderChildren() {
+    const { children } = this.props;
+
+    return (
+      !isNil(children) && (
+        <span className="children" {...resolveProp(children, 'children')} />
+      )
+    );
+  }
+
   renderTrailing() {
     const { trailing } = this.props;
 
@@ -79,7 +89,7 @@ class Box extends React.PureComponent {
         className={this.classes}
       >
         {this.renderLeading()}
-        {children}
+        {this.renderChildren()}
         {this.renderTrailing()}
       </Tag>
     );
