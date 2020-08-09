@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://material-ui.com/" rel="noopener" target="_blank"><img width="150" src="https://ui.cheesebit.io/#logo-source" alt="Material-UI logo"></a></p>
+  <a href="http://ui.cheesebit.io/" rel="noopener" target="_blank"><img width="150" src="https://cheesebit-static.s3.amazonaws.com/img/cheese.svg" alt="Cheesebit UI logo"></a></p>
 </p>
 
 <h1 align="center">Cheesebit UI</h1>
