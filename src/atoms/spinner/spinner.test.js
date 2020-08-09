@@ -1,9 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
-
-import { Spinner, Variant } from './index';
 
 import { render } from '../../../test/helpers';
+import { Spinner, Variant } from './index';
 import generator from '../../../test/data-generator';
 
 describe('Spinner', () => {

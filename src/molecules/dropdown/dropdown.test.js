@@ -1,9 +1,8 @@
 import React from 'react';
-import { mount } from 'enzyme';
 
 import { Dropdown } from './index';
 import { Icon } from '../../atoms/icon';
-import { findByTestAttr, asTestAttr } from '../../../test/helpers';
+import { screen, render, getAllByTestId } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Dropdown', () => {
@@ -25,22 +24,21 @@ describe('Dropdown', () => {
       footer: generator.word(),
     };
 
-    const wrapper = mount(<Dropdown {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-dropdown');
-    const toggle = wrapper.find(Dropdown.Toggle);
-    const items = findByTestAttr(wrapper, 'items').first();
+    render(<Dropdown {...props} />);
+
+    const component = screen.getByTestId('cb-dropdown');
+    const toggle = screen.getByTestId('toggle');
+    const items = screen.getByTestId('items');
 
     it('renders correctly', () => {
-      expect(component).toHaveLength(1);
-      expect(toggle).toHaveLength(1);
-      expect(items).toHaveLength(1);
+      expect(component).toBeTruthy();
+      expect(toggle).toBeTruthy();
+      expect(items).toBeTruthy();
     });
 
     it('renders items correctly', () => {
-      expect(items).toHaveLength(1);
-      expect(wrapper.find(`button${asTestAttr('item')}`)).toHaveLength(
-        props.items.length,
-      );
+      expect(items).toBeTruthy();
+      expect(getAllByTestId(items, 'item')).toHaveLength(props.items.length);
     });
   });
 

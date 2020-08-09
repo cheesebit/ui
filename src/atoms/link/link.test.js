@@ -1,5 +1,4 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { screen, render } from '../../../test/helpers';
 import { Link } from './index';
@@ -17,8 +16,9 @@ describe('Link', () => {
       target: generator.pick(values(Target)),
     };
 
-    const { getByTestId } = render(<Link {...props} />);
-    const component = getByTestId('cb-link');
+    render(<Link {...props} />);
+
+    const component = screen.getByTestId('cb-link');
 
     it('renders correctly', () => {
       expect(component).toBeTruthy();
@@ -30,7 +30,7 @@ describe('Link', () => {
     });
 
     it(`adds ${Rel.noreferrer} to anchor element rel attribute`, () => {
-      expect(component).toHaveAttribute('rel', Rel.noreferrer);
+      expect(component.getAttribute('rel').includes(Rel.noreferrer)).toBe(true);
     });
 
     it('sets aria-label as the provided alt prop', () => {
@@ -43,8 +43,8 @@ describe('Link', () => {
         alt: generator.sentence(),
       };
 
-      const { getByLabelText } = render(<Link {...props} />);
-      const component = getByLabelText(props.alt);
+      render(<Link {...props} />);
+      const component = screen.getByLabelText(props.alt);
 
       expect(component).toBeTruthy();
     });
@@ -55,8 +55,8 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const { getByLabelText } = render(<Link {...props} />);
-      const component = getByLabelText(props.title);
+      render(<Link {...props} />);
+      const component = screen.getByLabelText(props.title);
 
       expect(component).toBeTruthy();
     });
@@ -66,8 +66,8 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const { getByTitle } = render(<Link {...props} />);
-      const component = getByTitle(props.title);
+      render(<Link {...props} />);
+      const component = screen.getByTitle(props.title);
 
       expect(component).toBeTruthy();
       expect(component).toHaveAttribute('href', '#');
@@ -78,8 +78,8 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const { getByTitle } = render(<Link {...props} />);
-      const component = getByTitle(props.title);
+      render(<Link {...props} />);
+      const component = screen.getByTitle(props.title);
 
       expect(component).toBeTruthy();
       expect(component).toHaveAttribute('target', Target.blank);
@@ -94,8 +94,8 @@ describe('Link', () => {
       target: Target.blank,
     };
 
-    const { getByTitle } = render(<Link {...props} />);
-    const component = getByTitle(props.alt);
+    render(<Link {...props} />);
+    const component = screen.getByTitle(props.alt);
 
     it('removes the insecure href prop', () => {
       expect(component).not.toHaveAttribute('href');

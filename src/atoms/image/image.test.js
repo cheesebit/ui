@@ -1,11 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
-import { Status } from './image';
 import { Image } from './index';
-import { screen, render, getByTestId, userEvent } from '../../../test/helpers';
-
-import { findByTestAttr } from '../../../test/helpers';
+import { screen, render } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 const observe = jest.fn();
@@ -51,8 +47,8 @@ describe('Image', () => {
       src: generateSrc(),
     };
 
-    const { getByTestId } = render(<Image {...props} />);
-    const component = getByTestId('cb-image');
+    render(<Image {...props} />);
+    const component = screen.getByTestId('cb-image');
 
     expect(component).toBeTruthy();
     expect(component).not.toHaveAttribute('src');
@@ -63,8 +59,8 @@ describe('Image', () => {
       src: generateSrc(),
     };
 
-    const { getByTestId } = render(<Image {...props} />);
-    const component = getByTestId('cb-image');
+    render(<Image {...props} />);
+    const component = screen.getByTestId('cb-image');
 
     expect(component).toBeTruthy();
     expect(observe).toHaveBeenCalled();

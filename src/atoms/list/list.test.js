@@ -1,5 +1,4 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { render, screen } from '../../../test/helpers';
 import { List } from './index';
@@ -11,8 +10,8 @@ describe('List', () => {
       children: generator.word(),
     };
 
-    const { getByTestId } = render(<List {...props} />);
-    const component = getByTestId('cb-list');
+    render(<List {...props} />);
+    const component = screen.getByTestId('cb-list');
 
     expect(component).toBeTruthy();
     expect(component).toHaveTextContent(props.children);
@@ -24,8 +23,8 @@ describe('List', () => {
       bordered: true,
     };
 
-    const { getByTestId } = render(<List {...props} />);
-    const component = getByTestId('cb-list');
+    render(<List {...props} />);
+    const component = screen.getByTestId('cb-list');
 
     expect(component).toHaveClass('-bordered');
   });
@@ -36,8 +35,8 @@ describe('List', () => {
       hoverable: true,
     };
 
-    const { getByTestId } = render(<List {...props} />);
-    const component = getByTestId('cb-list');
+    render(<List {...props} />);
+    const component = screen.getByTestId('cb-list');
 
     expect(component).toHaveClass('-hoverable');
   });
@@ -48,8 +47,8 @@ describe('List', () => {
       striped: true,
     };
 
-    const { getByTestId } = render(<List {...props} />);
-    const component = getByTestId('cb-list');
+    render(<List {...props} />);
+    const component = screen.getByTestId('cb-list');
 
     expect(component).toHaveClass('-striped');
   });
@@ -59,8 +58,8 @@ describe('List', () => {
       children: generator.sentence(),
     };
 
-    const { getByTestId } = render(<List.Item {...props} />);
-    const component = getByTestId('list-item');
+    render(<List.Item {...props} />);
+    const component = screen.getByTestId('list-item');
 
     expect(component).toBeTruthy();
   });
@@ -71,8 +70,8 @@ describe('List', () => {
       disabled: true,
     };
 
-    const { getByTestId } = render(<List.Item {...props} />);
-    const component = getByTestId('list-item');
+    render(<List.Item {...props} />);
+    const component = screen.getByTestId('list-item');
 
     expect(component).toBeTruthy();
     expect(component).toHaveClass('is-disabled');

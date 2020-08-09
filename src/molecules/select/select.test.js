@@ -1,9 +1,7 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
 
 import { Select } from './index';
-import { Icon } from '../../atoms/icon';
-import { findByTestAttr, asTestAttr } from '../../../test/helpers';
+import { render, screen, userEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Select', () => {
@@ -17,16 +15,15 @@ describe('Select', () => {
       }),
     };
 
-    const wrapper = mount(<Select {...props} />);
-    const component = wrapper.find(`div${asTestAttr('cb-select')}`);
+    render(<Select {...props} />);
+    const component = screen.getByTestId('cb-select');
 
-    const options = wrapper.find(`button${asTestAttr('option')}`);
-
-    expect(component).toHaveLength(1);
+    const options = screen.getAllByTestId('option');
+    expect(component).toBeTruthy();
     expect(options).toHaveLength(props.options.length);
   });
 
-  it.skip('sets as selected when an option is clicked', () => {
+  it('sets as selected when an option is clicked', () => {
     const props = {
       options: generator.array({
         template: () => ({
@@ -36,12 +33,12 @@ describe('Select', () => {
       }),
     };
 
-    const wrapper = shallow(<Select {...props} />);
-    const instance = wrapper.instance();
+    render(<Select {...props} />);
 
     const option = generator.pick(props.options);
-    instance.handleSelect({ value: option.value });
 
-    expect(wrapper.state('selected')).toBe(option.value);
+    userEvent.click(screen.getByText(option.label));
+
+    expect(screen.getByTestId('toggle')).toHaveTextContent(option.label);
   });
 });

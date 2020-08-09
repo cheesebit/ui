@@ -1,12 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Table } from './index';
-import { findByTestAttr, asTestAttr } from '../../../test/helpers';
+import { screen, render, getByTestId } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
-import { prop } from '../../common/toolset';
-import { data } from 'autoprefixer';
-import { divide } from 'ramda';
 
 const COLUMNS = [
   {
@@ -41,20 +37,20 @@ describe('Table', () => {
   it('renders correctly', () => {
     const props = { columns: COLUMNS, data: generateTableData() };
 
-    const wrapper = shallow(<Table {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-table');
-    const rows = findByTestAttr(wrapper, 'row');
+    render(<Table {...props} />);
+    const component = screen.getByTestId('cb-table');
+    const rows = screen.getAllByTestId('row');
 
-    expect(component).toHaveLength(1);
+    expect(component).toBeTruthy();
     expect(rows).toHaveLength(props.data.length);
 
     for (let i = 0; i < props.data.length; i++) {
       const entry = props.data[i];
 
       for (let column of props.columns) {
-        expect(
-          rows.at(i).dive().dive().find(asTestAttr(column.name)).dive().text(),
-        ).toEqual(String(entry[column.name]));
+        const row = expect(getByTestId(rows[i], column.name)).toHaveTextContent(
+          String(entry[column.name]),
+        );
       }
     }
   });
