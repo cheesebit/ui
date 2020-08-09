@@ -1,18 +1,14 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
 
 import { Tabbed } from './index';
-import Tabs from './tabbed-tabs';
 import Tab from './tabbed-tab';
 
-import { asTestAttr, findByTestAttr } from '../../../test/helpers';
+import { render, screen, userEvent, fireEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
-
-jest.mock('./dom-helper.js');
 
 describe('Tabbed', () => {
   describe('default', () => {
-    const amount = generator.natural({ min: 5, max: 10 });
+    const amount = generator.natural({ min: 2, max: 10 });
     const tabs = generator.array({
       template: () => {
         return {
@@ -23,42 +19,60 @@ describe('Tabbed', () => {
       amount,
     });
 
-    const props = {
-      tabs,
-      children: tabs.map(tab => (
-        <Tabbed.Panel key={tab.for} id={tab.for}>
-          <h1>{tab.label}</h1>
-          <p>{generator.paragraph()}</p>
-        </Tabbed.Panel>
-      )),
-    };
-
-    const wrapper = mount(<Tabbed {...props} />);
-    let component = findByTestAttr(wrapper, 'c-tabbed');
-
     it('renders correctly', () => {
-      expect(component).toHaveLength(1);
-    });
+      const props = {
+        tabs,
+        children: tabs.map(tab => (
+          <Tabbed.Panel key={tab.for} id={tab.for}>
+            <h1>{tab.label}</h1>
+            <p>{generator.paragraph()}</p>
+          </Tabbed.Panel>
+        )),
+      };
 
-    it('renders the active indicator', () => {
-      expect(component.find(asTestAttr('active-indicator'))).toHaveLength(1);
+      render(<Tabbed {...props} />);
+
+      const component = screen.getByTestId('cb-tabbed');
+      const activeIndicator = screen.getByTestId('active-indicator');
+
+      expect(component).toBeTruthy();
+      expect(activeIndicator).toBeTruthy();
     });
 
     it('renders all the individual tabs', () => {
-      expect(component.find(`label${asTestAttr('tab')}`)).toHaveLength(amount);
+      const props = {
+        tabs,
+        children: tabs.map(tab => (
+          <Tabbed.Panel key={tab.for} id={tab.for}>
+            <h1>{tab.label}</h1>
+            <p>{generator.paragraph()}</p>
+          </Tabbed.Panel>
+        )),
+      };
+
+      render(<Tabbed {...props} />);
+
+      expect(screen.getAllByTestId('tab')).toHaveLength(amount);
     });
 
     it('sets tab as active on tab click', () => {
+      const props = {
+        tabs,
+        children: tabs.map(tab => (
+          <Tabbed.Panel key={tab.for} id={tab.for}>
+            <h1>{tab.label}</h1>
+            <p>{generator.paragraph()}</p>
+          </Tabbed.Panel>
+        )),
+      };
+
+      render(<Tabbed {...props} />);
+
+      const tabComponents = screen.getAllByRole('tab');
       const at = generator.natural({ min: 0, max: amount - 1 });
 
-      component.find(asTestAttr('tab')).at(at).find('label').simulate('click');
-
-      wrapper.update();
-
-      component = findByTestAttr(wrapper, 'cb-tabs');
-      const tab = component.find(asTestAttr('tab')).at(at);
-
-      expect(tab.hasClass('is-active')).toBe(true);
+      userEvent.click(tabComponents[at]);
+      expect(tabComponents[at]).toHaveClass('is-active');
     });
   });
 
@@ -70,37 +84,14 @@ describe('Tabbed', () => {
         children: jest.fn(),
       };
 
-      const wrapper = shallow(<Tab {...props} />).dive();
-      const component = findByTestAttr(wrapper, 'tab');
+      render(<Tab {...props} />);
+      const component = screen.getByRole('tab');
 
-      expect(component).toHaveLength(1);
+      expect(component).toBeTruthy();
       expect(props.children).toHaveBeenCalledWith({
         id: props.id,
         active: props.active,
       });
-    });
-  });
-
-  describe('Tabs', () => {
-    beforeEach(() => {
-      jest.restoreAllMocks();
-    });
-
-    it('updates active indicator when prop `active` changes', () => {
-      const props = {
-        id: generator.id(),
-        active: 1,
-        children: jest.fn(),
-      };
-
-      const wrapper = mount(<Tabs {...props} />);
-      const instance = wrapper.instance();
-
-      instance.moveTabIndicatorToActiveTab = jest.fn();
-
-      wrapper.setProps({ active: 2 });
-
-      expect(instance.moveTabIndicatorToActiveTab).toHaveBeenCalled();
     });
   });
 
@@ -128,12 +119,13 @@ describe('Tabbed', () => {
       )),
     };
 
-    const wrapper = mount(<Tabbed {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-tabs');
-    const dropdown = findByTestAttr(component, 'cb-dropdown');
-
     it(`renders a dropdown`, () => {
-      expect(dropdown).toHaveLength(1);
+      render(<Tabbed {...props} />);
+      const component = screen.getByTestId('cb-tabs');
+      const dropdown = screen.getByTestId('cb-dropdown');
+
+      expect(component).toBeTruthy();
+      expect(dropdown).toBeTruthy();
     });
 
     // TODO: test amount of tabs and dropdown items
@@ -146,10 +138,11 @@ describe('Tabbed', () => {
       id: generator.id(),
     };
 
-    const wrapper = shallow(<Tabbed.Panel {...props} />);
-    const event = { target: { id: props.id } };
+    render(<Tabbed.Panel {...props} />);
 
-    wrapper.find(asTestAttr('panel-radio')).simulate('focus', event);
+    const event = { target: { id: props.id } };
+    const radio = screen.getByTestId('panel-radio');
+    fireEvent.focus(radio, event);
 
     expect(props.onFocus).toHaveBeenCalledWith({ id: event.target.id });
   });

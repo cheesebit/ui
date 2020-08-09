@@ -1,11 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 const PageFooter = ({ className, children, ...others }) => {
   return (
     <footer
       {...others}
-      className={classNames('footer', className)}
+      className={clsx('footer', className)}
       data-testid="page-footer"
     >
       {children}

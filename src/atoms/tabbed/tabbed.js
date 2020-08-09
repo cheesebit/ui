@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
@@ -63,7 +63,7 @@ class Tabbed extends React.PureComponent {
   get classes() {
     const { className, disabled } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-tabbed',
       {
         'is-disabled': disabled,
@@ -111,7 +111,7 @@ class Tabbed extends React.PureComponent {
 
     return (
       <section
-        data-testid="c-tabbed"
+        data-testid="cb-tabbed"
         {...omit(OMITTED_PROPS, others)}
         id={this.id}
         className={this.classes}

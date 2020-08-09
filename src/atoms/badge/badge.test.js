@@ -4,21 +4,22 @@ import { Badge, Variant } from './index';
 import { render, screen } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
-describe('Badge', () => {
+describe('<Badge />', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
-    render(<Badge {...props} />);
+    const { getByTestId } = render(<Badge {...props} />);
 
-    expect(screen.getByTestId('cb-badge')).toHaveTextContent(props.children);
+    const component = getByTestId('cb-badge');
+    expect(component).toHaveTextContent(props.children);
   });
 
   describe('with variant', () => {
     it(`renders correctly with variant ${Variant.primary}`, () => {
       const props = { children: generator.word(), variant: Variant.primary };
 
-      render(<Badge {...props} />);
+      const { getByTestId } = render(<Badge {...props} />);
 
-      const component = screen.getByTestId('cb-badge');
+      const component = getByTestId('cb-badge');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toHaveClass('-primary');
@@ -27,9 +28,9 @@ describe('Badge', () => {
     it(`renders correctly with variant ${Variant.secondary}`, () => {
       const props = { children: generator.word(), variant: Variant.secondary };
 
-      render(<Badge {...props} />);
+      const { getByTestId } = render(<Badge {...props} />);
 
-      const component = screen.getByTestId('cb-badge');
+      const component = getByTestId('cb-badge');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toHaveClass('-secondary');
@@ -38,9 +39,9 @@ describe('Badge', () => {
     it(`renders correctly with variant ${Variant.terciary}`, () => {
       const props = { children: generator.word(), variant: Variant.terciary };
 
-      render(<Badge {...props} />);
+      const { getByTestId } = render(<Badge {...props} />);
 
-      const component = screen.getByTestId('cb-badge');
+      const component = getByTestId('cb-badge');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toHaveClass('-terciary');

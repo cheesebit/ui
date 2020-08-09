@@ -1,16 +1,16 @@
 import { DEFAULT } from '../../common/constants';
 import { isEmpty, merge, path } from '../../common/toolset';
-import { Mode, Position } from '../tooltip';
+import { Mode, Placement } from '../tooltip';
 
 const DEFAULT_TOOLTIP = {
-  mode: Mode.DARK,
-  position: Position.TOP,
+  mode: Mode.dark,
+  position: Placement.top,
   text: '',
 };
 
 const DEFAULT_FEEDBACK = {
-  mode: Mode.DARK,
-  position: Position.TOP,
+  mode: Mode.dark,
+  position: Placement.top,
   text: '',
 };
 

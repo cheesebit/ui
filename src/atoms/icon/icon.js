@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { isNil, keys } from '../../common/toolset';
@@ -15,7 +15,7 @@ class Icon extends React.PureComponent {
   get classes() {
     const { className } = this.props;
 
-    return classNames('cb-icon', className);
+    return clsx('cb-icon', className);
   }
 
   get style() {

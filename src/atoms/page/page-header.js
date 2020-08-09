@@ -1,11 +1,11 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 const PageHeader = ({ className, children, ...others }) => {
   return (
     <header
       {...others}
-      className={classNames('header', className)}
+      className={clsx('header', className)}
       data-testid="page-header"
     >
       {children}

@@ -1,64 +1,49 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
 
+import { screen, render, userEvent } from '../../../test/helpers';
 import { Tooltip } from './index';
-import { findByTestAttr } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
-import { prop } from 'ramda';
 
 describe('Tooltip', () => {
-  it('renders untouched children if no text/title is provided', () => {
+  it('renders untouched children if no title is provided', () => {
     const props = {
       children: <span>{generator.word()}</span>,
     };
 
-    const wrapper = shallow(<Tooltip {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-tooltip');
+    render(<Tooltip {...props} />);
 
-    expect(component).toHaveLength(0);
-    expect(wrapper.contains(props.children)).toBe(true);
+    expect(screen.queryByTestId('cb-tooltip')).toBeNull();
   });
 
-  it('renders correctly with text prop', () => {
+  it('renders correctly with title prop', () => {
     const props = {
-      text: generator.sentence(),
+      title: generator.sentence(),
       children: <span>{generator.word()}</span>,
     };
 
-    const wrapper = shallow(<Tooltip {...props} />);
-    const component = wrapper.find('.cb-tooltip');
+    render(<Tooltip {...props} />);
+    const component = screen.getByTestId('cb-tooltip');
 
-    expect(component).toHaveLength(1);
-    expect(component.prop('aria-label')).toEqual(props.text);
-    expect(component.prop('data-title')).toEqual(props.text);
+    expect(component).not.toHaveClass('is-visible');
+    expect(component).toHaveTextContent(props.title);
   });
 
-  it("renders correctly with child's title prop", () => {
-    const title = generator.sentence();
+  it('shows up when use hovers the anchor element (children)', () => {
+    const anchorText = generator.word();
+
     const props = {
-      children: <span title={title}>{generator.word()}</span>,
+      title: generator.sentence(),
+      children: <span>{anchorText}</span>,
     };
 
-    const wrapper = shallow(<Tooltip {...props} />);
-    const component = wrapper.find('.cb-tooltip');
+    render(<Tooltip {...props} />);
 
-    expect(component).toHaveLength(1);
-    expect(component.prop('aria-label')).toEqual(title);
-    expect(component.prop('data-title')).toEqual(title);
-  });
+    const component = screen.getByTestId('cb-tooltip');
+    const anchor = screen.getByText(anchorText);
 
-  it("renders prop text as tooltip instead child's title prop", () => {
-    const title = generator.sentence();
-    const props = {
-      text: generator.sentence(),
-      children: <span title={title}>{generator.word()}</span>,
-    };
+    userEvent.hover(anchor);
 
-    const wrapper = shallow(<Tooltip {...props} />);
-    const component = wrapper.find('.cb-tooltip');
-
-    expect(component).toHaveLength(1);
-    expect(component.prop('aria-label')).toEqual(props.text);
-    expect(component.prop('data-title')).toEqual(props.text);
+    expect(component).toHaveClass('is-visible');
+    expect(component).toHaveTextContent(props.title);
   });
 });

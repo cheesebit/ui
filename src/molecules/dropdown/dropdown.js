@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { ClickOutside } from '../../hocs/click-outside';
@@ -37,7 +37,7 @@ class Dropdown extends React.PureComponent {
     const { className, unroll } = this.props;
     const { collapsed } = this.state;
 
-    return classNames(
+    return clsx(
       'cb-dropdown',
       {
         '-unroll-right': equals(unroll, 'right'),
@@ -121,7 +121,7 @@ class Dropdown extends React.PureComponent {
           data-testid="cb-dropdown"
           {...omit(OMITTED_PROPS, others)}
           ref={ref}
-          className={classNames(this.classes)}
+          className={clsx(this.classes)}
           id={this.id}
           style={style}
         >

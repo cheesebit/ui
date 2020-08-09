@@ -1,0 +1,19 @@
+.cb-animation-pulse {
+  @include animation(pulse);
+}
+
+.cb-animation-fade-in {
+  @include animation(fade-in);
+}
+
+.cb-animation-enter {
+  @include animation(enter);
+}
+
+.cb-animation-enter-up {
+  @include animation(enter-up, $timing: ease-in);
+}
+
+.cb-animation-exit-down {
+  @include animation(exit-down, $timing: ease-out);
+}

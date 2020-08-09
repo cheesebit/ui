@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -23,11 +23,7 @@ const Checkbox = ({
       paddingless={paddingless}
       stretched={stretched}
       trailing={trailing}
-      className={classNames(
-        'cb-checkbox',
-        { 'is-disabled': disabled },
-        className,
-      )}
+      className={clsx('cb-checkbox', { 'is-disabled': disabled }, className)}
       data-testid="cb-checkbox"
       leading={
         <React.Fragment>
@@ -36,6 +32,7 @@ const Checkbox = ({
             disabled={disabled}
             type="checkbox"
             className="selector"
+            data-testid="selector"
           />
           <Icon name="check" className="check" size={14} />
         </React.Fragment>

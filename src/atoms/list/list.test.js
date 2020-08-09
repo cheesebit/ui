@@ -1,9 +1,8 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { render, screen } from '../../../test/helpers';
 import { List } from './index';
-import { values } from '../../common/toolset';
 import generator from '../../../test/data-generator';
 
 describe('List', () => {
@@ -12,11 +11,11 @@ describe('List', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<List {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-list');
+    const { getByTestId } = render(<List {...props} />);
+    const component = getByTestId('cb-list');
 
-    expect(component).toHaveLength(1);
-    expect(component.contains(props.children)).toBe(true);
+    expect(component).toBeTruthy();
+    expect(component).toHaveTextContent(props.children);
   });
 
   it('renders bordered correctly', () => {
@@ -25,11 +24,10 @@ describe('List', () => {
       bordered: true,
     };
 
-    const wrapper = shallow(<List {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-list');
+    const { getByTestId } = render(<List {...props} />);
+    const component = getByTestId('cb-list');
 
-    expect(component).toHaveLength(1);
-    expect(component.hasClass('-bordered')).toBe(true);
+    expect(component).toHaveClass('-bordered');
   });
 
   it('renders hoverable correctly', () => {
@@ -38,11 +36,10 @@ describe('List', () => {
       hoverable: true,
     };
 
-    const wrapper = shallow(<List {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-list');
+    const { getByTestId } = render(<List {...props} />);
+    const component = getByTestId('cb-list');
 
-    expect(component).toHaveLength(1);
-    expect(component.hasClass('-hoverable')).toBe(true);
+    expect(component).toHaveClass('-hoverable');
   });
 
   it('renders striped correctly', () => {
@@ -51,11 +48,10 @@ describe('List', () => {
       striped: true,
     };
 
-    const wrapper = shallow(<List {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-list');
+    const { getByTestId } = render(<List {...props} />);
+    const component = getByTestId('cb-list');
 
-    expect(component).toHaveLength(1);
-    expect(component.hasClass('-striped')).toBe(true);
+    expect(component).toHaveClass('-striped');
   });
 
   it('render list item correctly', () => {
@@ -63,10 +59,10 @@ describe('List', () => {
       children: generator.sentence(),
     };
 
-    const wrapper = shallow(<List.Item {...props} />);
-    const component = findByTestAttr(wrapper, 'list-item');
+    const { getByTestId } = render(<List.Item {...props} />);
+    const component = getByTestId('list-item');
 
-    expect(component).toHaveLength(1);
+    expect(component).toBeTruthy();
   });
 
   it('render disabled list item correctly', () => {
@@ -75,10 +71,10 @@ describe('List', () => {
       disabled: true,
     };
 
-    const wrapper = shallow(<List.Item {...props} />);
-    const component = findByTestAttr(wrapper, 'list-item');
+    const { getByTestId } = render(<List.Item {...props} />);
+    const component = getByTestId('list-item');
 
-    expect(component).toHaveLength(1);
-    expect(component.hasClass('is-disabled')).toBe(true);
+    expect(component).toBeTruthy();
+    expect(component).toHaveClass('is-disabled');
   });
 });

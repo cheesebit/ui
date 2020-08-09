@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 
 import { Spinner, Variant } from './index';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { render } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Spinner', () => {
@@ -12,43 +12,42 @@ describe('Spinner', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Spinner {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-spinner');
+    const { getByTestId } = render(<Spinner {...props} />);
+    const component = getByTestId('cb-spinner');
 
-    expect(component).toHaveLength(1);
-    expect(component.find('.circle')).toHaveLength(1);
-    expect(component.text()).toContain(props.children);
+    expect(component).toBeTruthy();
+    expect(component).toHaveTextContent(props.children);
   });
 
   describe('with variant', () => {
     it(`renders correctly with variant ${Variant.primary}`, () => {
       const props = { children: generator.word(), variant: Variant.primary };
 
-      const wrapper = shallow(<Spinner {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-spinner');
+      const { getByTestId } = render(<Spinner {...props} />);
+      const component = getByTestId('cb-spinner');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-primary')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-primary');
     });
 
     it(`renders correctly with variant ${Variant.secondary}`, () => {
       const props = { children: generator.word(), variant: Variant.secondary };
 
-      const wrapper = shallow(<Spinner {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-spinner');
+      const { getByTestId } = render(<Spinner {...props} />);
+      const component = getByTestId('cb-spinner');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-secondary')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-secondary');
     });
 
     it(`renders correctly with variant ${Variant.terciary}`, () => {
       const props = { children: generator.word(), variant: Variant.terciary };
 
-      const wrapper = shallow(<Spinner {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-spinner');
+      const { getByTestId } = render(<Spinner {...props} />);
+      const component = getByTestId('cb-spinner');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-terciary')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-terciary');
     });
   });
 });

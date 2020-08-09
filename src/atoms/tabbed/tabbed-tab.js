@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { isFunction } from '../../common/toolset';
 import { Box } from '../box';
@@ -8,7 +8,7 @@ class Tab extends React.PureComponent {
   get classes() {
     const { active, className, disabled } = this.props;
 
-    return classNames(
+    return clsx(
       'tab',
       {
         'is-active': active,
@@ -40,9 +40,9 @@ class Tab extends React.PureComponent {
 
     return (
       <Box
-        data-testid="tab"
         borderless
         {...others}
+        data-testid="tab"
         as="label"
         className={this.classes}
         role="tab"

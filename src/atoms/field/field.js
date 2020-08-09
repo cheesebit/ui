@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -27,7 +27,7 @@ class Field extends React.PureComponent {
   get classes() {
     const { className, variant } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-field',
       {
         '-danger': equals(variant, Variant.danger),
@@ -77,7 +77,7 @@ class Field extends React.PureComponent {
         className="tooltip"
         mode={mode}
         position={position}
-        text={text}
+        title={text}
         data-testid="field-tooltip"
       >
         <Anchor data-testid="tooltip-anchor">

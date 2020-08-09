@@ -1,38 +1,28 @@
 import React from 'react';
-import { shallow, mount } from 'enzyme';
 
+import { render, screen, fireEvent } from '../../../test/helpers';
 import { Radio } from './index';
-import { findByTestAttr } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Radio', () => {
-  const label = generator.word();
   const props = {
-    children: label,
+    children: generator.word(),
     onChange: jest.fn(),
   };
 
+  const { getByTestId } = render(<Radio {...props} />);
+
+  const component = screen.getByTestId('cb-radio');
+  const selector = getByTestId('selector');
+
   it('renders correctly', () => {
-    const wrapper = shallow(<Radio {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-radio').dive();
-
-    expect(component).toHaveLength(1);
-    expect(component.find('input[type="radio"].selector')).toHaveLength(1);
-  });
-
-  it('renders descendants correctly', () => {
-    const wrapper = shallow(<Radio {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-radio').dive();
-
-    expect(component.text()).toContain(label);
+    expect(component).toHaveTextContent(props.children);
+    expect(selector).toHaveAttribute('type', 'radio');
   });
 
   it('triggers onChange when clicked', () => {
-    const wrapper = shallow(<Radio {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-radio').dive();
-    const input = component.find('input[type="radio"].selector');
-    input.simulate('change');
-
-    expect(props.onChange.mock.calls.length).toEqual(1);
+    expect(selector.checked).toBe(false);
+    fireEvent.click(selector);
+    expect(selector.checked).toBe(true);
   });
 });

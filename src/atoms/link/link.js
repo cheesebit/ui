@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
@@ -36,7 +36,7 @@ const Link = ({
 }) => {
   ({ rel, href } = sanitizeProps({ target, rel, href }));
 
-  const classes = classNames(className, 'cb-link', {
+  const classes = clsx(className, 'cb-link', {
     'is-disabled': disabled,
   });
 
@@ -46,7 +46,7 @@ const Link = ({
       alt={alt}
       aria-label={alt || title}
       className={classes}
-      data-testid="c-link"
+      data-testid="cb-link"
       href={href}
       rel={rel}
       target={target}

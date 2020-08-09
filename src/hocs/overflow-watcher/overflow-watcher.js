@@ -50,7 +50,7 @@ class OverflowWatcher extends React.Component {
     const totalChildren = matchingChildren.length;
 
     const from = 0;
-    let to = from;
+    let to = totalChildren;
 
     if (totalChildren > 0) {
       let occupiedWidth = offset;

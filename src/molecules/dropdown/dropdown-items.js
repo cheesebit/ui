@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
@@ -23,7 +23,7 @@ const DropdownItems = ({
       data-testid="items"
       {...others}
       hoverable={hoverable}
-      className={classNames('menu', className)}
+      className={clsx('menu', className)}
     >
       {(items || DEFAULT.ARRAY).map(item => (
         <DropdownItem key={item.id} {...item} />

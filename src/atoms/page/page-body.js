@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
@@ -9,7 +9,7 @@ const PageBody = ({ className, children, borderless, ...others }) => {
   return (
     <article
       {...others}
-      className={classNames('body', className, evaluateBorderless(borderless))}
+      className={clsx('body', className, evaluateBorderless(borderless))}
       data-testid="page-body"
     >
       {children}

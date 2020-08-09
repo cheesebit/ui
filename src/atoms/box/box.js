@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { omit, isNil } from '../../common/toolset';
@@ -25,7 +25,7 @@ class Box extends React.PureComponent {
   get classes() {
     const { borderless, paddingless, stretched, className } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-box',
       { '-stretched': stretched },
       evaluateBorderless(borderless),

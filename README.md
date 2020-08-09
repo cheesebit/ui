@@ -1,4 +1,8 @@
-# Cheesebit UI
+<p align="center">
+  <a href="https://material-ui.com/" rel="noopener" target="_blank"><img width="150" src="https://ui.cheesebit.io/#logo-source" alt="Material-UI logo"></a></p>
+</p>
+
+<h1 align="center">Cheesebit UI</h1>
 
 [![build status](https://img.shields.io/travis/cheesebit/ui?style=flat-square)](https://gitlab.com/cheesebit/cheesebit-ui)
 [![Coverage Status](https://img.shields.io/coveralls/github/cheesebit/ui?style=flat-square)](https://coveralls.io/github/cheesebit/ui)
@@ -34,6 +38,10 @@ Checkout our docs and demo [here](https://ui.cheesebit.io).
   - [RSCSS](https://rscss.io/)
   - [SMACSS](http://smacss.com/)
 - [Atomic Design](https://atomicdesign.bradfrost.com/)
+- [Testing Library](https://testing-library.com/)
+
+## Head-scratching things and their solutions
+1. Functions provided as reducer for `useReducer` is called twice due to development behavior of Strict mode. Since it can’t automatically detect side effects, it tries to help you to spot them by intentionally double-invoking functions like `useState`, `useMemo`, or `useReduce` (among others) [as per React docs](https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects) . You can check the discussion [here](https://github.com/facebook/react/issues/16295).
 
 ## Who am I?
 

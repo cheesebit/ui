@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { isFunction } from '../../common/toolset';
 import WizardContext from './wizard-context';
@@ -24,7 +24,7 @@ const Step = ({ id, children, className, ...others }) => {
         value={id}
         data-testid="step-radio"
       />
-      <div {...others} className={classNames('step', className)}>
+      <div {...others} className={clsx('step', className)}>
         {renderChildren(children)}
       </div>
     </React.Fragment>

@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import {
   equals,
@@ -68,7 +68,7 @@ function evaluateSidedProp(prop, value) {
     return `cb-no-${prop}`;
   }
 
-  return classNames({
+  return clsx({
     [`cb-no-top-${prop}`]: valueAsArray.some(v =>
       ['top', 'vertical'].includes(v),
     ),

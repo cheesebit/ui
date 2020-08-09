@@ -1,4 +1,4 @@
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { equals } from '../../common/toolset';
@@ -14,7 +14,7 @@ export const Variant = {
  * This component represents our loading spinner.
  */
 const Spinner = ({ children, className, variant, size, ...others }) => {
-  const classes = classNames(
+  const classes = clsx(
     'cb-spinner',
     {
       '-primary': equals(variant, Variant.primary),

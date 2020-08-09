@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { equals } from '../../common/toolset';
@@ -23,7 +23,7 @@ class Input extends React.PureComponent {
   get classes() {
     const { className, variant } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-input',
       {
         '-danger': equals(variant, Variant.danger),

@@ -1,4 +1,3 @@
-import { render, queries } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 
 const customRender = (ui, options) =>
@@ -6,9 +5,13 @@ const customRender = (ui, options) =>
 
 // re-export everything
 export * from '@testing-library/react';
+// export { fireEvent } from '@testing-library/dom';
+export { default as userEvent } from '@testing-library/user-event';
 
 // override render method
-export { customRender as render };
+// export { customRender as render };
+
+// ----------------------------------------------------------------------
 
 // ------- enzyme
 import Adapter from 'enzyme-adapter-react-16';

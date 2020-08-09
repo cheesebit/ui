@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Box } from './index';
 import { keys, toArray } from '../../common/toolset';
-import { render, screen, getByText } from '../../../test/helpers';
+import { render, getByText } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 const SIDES = {
@@ -14,13 +14,13 @@ const SIDES = {
   vertical: ['top', 'bottom'],
 };
 
-describe('Box', () => {
+describe('<Box />', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
 
-    render(<Box {...props} />);
+    const { getByTestId } = render(<Box {...props} />);
 
-    const component = screen.getByTestId('cb-box');
+    const component = getByTestId('cb-box');
 
     expect(component).toHaveTextContent(props.children);
   });
@@ -31,9 +31,9 @@ describe('Box', () => {
       as: generator.pick(['div', 'span', 'section']),
     };
 
-    render(<Box {...props} />);
+    const { getByTestId } = render(<Box {...props} />);
 
-    const component = screen.getByTestId('cb-box', { selector: props.as });
+    const component = getByTestId('cb-box', { selector: props.as });
 
     expect(component).toHaveTextContent(props.children);
     expect(component).toBeInTheDocument();
@@ -45,8 +45,8 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    render(<Box {...props} />);
-    const component = screen.getByTestId('cb-box');
+    const { getByTestId } = render(<Box {...props} />);
+    const component = getByTestId('cb-box');
 
     expect(component).toHaveTextContent(props.children);
     expect(getByText(component, props.leading)).toBeTruthy();
@@ -58,8 +58,8 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    render(<Box {...props} />);
-    const component = screen.getByTestId('cb-box');
+    const { getByTestId } = render(<Box {...props} />);
+    const component = getByTestId('cb-box');
 
     expect(component).toHaveTextContent(props.children);
     expect(getByText(component, props.trailing)).toBeTruthy();
@@ -71,8 +71,8 @@ describe('Box', () => {
       children: generator.word(),
     };
 
-    render(<Box {...props} />);
-    const component = screen.getByTestId('cb-box');
+    const { getByTestId } = render(<Box {...props} />);
+    const component = getByTestId('cb-box');
 
     expect(component).toHaveTextContent(props.children);
     expect(component).toHaveClass('-stretched');
@@ -85,8 +85,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toHaveClass('cb-no-padding');
@@ -98,8 +98,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 
@@ -118,8 +118,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 
@@ -139,8 +139,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 
@@ -161,8 +161,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toHaveClass('cb-no-border');
@@ -174,8 +174,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 
@@ -194,8 +194,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 
@@ -215,8 +215,8 @@ describe('Box', () => {
         children: generator.word(),
       };
 
-      render(<Box {...props} />);
-      const component = screen.getByTestId('cb-box');
+      const { getByTestId } = render(<Box {...props} />);
+      const component = getByTestId('cb-box');
 
       expect(component).toHaveTextContent(props.children);
 

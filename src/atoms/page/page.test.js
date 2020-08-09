@@ -1,9 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Page } from './index';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { render, getByTestId } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Page', () => {
@@ -12,74 +11,32 @@ describe('Page', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Page {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-page');
+    const { getByTestId } = render(<Page {...props} />);
+    const component = getByTestId('cb-page');
 
-    expect(component).toHaveLength(1);
-    expect(component.text()).toContain(props.children);
+    expect(component).toBeTruthy();
+    expect(component).toHaveTextContent(props.children);
   });
 
   it('renders header correctly', () => {
-    const headerProps = {
+    const props = {
       children: generator.sentence(),
     };
 
-    const props = {
-      children: (
-        <React.Fragment>
-          <Page.Header {...headerProps} />
-        </React.Fragment>
-      ),
-    };
+    const { getByText } = render(<Page.Header {...props} />);
+    const component = getByText(props.children);
 
-    const wrapper = shallow(<Page {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-page');
-
-    expect(component).toHaveLength(1);
-    expect(wrapper.find(Page.Header)).toHaveLength(1);
+    expect(component).toBeTruthy();
   });
 
   it('renders body correctly', () => {
-    const bodyProps = {
-      children: generator.sentence(),
-    };
-
-    const props = {
-      children: (
-        <React.Fragment>
-          <Page.Body {...bodyProps} />
-        </React.Fragment>
-      ),
-    };
-
-    const wrapper = shallow(<Page {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-page');
-
-    expect(component).toHaveLength(1);
-    expect(wrapper.find(Page.Body)).toHaveLength(1);
-  });
-
-  it('renders header content correctly', () => {
     const props = {
       children: generator.sentence(),
     };
 
-    const wrapper = shallow(<Page.Header {...props} />);
-    const component = findByTestAttr(wrapper, 'page-header');
+    const { getByText } = render(<Page.Body {...props} />);
+    const component = getByText(props.children);
 
-    expect(component).toHaveLength(1);
-    expect(component.text()).toContain(props.children);
-  });
-
-  it('renders body content correctly', () => {
-    const props = {
-      children: generator.sentence(),
-    };
-
-    const wrapper = shallow(<Page.Body {...props} />);
-    const component = findByTestAttr(wrapper, 'page-body');
-
-    expect(component).toHaveLength(1);
-    expect(component.text()).toContain(props.children);
+    expect(component).toBeTruthy();
   });
 });

@@ -1,11 +1,12 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { equals, omit } from '../../common/toolset';
 import { Icon } from '../icon';
 import { resolveProp } from '../../common/props-toolset';
+import { withForwardedRef } from '../../hocs/with-forwarded-ref';
 
 import './button.scss';
 
@@ -30,7 +31,7 @@ class Button extends React.PureComponent {
   get classes() {
     const { className, emphasis, size, roundless } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-button',
       {
         '-flat': equals(emphasis, Emphasis.flat),
@@ -57,7 +58,7 @@ class Button extends React.PureComponent {
   }
 
   render() {
-    const { type, children, ...others } = this.props;
+    const { type, ...others } = this.props;
 
     return (
       <Box
@@ -68,9 +69,7 @@ class Button extends React.PureComponent {
         type={type}
         className={this.classes}
         leading={this.renderLeading()}
-      >
-        {children && <span className="children">{children}</span>}
-      </Box>
+      />
     );
   }
 }
@@ -138,4 +137,4 @@ Button.defaultProps = {
   disabled: false,
 };
 
-export default Button;
+export default withForwardedRef(Button);

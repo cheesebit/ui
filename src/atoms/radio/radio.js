@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
@@ -23,7 +23,7 @@ const Radio = ({
       paddingless={paddingless}
       stretched={stretched}
       trailing={trailing}
-      className={classNames('cb-radio', { 'is-disabled': disabled }, className)}
+      className={clsx('cb-radio', { 'is-disabled': disabled }, className)}
       data-testid="cb-radio"
       leading={
         <React.Fragment>
@@ -32,6 +32,7 @@ const Radio = ({
             type="radio"
             disabled={disabled}
             className="selector"
+            data-testid="selector"
           />
           <Icon name="circle" className="circle" size={16} />
         </React.Fragment>

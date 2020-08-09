@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import './overlay.scss';
@@ -13,7 +13,7 @@ export const Theme = {
 
 const Overlay = ({ className, children, theme, ...others }) => (
   <div
-    className={classNames(
+    className={clsx(
       'cb-overlay',
       {
         '-light': equals(theme)(Theme.light),

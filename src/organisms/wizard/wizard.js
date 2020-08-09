@@ -1,33 +1,33 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Button, Emphasis } from '../../atoms/button';
 import { isNil, getID } from '../../common/toolset';
-import {
-  NEXT_ICON,
-  NEXT_PADDINGLESS,
-  PREVIOUS_ICON,
-  PREVIOUS_PADDINGLESS,
-} from './constants';
 import { resolveProp } from '../../common/props-toolset';
 import DOMHelper from './dom-helper';
 import Step from './wizard-step';
-import useWizard from '../../hooks/useWizard';
+import useWizard from './use-wizard';
 import WizardContext from './wizard-context';
 
 import './wizard.scss';
 
+const PREVIOUS_ICON = { name: 'arrow-back', size: 24 };
+const PREVIOUS_PADDINGLESS = ['vertical', 'left'];
+
+const NEXT_ICON = { name: 'arrow-forward', size: 24 };
+const NEXT_PADDINGLESS = ['vertical', 'right'];
+
 const Wizard = ({ id, className, children, title, flow, ...others }) => {
-  const { transition, states, active, contextValue } = useWizard({
+  const { transition, states, current, contextValue } = useWizard({
     ...others,
     id,
     flow,
   });
 
   React.useEffect(() => {
-    // updates radio input associated to the active step
-    !isNil(active) && DOMHelper.check({ id: active });
-  }, [active]);
+    // updates radio input associated to the current step
+    !isNil(current) && DOMHelper.check({ id: current });
+  }, [current]);
 
   const transitionToPrevious = React.useCallback(() => {
     transition('previous');
@@ -38,15 +38,15 @@ const Wizard = ({ id, className, children, title, flow, ...others }) => {
   }, [transition]);
 
   return (
-    <article id={id} className={classNames('cc-wizard', className)} {...others}>
+    <article id={id} className={clsx('cc-wizard', className)} {...others}>
       <header className="header">
         <Button
           emphasis={Emphasis.text}
           icon={PREVIOUS_ICON}
           onClick={transitionToPrevious}
           paddingless={PREVIOUS_PADDINGLESS}
-          className={classNames({
-            'cb-u-is-invisible': isNil(states?.previous),
+          className={clsx({
+            'cb-is-invisible': isNil(states?.previous),
           })}
         />
         <span className="title" {...resolveProp(title, 'children')} />
@@ -55,8 +55,8 @@ const Wizard = ({ id, className, children, title, flow, ...others }) => {
           icon={NEXT_ICON}
           onClick={transitionToNext}
           paddingless={NEXT_PADDINGLESS}
-          className={classNames({
-            'cb-u-is-invisible': isNil(states?.next),
+          className={clsx({
+            'cb-is-invisible': isNil(states?.next),
           })}
         />
       </header>

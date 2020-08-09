@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { DEFAULT } from '../../common/constants';
@@ -91,7 +91,7 @@ class Select extends React.PureComponent {
   get classes() {
     const { className } = this.props;
 
-    return classNames('cb-select', className);
+    return clsx('cb-select', className);
   }
 
   get options() {
@@ -155,7 +155,7 @@ class Select extends React.PureComponent {
     return (
       <Option
         key={value}
-        className={classNames({
+        className={clsx({
           'is-highlighted': Boolean(
             this.manager.getAttributeByNodeID(SELECTED, value),
           ),
@@ -190,7 +190,7 @@ class Select extends React.PureComponent {
         trailing={
           <span>
             <Icon
-              className={classNames({ 'cb-u-rotate-180': !collapsed })}
+              className={clsx({ 'cb-u-rotate-180': !collapsed })}
               name="expand-more"
               size={16}
             />

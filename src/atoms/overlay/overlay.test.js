@@ -1,9 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Overlay, Theme } from './index';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { render } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Overlay', () => {
@@ -12,11 +11,11 @@ describe('Overlay', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Overlay {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-overlay');
+    const { getByTestId } = render(<Overlay {...props} />);
+    const component = getByTestId('cb-overlay');
 
-    expect(component).toHaveLength(1);
-    expect(component.text()).toContain(props.children);
+    expect(component).toBeTruthy();
+    expect(component).toHaveTextContent(props.children);
   });
 
   describe('with theme', () => {
@@ -26,11 +25,11 @@ describe('Overlay', () => {
         theme: Theme.light,
       };
 
-      const wrapper = shallow(<Overlay {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-overlay');
+      const { getByTestId } = render(<Overlay {...props} />);
+      const component = getByTestId('cb-overlay');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-light')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-light');
     });
 
     it(`renders correctly with theme ${Theme.dark}`, () => {
@@ -39,11 +38,11 @@ describe('Overlay', () => {
         theme: Theme.dark,
       };
 
-      const wrapper = shallow(<Overlay {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-overlay');
+      const { getByTestId } = render(<Overlay {...props} />);
+      const component = getByTestId('cb-overlay');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-dark')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-dark');
     });
   });
 });

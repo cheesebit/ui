@@ -1,12 +1,12 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import { DEFAULT } from '../../common/constants';
 
 class Panel extends React.PureComponent {
   get classes() {
     const { className } = this.props;
 
-    return classNames(className, 'panel');
+    return clsx(className, 'panel');
   }
 
   get style() {

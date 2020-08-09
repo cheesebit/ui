@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Button, Size } from '../../atoms/button';
 import { Icon } from '../../atoms/icon';
@@ -9,7 +9,7 @@ class DropdownToggle extends React.PureComponent {
   get classes() {
     const { className, collapsed } = this.props;
 
-    return classNames(
+    return clsx(
       'toggle',
       {
         '-flat': !collapsed,
@@ -28,7 +28,7 @@ class DropdownToggle extends React.PureComponent {
     return (
       <span>
         <Icon
-          className={classNames({ 'cb-u-rotate-180': !collapsed })}
+          className={clsx({ 'cb-u-rotate-180': !collapsed })}
           name="expand-more"
           size={16}
         />

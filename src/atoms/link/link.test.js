@@ -1,7 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { screen, render } from '../../../test/helpers';
 import { Link } from './index';
 import { Target, Rel } from './link';
 import { values } from '../../common/toolset';
@@ -17,24 +17,24 @@ describe('Link', () => {
       target: generator.pick(values(Target)),
     };
 
-    const wrapper = shallow(<Link {...props} />);
-    const component = findByTestAttr(wrapper, 'c-link');
+    const { getByTestId } = render(<Link {...props} />);
+    const component = getByTestId('cb-link');
 
     it('renders correctly', () => {
-      expect(component).toHaveLength(1);
-      expect(component.prop('href')).toEqual(props.href);
-      expect(component.prop('alt')).toEqual(props.alt);
-      expect(component.prop('title')).toEqual(props.title);
-      expect(component.prop('target')).toEqual(props.target);
-      expect(component.text()).toBe(props.children);
+      expect(component).toBeTruthy();
+      expect(component).toHaveAttribute('href', props.href);
+      expect(component).toHaveAttribute('alt', props.alt);
+      expect(component).toHaveAttribute('title', props.title);
+      expect(component).toHaveAttribute('target', props.target);
+      expect(component).toHaveTextContent(props.children);
     });
 
     it(`adds ${Rel.noreferrer} to anchor element rel attribute`, () => {
-      expect(component.prop('rel')).toContain(Rel.noreferrer);
+      expect(component).toHaveAttribute('rel', Rel.noreferrer);
     });
 
     it('sets aria-label as the provided alt prop', () => {
-      expect(component.prop('aria-label')).toBe(props.alt);
+      expect(component).toHaveAttribute('aria-label', props.alt);
     });
 
     it('renders alt prop as aria-label, if provided', () => {
@@ -43,11 +43,10 @@ describe('Link', () => {
         alt: generator.sentence(),
       };
 
-      const wrapper = shallow(<Link {...props} />);
-      const component = findByTestAttr(wrapper, 'c-link');
+      const { getByLabelText } = render(<Link {...props} />);
+      const component = getByLabelText(props.alt);
 
-      expect(component).toHaveLength(1);
-      expect(component.prop('aria-label')).toEqual(props.alt);
+      expect(component).toBeTruthy();
     });
 
     it('renders title prop as aria-label, if no alt is provided', () => {
@@ -56,11 +55,10 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const wrapper = shallow(<Link {...props} />);
-      const component = findByTestAttr(wrapper, 'c-link');
+      const { getByLabelText } = render(<Link {...props} />);
+      const component = getByLabelText(props.title);
 
-      expect(component).toHaveLength(1);
-      expect(component.prop('aria-label')).toEqual(props.title);
+      expect(component).toBeTruthy();
     });
 
     it('renders "#" as href if none is provided', () => {
@@ -68,11 +66,11 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const wrapper = shallow(<Link {...props} />);
-      const component = findByTestAttr(wrapper, 'c-link');
+      const { getByTitle } = render(<Link {...props} />);
+      const component = getByTitle(props.title);
 
-      expect(component).toHaveLength(1);
-      expect(component.prop('href')).toEqual('#');
+      expect(component).toBeTruthy();
+      expect(component).toHaveAttribute('href', '#');
     });
 
     it(`renders "${Target.blank}" as target if none is provided`, () => {
@@ -80,11 +78,11 @@ describe('Link', () => {
         title: generator.sentence(),
       };
 
-      const wrapper = shallow(<Link {...props} />);
-      const component = findByTestAttr(wrapper, 'c-link');
+      const { getByTitle } = render(<Link {...props} />);
+      const component = getByTitle(props.title);
 
-      expect(component).toHaveLength(1);
-      expect(component.prop('target')).toEqual(Target.blank);
+      expect(component).toBeTruthy();
+      expect(component).toHaveAttribute('target', Target.blank);
     });
   });
 
@@ -96,15 +94,15 @@ describe('Link', () => {
       target: Target.blank,
     };
 
-    const wrapper = shallow(<Link {...props} />);
-    const component = findByTestAttr(wrapper, 'c-link');
+    const { getByTitle } = render(<Link {...props} />);
+    const component = getByTitle(props.alt);
 
     it('removes the insecure href prop', () => {
-      expect(component.prop('href')).toBeUndefined();
+      expect(component).not.toHaveAttribute('href');
     });
 
     it(`adds ${Rel.noopener} to anchor element rel attribute, due to the target ${Target.blank}`, () => {
-      expect(component.prop('rel')).toContain(Rel.noopener);
+      expect(component.getAttribute('rel').includes(Rel.noopener)).toBe(true);
     });
   });
 });

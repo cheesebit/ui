@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import { Button } from '../../atoms/button';
 
@@ -11,7 +11,7 @@ const Page = ({ className, onClick, page, ...others }) => {
   return (
     <Button
       {...others}
-      className={classNames('page', className)}
+      className={clsx('page', className)}
       onClick={handleClick}
     />
   );

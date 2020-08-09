@@ -1,60 +1,123 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { DEFAULT } from '../../common/constants';
-import { isBlank, values } from '../../common/toolset';
-import { MODE, POSITION } from './constants';
+import { equals, isNil } from '../../common/toolset';
+import { updatePosition } from './helpers';
+import { useAnimation } from '../../hooks/animation';
+import {
+  TOP_REGEX,
+  BOTTOM_REGEX,
+  RIGHT_REGEX,
+  LEFT_REGEX,
+  PHASES,
+} from './constants';
+import logger from '../../common/logger';
 
 import './tooltip.scss';
 
-/**
- * Component to show quick and short CSS-only tips.
- */
-class Tooltip extends React.PureComponent {
-  render() {
-    const { children, className, text, mode, position } = this.props;
-    const { props } = children;
-    const { title, className: childClassName } = props || DEFAULT.OBJECT;
+export const Mode = {
+  light: 'light',
+  dark: 'dark',
+};
 
-    if (isBlank(text) && isBlank(title)) {
-      return children;
-    }
+export const Placement = {
+  top: 'top',
+  bottom: 'bottom',
+  left: 'left',
+  right: 'right',
+};
 
-    return React.cloneElement(children, {
-      title: null,
-      'aria-label': text || title,
-      'data-title': text || title,
-      className: classNames(
-        'cb-tooltip',
-        {
-          'is-tooltip-light': mode === MODE.LIGHT,
-          'is-tooltip-dark': mode === MODE.DARK,
-          'is-tooltip-top': position === POSITION.TOP,
-          'is-tooltip-right': position === POSITION.RIGHT,
-          'is-tooltip-bottom': position === POSITION.BOTTOM,
-          'is-tooltip-left': position === POSITION.LEFT,
-        },
-        childClassName,
-        className,
-      ),
-    });
+const Tooltip = ({ children, className, title, mode, placement }) => {
+  const selfRef = React.useRef();
+  const [visible, setVisible] = React.useState(false); // test purpose
+  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+  const {
+    className: animationClassName,
+    onEnter,
+    onExit,
+    setTarget,
+  } = useAnimation(PHASES);
+
+  if (isNil(title) || isNil(children)) {
+    return children;
   }
-}
+
+  React.useEffect(() => {
+    setTarget(selfRef.current);
+  }, []);
+
+  const handleMouseEnter = e => {
+    logger.debug(
+      '[tooltip]',
+      e.currentTarget.offsetTop,
+      e.currentTarget.getBoundingClientRect().top,
+    );
+
+    setVisible(true);
+    setPosition(updatePosition(e.currentTarget, selfRef.current));
+    onEnter(e);
+  };
+
+  const handleMouseLeave = e => {
+    setVisible(false);
+    onExit(e);
+  };
+
+  return (
+    <React.Fragment>
+      {React.cloneElement(children, {
+        onMouseEnter: handleMouseEnter,
+        onMouseLeave: handleMouseLeave,
+      })}
+      <span
+        ref={selfRef}
+        title={null}
+        aria-label={title}
+        className={clsx(
+          'cb-tooltip',
+          {
+            '-light': equals(mode, Mode.light),
+            '-dark': equals(mode, Mode.dark),
+            '-top': TOP_REGEX.test(placement),
+            '-bottom': BOTTOM_REGEX.test(placement),
+            '-right': RIGHT_REGEX.test(placement),
+            '-left': LEFT_REGEX.test(placement),
+          },
+          {
+            'is-visible': visible,
+          },
+          animationClassName,
+          className,
+        )}
+        style={{
+          top: position.top,
+          left: position.left,
+        }}
+        data-testid="cb-tooltip"
+      >
+        {title}
+        <span className="arrow" />
+      </span>
+    </React.Fragment>
+  );
+};
 
 Tooltip.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   text: PropTypes.string,
-  position: PropTypes.oneOf(values(POSITION)),
-  mode: PropTypes.oneOf(values(MODE)),
+  placement: PropTypes.oneOf([
+    Placement.top,
+    Placement.bottom,
+    Placement.right,
+    Placement.left,
+  ]),
+  mode: PropTypes.oneOf([Mode.light, Mode.dark]),
 };
 
 Tooltip.defaultProps = {
-  position: POSITION.TOP,
-  mode: MODE.DARK,
+  placement: Placement.top,
+  mode: Mode.light,
 };
 
-Tooltip.POSITION = POSITION;
-Tooltip.MODE = MODE;
-
-export default Tooltip;
+export default React.memo(Tooltip);

@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { Box } from '../../atoms/box';
@@ -14,7 +14,7 @@ class Table extends React.PureComponent {
   get classes() {
     const { className } = this.props;
 
-    return classNames('cb-table', {}, className);
+    return clsx('cb-table', {}, className);
   }
 
   get columns() {

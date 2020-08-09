@@ -2,21 +2,33 @@ import React from 'react';
 
 import { Button } from './index';
 import { Emphasis, Size } from './button';
-import { asTestAttr, findByTestAttr } from '../../../test/helpers';
-import { Icon } from '../icon';
-import { shallow, mount } from 'enzyme';
+import { render, fireEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
-import { render, screen } from '../../../test/helpers';
 
-describe('Button', () => {
+describe('<Button />', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
 
-    render(<Button {...props} />);
+    const { getByTestId } = render(<Button {...props} />);
 
-    const component = screen.getByTestId('cb-button');
+    const component = getByTestId('cb-button');
 
-    expect(component).toBeInTheDocument();
+    expect(component).toHaveAttribute('type', 'button');
+    expect(component).toHaveTextContent(props.children);
+    expect(component).toHaveClass('-small');
+  });
+
+  it('renders with correct type', () => {
+    const props = {
+      type: generator.pick(['button', 'submit', 'reset']),
+      children: generator.word(),
+    };
+
+    const { getByTestId } = render(<Button {...props} />);
+
+    const component = getByTestId('cb-button');
+
+    expect(component).toHaveAttribute('type', props.type);
     expect(component).toHaveTextContent(props.children);
   });
 
@@ -27,10 +39,11 @@ describe('Button', () => {
         emphasis: Emphasis.text,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-text')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-text');
     });
 
     it('renders ghost emphasis correctly', () => {
@@ -39,10 +52,11 @@ describe('Button', () => {
         emphasis: Emphasis.ghost,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-ghost')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-ghost');
     });
 
     it('renders flat emphasis correctly', () => {
@@ -51,10 +65,11 @@ describe('Button', () => {
         emphasis: Emphasis.flat,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-flat')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-flat');
     });
   });
 
@@ -65,10 +80,11 @@ describe('Button', () => {
         size: Size.small,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-small')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-small');
     });
 
     it('renders the proper medium class', () => {
@@ -77,10 +93,11 @@ describe('Button', () => {
         size: Size.medium,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-medium')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-medium');
     });
 
     it('renders the proper large class', () => {
@@ -89,10 +106,11 @@ describe('Button', () => {
         size: Size.large,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.hasClass('-large')).toBe(true);
+      const component = getByTestId('cb-button');
+
+      expect(component).toHaveClass('-large');
     });
   });
 
@@ -102,12 +120,12 @@ describe('Button', () => {
         icon: 'search',
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button').dive();
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.contains(<Icon name="search" size={16} />)).toEqual(
-        true,
-      );
+      const component = getByTestId('cb-button');
+      const icon = getByTestId('cb-icon');
+
+      expect(component).toContainElement(icon);
     });
 
     it('with icon and label as children', () => {
@@ -117,14 +135,13 @@ describe('Button', () => {
         children: label,
       };
 
-      const wrapper = shallow(<Button {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-button').dive();
-      const icon = findByTestAttr(component, 'cb-icon');
+      const { getByTestId } = render(<Button {...props} />);
 
-      expect(component.contains(<Icon name="search" size={16} />)).toEqual(
-        true,
-      );
-      expect(component.text()).toContain(label);
+      const component = getByTestId('cb-button');
+      const icon = getByTestId('cb-icon');
+
+      expect(component).toHaveTextContent(props.children);
+      expect(component).toContainElement(icon);
     });
   });
 
@@ -134,11 +151,11 @@ describe('Button', () => {
       onClick: jest.fn(),
     };
 
-    const wrapper = shallow(<Button {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-button');
-    component.simulate('click');
+    const { getByTestId } = render(<Button {...props} />);
 
-    expect(props.onClick.mock.calls.length).toEqual(1);
+    const component = getByTestId('cb-button');
+    fireEvent.click(component);
+    expect(props.onClick).toHaveBeenCalled();
   });
 
   it('does not react when disabled', () => {
@@ -148,14 +165,12 @@ describe('Button', () => {
       onClick: jest.fn(),
     };
 
-    // using mount since shallow does not respect the disabled prop
-    const wrapper = mount(<Button {...props} />);
-    const component = wrapper.find(`button${asTestAttr('cb-button')}`);
+    const { getByTestId } = render(<Button {...props} />);
 
-    expect(component.prop('disabled')).toBe(true);
+    const component = getByTestId('cb-button');
 
-    // does nothing when clicked
-    component.simulate('click');
-    expect(props.onClick.mock.calls.length).toEqual(0);
+    expect(component).toHaveAttribute('disabled');
+    fireEvent.click(component);
+    expect(props.onClick).not.toHaveBeenCalled();
   });
 });

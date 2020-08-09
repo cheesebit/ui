@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { equals } from '../../common/toolset';
@@ -13,7 +13,7 @@ export const Variant = {
 };
 
 const Badge = ({ className, children, variant, ...others }) => {
-  const classes = classNames(
+  const classes = clsx(
     'cb-badge',
     {
       '-primary': equals(variant, Variant.primary),

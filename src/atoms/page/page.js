@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import PageHeader from './page-header';
 import PageBody from './page-body';
@@ -11,7 +11,7 @@ const Page = ({ className, children }) => {
   return (
     <article
       role="article"
-      className={classNames('cb-page', className)}
+      className={clsx('cb-page', className)}
       data-testid="cb-page"
     >
       {children}

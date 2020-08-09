@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import {
@@ -20,7 +20,7 @@ const Block = ({
   return (
     <section
       {...props}
-      className={classNames(
+      className={clsx(
         'cb-block',
         {
           '-main': main,

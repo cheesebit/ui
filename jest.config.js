@@ -4,6 +4,6 @@ module.exports = {
   },
   transform: {
     '^.+\\.js$': 'babel-jest',
-    '\\.svg$': './test/mocks/svg.mock',
+    '^.+\\.svg$': 'jest-svg-transformer',
   },
 };

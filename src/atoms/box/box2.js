@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { omit, isNil } from '../../common/toolset';
@@ -24,7 +24,7 @@ class Box extends React.PureComponent {
   get classes() {
     const { borderless, paddingless, stretched, className } = this.props;
 
-    return classNames(
+    return clsx(
       'cb-box2',
       { '-stretched': stretched },
       evaluateBorderless(borderless),
@@ -79,11 +79,12 @@ class Box extends React.PureComponent {
   }
 
   render() {
-    const { as: Tag = 'div', children, ...others } = this.props;
+    const { as: Tag = 'div', forwardedRef, children, ...others } = this.props;
 
     return (
       <Tag
         data-testid="cb-box"
+        ref={forwardedRef}
         {...omit(OMITTED_PROPS, others)}
         style={this.style}
         className={this.classes}

@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { Box } from '../box';
@@ -10,7 +10,7 @@ const ListItem = ({ as = 'div', className, children, disabled, ...others }) => {
       as={as}
       data-testid="list-item"
       {...others}
-      className={classNames(
+      className={clsx(
         'item',
         {
           'is-disabled': disabled,

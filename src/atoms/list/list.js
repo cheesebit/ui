@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import ListItem from './list-item';
@@ -22,7 +22,7 @@ const List = ({
       data-testid="cb-list"
       role="list"
       {...others}
-      className={classNames(
+      className={clsx(
         'cb-list',
         {
           '-bordered': bordered,

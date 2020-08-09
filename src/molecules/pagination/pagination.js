@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { CURRENT_PAGE, PAGE_SIZE, MAX_PAGES } from './constants';
@@ -59,7 +59,7 @@ class Pagination extends React.Component {
   get classes() {
     const { className } = this.props;
 
-    return classNames('cb-pagination', className);
+    return clsx('cb-pagination', className);
   }
 
   publish = () => {
@@ -115,7 +115,7 @@ class Pagination extends React.Component {
           return (
             <li key={key} className="item">
               <Page
-                className={classNames({
+                className={clsx({
                   'is-current': isCurrent,
                 })}
                 emphasis={emphasis}

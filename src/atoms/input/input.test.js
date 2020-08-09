@@ -1,9 +1,7 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Input, Variant } from './index';
-
-import { findByTestAttr } from '../../../test/helpers';
+import { render } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Input', () => {
@@ -12,10 +10,12 @@ describe('Input', () => {
       type: 'text',
     };
 
-    const wrapper = shallow(<Input {...props} />).dive();
-    const component = findByTestAttr(wrapper, 'cb-input');
+    const { getByTestId } = render(<Input {...props} />);
+    const component = getByTestId('cb-input');
 
-    expect(component).toHaveLength(1);
+    expect(component).toBeTruthy();
+
+    expect(component).toHaveAttribute('type', props.type);
   });
 
   it('renders type correctly', () => {
@@ -24,7 +24,7 @@ describe('Input', () => {
         'button',
         'color',
         'date',
-        'datetime-local',
+        'datetime',
         'email',
         'file',
         'hidden',
@@ -44,11 +44,11 @@ describe('Input', () => {
       ]),
     };
 
-    const wrapper = shallow(<Input {...props} />).dive();
-    const component = findByTestAttr(wrapper, 'cb-input');
+    const { getByTestId } = render(<Input {...props} />);
+    const component = getByTestId('cb-input');
 
-    expect(component).toHaveLength(1);
-    expect(component.prop('type')).toEqual(props.type);
+    expect(component).toBeTruthy();
+    expect(component).toHaveAttribute('type', props.type);
   });
 
   describe('with variant', () => {
@@ -58,11 +58,11 @@ describe('Input', () => {
         variant: Variant.danger,
       };
 
-      const wrapper = shallow(<Input {...props} />).dive();
-      const component = findByTestAttr(wrapper, 'cb-input');
+      const { getByTestId } = render(<Input {...props} />);
+      const component = getByTestId('cb-input');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-danger')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-danger');
     });
 
     it(`renders correctly with variant ${Variant.info}`, () => {
@@ -71,11 +71,11 @@ describe('Input', () => {
         variant: Variant.info,
       };
 
-      const wrapper = shallow(<Input {...props} />).dive();
-      const component = findByTestAttr(wrapper, 'cb-input');
+      const { getByTestId } = render(<Input {...props} />);
+      const component = getByTestId('cb-input');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-info')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-info');
     });
 
     it(`renders correctly with variant ${Variant.success}`, () => {
@@ -84,11 +84,11 @@ describe('Input', () => {
         variant: Variant.success,
       };
 
-      const wrapper = shallow(<Input {...props} />).dive();
-      const component = findByTestAttr(wrapper, 'cb-input');
+      const { getByTestId } = render(<Input {...props} />);
+      const component = getByTestId('cb-input');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-success')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-success');
     });
 
     it(`renders correctly with variant ${Variant.warn}`, () => {
@@ -97,11 +97,11 @@ describe('Input', () => {
         variant: Variant.warn,
       };
 
-      const wrapper = shallow(<Input {...props} />).dive();
-      const component = findByTestAttr(wrapper, 'cb-input');
+      const { getByTestId } = render(<Input {...props} />);
+      const component = getByTestId('cb-input');
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-warn')).toBe(true);
+      expect(component).toBeTruthy();
+      expect(component).toHaveClass('-warn');
     });
   });
 });

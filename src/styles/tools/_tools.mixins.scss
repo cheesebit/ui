@@ -34,11 +34,27 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, $opacity);
 }
 
+@mixin animation(
+  $name,
+  $duration: 0.125s,
+  $timing: ease-in-out,
+  $delay: 0s,
+  $iteration: 1,
+  $direction: normal
+) {
+  animation-name: cb-animation-#{$name};
+  animation-duration: $duration;
+  animation-timing-function: $timing;
+  animation-delay: $delay;
+  animation-iteration-count: $iteration;
+  animation-direction: $direction;
+}
+
 @mixin transition(
   $properties: (
     all,
   ),
-  $duration: 0.25s,
+  $duration: 0.125s,
   $delay: null,
   $easing: ease-in-out
 ) {

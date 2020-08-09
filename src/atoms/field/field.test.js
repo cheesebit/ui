@@ -1,33 +1,35 @@
 import React from 'react';
-import { mount, shallow } from 'enzyme';
 
 import { Field, Variant } from './index';
-import { findByTestAttr, asTestAttr } from '../../../test/helpers';
-import { Icon } from '../icon';
+import { screen, render, getByTestId, userEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Field', () => {
   it('renders correctly', () => {
     const props = { label: generator.word(), children: generator.word() };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
+    const { getByTestId } = render(<Field {...props} />);
 
-    expect(component).toHaveLength(1);
-    expect(component.contains(props.children)).toBe(true);
-    expect(component.find('.label')).toHaveLength(1);
-    expect(component.find('.content')).toHaveLength(1);
-    expect(component.find('.prompt')).toHaveLength(1);
+    const component = getByTestId('cb-field');
+    const label = getByTestId('field-label');
+    const content = getByTestId('field-content');
+    const prompt = getByTestId('field-prompt');
+
+    expect(component).toBeTruthy();
+    expect(label).toBeTruthy();
+    expect(content).toBeTruthy();
+    expect(prompt).toBeTruthy();
   });
 
   it('renders label correctly', () => {
     const props = { label: generator.word(), children: generator.word() };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const label = component.find('.label');
+    render(<Field {...props} />);
 
-    expect(label.text()).toEqual(props.label);
+    const component = screen.getByTestId('cb-field');
+    const label = getByTestId(component, 'field-label');
+
+    expect(label).toHaveTextContent(props.label);
   });
 
   it('renders prompt correctly', () => {
@@ -37,11 +39,13 @@ describe('Field', () => {
       prompt: generator.sentence(),
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const label = component.find('.label');
+    const { getByTestId } = render(<Field {...props} />);
 
-    expect(label.text()).toEqual(props.label);
+    const component = getByTestId('cb-field');
+
+    const prompt = getByTestId('field-prompt');
+
+    expect(prompt).toHaveTextContent(props.prompt);
   });
 
   it('renders content correctly', () => {
@@ -50,11 +54,11 @@ describe('Field', () => {
       children: generator.word(),
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const content = findByTestAttr(component, 'field-content').dive();
+    const { getByTestId } = render(<Field {...props} />);
 
-    expect(content.contains(props.children)).toBe(true);
+    const component = getByTestId('cb-field');
+
+    expect(component).toHaveTextContent(props.children);
   });
 
   it('renders tooltip correctly', () => {
@@ -67,15 +71,15 @@ describe('Field', () => {
       },
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const content = findByTestAttr(component, 'field-content').dive();
-    const tooltip = findByTestAttr(content, 'field-tooltip');
+    const { getByTestId } = render(<Field {...props} />);
 
-    expect(tooltip.prop('text')).toEqual(props.tooltip.text);
-    expect(tooltip.contains(<Icon size={12} name={props.tooltip.icon} />)).toBe(
-      true,
-    );
+    const tooltip = getByTestId('cb-tooltip');
+    const anchor = getByTestId('tooltip-anchor');
+
+    userEvent.hover(anchor);
+
+    expect(tooltip).toHaveClass('is-visible');
+    expect(tooltip).toHaveTextContent(props.tooltip.text);
   });
 
   it('renders feedback correctly', () => {
@@ -88,17 +92,13 @@ describe('Field', () => {
       },
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const content = findByTestAttr(component, 'field-content').dive();
-    const tooltip = findByTestAttr(content, 'field-tooltip');
+    const { getByTestId, getByLabelText } = render(<Field {...props} />);
 
-    const prompt = findByTestAttr(component, 'field-prompt');
+    const prompt = getByTestId('field-prompt');
+    const icon = getByLabelText(props.feedback.icon);
 
-    expect(
-      tooltip.contains(<Icon size={12} name={props.feedback.icon} />),
-    ).toBe(true);
-    expect(prompt.text()).toEqual(props.feedback.text);
+    expect(icon).toBeInTheDocument();
+    expect(prompt).toHaveTextContent(props.feedback.text);
   });
 
   it('renders empty prompt when no feedback text is provided', () => {
@@ -110,17 +110,13 @@ describe('Field', () => {
       },
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const content = findByTestAttr(component, 'field-content').dive();
-    const tooltip = findByTestAttr(content, 'field-tooltip');
+    const { getByTestId, getByLabelText } = render(<Field {...props} />);
 
-    const prompt = findByTestAttr(component, 'field-prompt');
+    const prompt = getByTestId('field-prompt');
+    const icon = getByLabelText(props.feedback.icon);
 
-    expect(
-      tooltip.contains(<Icon size={12} name={props.feedback.icon} />),
-    ).toBe(true);
-    expect(prompt.text()).toEqual('');
+    expect(icon).toBeInTheDocument();
+    expect(prompt).toBeEmptyDOMElement();
   });
 
   it('overrides tooltip when feedback prop is provided', () => {
@@ -134,19 +130,17 @@ describe('Field', () => {
       },
     };
 
-    const wrapper = mount(<Field {...props} />);
+    const { getByTestId, getByLabelText, rerender } = render(
+      <Field {...props} />,
+    );
 
-    expect(findByTestAttr(wrapper, 'field-prompt').text()).toEqual(
-      props.prompt,
-    );
-    expect(findByTestAttr(wrapper, 'field-tooltip').prop('text')).toEqual(
-      props.tooltip.text,
-    );
-    expect(
-      wrapper
-        .find(`span${asTestAttr('tooltip-anchor')}`)
-        .contains(<Icon size={12} name={props.tooltip.icon} />),
-    ).toBe(true);
+    const prompt = getByTestId('field-prompt');
+    const tooltip = getByTestId('cb-tooltip');
+    let icon = getByLabelText(props.tooltip.icon);
+
+    expect(prompt).toHaveTextContent(props.prompt);
+    expect(tooltip).toHaveTextContent(props.tooltip.text);
+    expect(icon).toBeInTheDocument();
 
     const addedProps = {
       feedback: {
@@ -155,19 +149,13 @@ describe('Field', () => {
       },
     };
 
-    wrapper.setProps(addedProps);
+    rerender(<Field {...props} {...addedProps} />);
 
-    expect(findByTestAttr(wrapper, 'field-prompt').text()).toEqual(
-      addedProps.feedback.text,
-    );
-    expect(findByTestAttr(wrapper, 'field-tooltip').prop('text')).toEqual(
-      addedProps.feedback.text,
-    );
-    expect(
-      wrapper
-        .find(`span${asTestAttr('tooltip-anchor')}`)
-        .contains(<Icon size={12} name={addedProps.feedback.icon} />),
-    ).toBe(true);
+    icon = getByLabelText(addedProps.feedback.icon);
+
+    expect(prompt).toHaveTextContent(addedProps.feedback.text);
+    expect(tooltip).toHaveTextContent(addedProps.feedback.text);
+    expect(icon).toBeInTheDocument();
   });
 
   it('shows tooltip when feedback prop is cleaned', () => {
@@ -185,37 +173,29 @@ describe('Field', () => {
       },
     };
 
-    const wrapper = mount(<Field {...props} />);
+    const { getByTestId, getByLabelText, rerender } = render(
+      <Field {...props} />,
+    );
 
-    expect(findByTestAttr(wrapper, 'field-prompt').text()).toEqual(
-      props.feedback.text,
-    );
-    expect(findByTestAttr(wrapper, 'field-tooltip').prop('text')).toEqual(
-      props.feedback.text,
-    );
-    expect(
-      wrapper
-        .find(`span${asTestAttr('tooltip-anchor')}`)
-        .contains(<Icon size={12} name={props.feedback.icon} />),
-    ).toBe(true);
+    const prompt = getByTestId('field-prompt');
+    const tooltip = getByTestId('cb-tooltip');
+    let icon = getByLabelText(props.feedback.icon);
+
+    expect(prompt).toHaveTextContent(props.feedback.text);
+    expect(tooltip).toHaveTextContent(props.feedback.text);
+    expect(icon).toBeInTheDocument();
 
     const addedProps = {
       feedback: {},
     };
 
-    wrapper.setProps(addedProps);
+    rerender(<Field {...props} {...addedProps} />);
 
-    expect(findByTestAttr(wrapper, 'field-prompt').text()).toEqual(
-      props.prompt,
-    );
-    expect(findByTestAttr(wrapper, 'field-tooltip').prop('text')).toEqual(
-      props.tooltip.text,
-    );
-    expect(
-      wrapper
-        .find(`span${asTestAttr('tooltip-anchor')}`)
-        .contains(<Icon size={12} name={props.tooltip.icon} />),
-    ).toBe(true);
+    icon = getByLabelText(props.tooltip.icon);
+
+    expect(prompt).toHaveTextContent(props.prompt);
+    expect(tooltip).toHaveTextContent(props.tooltip.text);
+    expect(icon).toBeInTheDocument();
   });
 
   it('renders custom trailing correctly', () => {
@@ -225,11 +205,11 @@ describe('Field', () => {
       trailing: generator.animal(),
     };
 
-    const wrapper = shallow(<Field {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-field');
-    const content = findByTestAttr(component, 'field-content').dive();
+    const { getByTestId } = render(<Field {...props} />);
 
-    expect(content.find('.trailing').text()).toEqual(props.trailing);
+    const content = getByTestId('field-content');
+
+    expect(content).toContainHTML(props.trailing);
   });
 
   describe('with variant', () => {
@@ -240,11 +220,10 @@ describe('Field', () => {
         variant: Variant.danger,
       };
 
-      const wrapper = shallow(<Field {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-field');
+      const { getByTestId } = render(<Field {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-danger')).toBe(true);
+      const component = getByTestId('cb-field');
+      expect(component).toHaveClass('-danger');
     });
 
     it(`renders correctly with variant ${Variant.info}`, () => {
@@ -254,11 +233,10 @@ describe('Field', () => {
         variant: Variant.info,
       };
 
-      const wrapper = shallow(<Field {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-field');
+      const { getByTestId } = render(<Field {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-info')).toBe(true);
+      const component = getByTestId('cb-field');
+      expect(component).toHaveClass('-info');
     });
 
     it(`renders correctly with variant ${Variant.success}`, () => {
@@ -268,11 +246,10 @@ describe('Field', () => {
         variant: Variant.success,
       };
 
-      const wrapper = shallow(<Field {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-field');
+      const { getByTestId } = render(<Field {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-success')).toBe(true);
+      const component = getByTestId('cb-field');
+      expect(component).toHaveClass('-success');
     });
 
     it(`renders correctly with variant ${Variant.warn}`, () => {
@@ -282,11 +259,10 @@ describe('Field', () => {
         variant: Variant.warn,
       };
 
-      const wrapper = shallow(<Field {...props} />);
-      const component = findByTestAttr(wrapper, 'cb-field');
+      const { getByTestId } = render(<Field {...props} />);
 
-      expect(component).toHaveLength(1);
-      expect(component.hasClass('-warn')).toBe(true);
+      const component = getByTestId('cb-field');
+      expect(component).toHaveClass('-warn');
     });
   });
 });

@@ -1,9 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
 
 import { Icon } from './index';
 
-import { findByTestAttr } from '../../../test/helpers';
+import { screen, render } from '../../../test/helpers';
 import { keys } from '../../common/toolset';
 import generator from '../../../test/data-generator';
 import mapping from './icon-mapping';
@@ -14,10 +13,10 @@ describe('Icon', () => {
       name: generator.pick(keys(mapping)),
     };
 
-    const wrapper = shallow(<Icon {...props} />);
-    const component = findByTestAttr(wrapper, 'cb-icon');
+    const { getByLabelText } = render(<Icon {...props} />);
+    const component = getByLabelText(props.name);
 
-    expect(component).toHaveLength(1);
+    expect(component).toBeTruthy();
   });
 
   it(`renders an '?' when icon does not exist`, () => {
@@ -25,7 +24,8 @@ describe('Icon', () => {
       name: generator.word(),
     };
 
-    const wrapper = shallow(<Icon {...props} />);
-    expect(wrapper.text()).toEqual('?');
+    render(<Icon {...props} />);
+
+    expect(screen.getByText('?')).toBeTruthy();
   });
 });

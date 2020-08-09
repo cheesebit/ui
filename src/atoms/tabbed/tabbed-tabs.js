@@ -1,5 +1,5 @@
 import React from 'react';
-import classNames from 'classnames';
+import clsx from 'clsx';
 
 import {
   OVERFLOW_OPTIONS,
@@ -33,7 +33,7 @@ class Tabs extends React.PureComponent {
   get classes() {
     const { className } = this.props;
 
-    return classNames(className, 'tabs');
+    return clsx(className, 'tabs');
   }
 
   get items() {
@@ -93,7 +93,7 @@ class Tabs extends React.PureComponent {
         {...props}
         id={id}
         active={equals(active, id)}
-        className={classNames(props?.className, {
+        className={clsx(props?.className, {
           'is-hidden': !visible,
         })}
       />
@@ -129,7 +129,7 @@ class Tabs extends React.PureComponent {
       <Dropdown.Item
         key={id}
         {...props}
-        className={classNames(props?.className, {
+        className={clsx(props?.className, {
           'is-highlighted': equals(active, id),
         })}
       />

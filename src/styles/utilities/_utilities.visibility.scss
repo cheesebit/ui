@@ -1,11 +1,19 @@
-.cb-u-is-hidden {
+.cb-is-hidden {
   @include hidden;
 }
 
-.cb-u-is-invisible {
+.cb-is-invisible {
   visibility: hidden !important;
 }
 
-.cb-u-is-visually-hidden {
+.cb-is-visually-hidden {
   @include hidden(true);
+}
+
+.cb-opacity-0 {
+  opacity: 0 !important;
+}
+
+.cb-opacity-1 {
+  opacity: 1 !important;
 }

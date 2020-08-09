@@ -1,24 +1,18 @@
-import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import React from 'react';
-import { equals, values } from '../../common/toolset';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+
+import { values } from '../../common/toolset';
 import { Overlay, Theme } from '../overlay';
 import { Spinner } from '../spinner';
+
 import './image.scss';
 
-export const AspectRatio = {
-  '1x1': '1x1',
-  '16x9': '16x9',
-  '4x3': '4x3',
-  '3x2': '3x2',
-  '8x5': '8x5',
-};
-
 export const Status = {
-  idle: 'IDLE',
-  loading: 'LOADING',
-  loaded: 'LOADED',
-  failed: 'FAILED',
+  idle: 'idle',
+  loading: 'loading',
+  loaded: 'loaded',
+  failed: 'failed',
 };
 
 class Image extends React.PureComponent {
@@ -55,15 +49,8 @@ class Image extends React.PureComponent {
     const { className, options } = this.props;
     const { status } = this.state;
 
-    return classNames(
+    return clsx(
       'cb-image',
-      {
-        '-ar-1x1': equals(options.aspectRatio, AspectRatio['1x1']),
-        '-ar-16x9': equals(options.aspectRatio, AspectRatio['16x9']),
-        '-ar-4x3': equals(options.aspectRatio, AspectRatio['4x3']),
-        '-ar-3x2': equals(options.aspectRatio, AspectRatio['3x2']),
-        '-ar-8x5': equals(options.aspectRatio, AspectRatio['8x5']),
-      },
       {
         'has-failed': status === Status.failed,
       },
@@ -157,16 +144,10 @@ class Image extends React.PureComponent {
 
 Image.propTypes = {
   src: PropTypes.string,
-  options: PropTypes.shape({
-    aspectRatio: PropTypes.oneOf(values(AspectRatio)),
-  }),
   alt: PropTypes.string,
 };
 
 Image.defaultProps = {
-  options: {
-    aspectRatio: AspectRatio['16x9'],
-  },
   src: '',
   alt: '',
 };
