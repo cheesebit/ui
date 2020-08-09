@@ -40,8 +40,13 @@ Checkout our docs and demo [here](https://ui.cheesebit.io).
 - [Atomic Design](https://atomicdesign.bradfrost.com/)
 - [Testing Library](https://testing-library.com/)
 
-## Head-scratching things and their solutions
+## Head-scratching that are...
+
+### ... solved
 1. Functions provided as reducer for `useReducer` is called twice due to development behavior of Strict mode. Since it can’t automatically detect side effects, it tries to help you to spot them by intentionally double-invoking functions like `useState`, `useMemo`, or `useReduce` (among others) [as per React docs](https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects) . You can check the discussion [here](https://github.com/facebook/react/issues/16295).
+
+### ... still Open 
+1. [Testing Library](https://testing-library.com/) is indeed a very helpful tool when it comes to unit testing React components, but it's still unclear for me how to test things such as screen resize, dimension related tests. HoCs like [`ResizeWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/resize-watcher) and [`OverflowWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/overflow-watcher)are still pending to be properly unit-tested.
 
 ## Who am I?
 
