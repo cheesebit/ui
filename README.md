@@ -52,3 +52,5 @@ I started my journey as a Software Engineer 9+ years ago; in the last 5+ years I
 
 - Email: welington.manoels@gmail.com
 
+<small id="logo-source">*Icon made by <a alt="" aria-label="Smashicons" href="https://www.flaticon.com/authors/smashicons" rel="noopener noreferrer" target="_blank" title="Smashicons">Smashicons</a> from <a alt="" aria-label="Flaticon" href="https://www.flaticon.com/" rel="noopener noreferrer" target="_blank" title="Flaticon">www.flaticon.com</a></small>
+
