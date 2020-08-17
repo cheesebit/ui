@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="http://ui.cheesebit.io/" rel="noopener" target="_blank"><img width="150" src="https://cheesebit-static.s3.amazonaws.com/img/cheese.svg" alt="Cheesebit UI logo"></a></p>
+  <a href="http://ui.cheesebit.io/" rel="noopener" target="_blank"><img width="150" src="https://cheesebit-static.s3.amazonaws.com/img/cheese-primary.svg" alt="Cheesebit UI logo"></a></p>
 </p>
 
 <h1 align="center">Cheesebit UI</h1>
