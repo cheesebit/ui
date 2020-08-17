@@ -12,8 +12,8 @@
 
 Hi there, thank you very much for being here.
 
-This is my very own library of components I'm building, either for my own
-delight, or to be used in one of my projects.
+This is my very own library of components I'm building for my own
+delight and/or to be used in one of my projects.
 
 I've put my heart here and I do hope someone can make good use of it - for
 learning or productivity purposes - as much as I did (actually still do).
