@@ -2,132 +2,35 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { DEFAULT } from '../../common/constants';
-import { getID, omit } from '../../common/toolset';
-import DOMHelper from './dom-helper';
-import Selectors from './selectors';
-
-import Panel from './tabbed-panel';
-import Tabs from './tabbed-tabs';
+import { check } from './dom-helper';
+import { Panels, getPanelRadioID } from '../panels';
+import { Tabs } from '../tabs';
 
 import './tabbed.scss';
 
-const OMITTED_PROPS = ['tabs', 'children'];
+function Tabbed({ active, tabs, children, className, disabled, ...others }) {
+  const setPanelActive = ({ active }) => {
+    // TODO improve
+    const tab = (tabs || []).find(({ id }) => id == active);
 
-/**
- * This component represents our customized Tabbed content.
- */
-class Tabbed extends React.PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      active: Selectors.getActive(props),
-    };
-
-    const { id } = props;
-
-    this.id = getID(id);
-    this.tabs = [];
-
-    this.setup();
-  }
-
-  componentDidMount() {
-    const { active } = this.state;
-
-    DOMHelper.check({ id: active });
-  }
-
-  setup() {
-    const { tabs } = this.props;
-
-    this.tabs = (tabs || DEFAULT.ARRAY).map(item => {
-      const { for: id, label, props } = item;
-
-      return {
-        for: id,
-        props: {
-          children: label,
-          ...props,
-          onClick: () => {
-            this.handleTabChange({ id });
-            DOMHelper.check({ id });
-            props?.onClick?.();
-          },
-        },
-      };
-    });
-  }
-
-  get classes() {
-    const { className, disabled } = this.props;
-
-    return clsx(
-      'cb-tabbed',
-      {
-        'is-disabled': disabled,
-      },
-      className,
-    );
-  }
-
-  get style() {
-    const { style } = this.props;
-
-    return style || DEFAULT.OBJECT;
-  }
-
-  publish = () => {
-    const { active } = this.state;
-    const { onChange } = this.props;
-
-    onChange && onChange({ active });
+    if (tab != null) {
+      check(getPanelRadioID(tab.for));
+    }
   };
 
-  handleTabChange = ({ id }) => {
-    this.setState(
-      {
-        active: id,
-      },
-      this.publish,
-    );
-  };
+  return (
+    <section className={clsx('cb-tabbed', className)} data-testid="cb-tabbed">
+      <Tabs
+        active={active}
+        disabled={disabled}
+        items={tabs}
+        onChange={setPanelActive}
+        {...others}
+      />
 
-  renderChildren = () => {
-    const { children } = this.props;
-
-    return React.Children.map(children, child => {
-      return React.cloneElement(child, {
-        tabbed: this.id,
-        onFocus: this.handleTabChange,
-      });
-    });
-  };
-
-  render() {
-    const { children, disabled, ...others } = this.props;
-    const { active } = this.state;
-
-    return (
-      <section
-        data-testid="cb-tabbed"
-        {...omit(OMITTED_PROPS, others)}
-        id={this.id}
-        className={this.classes}
-        style={this.style}
-      >
-        <Tabs
-          active={active}
-          disabled={disabled}
-          items={this.tabs}
-          onChange={this.handleTabChange}
-          tabbed={this.id}
-        />
-        {this.renderChildren()}
-      </section>
-    );
-  }
+      <Panels>{children}</Panels>
+    </section>
+  );
 }
 
 Tabbed.propTypes = {
@@ -143,6 +46,6 @@ Tabbed.propTypes = {
   ).isRequired,
 };
 
-Tabbed.Panel = Panel;
+Tabbed.Panel = Panels.Panel;
 
 export default Tabbed;

@@ -119,7 +119,7 @@ export function toArray(value) {
 }
 
 /**
- * Returns the given ID or generates a random GUID if none is provided.
+ * Returns the given ID or generates a random ID if none is provided.
  * @param {number|string} id - (Optional) ID to be returned
  * @returns {number|string} the given ID or the generated one, if none was provided.
  */

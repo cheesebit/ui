@@ -17,9 +17,9 @@ class ResizeWatcher extends React.Component {
       width: 0,
     };
 
-    const { wait = DEFAULT_WAIT } = props;
+    const { wait = DEFAULT_WAIT, forwardedRef } = props;
 
-    this.ref = React.createRef();
+    this.ref = forwardedRef ?? React.createRef();
     this.unmounted = false;
 
     this.updateWidth = debounce(this.updateWidth.bind(this), wait);
@@ -55,7 +55,7 @@ class ResizeWatcher extends React.Component {
       {
         width: newWidth,
       },
-      this.publish
+      this.publish,
     );
   }
 
@@ -76,6 +76,10 @@ class ResizeWatcher extends React.Component {
 
 ResizeWatcher.propTypes = {
   children: PropTypes.func.isRequired,
+  forwardedRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
   onResize: PropTypes.func,
   wait: PropTypes.number,
 };

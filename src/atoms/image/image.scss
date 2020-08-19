@@ -4,17 +4,10 @@
   position: relative;
   overflow: hidden;
 
-  @include var(height, spacing-0);
-
   > img {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    visibility: visible;
-
-    width: 100%;
-    height: auto;
+    display: block;
+    width: auto;
+    height: 100%;
 
     margin: 0 auto;
   }

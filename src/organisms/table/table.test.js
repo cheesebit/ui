@@ -48,7 +48,7 @@ describe('Table', () => {
       const entry = props.data[i];
 
       for (let column of props.columns) {
-        const row = expect(getByTestId(rows[i], column.name)).toHaveTextContent(
+        expect(getByTestId(rows[i], column.name)).toHaveTextContent(
           String(entry[column.name]),
         );
       }

@@ -24,7 +24,7 @@ describe('Input', () => {
         'button',
         'color',
         'date',
-        'datetime',
+        'datetime-local',
         'email',
         'file',
         'hidden',

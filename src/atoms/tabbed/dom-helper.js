@@ -1,16 +1,7 @@
-export default {
-  check: ({ id }) => {
-    const radioElement = document.getElementById(id);
+export function check(id) {
+  const radioElement = document.getElementById(id);
 
-    if (radioElement) {
-      radioElement.checked = true;
-      radioElement.focus();
-    }
-  },
-  getActiveTab: ({ tabbed }) => {
-    return document.querySelector(`#${tabbed} > .tabs > .tab.is-active`);
-  },
-  getActiveIndicator: ({ tabbed }) => {
-    return document.querySelector(`#${tabbed} > .tabs > .active-indicator`);
-  },
-};
+  if (radioElement) {
+    radioElement.checked = true;
+  }
+}

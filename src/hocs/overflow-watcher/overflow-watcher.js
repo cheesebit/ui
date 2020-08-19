@@ -50,7 +50,7 @@ class OverflowWatcher extends React.Component {
     const totalChildren = matchingChildren.length;
 
     const from = 0;
-    let to = totalChildren;
+    let to = from;
 
     if (totalChildren > 0) {
       let occupiedWidth = offset;
@@ -101,10 +101,14 @@ class OverflowWatcher extends React.Component {
   };
 
   render() {
-    const { wait } = this.props;
+    const { wait, containerRef } = this.props;
 
     return (
-      <ResizeWatcher onResize={this.calculateOverflow} wait={wait}>
+      <ResizeWatcher
+        forwardedRef={containerRef}
+        onResize={this.calculateOverflow}
+        wait={wait}
+      >
         {this.renderChildren}
       </ResizeWatcher>
     );
@@ -113,6 +117,10 @@ class OverflowWatcher extends React.Component {
 
 OverflowWatcher.propTypes = {
   children: PropTypes.func.isRequired,
+  containerRef: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+  ]),
   offset: PropTypes.number,
   onUpdate: PropTypes.func.isRequired,
   options: PropTypes.shape({

@@ -1,0 +1,24 @@
+.cb-panels {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+
+  & > .panel {
+    @include font;
+
+    position: relative;
+    animation: cb-animation-enter normal 0.25s ease-out 1;
+  }
+
+  > input[type='radio'] {
+    @include hidden;
+
+    & + .panel {
+      display: none;
+    }
+
+    &:checked + .panel {
+      display: block;
+    }
+  }
+}

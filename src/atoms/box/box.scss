@@ -44,6 +44,12 @@
     @include var(margin-left, spacing-2);
   }
 
+  & > .leading,
+  & > .trailing,
+  & > .children {
+    pointer-events: none;
+  }
+
   &.-stretched {
     & > .children {
       flex-grow: 1;
