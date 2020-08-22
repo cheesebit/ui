@@ -11,7 +11,9 @@
     "build": "rollup -c --environment BUILD:prod",
     "test": "jest",
     "coverage": "jest --coverage",
-    "preversion": "npm test"
+    "preversion": "npm test",
+    "postversion": "git push origin --tags && shx rm -rf dist",
+    "prepublishOnly": "npm run build"
   },
   "husky": {
     "hooks": {
