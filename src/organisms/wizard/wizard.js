@@ -2,9 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { Button, Emphasis } from '../../atoms/button';
+import { check } from './dom-helper';
 import { isNil, getID } from '../../common/toolset';
+import { Panels, getPanelRadioID } from '../../atoms/panels';
 import { resolveProp } from '../../common/props-toolset';
-import DOMHelper from './dom-helper';
 import Step from './wizard-step';
 import useWizard from './use-wizard';
 import WizardContext from './wizard-context';
@@ -25,8 +26,7 @@ const Wizard = ({ id, className, children, title, flow, ...others }) => {
   });
 
   React.useEffect(() => {
-    // updates radio input associated to the current step
-    !isNil(current) && DOMHelper.check({ id: current });
+    check(getPanelRadioID(current));
   }, [current]);
 
   const transitionToPrevious = React.useCallback(() => {
@@ -61,7 +61,7 @@ const Wizard = ({ id, className, children, title, flow, ...others }) => {
         />
       </header>
       <WizardContext.Provider value={contextValue}>
-        {children}
+        <Panels>{children}</Panels>
       </WizardContext.Provider>
     </article>
   );

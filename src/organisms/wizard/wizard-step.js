@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { isFunction } from '../../common/toolset';
+import { Panels } from '../../atoms/panels';
 import WizardContext from './wizard-context';
 
 const Step = ({ id, children, className, ...others }) => {
@@ -16,18 +17,9 @@ const Step = ({ id, children, className, ...others }) => {
   }, [children, transition, wizardID]);
 
   return (
-    <React.Fragment>
-      <input
-        type="radio"
-        id={id}
-        name={wizardID}
-        value={id}
-        data-testid="step-radio"
-      />
-      <div {...others} className={clsx('step', className)}>
-        {renderChildren(children)}
-      </div>
-    </React.Fragment>
+    <Panels.Panel id={id} {...others} className={clsx('step', className)}>
+      {renderChildren(children)}
+    </Panels.Panel>
   );
 };
 

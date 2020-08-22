@@ -56,11 +56,7 @@ function useAnimation(phases, initialTarget) {
   const handleMouseLeave = React.useCallback(() => {
     clearTimeout(timeoutID);
 
-    const newTimeoutID = setTimeout(() => {
-      transition('exit');
-    }, 150);
-
-    setTimeoutID(newTimeoutID);
+    transition('exit');
   });
 
   React.useEffect(() => {

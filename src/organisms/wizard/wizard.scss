@@ -20,21 +20,4 @@
     @include truncate(90%);
     @include var(font-weight, font-weight-bold);
   }
-
-  & > .step {
-    @include font;
-
-    position: relative;
-    animation: cb-animation-enter normal 0.25s ease-out 1;
-
-    display: none;
-  }
-
-  & > input[type='radio'] {
-    @include hidden;
-
-    &:checked + .step {
-      display: block;
-    }
-  }
 }

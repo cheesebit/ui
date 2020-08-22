@@ -4,7 +4,7 @@ import { Icon } from '../../atoms/icon';
 import { List } from '../../atoms/list';
 import DropdownContext from './dropdown-context';
 
-const DropdownItem = ({ icon, onClick, children, ...others }) => {
+const DropdownItem = ({ id, icon, onClick, children, label, ...others }) => {
   return (
     <DropdownContext.Consumer>
       {({ toggle, collapsed }) => (
@@ -13,19 +13,20 @@ const DropdownItem = ({ icon, onClick, children, ...others }) => {
           data-testid="item"
           {...others}
           {...(collapsed && { tabIndex: '-1' })}
+          id={id}
           borderless
           onClick={e => {
             toggle();
 
             if (onClick) {
               e.persist();
-              onClick(e);
+              onClick({ id });
             }
           }}
           as="button"
           type="button"
         >
-          <span className="children">{children}</span>
+          <span className="children">{label || children}</span>
         </List.Item>
       )}
     </DropdownContext.Consumer>

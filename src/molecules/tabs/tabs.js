@@ -53,10 +53,14 @@ function Tabs({
     setElementStyle(activeIndicatorElement, 'width', width);
   }
 
-  const handleTabChange = ({ id }) => {
+  const handleTabChange = React.useCallback(({ id }) => {
+    if (active == id) {
+      return;
+    }
+
     setActiveTab(id);
     setActive(id);
-  };
+  });
 
   React.useEffect(() => {
     onChange && onChange?.({ active });
@@ -81,6 +85,22 @@ function Tabs({
     );
   };
 
+  const renderDropdown = ({ to }) => {
+    const overflownItems = (items || DEFAULT.ARRAY).slice(to + 1);
+
+    if (isNil(overflownItems) || isEmpty(overflownItems)) {
+      return null;
+    }
+
+    return (
+      <Dropdown className="overflown-tabs" toggle={renderToggle} unroll="left">
+        <Dropdown.Items hoverable>
+          {overflownItems.map(renderDropdownItem)}
+        </Dropdown.Items>
+      </Dropdown>
+    );
+  };
+
   const renderTab = (tab, visible = true) => {
     const { id, props, ...others } = tab;
 
@@ -94,47 +114,25 @@ function Tabs({
         className={clsx(props?.className, {
           'is-hidden': !visible,
         })}
-        onClick={() => {
-          handleTabChange({ id });
-          props?.onClick?.();
-        }}
+        onClick={handleTabChange}
       />
     );
   };
 
-  const renderDropdown = ({ to }) => {
-    const overflownItems = (items || DEFAULT.ARRAY).slice(to + 1);
-
-    if (isNil(overflownItems) || isEmpty(overflownItems)) {
-      return null;
-    }
-
-    return (
-      <Dropdown
-        className="overflown-tabs"
-        toggle={renderToggle}
-        items={overflownItems}
-        unroll="left"
-      >
-        <Dropdown.Items hoverable>
-          {items.map(renderDropdownItem)}
-        </Dropdown.Items>
-      </Dropdown>
-    );
-  };
-
   const renderDropdownItem = item => {
-    const { id, props } = item;
+    const { id, props, ...others } = item;
 
     // since all tabs are rendered, we deduplicate keys prepending t- to their keys
     return (
       <Dropdown.Item
         key={`d-${id}`}
         {...props}
+        {...omit(['for'], others)}
         id={id}
         className={clsx(props?.className, {
           'is-highlighted': equals(active, id),
         })}
+        onClick={handleTabChange}
       />
     );
   };
