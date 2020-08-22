@@ -5,9 +5,11 @@ import { compareProps } from '../../common/props-toolset';
 import { DEFAULT, Keys } from '../../common/constants';
 import { compact, isEmpty, isNil, toArray, values } from '../../common/toolset';
 
-const batata = (keys) => `${toArray(keys).sort().join('&')}`.toLowerCase();
+function getNormalizedKeys(keys) {
+  return `${toArray(keys).sort().join('&')}`.toLowerCase();
+}
 
-const createCustomEvent = (shortcut) => {
+function createCustomEvent(shortcut) {
   let shortcutEvent;
 
   if (window.CustomEvent) {
@@ -18,11 +20,11 @@ const createCustomEvent = (shortcut) => {
   }
 
   return shortcutEvent;
-};
+}
 
-const getCurrentTag = () => {
+function getCurrentTag() {
   return document.activeElement.tagName.toLowerCase();
-};
+}
 
 /**
  * This component enables you to enable your component/screen with shortcuts.
@@ -37,7 +39,7 @@ class ShortcutWatcher extends React.Component {
     this.shortcuts = toArray(shortcuts).reduce((map, { keys, event }) => {
       return {
         ...map,
-        [batata(keys)]: event,
+        [getNormalizedKeys(keys)]: event,
       };
     }, {});
 
@@ -101,17 +103,17 @@ class ShortcutWatcher extends React.Component {
     this.handleShortcut(event);
   }
 
-  handleShortcut = (event) => {
+  handleShortcut = event => {
     const { key } = event;
 
     const shortcut = this.shortcuts[
-      batata(
+      getNormalizedKeys(
         compact([
           event.altKey && Keys.ALT,
           event.ctrlKey && Keys.CONTROL,
           event.shiftKey && Keys.SHIFT,
           key,
-        ])
+        ]),
       )
     ];
 
@@ -138,7 +140,7 @@ ShortcutWatcher.propTypes = {
         PropTypes.arrayOf(PropTypes.oneOf(values(Keys))),
       ]).isRequired,
       event: PropTypes.string.isRequired,
-    })
+    }),
   ),
 };
 

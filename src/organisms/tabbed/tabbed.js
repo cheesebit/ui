@@ -3,8 +3,8 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { check } from './dom-helper';
-import { Panels, getPanelRadioID } from '../panels';
-import { Tabs } from '../tabs';
+import { Panels, getPanelRadioID } from '../../atoms/panels';
+import { Tabs } from '../../molecules/tabs';
 
 import './tabbed.scss';
 

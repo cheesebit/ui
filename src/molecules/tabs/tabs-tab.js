@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { Box } from '../box';
+import { Box } from '../../atoms/box';
 import { isFunction } from '../../common/toolset';
 import TabsContext from './tabs-context';
 

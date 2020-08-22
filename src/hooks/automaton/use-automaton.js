@@ -5,7 +5,7 @@ import { isNil } from '../../common/toolset';
 import logger from '../../common/logger';
 
 function getReducer(states) {
-  return React.useCallback(function reducer(current, input) {
+  return function reducer(current, input) {
     const { on } = states[current] ?? DEFAULT.OBJECT;
 
     if (isNil(on)) {
@@ -25,13 +25,12 @@ function getReducer(states) {
     );
 
     return newCurrent;
-  }, []);
+  };
 }
 
 function useAutomaton(states, initialCurrent) {
-  const reducerRef = React.useRef(getReducer(states || DEFAULT.OBJECT));
   const [current, dispatch] = React.useReducer(
-    reducerRef.current,
+    getReducer(states || DEFAULT.OBJECT),
     initialCurrent,
   );
 

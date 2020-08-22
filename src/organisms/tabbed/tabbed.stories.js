@@ -5,7 +5,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 
 import { capitalize } from '../../utils/utilities';
 import { Tabbed } from './index';
-import { NotificationBadge } from '../badge';
+import { NotificationBadge } from '../../atoms/badge';
 import generator from '../../../test/data-generator';
 
 export default {

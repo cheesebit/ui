@@ -4,7 +4,7 @@ import { getID } from '../../common/toolset';
 import { useAutomaton } from '../../hooks/automaton';
 
 const useWizard = ({ current: initialCurrent, id, flow }) => {
-  const { current, transition, states } = useAutomaton(flow, initialCurrent);
+  const { current, transition } = useAutomaton(flow, initialCurrent);
   const [contextValue, setContextValue] = React.useState({});
 
   React.useEffect(() => {
@@ -16,7 +16,7 @@ const useWizard = ({ current: initialCurrent, id, flow }) => {
 
   return {
     transition,
-    states,
+    states: flow[current]?.on,
     current,
     contextValue,
   };

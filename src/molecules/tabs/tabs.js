@@ -54,8 +54,8 @@ function Tabs({
   }
 
   const handleTabChange = ({ id }) => {
-    setActive(id);
     setActiveTab(id);
+    setActive(id);
   };
 
   React.useEffect(() => {
