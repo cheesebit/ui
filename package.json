@@ -76,6 +76,7 @@
     "rollup-plugin-scss": "2.5.0",
     "rollup-plugin-terser": "6.1.0",
     "sass-loader": "9.0.2",
+    "shx": "0.3.2",
     "style-loader": "1.2.1"
   },
   "author": "Welington Silva",
