@@ -39,6 +39,7 @@ Checkout our docs and demo [here](https://ui.cheesebit.io).
   - [SMACSS](http://smacss.com/)
 - [Atomic Design](https://atomicdesign.bradfrost.com/)
 - [Testing Library](https://testing-library.com/)
+- [Preventing Content Reflow From Lazy-Loaded Images](https://css-tricks.com/preventing-content-reflow-from-lazy-loaded-images/)
 
 ## Head-scratching that are/were...
 

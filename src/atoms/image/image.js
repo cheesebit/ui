@@ -2,11 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { values } from '../../common/toolset';
+import { omit } from '../../common/toolset';
 import { Overlay, Theme } from '../overlay';
 import { Spinner } from '../spinner';
 
 import './image.scss';
+
+const OMITTED_PROPS = ['src', 'srcSet', 'width', 'height'];
 
 export const Status = {
   idle: 'idle',
@@ -15,11 +17,17 @@ export const Status = {
   failed: 'failed',
 };
 
+const getPlaceholderSrc = (width, height) =>
+  `data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}"%3E%3C/svg%3E`;
+
 class Image extends React.PureComponent {
   constructor(props) {
     super(props);
 
+    const { width = 16, height = 9 } = props;
     this.state = {
+      src: getPlaceholderSrc(width, height),
+      srcSet: null,
       status: Status.idle,
     };
 
@@ -73,11 +81,10 @@ class Image extends React.PureComponent {
     this.setState(
       {
         status: Status.loading,
+        src,
+        srcSet,
       },
       () => {
-        this.image.current.src = src;
-        this.image.current.srcSet = srcSet;
-
         this.observer.disconnect();
       },
     );
@@ -120,14 +127,20 @@ class Image extends React.PureComponent {
   };
 
   render() {
-    const { status } = this.state;
-    const { src, srcSet, className, options, alt, ...others } = this.props;
+    const { src, srcSet, status } = this.state;
+    const { className, options, alt, ...others } = this.props;
 
     return (
-      <div {...others} className={this.classes} data-testid="cb-image">
+      <div
+        {...omit(OMITTED_PROPS, others)}
+        className={this.classes}
+        data-testid="cb-image"
+      >
         <img
           ref={this.image}
           alt={alt}
+          src={src}
+          srcSet={srcSet}
           onLoad={this.handleLoad}
           onError={this.handleError}
         />
