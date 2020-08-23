@@ -32,20 +32,13 @@ const Tooltip = ({ children, className, title, mode, placement }) => {
   const selfRef = React.useRef();
   const [visible, setVisible] = React.useState(false); // test purpose
   const [position, setPosition] = React.useState({ top: 0, left: 0 });
-  const {
-    className: animationClassName,
-    onEnter,
-    onExit,
-    setTarget,
-  } = useAnimation(PHASES);
+  const { className: animationClassName, onEnter, onExit } = useAnimation(
+    PHASES,
+  );
 
   if (isNil(title) || isNil(children)) {
     return children;
   }
-
-  React.useEffect(() => {
-    setTarget(selfRef.current);
-  }, []);
 
   const handleMouseEnter = e => {
     logger.debug(

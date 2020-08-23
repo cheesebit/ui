@@ -162,3 +162,17 @@ $tooltip-arrow-size: 5px;
   //   }
   // }
 }
+
+.cb-tooltip-out {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.cb-tooltip-in {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 1;
+  transform: translateY(0%);
+}
