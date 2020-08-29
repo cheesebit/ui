@@ -1,74 +1,50 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { debounce } from '../../common/toolset';
-import logger from '../../common/logger';
 import { useAutomaton } from '../automaton';
-import { useTimeout } from '../timeout';
 
 const STATES = {
   out: {
     on: {
-      enter: 'entering',
-    },
-  },
-  exiting: {
-    on: {
-      exited: 'out',
+      enter: 'in',
     },
   },
   in: {
     on: {
-      exit: 'exiting',
-    },
-  },
-  entering: {
-    on: {
-      entered: 'in',
-      exit: 'exiting',
+      exit: 'out',
     },
   },
 };
 
-function useAnimation(phases, initialTarget) {
+function useAnimation(phases) {
   const [timeoutID, setTimeoutID] = React.useState(null);
-  const [target, setTarget] = React.useState(initialTarget);
   const { transition, current } = useAutomaton(STATES, 'out');
 
-  const handleAnimationEnd = React.useCallback(() => {
-    if (current === 'entering') {
-      transition('entered');
-    } else if (current === 'exiting') {
-      transition('exited');
-    }
-  }, [current]);
-
   const handleMouseEnter = React.useCallback(() => {
-    clearTimeout(timeoutID);
+    if (current === 'in') {
+      clearTimeout(timeoutID);
+      setTimeoutID(null);
+    }
 
     const newTimeoutID = setTimeout(() => {
       transition('enter');
     }, 250);
 
     setTimeoutID(newTimeoutID);
-  });
+  }, []);
 
   const handleMouseLeave = React.useCallback(() => {
+    setTimeoutID(null);
     clearTimeout(timeoutID);
 
-    transition('exit');
-  });
+    const newTimeoutID = setTimeout(() => {
+      transition('exit');
+    }, 500);
 
-  React.useEffect(() => {
-    target?.addEventListener('animationend', handleAnimationEnd);
-
-    return () => {
-      target?.removeEventListener('animationend', handleAnimationEnd);
-    };
-  }, [target, handleAnimationEnd]);
+    setTimeoutID(newTimeoutID);
+  }, []);
 
   return {
-    setTarget,
     transition,
     current,
     onEnter: handleMouseEnter,
