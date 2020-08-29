@@ -16,7 +16,7 @@ const STATES = {
   },
 };
 
-function useAnimation(phases, initialTarget) {
+function useAnimation(phases) {
   const [timeoutID, setTimeoutID] = React.useState(null);
   const { transition, current } = useAutomaton(STATES, 'out');
 
@@ -31,7 +31,7 @@ function useAnimation(phases, initialTarget) {
     }, 250);
 
     setTimeoutID(newTimeoutID);
-  });
+  }, []);
 
   const handleMouseLeave = React.useCallback(() => {
     setTimeoutID(null);
@@ -42,7 +42,7 @@ function useAnimation(phases, initialTarget) {
     }, 500);
 
     setTimeoutID(newTimeoutID);
-  });
+  }, []);
 
   return {
     transition,
@@ -50,9 +50,9 @@ function useAnimation(phases, initialTarget) {
     onEnter: handleMouseEnter,
     onExit: handleMouseLeave,
     className: clsx({
-      // [phases['entering']]: current === 'entering',
+      [phases['entering']]: current === 'entering',
       [phases['in']]: current === 'in',
-      // [phases['exiting']]: current === 'exiting',
+      [phases['exiting']]: current === 'exiting',
       [phases['out']]: current === 'out',
     }),
   };

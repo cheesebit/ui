@@ -3,15 +3,9 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { equals, isNil } from '../../common/toolset';
-import { updatePosition } from './helpers';
+import { calculatePosition, getAnimationPhases } from './helpers';
 import { useAnimation } from '../../hooks/animation';
-import {
-  TOP_REGEX,
-  BOTTOM_REGEX,
-  RIGHT_REGEX,
-  LEFT_REGEX,
-  PHASES,
-} from './constants';
+import { BOTTOM_REGEX, LEFT_REGEX, RIGHT_REGEX, TOP_REGEX } from './constants';
 import logger from '../../common/logger';
 
 import './tooltip.scss';
@@ -28,17 +22,37 @@ export const Placement = {
   right: 'right',
 };
 
-const Tooltip = ({ children, className, title, mode, placement }) => {
+const Tooltip = ({
+  children,
+  className,
+  mode,
+  placement: placementProp,
+  style: styleProp,
+  title,
+  ...others
+}) => {
   const selfRef = React.useRef();
   const [visible, setVisible] = React.useState(false); // test purpose
-  const [position, setPosition] = React.useState({ top: 0, left: 0 });
+  const [{ top, left, placement }, setPosition] = React.useState({
+    top: 0,
+    left: 0,
+    placement: placementProp,
+  });
+  const [style, setStyle] = React.useState({ ...styleProp, top, left });
   const { className: animationClassName, onEnter, onExit } = useAnimation(
-    PHASES,
+    getAnimationPhases(placement),
   );
 
   if (isNil(title) || isNil(children)) {
     return children;
   }
+
+  React.useEffect(
+    function updateStyle() {
+      setStyle({ ...styleProp, top, left });
+    },
+    [top, left, placementProp],
+  );
 
   const handleMouseEnter = e => {
     logger.debug(
@@ -48,7 +62,7 @@ const Tooltip = ({ children, className, title, mode, placement }) => {
     );
 
     setVisible(true);
-    setPosition(updatePosition(e.currentTarget, selfRef.current));
+    setPosition(calculatePosition(placement, e.currentTarget, selfRef.current));
     onEnter(e);
   };
 
@@ -64,9 +78,6 @@ const Tooltip = ({ children, className, title, mode, placement }) => {
         onMouseLeave: handleMouseLeave,
       })}
       <span
-        ref={selfRef}
-        title={null}
-        aria-label={title}
         className={clsx(
           'cb-tooltip',
           {
@@ -83,14 +94,15 @@ const Tooltip = ({ children, className, title, mode, placement }) => {
           animationClassName,
           className,
         )}
-        style={{
-          top: position.top,
-          left: position.left,
-        }}
+        {...others}
+        ref={selfRef}
+        title={null}
+        style={style}
+        aria-label={title}
         data-testid="cb-tooltip"
       >
         {title}
-        <span className="arrow" />
+        {/* TODO Add an arrow */}
       </span>
     </React.Fragment>
   );

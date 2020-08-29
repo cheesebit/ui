@@ -7,6 +7,7 @@ import postcss from 'postcss';
 import analyze from 'rollup-plugin-analyzer';
 import babel from 'rollup-plugin-babel';
 import gzip from 'rollup-plugin-gzip';
+import json from '@rollup/plugin-json';
 // import del from 'rollup-plugin-delete';
 import external from 'rollup-plugin-peer-deps-external';
 import scss from 'rollup-plugin-scss';
@@ -73,6 +74,7 @@ module.exports = [
         preferBuiltins: true,
       }),
       commonjs(),
+      json(),
       svgr(),
       terser(),
       gzip(),

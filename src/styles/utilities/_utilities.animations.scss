@@ -10,10 +10,58 @@
   @include animation(enter);
 }
 
-.cb-animation-enter-up {
-  @include animation(enter-up, $timing: ease-in);
+.cb-animation-enter-upward {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 0;
+  transform: translateY(5px);
 }
 
-.cb-animation-exit-down {
-  @include animation(exit-down, $timing: ease-out);
+.cb-animation-exit-downard {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+.cb-animation-enter-right {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 0;
+  transform: translateX(-5px);
+}
+
+.cb-animation-exit-left {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 1;
+  transform: translateX(0%);
+}
+
+.cb-animation-enter-downard {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.cb-animation-exit-upward {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 1;
+  transform: translateY(0%);
+}
+
+.cb-animation-enter-left {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 0;
+  transform: translateX(5px);
+}
+
+.cb-animation-exit-right {
+  @include transition(opacity transform, $duration: 0.25s);
+
+  opacity: 1;
+  transform: translateX(0%);
 }

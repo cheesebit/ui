@@ -146,7 +146,7 @@ class Image extends React.PureComponent {
         />
         {status === Status.loading && (
           <Overlay theme={Theme.light}>
-            <Spinner size={4} />
+            <Spinner size={2} />
           </Overlay>
         )}
         {status === Status.failed && this.renderError()}

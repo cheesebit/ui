@@ -4,6 +4,8 @@ $tooltip-arrow-size: 5px;
 
 *:hover + .cb-tooltip {
   display: block;
+
+  pointer-events: initial;
 }
 
 .cb-tooltip {
@@ -28,151 +30,7 @@ $tooltip-arrow-size: 5px;
   max-width: $tooltip-max-width;
   width: max-content;
   text-align: center;
+  pointer-events: none;
 
   @include var(z-index, layer-3);
-
-  .arrow {
-    position: absolute;
-
-    content: '';
-    border-style: solid;
-    border-width: $tooltip-arrow-size;
-
-    @include var(z-index, layer-2);
-
-    bottom: -10px;
-    left: calc(50% - 5px);
-
-    @include var(border-top-color, color-black);
-
-    border-right-color: transparent;
-    border-bottom-color: transparent;
-    border-left-color: transparent;
-  }
-
-  // &.is-tooltip-top {
-  //   &:after {
-  //     top: calc(#{$tooltip-arrow-size} * -1);
-  //     left: 50%;
-  //     margin-left: calc(#{$tooltip-arrow-size} * -1);
-  //   }
-
-  //   &.is-tooltip-dark:after {
-  //     @include var(border-top-color, color-black);
-
-  //     border-right-color: transparent;
-  //     border-bottom-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-
-  //   &.is-tooltip-light:after {
-  //     @include var(border-top-color, color-white);
-
-  //     border-right-color: transparent;
-  //     border-bottom-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-  // }
-
-  // &.is-tooltip-right {
-  //   &:after {
-  //     top: 50%;
-  //     right: calc(#{$tooltip-arrow-size} * -1);
-  //     margin-top: calc(#{$tooltip-arrow-size} * -1);
-  //   }
-
-  //   &.is-tooltip-dark:after {
-  //     @include var(border-right-color, color-black);
-
-  //     border-bottom-color: transparent;
-  //     border-top-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-
-  //   &.is-tooltip-light:after {
-  //     @include var(border-right-color, color-white);
-
-  //     border-bottom-color: transparent;
-  //     border-top-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-  // }
-
-  // &.is-tooltip-bottom {
-  //   &:after {
-  //     bottom: calc(#{$tooltip-arrow-size} * -1);
-  //     left: 50%;
-  //     margin-left: calc(#{$tooltip-arrow-size} * -1);
-  //   }
-
-  //   &.is-tooltip-dark:after {
-  //     @include var(border-bottom-color, color-black);
-
-  //     border-right-color: transparent;
-  //     border-top-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-
-  //   &.is-tooltip-light:after {
-  //     @include var(border-bottom-color, color-white);
-
-  //     border-right-color: transparent;
-  //     border-top-color: transparent;
-  //     border-left-color: transparent;
-  //   }
-  // }
-
-  // &.is-tooltip-left {
-  //   &:after {
-  //     top: 50%;
-  //     left: calc(#{$tooltip-arrow-size} * -1);
-  //     margin-top: calc(#{$tooltip-arrow-size} * -1);
-  //   }
-
-  //   &.is-tooltip-dark:after {
-  //     @include var(border-left-color, color-black);
-
-  //     border-right-color: transparent;
-  //     border-top-color: transparent;
-  //     border-bottom-color: transparent;
-  //   }
-
-  //   &.is-tooltip-light:after {
-  //     @include var(border-left-color, color-white);
-
-  //     border-right-color: transparent;
-  //     border-top-color: transparent;
-  //     border-bottom-color: transparent;
-  //   }
-  // }
-
-  // &.is-tooltip-dark {
-  //   &:after {
-  //     @include var(background, color-black);
-  //     @include var(border-color, color-black);
-  //     @include var(color, color-white);
-  //   }
-  // }
-
-  // &.is-tooltip-light {
-  //   &:after {
-  //     @include var(background, color-white);
-  //     @include var(border-color, color-white);
-  //     @include var(color, color-black);
-  //   }
-  // }
-}
-
-.cb-tooltip-out {
-  @include transition(opacity transform, $duration: 0.25s);
-
-  opacity: 0;
-  transform: translateY(5px);
-}
-
-.cb-tooltip-in {
-  @include transition(opacity transform, $duration: 0.25s);
-
-  opacity: 1;
-  transform: translateY(0%);
 }
