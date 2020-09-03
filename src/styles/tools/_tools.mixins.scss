@@ -118,7 +118,7 @@
   }
 }
 
-@mixin rounded($border-radius: 0.125rem) {
+@mixin rounded($border-radius: 0.1875rem) {
   border-radius: $border-radius;
 }
 

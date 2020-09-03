@@ -24,4 +24,28 @@
     @include var(margin-left, spacing-4);
     @include var(margin-right, spacing-0);
   }
+
+  &.-animated {
+    &::after {
+      @include transition(transform, $duration: 0.25s);
+      @include var(background-color, color-secondary-100);
+
+      content: '';
+      position: absolute;
+      width: 100%;
+      transform: scaleX(0);
+      height: 2px;
+      bottom: 0;
+      left: 0;
+
+      transform-origin: bottom right;
+    }
+
+    @include hoverable {
+      &::after {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+    }
+  }
 }

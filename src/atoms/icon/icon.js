@@ -2,8 +2,9 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { isNil, keys } from '../../common/toolset';
+import { isNil } from '../../common/toolset';
 import { DEFAULT } from '../../common/constants';
+import { SVGAttributes } from '../../common/props-dom';
 import mapping from './icon-mapping';
 
 import './icon.scss';
@@ -37,6 +38,8 @@ class Icon extends React.PureComponent {
       <IconSVG
         className={this.classes}
         aria-label={name}
+        focusable="false"
+        aria-hidden="true"
         style={this.style}
         data-testid="cb-icon"
       />
@@ -45,6 +48,7 @@ class Icon extends React.PureComponent {
 }
 
 Icon.propTypes = {
+  ...SVGAttributes,
   size: PropTypes.number,
   name: PropTypes.string,
 };

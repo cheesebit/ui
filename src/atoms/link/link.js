@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { DEFAULT } from '../../common/constants';
+import { Box } from '../box';
 import { sanitizeProps } from './helpers';
 
 import './link.scss';
@@ -24,25 +24,30 @@ export const Rel = {
  * to add/remove [recommended attributes](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/a).
  */
 const Link = ({
-  className,
   alt,
-  title,
+  animated,
   children,
+  className,
   disabled,
-  target,
-  rel,
   href,
+  rel,
+  target,
+  title,
   ...others
 }) => {
   ({ rel, href } = sanitizeProps({ target, rel, href }));
 
   const classes = clsx(className, 'cb-link', {
     'is-disabled': disabled,
+    '-animated': animated,
   });
 
   return (
-    <a
+    <Box
+      borderless
+      paddingless
       {...others}
+      as="a"
       alt={alt}
       aria-label={alt || title}
       className={classes}
@@ -53,12 +58,13 @@ const Link = ({
       title={title || alt}
     >
       {children}
-    </a>
+    </Box>
   );
 };
 
 Link.propTypes = {
   alt: PropTypes.string,
+  animated: PropTypes.bool,
   download: PropTypes.string,
   href: PropTypes.string,
   target: PropTypes.oneOf([
@@ -71,6 +77,7 @@ Link.propTypes = {
 
 Link.defaultProps = {
   alt: '',
+  animated: false,
   href: '#',
   disabled: false,
   target: Target.blank,

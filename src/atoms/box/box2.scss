@@ -8,7 +8,7 @@
   grid-auto-flow: column;
   align-items: center;
 
-  @include var(column-gap, spacing-4);
+  @include var(column-gap, spacing-2);
 
   @include m(spacing-0);
   @include px(spacing-4);
