@@ -2,9 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals } from '../../common/toolset';
+import { equals, pick } from '../../common/toolset';
+import {
+  resolveProp,
+  evaluateBorderless,
+  evaluatePaddingless,
+} from '../../common/props-toolset';
 import { withForwardedRef } from '../../hocs/with-forwarded-ref';
-
+import { InputHTMLAttributes } from '../../common/props-dom';
 import './input.scss';
 
 const PICKED_PROPS = [];
@@ -21,7 +26,7 @@ export const Variant = {
  */
 class Input extends React.PureComponent {
   get classes() {
-    const { className, variant } = this.props;
+    const { borderless, className, variant } = this.props;
 
     return clsx(
       'cb-input',
@@ -31,6 +36,7 @@ class Input extends React.PureComponent {
         '-success': equals(variant, Variant.success),
         '-warn': equals(variant, Variant.warn),
       },
+      evaluateBorderless(borderless),
       className,
     );
   }
@@ -58,6 +64,28 @@ class Input extends React.PureComponent {
 }
 
 Input.propTypes = {
+  ...InputHTMLAttributes,
+  borderless: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOf([
+        'top',
+        'right',
+        'bottom',
+        'left',
+        'horizontal',
+        'vertical',
+      ]),
+    ),
+  ]),
   className: PropTypes.string,
   type: PropTypes.oneOf([
     'button',
@@ -84,6 +112,7 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  borderless: false,
   className: null,
   type: 'text',
 };

@@ -28,6 +28,7 @@ export const {
   mergeDeepWith,
   omit,
   path,
+  pick,
   prop,
   range,
   reject,

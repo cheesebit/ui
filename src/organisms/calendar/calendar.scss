@@ -1,0 +1,74 @@
+.cb-calendar {
+  @include font;
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+
+  .input-toggle {
+    @include rounded;
+    @include var(background, color-gray-200);
+    @include px(spacing-6);
+    @include py(spacing-0);
+
+    & > .day,
+    & > .month,
+    & > .year {
+      background: transparent;
+      width: 2rem;
+
+      /* Chrome, Safari, Edge, Opera */
+      &::-webkit-outer-spin-button,
+      &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      /* Firefox */
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+
+  .days {
+    display: grid;
+    grid-template-columns: repeat(7, 2rem);
+    grid-template-rows: repeat(7, 2rem);
+    @include p(spacing-4);
+
+    & > .day {
+      @include font;
+
+      @include var(font-size, font-size-sm);
+
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  // & > .menu {
+  //   @include rounded;
+  //   @include transition(max-height opacity);
+
+  //   @include shadow;
+  //   @include var(z-index, layer-3);
+  //   @include var(background, color-white);
+
+  //   overflow-x: hidden;
+  //   overflow-y: auto;
+
+  //   opacity: 1;
+
+  //   position: absolute;
+
+  //   @include mx(spacing-0);
+  //   @include var(margin-bottom, spacing-0);
+  //   @include var(margin-top, spacing-2);
+  //   padding: 0;
+
+  //   top: calc(100% - 1px);
+  //   width: 20rem;
+  // }
+}

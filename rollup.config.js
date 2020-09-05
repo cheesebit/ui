@@ -42,6 +42,7 @@ module.exports = [
       pagination: `${MOLECULES_PATH_PREFIX}/pagination/index`,
       select: `${MOLECULES_PATH_PREFIX}/select/index`,
       tabs: `${MOLECULES_PATH_PREFIX}/tabs/index`,
+      calendar: `${ORGANISMS_PATH_PREFIX}/calendar/index`,
       tabbed: `${ORGANISMS_PATH_PREFIX}/tabbed/index`,
       table: `${ORGANISMS_PATH_PREFIX}/table/index`,
       wizard: `${ORGANISMS_PATH_PREFIX}/wizard/index`,
