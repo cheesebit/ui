@@ -4,7 +4,7 @@
 
   position: absolute;
   @include var(margin, spacing-0);
-  @include var(padding, spacing-8);
+  @include var(padding, spacing-4);
 
   top: 0;
   bottom: 0;

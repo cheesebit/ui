@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals, pick } from '../../common/toolset';
+import { equals, keys, pick } from '../../common/toolset';
 import {
   resolveProp,
   evaluateBorderless,
@@ -12,7 +12,7 @@ import { withForwardedRef } from '../../hocs/with-forwarded-ref';
 import { InputHTMLAttributes } from '../../common/props-dom';
 import './input.scss';
 
-const PICKED_PROPS = [];
+const PICKED_PROPS = [...keys(InputHTMLAttributes)];
 
 export const Variant = {
   danger: 'danger',
@@ -53,7 +53,7 @@ class Input extends React.PureComponent {
 
     return (
       <input
-        {...others}
+        {...pick(PICKED_PROPS, others)}
         ref={forwardedRef}
         className={this.classes}
         type={type}

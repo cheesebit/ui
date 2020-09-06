@@ -11,9 +11,9 @@
     @include px(spacing-6);
     @include py(spacing-0);
 
-    & > .day,
-    & > .month,
-    & > .year {
+    & > .input-day,
+    & > .input-month,
+    & > .input-year {
       background: transparent;
       width: 2rem;
 
@@ -31,20 +31,76 @@
     }
   }
 
+  .year-selector {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    @include px(spacing-6);
+    @include var(padding-top, spacing-6);
+    @include var(padding-bottom, spacing-0);
+  }
+
+  .year-month-display {
+    display: grid;
+    grid-template-rows: 24px 12px;
+
+    @include px(spacing-4);
+    @include var(font-size, font-size-2xl);
+  }
+
+  .batata {
+    @include rounded(50%);
+    @include var(background, color-gray-100);
+    // @include var(border-color, color-primary-500);
+    // @include var(color, color-primary-500);
+    @include var(font-size, font-size-2xl);
+    @include hoverable {
+      @include var(background, color-gray-300);
+      @include var(color, color-primary-500);
+      // @include var(border-color, color-primary-500);
+      // @include var(color, color-white);
+    }
+  }
+
+  .batata + .batata {
+    @include var(margin-left, spacing-2);
+  }
+
+  .year {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .month {
+    @include var(font-size, font-size-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
   .days {
     display: grid;
-    grid-template-columns: repeat(7, 2rem);
-    grid-template-rows: repeat(7, 2rem);
-    @include p(spacing-4);
+    grid-template-columns: repeat(7, 40px);
+    grid-template-rows: repeat(7, 40px);
+
+    @include px(spacing-6);
+    @include var(padding-top, spacing-3);
+    @include var(padding-bottom, spacing-6);
 
     & > .day {
       @include font;
-
-      @include var(font-size, font-size-sm);
+      @include var(font-size, font-size-xs);
 
       display: inline-flex;
       justify-content: center;
       align-items: center;
+    }
+
+    & > .week-day {
+      @include var(font-weight, font-weight-bold);
     }
   }
 

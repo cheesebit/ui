@@ -134,7 +134,7 @@ class Dropdown extends React.PureComponent {
 
   render() {
     return (
-      <ClickOutside onClickOutside={this.handleClickOutside}>
+      <ClickOutside disabled onClickOutside={this.handleClickOutside}>
         {this.renderDropdown}
       </ClickOutside>
     );
