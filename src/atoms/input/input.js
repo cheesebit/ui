@@ -26,7 +26,7 @@ export const Variant = {
  */
 class Input extends React.PureComponent {
   get classes() {
-    const { borderless, className, variant } = this.props;
+    const { borderless, className, paddingless, variant } = this.props;
 
     return clsx(
       'cb-input',
@@ -37,6 +37,7 @@ class Input extends React.PureComponent {
         '-warn': equals(variant, Variant.warn),
       },
       evaluateBorderless(borderless),
+      evaluatePaddingless(paddingless),
       className,
     );
   }
@@ -87,6 +88,27 @@ Input.propTypes = {
     ),
   ]),
   className: PropTypes.string,
+  paddingless: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOf([
+        'top',
+        'right',
+        'bottom',
+        'left',
+        'horizontal',
+        'vertical',
+      ]),
+    ),
+  ]),
   type: PropTypes.oneOf([
     'button',
     'color',
@@ -114,6 +136,7 @@ Input.propTypes = {
 Input.defaultProps = {
   borderless: false,
   className: null,
+  paddingless: false,
   type: 'text',
 };
 
