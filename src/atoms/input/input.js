@@ -2,12 +2,17 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals } from '../../common/toolset';
+import { equals, keys, pick } from '../../common/toolset';
+import {
+  resolveProp,
+  evaluateBorderless,
+  evaluatePaddingless,
+} from '../../common/props-toolset';
 import { withForwardedRef } from '../../hocs/with-forwarded-ref';
-
+import { InputHTMLAttributes } from '../../common/props-dom';
 import './input.scss';
 
-const PICKED_PROPS = [];
+const PICKED_PROPS = [...keys(InputHTMLAttributes)];
 
 export const Variant = {
   danger: 'danger',
@@ -21,7 +26,7 @@ export const Variant = {
  */
 class Input extends React.PureComponent {
   get classes() {
-    const { className, variant } = this.props;
+    const { borderless, className, paddingless, variant } = this.props;
 
     return clsx(
       'cb-input',
@@ -31,6 +36,8 @@ class Input extends React.PureComponent {
         '-success': equals(variant, Variant.success),
         '-warn': equals(variant, Variant.warn),
       },
+      evaluateBorderless(borderless),
+      evaluatePaddingless(paddingless),
       className,
     );
   }
@@ -47,7 +54,7 @@ class Input extends React.PureComponent {
 
     return (
       <input
-        {...others}
+        {...pick(PICKED_PROPS, others)}
         ref={forwardedRef}
         className={this.classes}
         type={type}
@@ -58,7 +65,50 @@ class Input extends React.PureComponent {
 }
 
 Input.propTypes = {
+  ...InputHTMLAttributes,
+  borderless: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOf([
+        'top',
+        'right',
+        'bottom',
+        'left',
+        'horizontal',
+        'vertical',
+      ]),
+    ),
+  ]),
   className: PropTypes.string,
+  paddingless: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.oneOf([
+      'top',
+      'right',
+      'bottom',
+      'left',
+      'horizontal',
+      'vertical',
+    ]),
+    PropTypes.arrayOf(
+      PropTypes.oneOf([
+        'top',
+        'right',
+        'bottom',
+        'left',
+        'horizontal',
+        'vertical',
+      ]),
+    ),
+  ]),
   type: PropTypes.oneOf([
     'button',
     'color',
@@ -84,7 +134,9 @@ Input.propTypes = {
 };
 
 Input.defaultProps = {
+  borderless: false,
   className: null,
+  paddingless: false,
   type: 'text',
 };
 

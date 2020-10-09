@@ -1,1 +1,6 @@
+@import '../settings/index';
 
+@function get-var($name) {
+  @return map-get($vars, $name);
+  // #{$property}: var(--cb-#{$name}, map-get($vars, $name)) $important;
+}

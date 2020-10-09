@@ -30,6 +30,8 @@ import MoreHorizontal from './assets/ic_more_horiz_48px.svg';
 import MoreVertical from './assets/ic_more_vert_48px.svg';
 import OpenInFull from './assets/ic_open_in_full_48px.svg';
 import OpenInNew from './assets/ic_open_in_new_48px.svg';
+import PageFirst from './assets/ic_first_page_48px.svg';
+import PageLast from './assets/ic_last_page_48px.svg';
 import Refresh from './assets/ic_refresh_48px.svg';
 import Remove from './assets/ic_remove_48px.svg';
 import Search from './assets/ic_search_48px.svg';
@@ -78,6 +80,8 @@ export default {
   email: Email,
   'open-in-full': OpenInFull,
   'open-in-new': OpenInNew,
+  'page-first': PageFirst,
+  'page-last': PageLast,
   'star-border': StarBorder,
   star: Star,
   'unfold-less': UnfoldLess,

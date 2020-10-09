@@ -14,6 +14,7 @@ import './box2.scss';
 const OMITTED_PROPS = [
   'as',
   'borderless',
+  'children',
   'leading',
   'paddingless',
   'stretched',
@@ -79,7 +80,7 @@ class Box extends React.PureComponent {
   }
 
   render() {
-    const { as: Tag = 'div', forwardedRef, children, ...others } = this.props;
+    const { as: Tag = 'div', forwardedRef, ...others } = this.props;
 
     return (
       <Tag

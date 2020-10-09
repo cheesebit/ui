@@ -33,7 +33,7 @@ $active-indicator-height: spacing(1);
 
     @include var(background, color-transparent);
     @include var(font-size, font-size-sm);
-    @include var(font-weight, font-weight-medium);
+    @include var(font-weight, font-weight-default);
 
     position: relative;
     display: inline-flex;
@@ -61,6 +61,7 @@ $active-indicator-height: spacing(1);
 
     &.is-active {
       @include var(color, color-primary-600);
+      @include var(font-weight, font-weight-medium);
     }
 
     &.is-hidden {

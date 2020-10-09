@@ -26,13 +26,11 @@ class DropdownToggle extends React.PureComponent {
     }
 
     return (
-      <span>
-        <Icon
-          className={clsx({ 'cb-u-rotate-180': !collapsed })}
-          name="expand-more"
-          size={16}
-        />
-      </span>
+      <Icon
+        className={clsx({ 'cb-u-rotate-180': !collapsed })}
+        name="expand-more"
+        size={16}
+      />
     );
   };
 

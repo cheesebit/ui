@@ -118,8 +118,36 @@
   }
 }
 
-@mixin rounded($border-radius: 0.1875rem) {
-  border-radius: $border-radius;
+@mixin rounded(
+  $border-radius: 0.1875rem,
+  $top-left: true,
+  $top-right: true,
+  $bottom-left: true,
+  $bottom-right: true
+) {
+  @if $top-left {
+    border-top-left-radius: $border-radius;
+  } @else {
+    border-top-left-radius: 0;
+  }
+
+  @if $top-right {
+    border-top-right-radius: $border-radius;
+  } @else {
+    border-top-right-radius: 0;
+  }
+
+  @if $bottom-left {
+    border-bottom-left-radius: $border-radius;
+  } @else {
+    border-bottom-left-radius: 0;
+  }
+
+  @if $bottom-right {
+    border-bottom-right-radius: $border-radius;
+  } @else {
+    border-bottom-right-radius: 0;
+  }
 }
 
 @mixin bordered(

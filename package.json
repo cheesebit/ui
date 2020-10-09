@@ -26,6 +26,8 @@
     "prop-types": "15.7.2"
   },
   "dependencies": {
+    "@cheesebit/use-automaton": "0.0.3",
+    "@cheesebit/use-slice": "0.0.2",
     "clsx": "1.1.1",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",

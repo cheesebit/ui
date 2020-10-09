@@ -25,7 +25,11 @@ class ClickOutside extends React.Component {
   }
 
   handleBlur(e) {
-    const { onClickOutside } = this.props;
+    const { disabled, onClickOutside } = this.props;
+
+    if (disabled) {
+      return;
+    }
 
     const ref = this.ref.current;
 
@@ -61,7 +65,12 @@ class ClickOutside extends React.Component {
 
 ClickOutside.propTypes = {
   children: PropTypes.func.isRequired,
+  disabled: PropTypes.bool,
   onClickOutside: PropTypes.func.isRequired,
+};
+
+ClickOutside.defaultProps = {
+  disabled: false,
 };
 
 export default ClickOutside;

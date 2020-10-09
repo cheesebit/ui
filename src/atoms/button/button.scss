@@ -17,6 +17,7 @@
   @include var(background, color-transparent);
   @include var(border-color, color-gray-400);
   @include var(color, color-gray-600);
+  @include m(spacing-0);
 
   & > .children {
     @include truncate;
@@ -36,12 +37,6 @@
     @include var(color, color-gray-600);
   }
 
-  & + & {
-    @include my(spacing-0);
-    @include var(margin-left, spacing-4);
-    @include var(margin-right, spacing-0);
-  }
-
   &.-flat {
     @include var(background, color-primary-500);
     @include var(border-color, color-primary-500);
@@ -51,12 +46,6 @@
       @include var(background, color-secondary-300);
       @include var(border-color, color-secondary-300);
       @include var(color, color-white);
-    }
-
-    & + & {
-      @include my(spacing-0);
-      @include var(margin-left, spacing-4);
-      @include var(margin-right, spacing-0);
     }
   }
 
@@ -88,30 +77,18 @@
     @include var(font-size, font-size-sm);
     height: 40px;
     min-width: 40px;
-
-    & + & {
-      @include my(spacing-0);
-      @include var(margin-left, spacing-4);
-      @include var(margin-right, spacing-0);
-    }
   }
 
   &.-medium {
-    @include var(font-size, font-size-base);
+    @include var(font-size, font-size-sm);
     height: 56px;
     min-width: 56px;
   }
 
   &.-large {
-    @include var(font-size, font-size-lg);
+    @include var(font-size, font-size-base);
     height: 72px;
     min-width: 72px;
-
-    & + & {
-      @include my(spacing-0);
-      @include var(margin-left, spacing-2);
-      @include var(margin-right, spacing-0);
-    }
   }
 
   .leading,

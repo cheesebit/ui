@@ -1,0 +1,88 @@
+.cb-date-picker {
+  @include font;
+
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+
+  .input-toggle {
+    & > .input {
+      text-align: center;
+      width: 8rem;
+    }
+  }
+
+  .year-selector {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+
+    @include px(spacing-6);
+    @include var(padding-top, spacing-6);
+    @include var(padding-bottom, spacing-0);
+  }
+
+  .year-month-display {
+    display: grid;
+    grid-template-rows: 24px 12px;
+
+    @include px(spacing-4);
+    @include var(font-size, font-size-2xl);
+  }
+
+  .batata {
+    @include rounded(50%);
+    @include var(background, color-gray-100);
+    // @include var(border-color, color-primary-500);
+    // @include var(color, color-primary-500);
+    @include var(font-size, font-size-2xl);
+    @include hoverable {
+      @include var(background, color-gray-300);
+      @include var(color, color-primary-500);
+      // @include var(border-color, color-primary-500);
+      // @include var(color, color-white);
+    }
+  }
+
+  .batata + .batata {
+    @include var(margin-left, spacing-2);
+  }
+
+  .year {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .month {
+    @include var(font-size, font-size-xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // & > .menu {
+  //   @include rounded;
+  //   @include transition(max-height opacity);
+
+  //   @include shadow;
+  //   @include var(z-index, layer-3);
+  //   @include var(background, color-white);
+
+  //   overflow-x: hidden;
+  //   overflow-y: auto;
+
+  //   opacity: 1;
+
+  //   position: absolute;
+
+  //   @include mx(spacing-0);
+  //   @include var(margin-bottom, spacing-0);
+  //   @include var(margin-top, spacing-2);
+  //   padding: 0;
+
+  //   top: calc(100% - 1px);
+  //   width: 20rem;
+  // }
+}
