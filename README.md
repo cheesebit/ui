@@ -12,7 +12,7 @@
 
 Hi there, thank you very much for being here.
 
-This is my very own library of components I'm building for my own
+This is my canvas, my very own library of components I'm building for my own
 delight and/or to be used in one of my projects.
 
 I've put my heart here and I do hope someone can make good use of it - for
