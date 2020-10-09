@@ -12,11 +12,11 @@
 
 Hi there, thank you very much for being here.
 
-This is my canvas, my very own library of components I'm building for my own
-delight and/or to be used in one of my projects.
+**This is my canvas**, my very own library of components I'm building for my own
+delight and/or to be some day used in one of my projects.
 
-I've put my heart here and I do hope someone can make good use of it - for
-learning or productivity purposes - as much as I did (actually still do).
+I've been putting my heart here and I do hope someone can make good use of it (for
+learning purposes) as much as I do.
 
 You will see that the components are organized in a quite interesting structure,
 inspired in the book [_Atomic Design_](https://atomicdesign.bradfrost.com/), by
@@ -24,11 +24,10 @@ inspired in the book [_Atomic Design_](https://atomicdesign.bradfrost.com/), by
 
 Helpful feedbacks are totally appreciated.
 
-This is (and it might always be) an ongoing work, since I will keep adding,
-changing, upgrading, improving and fixing components as they go live in my own
-applications.
+This is (and it might keep on being) an ongoing work, since I will keep adding,
+changing, upgrading, improving and fixing components as I please.
 
-Checkout our docs and demo [here](https://ui.cheesebit.io).
+You can find the docs/demo [here](https://ui.cheesebit.io).
 
 ## Technical references
 
@@ -51,8 +50,7 @@ Checkout our docs and demo [here](https://ui.cheesebit.io).
 
 ## Who am I?
 
-I'm [Welington](https://www.linkedin.com/in/welingtonsilva/), Frontend Engineer
-at Hotmart.
+I'm [Welington](https://www.linkedin.com/in/welingtonsilva/), Frontend Engineer at heart.
 
 I started my journey as a Software Engineer 9+ years ago; in the last 5+ years I have been focusing on UI/Frontend development.
 
