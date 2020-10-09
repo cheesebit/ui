@@ -32,29 +32,36 @@ const MONTH = {
 };
 
 const t = new CBDate();
-const f = new DateFormatter('WWW, DD/MM/YYYY', {
+t.set('hour', 0, 0, 0, 0);
+
+const f = new DateFormatter('WWW, DD/MMM/YYYY h:m:s', {
   // delimiters: [' ', 'de', ','],
 });
 console.log('DateFormatter', t.date, t.format(f));
 
-const today = new Date();
-today.setHours(0, 0, 0, 0);
+const today = t.date;
 
-function Calendar({ date: dateProp, className }) {
+function Calendar({ id, name, date: dateProp, className, onChange }) {
   const { date, actions, dispatch } = useDate(dateProp);
-
+  const [selected, setSelected] = React.useState(
+    [
+      getComparable(new Date(2020, 8, 22)),
+      getComparable(new Date(2020, 8, 23)),
+      getComparable(new Date(2020, 8, 24)),
+      // getComparable(new Date(2020, 8, 25)),
+      getComparable(today),
+      getComparable(new Date(2020, 8, 27)),
+      // getComparable(new Date(2020, 8, 28)),
+      getComparable(new Date(2020, 8, 29)),
+    ].reduce((map, d) => {
+      return {
+        ...map,
+        [d]: true,
+      };
+    }, {}),
+  );
   const skip = new Date(getYear(date), getMonth(date)).getDay();
   const days = 40 - new Date(getYear(date), getMonth(date), 40).getDate();
-  const selected = [
-    getComparable(new Date(2020, 8, 22)),
-    getComparable(new Date(2020, 8, 23)),
-    getComparable(new Date(2020, 8, 24)),
-    // getComparable(new Date(2020, 8, 25)),
-    getComparable(today),
-    getComparable(new Date(2020, 8, 27)),
-    // getComparable(new Date(2020, 8, 28)),
-    getComparable(new Date(2020, 8, 29)),
-  ];
 
   // TODO: i18N
   // TODO: Date format
@@ -125,22 +132,31 @@ function Calendar({ date: dateProp, className }) {
           const currentDay = new Date(getYear(date), getMonth(date), d);
 
           const isToday = getComparable(today) == getComparable(currentDay);
-          const isSelected = selected.includes(getComparable(currentDay));
+          const isSelected = Boolean(selected[getComparable(currentDay)]);
 
           return (
             <Button
               size="small"
-              emphasis={clsx({
-                text: true,
-                // text: !isSelected,
-                // flat: isSelected,
-              })}
+              emphasis="text"
               key={i}
               className={clsx('day', {
                 'is-today': isToday,
                 'is-selected': isSelected,
               })}
-              onClick={() => console.log('Você selecionou dia ' + d)}
+              onClick={() => {
+                console.log('Você selecionou dia ' + d);
+                dispatch(actions.set(currentDay));
+
+                const comparable = getComparable(currentDay);
+                setSelected({
+                  ...selected,
+                  [comparable]: !Boolean(selected[comparable] || false),
+                });
+                onChange &&
+                  onChange({
+                    target: { id, name, value: currentDay },
+                  });
+              }}
               paddingless
             >
               {d}
@@ -153,6 +169,11 @@ function Calendar({ date: dateProp, className }) {
           size="small"
           onClick={() => {
             dispatch(actions.set(today));
+
+            onChange &&
+              onChange({
+                target: { id, name, value: today },
+              });
           }}
         >
           Today

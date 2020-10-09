@@ -45,6 +45,67 @@ class CheesebitDate {
     this._options = options || DEFAULT_OPTIONS;
   }
 
+  /**
+   * Set
+   * @param {string|Array} arg1 - What properties should be set or an array with `[what, value]` to be set.
+   * @param {number} arg2 - Value to be set
+   *
+   * day | date: Sets the day of the month for a specified date according to local time.
+   * year: Sets the full year (e.g. 4 digits for 4-digit years) for a specified date according to local time.
+   * hour: Sets the hours for a specified date according to local time.
+   * minute: Sets the minutes for a specified date according to local time.
+   * milliseconds: Sets the milliseconds for a specified date according to local time.
+   * month: Sets the month for a specified date according to local time.
+   * second: Sets the seconds for a specified date according to local time.
+   * time: Sets the Date object to the time represented by a number of milliseconds since January 1, 1970, 00:00:00 UTC. Use negative numbers for times prior.
+   */
+  set(arg1, ...arg2) {
+    let newValues = [];
+
+    // TODO: improve this type check
+    if (Array.isArray(arg1)) {
+      newValues = [...arg1];
+    } else {
+      newValues = [[arg1, ...arg2]];
+    }
+
+    for (let [what, ...value] of newValues) {
+      switch (what) {
+        case 'date':
+        case 'day':
+        case 'days':
+          this.date.setDate(...value);
+          break;
+        case 'year':
+        case 'years':
+          this.date.setFullYear(...value);
+          break;
+        case 'month':
+        case 'months':
+          this.date.setMonth(...value);
+        case 'hour':
+        case 'hours':
+          this.date.setHours(...value);
+          break;
+        case 'minute':
+        case 'minutes':
+          this.date.setMinutes(...value);
+          break;
+        case 'second':
+        case 'seconds':
+          this.date.setSeconds(...value);
+          break;
+        case 'millisecond':
+        case 'milliseconds':
+          this.date.setMilliseconds(...value);
+          break;
+        case 'time':
+          this.date.setTime(...value);
+          break;
+      }
+    }
+  }
+
   add(arg1, arg2) {
     let increment = Object.create(null);
 

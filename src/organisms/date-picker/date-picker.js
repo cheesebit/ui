@@ -7,24 +7,16 @@ import { Button } from '../../atoms/button';
 import { Dropdown } from '../../molecules/dropdown';
 import { Icon } from '../../atoms/icon';
 import { Calendar } from '../calendar';
+import CBDate, { DateFormatter } from '../../common/date';
 
 import './date-picker.scss';
 
-const MONTH = {
-  0: 'Janeiro',
-  1: 'Fevereiro',
-  2: 'Março',
-  3: 'Abril',
-  4: 'Maio',
-  5: 'Junho',
-  6: 'Julho',
-  7: 'Agosto',
-  8: 'Setembro',
-  9: 'Outubro',
-  10: 'Novembro',
-  11: 'Dezembro',
-};
-function DatePicker({ className, value }) {
+const t = new CBDate();
+const f = new DateFormatter('MM/DD/YYYY', {});
+
+function DatePicker({ className, value: valueProp }) {
+  const [value, setValue] = React.useState(valueProp);
+
   return (
     <div className={clsx('cb-date-picker', className)}>
       <Dropdown
@@ -34,8 +26,10 @@ function DatePicker({ className, value }) {
             <Input
               name="day"
               className="input"
-              //value={`${date.month}/${date.day}/${date.year}`}
+              readOnly
+              value={f.format(value)}
               onChange={function (e) {
+                // TODO: handle input with debouce + blur to parser
                 const {
                   target: { value },
                 } = e;
@@ -60,7 +54,12 @@ function DatePicker({ className, value }) {
         unroll="right"
       >
         <Dropdown.Items>
-          <Calendar date={value} />
+          <Calendar
+            date={value}
+            onChange={({ target: { value } }) => {
+              setValue(value);
+            }}
+          />
         </Dropdown.Items>
       </Dropdown>
     </div>
@@ -68,7 +67,7 @@ function DatePicker({ className, value }) {
 }
 
 DatePicker.defaultProps = {
-  value: new Date(),
+  value: t.date,
 };
 
 export default DatePicker;
