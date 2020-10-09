@@ -1,7 +1,7 @@
 import React from 'react';
+import { useAutomaton } from '@cheesebit/use-automaton';
 
 import { getID } from '../../common/toolset';
-import { useAutomaton } from '../../hooks/automaton';
 
 const useWizard = ({ current: initialCurrent, id, flow }) => {
   const { current, transition } = useAutomaton(flow, initialCurrent);

@@ -17,6 +17,7 @@
   @include var(background, color-transparent);
   @include var(border-color, color-gray-400);
   @include var(color, color-gray-600);
+  @include m(spacing-0);
 
   & > .children {
     @include truncate;
@@ -79,13 +80,13 @@
   }
 
   &.-medium {
-    @include var(font-size, font-size-base);
+    @include var(font-size, font-size-sm);
     height: 56px;
     min-width: 56px;
   }
 
   &.-large {
-    @include var(font-size, font-size-lg);
+    @include var(font-size, font-size-base);
     height: 72px;
     min-width: 72px;
   }

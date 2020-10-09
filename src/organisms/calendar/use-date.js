@@ -1,73 +1,100 @@
+import { DEFAULT } from '../../common/constants';
 import { useSlice } from '@cheesebit/use-slice';
 import logger from '../../common/logger';
+import {
+  getComparable,
+  getYear,
+  getMonth,
+  getDay,
+  getHours,
+  getMinutes,
+  getSeconds,
+  getMilliseconds,
+} from '../../common/date/date-utils';
 
+/**
+ * @function
+ * Hook to handle date operations
+ * @param {Date} initialDate - Date object to be managed
+ */
 function useDate(initialDate) {
   const { state, actions, dispatch } = useSlice('date', initialDate, {
-    incrementDay(state, action) {
-      const { payload = 1 } = action;
+    add(state, action) {
+      const { payload } = action;
+      const [arg1, arg2] = payload ?? DEFAULT.ARRAY;
+      let increment = Object.create(null);
 
-      const newDate = new Date(state.year, state.month, state.day + payload);
+      // TODO: improve this type check
+      if (typeof arg1 == 'object') {
+        // TODO: validate `time`
+        increment = {
+          ...arg1,
+        };
+      } else {
+        const time = arg2;
+        const amount = arg1;
 
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
+        // TODO: validate `time`
+        increment = {
+          [time]: amount,
+        };
+      }
+
+      // TODO: add object support to allow operation like add({days:7,months:1})
+      const newDate = new Date(
+        getYear(state) + (increment.years || increment.year || 0),
+        getMonth(state) + (increment.months || increment.month || 0),
+        getDay(state) + (increment.days || increment.day || 0),
+      );
+
+      return newDate;
     },
-    incrementMonth(state, action) {
-      const { payload = 1 } = action;
+    subtract(state, action) {
+      const { payload } = action;
+      const [arg1, arg2] = payload ?? DEFAULT.ARRAY;
+      let decrement = Object.create(null);
 
-      const newDate = new Date(state.year, state.month + payload, state.day);
+      // TODO: improve this type check
+      if (typeof arg1 == 'object') {
+        // TODO: validate `time`
+        decrement = {
+          ...arg1,
+        };
+      } else {
+        const time = arg2;
+        const amount = arg1;
 
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
+        // TODO: validate `time`
+        decrement = {
+          [time]: amount,
+        };
+      }
+
+      // TODO: add object support to allow operation like add({days:7,months:1})
+      const newDate = new Date(
+        getYear(state) - (decrement.years || decrement.year || 0),
+        getMonth(state) - (decrement.months || decrement.month || 0),
+        getDay(state) - (decrement.days || decrement.day || 0),
+      );
+
+      return newDate;
     },
-    incrementYear(state, action) {
-      const { payload = 1 } = action;
+    set(state, action) {
+      const { payload } = action;
+      const [params] = payload ?? DEFAULT.ARRAY;
 
-      const newDate = new Date(state.year + payload, state.month, state.day);
+      if (params instanceof Date) {
+        return params;
+      }
 
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
-    },
-    decrementDay(state, action) {
-      const { payload = 1 } = action;
+      // TODO: add object support to allow operation like add({days:7,months:1})
+      const newDate = new Date(
+        params.year || getYear(state),
+        params.month || getMonth(state),
+        params.day || getDay(state),
+      );
 
-      const newDate = new Date(state.year, state.month, state.day - payload);
-
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
-    },
-    decrementMonth(state, action) {
-      const { payload = 1 } = action;
-
-      const newDate = new Date(state.year, state.month - payload, state.day);
-
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
-    },
-    decrementYear(state, action) {
-      const { payload = 1 } = action;
-
-      const newDate = new Date(state.year - payload, state.month, state.day);
-
-      return {
-        day: newDate.getDate(),
-        month: newDate.getMonth(),
-        year: newDate.getFullYear(),
-      };
+      return newDate;
     },
   });
 

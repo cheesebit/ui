@@ -65,11 +65,12 @@ class Box extends React.PureComponent {
   }
 
   render() {
-    const { as: Tag = 'div', ...others } = this.props;
+    const { as: Tag = 'div', forwardedRef, ...others } = this.props;
 
     return (
       <Tag
         data-testid="cb-box"
+        ref={forwardedRef}
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
       >
@@ -82,6 +83,7 @@ class Box extends React.PureComponent {
 }
 
 Box.propTypes = {
+  children: PropTypes.node,
   leading: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.element,

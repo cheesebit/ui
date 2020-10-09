@@ -188,13 +188,11 @@ class Select extends React.PureComponent {
         collapsed={collapsed}
         onClick={onClick}
         trailing={
-          <span>
-            <Icon
-              className={clsx({ 'cb-u-rotate-180': !collapsed })}
-              name="expand-more"
-              size={16}
-            />
-          </span>
+          <Icon
+            className={clsx({ 'cb-u-rotate-180': !collapsed })}
+            name="expand-more"
+            size={16}
+          />
         }
       >
         {this.value?.label || placeholder}

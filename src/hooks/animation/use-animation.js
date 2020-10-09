@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { useAutomaton } from '../automaton';
+import { useAutomaton } from '@cheesebit/use-automaton';
 
 const STATES = {
   out: {

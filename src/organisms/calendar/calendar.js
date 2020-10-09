@@ -1,14 +1,20 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {} from '../wizard/index';
-import { Input } from '../../atoms/input';
 import { Button } from '../../atoms/button';
-import { Dropdown } from '../../molecules/dropdown';
 import { Icon } from '../../atoms/icon';
 import useDate from './use-date';
+import {
+  getDay,
+  getYear,
+  getMonth,
+  getComparable,
+} from '../../common/date/date-utils';
+
+import CBDate from '../../common/date/date';
 
 import './calendar.scss';
+import DateFormatter from '../../common/date/date-formatter';
 
 const MONTH = {
   0: 'Janeiro',
@@ -24,161 +30,140 @@ const MONTH = {
   10: 'Novembro',
   11: 'Dezembro',
 };
-function Calendar({ className }) {
-  const { date, actions, dispatch } = useDate({
-    day: 8,
-    month: 8, // setembro
-    year: 2020,
-  });
-  // const [date, setDate] = React.useState({
-  //   day: 8,
-  //   month: 9,
-  //   year: 2020,
-  // });
 
-  // function handleChange(e) {
-  //   const {
-  //     target: { name, value },
-  //   } = e;
-  //   setDate(date => ({ ...date, [name]: parseInt(value, 10) }));
-  // }
+const t = new CBDate();
+const f = new DateFormatter('WWW, DD/MM/YYYY', {
+  // delimiters: [' ', 'de', ','],
+});
+console.log('DateFormatter', t.date, t.format(f));
 
-  const skip = new Date(date.year, date.month - 1).getDay();
-  const days = 40 - new Date(date.year, date.month - 1, 40).getDate();
+const today = new Date();
+today.setHours(0, 0, 0, 0);
+
+function Calendar({ date: dateProp, className }) {
+  const { date, actions, dispatch } = useDate(dateProp);
+
+  const skip = new Date(getYear(date), getMonth(date)).getDay();
+  const days = 40 - new Date(getYear(date), getMonth(date), 40).getDate();
+  const selected = [
+    getComparable(new Date(2020, 8, 22)),
+    getComparable(new Date(2020, 8, 23)),
+    getComparable(new Date(2020, 8, 24)),
+    // getComparable(new Date(2020, 8, 25)),
+    getComparable(today),
+    getComparable(new Date(2020, 8, 27)),
+    // getComparable(new Date(2020, 8, 28)),
+    getComparable(new Date(2020, 8, 29)),
+  ];
+
+  // TODO: i18N
+  // TODO: Date format
 
   return (
     <div className={clsx('cb-calendar', className)}>
-      <p>Calendar</p>
+      <div className="header">
+        <Button
+          className="previous-year"
+          emphasis="text"
+          size="small"
+          paddingless
+          onClick={() => {
+            dispatch(actions.subtract(1, 'year'));
+          }}
+        >
+          &laquo;
+        </Button>
+        <Button
+          className="previous-month"
+          emphasis="text"
+          size="small"
+          paddingless
+          onClick={() => {
+            dispatch(actions.subtract(1, 'month'));
+          }}
+        >
+          <Icon size={16} name="chevron-left" />
+        </Button>
+        <div className="date-display">
+          <span className="year">{getYear(date)}</span>
+          <span className="month">{MONTH[getMonth(date)]}</span>
+        </div>
+        <Button
+          className="next-year"
+          emphasis="text"
+          size="small"
+          paddingless
+          onClick={() => {
+            dispatch(actions.add(1, 'month'));
+          }}
+        >
+          <Icon size={16} name="chevron-right" />
+        </Button>
+        <Button
+          className="next-month"
+          emphasis="text"
+          size="small"
+          paddingless
+          onClick={() => {
+            dispatch(actions.add(1, 'year'));
+          }}
+        >
+          &raquo;
+        </Button>
+      </div>
+      <div className="days">
+        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+          <abbr key={day} className="day week-day" title="Thursday">
+            {day}
+          </abbr>
+        ))}
 
-      {/* <div className="menu">Meby</div> */}
+        {[...[...Array(skip)].map(() => '')].map((_, i) => (
+          <span key={`empty-${i}`} />
+        ))}
+        {[...[...Array(days)].map((_, n) => n + 1)].map((d, i) => {
+          const currentDay = new Date(getYear(date), getMonth(date), d);
 
-      <Dropdown
-        collapsed={false}
-        toggle={({ disabled, collapsed, onClick }) => (
-          <div className="input-toggle" onFocus={null}>
-            <Input
-              borderless
-              paddingless={['horizontal']}
-              className="input-day"
-              type="number"
-              name="day"
-              value={date.day}
-              readOnly
-            />
-            /
-            <Input
-              borderless
-              paddingless={['horizontal']}
-              className="input-month"
-              type="number"
-              name="month"
-              value={date.month + 1}
-              readOnly
-            />
-            /
-            <Input
-              borderless
-              paddingless={['horizontal']}
-              className="input-year"
-              type="number"
-              name="year"
-              value={date.year}
-              readOnly
-            />
-          </div>
-          // <Dropdown.Toggle
-          //   disabled={disabled}
-          //   collapsed={collapsed}
-          //   onClick={onClick}
-          //   icon="more-horizontal"
-          //   borderless
-          // />
-        )}
-        unroll="right"
-      >
-        <Dropdown.Items>
-          <div className="year-selector">
-            <Button
-              className="batata"
-              emphasis="text"
-              size="small"
-              paddingless
-              onClick={() => {
-                dispatch(actions.decrementYear(1));
+          const isToday = getComparable(today) == getComparable(currentDay);
+          const isSelected = selected.includes(getComparable(currentDay));
 
-                // dispatch({
-                //   type: actions.decrementYear.type,
-                //   payload: 1,
-                // });
-              }}
-            >
-              &laquo;
-            </Button>
+          return (
             <Button
-              className="batata"
-              emphasis="text"
               size="small"
+              emphasis={clsx({
+                text: true,
+                // text: !isSelected,
+                // flat: isSelected,
+              })}
+              key={i}
+              className={clsx('day', {
+                'is-today': isToday,
+                'is-selected': isSelected,
+              })}
+              onClick={() => console.log('Você selecionou dia ' + d)}
               paddingless
-              onClick={() => {
-                dispatch(actions.decrementMonth(1));
-              }}
             >
-              <Icon name="chevron-left" />
+              {d}
             </Button>
-            <div className="year-month-display">
-              <span className="year">{date.year}</span>
-              <span className="month">{MONTH[date.month]}</span>
-            </div>
-            <Button
-              className="batata"
-              emphasis="text"
-              size="small"
-              paddingless
-              onClick={() => {
-                dispatch(actions.incrementMonth(1));
-              }}
-            >
-              <Icon name="chevron-right" />
-            </Button>
-            <Button
-              className="batata"
-              emphasis="text"
-              size="small"
-              paddingless
-              onClick={() => {
-                dispatch(actions.incrementYear(1));
-              }}
-            >
-              &raquo;
-            </Button>
-          </div>
-          <div className="days">
-            {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-              <span key={day} className="day week-day">
-                {day}
-              </span>
-            ))}
-
-            {[...[...Array(skip)].map(() => '')].map((_, i) => (
-              <span key={`empty-${i}`} />
-            ))}
-            {[...[...Array(days)].map((_, n) => n + 1)].map((d, i) => (
-              <Button
-                size="small"
-                emphasis="text"
-                key={i}
-                className="day"
-                onClick={() => alert('Você selecionou dia ' + d)}
-                paddingless
-              >
-                {d}
-              </Button>
-            ))}
-          </div>
-        </Dropdown.Items>
-      </Dropdown>
+          );
+        })}
+      </div>
+      <div className="quick-actions">
+        <Button
+          size="small"
+          onClick={() => {
+            dispatch(actions.set(today));
+          }}
+        >
+          Today
+        </Button>
+      </div>
     </div>
   );
 }
+
+Calendar.defaultProps = {
+  date: today,
+};
 
 export default Calendar;
