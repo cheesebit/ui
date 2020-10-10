@@ -12,7 +12,7 @@ import json from '@rollup/plugin-json';
 import external from 'rollup-plugin-peer-deps-external';
 import scss from 'rollup-plugin-scss';
 import { terser } from 'rollup-plugin-terser';
-import pkg from './package.json';
+// import pkg from './package.json';
 
 const ATOMS_PATH_PREFIX = './src/atoms';
 const MOLECULES_PATH_PREFIX = './src/molecules';
@@ -44,6 +44,7 @@ module.exports = [
       tabs: `${MOLECULES_PATH_PREFIX}/tabs/index`,
       calendar: `${ORGANISMS_PATH_PREFIX}/calendar/index`,
       'date-picker': `${ORGANISMS_PATH_PREFIX}/date-picker/index`,
+      form: `${ORGANISMS_PATH_PREFIX}/form/index`,
       tabbed: `${ORGANISMS_PATH_PREFIX}/tabbed/index`,
       table: `${ORGANISMS_PATH_PREFIX}/table/index`,
       wizard: `${ORGANISMS_PATH_PREFIX}/wizard/index`,

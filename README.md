@@ -15,8 +15,8 @@ Hi there, thank you very much for being here.
 **This is my canvas**, my very own library of components I'm building for my own
 delight and/or to be some day used in one of my projects.
 
-I've been putting my heart here and I do hope someone can make good use of it (for
-learning purposes) as much as I do.
+I've been putting my heart here and I do hope someone can make good use of it
+(for learning purposes, at least for now) as much as I do.
 
 You will see that the components are organized in a quite interesting structure,
 inspired in the book [_Atomic Design_](https://atomicdesign.bradfrost.com/), by
@@ -43,16 +43,34 @@ You can find the docs/demo [here](https://ui.cheesebit.io).
 ## Head-scratching that are/were...
 
 ### ... solved
-1. Functions provided as reducer for `useReducer` is called twice due to development behavior of Strict mode. Since it can’t automatically detect side effects, it tries to help you to spot them by intentionally double-invoking functions like `useState`, `useMemo`, or `useReduce` (among others) [as per React docs](https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects) . You can check the discussion [here](https://github.com/facebook/react/issues/16295).
 
-### ... still open 
-1. [Testing Library](https://testing-library.com/) is indeed a very helpful tool when it comes to unit testing React components, but it's still unclear for me how to test things such as screen resize, dimension related tests. HoCs like [`ResizeWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/resize-watcher) and [`OverflowWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/overflow-watcher)are still pending to be properly unit-tested.
+1. Functions provided as reducer for `useReducer` is called twice due to
+   development behavior of Strict mode. Since it can’t automatically detect side
+   effects, it tries to help you to spot them by intentionally double-invoking
+   functions like `useState`, `useMemo`, or `useReduce` (among others)
+   [as per React docs](https://reactjs.org/docs/strict-mode.html#detecting-unexpected-side-effects)
+   . You can check the discussion
+   [here](https://github.com/facebook/react/issues/16295).
+
+### ... still open
+
+1. [Testing Library](https://testing-library.com/) is indeed a very helpful tool
+   when it comes to unit testing React components, but it's still unclear for me
+   how to test things such as screen resize, dimension related tests. HoCs like
+   [`ResizeWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/resize-watcher)
+   and
+   [`OverflowWatcher`](https://github.com/cheesebit/ui/tree/master/src/hocs/overflow-watcher)are
+   still pending to be properly unit-tested.
 
 ## Who am I?
 
-I'm [Welington](https://www.linkedin.com/in/welingtonsilva/), Frontend Engineer at heart.
+I'm [Welington](https://www.linkedin.com/in/welingtonsilva/), Frontend Engineer
+at heart.
 
-I started my journey as a Software Engineer 9+ years ago; in the last 5+ years I have been focusing on UI/Frontend development.
+I started my journey as a Software Engineer 9+ years ago; in the last 5+ years I
+have been focusing on UI/Frontend development.
 
-<small id="logo-source">*Icon made by <a alt="" aria-label="Smashicons" href="https://www.flaticon.com/authors/smashicons" rel="noopener noreferrer" target="_blank" title="Smashicons">Smashicons</a> from <a alt="" aria-label="Flaticon" href="https://www.flaticon.com/" rel="noopener noreferrer" target="_blank" title="Flaticon">www.flaticon.com</a></small>
-
+<small id="logo-source">\*Icon made by
+<a alt="" aria-label="Smashicons" href="https://www.flaticon.com/authors/smashicons" rel="noopener noreferrer" target="_blank" title="Smashicons">Smashicons</a>
+from
+<a alt="" aria-label="Flaticon" href="https://www.flaticon.com/" rel="noopener noreferrer" target="_blank" title="Flaticon">www.flaticon.com</a></small>
