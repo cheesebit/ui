@@ -5,7 +5,7 @@ const LOGGER_BY_TYPE = {
   warn: console.warn,
 };
 
-const LOGGER_ENABLED = false;
+const LOGGER_ENABLED = true;
 
 const log = (type = 'log', ...args) => {
   if (!LOGGER_ENABLED) {

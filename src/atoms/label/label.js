@@ -8,10 +8,10 @@ import { Icon } from '../icon';
 import { isEmpty, omit, equals, isNil } from '../../common/toolset';
 import { resolveProp } from '../../common/props-toolset';
 import { Tooltip } from '../tooltip';
-import Anchor from './field-anchor';
-import Selectors from './field.selectors';
+import Anchor from './label-anchor';
+import Selectors from './label.selectors';
 
-import './field.scss';
+import './label.scss';
 
 const OMITTED_PROPS = ['tooltip', 'feedback', 'prompt', 'trailing'];
 
@@ -23,12 +23,12 @@ export const Variant = {
 };
 
 // Based on https://uxdesign.cc/ui-cheat-sheet-text-fields-2152112615f8
-class Field extends React.PureComponent {
+class Label extends React.PureComponent {
   get classes() {
     const { className, variant } = this.props;
 
     return clsx(
-      'cb-field',
+      'cb-label',
       {
         '-danger': equals(variant, Variant.danger),
         '-info': equals(variant, Variant.info),
@@ -104,11 +104,13 @@ class Field extends React.PureComponent {
       <div
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
-        data-testid="cb-field"
+        data-testid="cb-label"
       >
-        <span className="label" data-testid="field-label">
-          {label}
-        </span>
+        <span
+          data-testid="field-label"
+          {...resolveProp(label, 'children')}
+          className="label"
+        />
         <Box
           className="content"
           as="div"
@@ -128,8 +130,8 @@ class Field extends React.PureComponent {
   }
 }
 
-Field.propTypes = {
-  label: PropTypes.string.isRequired,
+Label.propTypes = {
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   children: PropTypes.node.isRequired,
   prompt: PropTypes.string,
   feedback: PropTypes.shape({
@@ -160,4 +162,4 @@ Field.propTypes = {
   ]),
 };
 
-export default Field;
+export default Label;

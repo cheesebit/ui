@@ -1,16 +1,16 @@
 import React from 'react';
 
-import { Field, Variant } from './index';
+import { Label, Variant } from './index';
 import { screen, render, getByTestId, userEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
-describe('Field', () => {
+describe('Label', () => {
   it('renders correctly', () => {
     const props = { label: generator.word(), children: generator.word() };
 
-    const { getByTestId } = render(<Field {...props} />);
+    const { getByTestId } = render(<Label {...props} />);
 
-    const component = getByTestId('cb-field');
+    const component = getByTestId('cb-label');
     const label = getByTestId('field-label');
     const content = getByTestId('field-content');
     const prompt = getByTestId('field-prompt');
@@ -24,9 +24,9 @@ describe('Field', () => {
   it('renders label correctly', () => {
     const props = { label: generator.word(), children: generator.word() };
 
-    render(<Field {...props} />);
+    render(<Label {...props} />);
 
-    const component = screen.getByTestId('cb-field');
+    const component = screen.getByTestId('cb-label');
     const label = getByTestId(component, 'field-label');
 
     expect(label).toHaveTextContent(props.label);
@@ -39,9 +39,9 @@ describe('Field', () => {
       prompt: generator.sentence(),
     };
 
-    const { getByTestId } = render(<Field {...props} />);
+    const { getByTestId } = render(<Label {...props} />);
 
-    const component = getByTestId('cb-field');
+    const component = getByTestId('cb-label');
 
     const prompt = getByTestId('field-prompt');
 
@@ -54,9 +54,9 @@ describe('Field', () => {
       children: generator.word(),
     };
 
-    const { getByTestId } = render(<Field {...props} />);
+    const { getByTestId } = render(<Label {...props} />);
 
-    const component = getByTestId('cb-field');
+    const component = getByTestId('cb-label');
 
     expect(component).toHaveTextContent(props.children);
   });
@@ -71,7 +71,7 @@ describe('Field', () => {
       },
     };
 
-    const { getByTestId } = render(<Field {...props} />);
+    const { getByTestId } = render(<Label {...props} />);
 
     const tooltip = getByTestId('cb-tooltip');
     const anchor = getByTestId('tooltip-anchor');
@@ -92,7 +92,7 @@ describe('Field', () => {
       },
     };
 
-    const { getByTestId, getByLabelText } = render(<Field {...props} />);
+    const { getByTestId, getByLabelText } = render(<Label {...props} />);
 
     const prompt = getByTestId('field-prompt');
     const icon = getByLabelText(props.feedback.icon);
@@ -110,7 +110,7 @@ describe('Field', () => {
       },
     };
 
-    const { getByTestId, getByLabelText } = render(<Field {...props} />);
+    const { getByTestId, getByLabelText } = render(<Label {...props} />);
 
     const prompt = getByTestId('field-prompt');
     const icon = getByLabelText(props.feedback.icon);
@@ -131,7 +131,7 @@ describe('Field', () => {
     };
 
     const { getByTestId, getByLabelText, rerender } = render(
-      <Field {...props} />,
+      <Label {...props} />,
     );
 
     const prompt = getByTestId('field-prompt');
@@ -149,7 +149,7 @@ describe('Field', () => {
       },
     };
 
-    rerender(<Field {...props} {...addedProps} />);
+    rerender(<Label {...props} {...addedProps} />);
 
     icon = getByLabelText(addedProps.feedback.icon);
 
@@ -174,7 +174,7 @@ describe('Field', () => {
     };
 
     const { getByTestId, getByLabelText, rerender } = render(
-      <Field {...props} />,
+      <Label {...props} />,
     );
 
     const prompt = getByTestId('field-prompt');
@@ -189,7 +189,7 @@ describe('Field', () => {
       feedback: {},
     };
 
-    rerender(<Field {...props} {...addedProps} />);
+    rerender(<Label {...props} {...addedProps} />);
 
     icon = getByLabelText(props.tooltip.icon);
 
@@ -205,7 +205,7 @@ describe('Field', () => {
       trailing: generator.animal(),
     };
 
-    const { getByTestId } = render(<Field {...props} />);
+    const { getByTestId } = render(<Label {...props} />);
 
     const content = getByTestId('field-content');
 
@@ -220,9 +220,9 @@ describe('Field', () => {
         variant: Variant.danger,
       };
 
-      const { getByTestId } = render(<Field {...props} />);
+      const { getByTestId } = render(<Label {...props} />);
 
-      const component = getByTestId('cb-field');
+      const component = getByTestId('cb-label');
       expect(component).toHaveClass('-danger');
     });
 
@@ -233,9 +233,9 @@ describe('Field', () => {
         variant: Variant.info,
       };
 
-      const { getByTestId } = render(<Field {...props} />);
+      const { getByTestId } = render(<Label {...props} />);
 
-      const component = getByTestId('cb-field');
+      const component = getByTestId('cb-label');
       expect(component).toHaveClass('-info');
     });
 
@@ -246,9 +246,9 @@ describe('Field', () => {
         variant: Variant.success,
       };
 
-      const { getByTestId } = render(<Field {...props} />);
+      const { getByTestId } = render(<Label {...props} />);
 
-      const component = getByTestId('cb-field');
+      const component = getByTestId('cb-label');
       expect(component).toHaveClass('-success');
     });
 
@@ -259,9 +259,9 @@ describe('Field', () => {
         variant: Variant.warn,
       };
 
-      const { getByTestId } = render(<Field {...props} />);
+      const { getByTestId } = render(<Label {...props} />);
 
-      const component = getByTestId('cb-field');
+      const component = getByTestId('cb-label');
       expect(component).toHaveClass('-warn');
     });
   });
