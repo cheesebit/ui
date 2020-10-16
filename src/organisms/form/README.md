@@ -79,17 +79,103 @@ Currently we support the following predefined validators:
 
 #### `number.max`
 
+Checks if the field value is less than or equals to the provided argument.
+
+**Example**
+
+```js
+const schema = {{
+  age: [
+    ['number.max', 21]
+  ]
+}}
+```
+
 #### `number.min`
+
+Checks if the field value is greater than or equals to the provided argument.
+
+**Example**
+
+```js
+const schema = {{
+  age: [
+    ['number.min', 18]
+  ]
+}}
+```
 
 #### `number.range`
 
+Checks if the field value is between the min/max range (inclusive).
+
+**Example**
+
+```js
+const schema = {{
+  age: [
+    ['number.range', 18, 21]
+  ]
+}}
+```
+
 #### `string.length.max`
+
+Checks if the string field value has length less than or equals to the provided
+argument.
+
+**Example**
+
+```js
+const schema = {{
+  name: [
+    ['string.length.max', 255]
+  ]
+}}
+```
 
 #### `string.length.min`
 
+Checks if the string field value has length greater than or equals to the
+provided argument.
+
+**Example**
+
+```js
+const schema = {{
+  name: [
+    ['string.length.max', 255]
+  ]
+}}
+```
+
 #### `string.length.range`
 
+Checks if the string field value has length between the min/max arguments.
+
+**Example**
+
+```js
+const schema = {{
+  name: [
+    ['string.length.range', 3, 255]
+  ]
+}}
+```
+
 #### `string.length`
+
+Checks if the string field value has length equals to the provided arguments.
+
+**Example**
+
+```js
+const schema = {{
+  name: [
+    ['string.length.range', 3, 255]
+  ]
+}}
+```
 
 ### - object
 
@@ -109,3 +195,29 @@ You can include the following options:
 reference any error it returns. **If you use the name of an existing predefined
 validator, your customized one will be mercilessly overriden**.
 <!-- - on, -->
+
+**Example**
+
+```js
+const myWeirdArg = 18;
+const schema = {{
+  list: [
+    {
+      name: 'my-custom-validator',
+      validator: function({ age, list }, myWeirdArg) {
+        if (age > myWeirdArg) {
+          return list.length > 0;
+        }
+
+        return true;
+      },
+      args: [myWeirdArg],
+      except: function({ age }) {
+        return age > 65;
+      }
+    }
+  ],
+  age: 'required',
+  name: 'required'
+}}
+```
