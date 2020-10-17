@@ -32,6 +32,13 @@ export const validators = {
   required: commonValidators.validateRequired,
 };
 
+/**
+ * @function
+ * Gets validator by `ruleName`, or in case it cannot find it, returns a permissive validator,
+ * which always returns `true` (valid).
+ * @param {string} ruleName - Name of the validation rule to be returned.
+ * @returns {function} The validator function
+ */
 function getValidator(ruleName) {
   if (ruleName in validators) {
     return validators[ruleName];
@@ -40,6 +47,14 @@ function getValidator(ruleName) {
   return validators.permissive;
 }
 
+/**
+ * Gets the value to be provided to validation `function`/`Promise`.
+ * If it is a custom validator (`isCustomHandler = true`), then we return
+ * a shallow copy of `values` (since we don't know beforehand which fields it will use).
+ * @param {object} values - Values object from where `field` will be retrieved.
+ * @param {string} field - Field to be validated.
+ * @param {boolean} isCustomHandler - Is a custom validator (not a predefined one).
+ */
 function getValue(values, field, isCustomHandler) {
   if (isCustomHandler) {
     return { ...values };
@@ -70,10 +85,13 @@ function handleArrayRule(rule) {
  * Breaks rule as object into named properties.
  * @param {object} rule - Rule as object
  * @return {object}
+ *
+ * @throws InvalidValidatorError
+ * @throws InvalidExceptCheckerError
  */
 function handleObjectRule(rule) {
   const { name: ruleName, on, except, handler, args } = rule;
-  const validator = getValidator(rule) || handler;
+  const validator = handler || getValidator(rule);
 
   if (!isFunction(validator) && !isPromise(validator)) {
     throw new InvalidValidatorError(
@@ -113,6 +131,14 @@ function handleStringRule(rule) {
   };
 }
 
+/**
+ * @function
+ * Creates an object representing the validation given by `rule`.
+ * It handles it based on its type.
+ * @param {Array|object|string} rule - Rule that determines the validation.
+ * @returns object
+ * @throws RuleTypeError
+ */
 function resolveRule(rule) {
   if (Array.isArray(rule)) {
     return handleArrayRule(rule);
@@ -125,6 +151,14 @@ function resolveRule(rule) {
   throw new RuleTypeError(`${String(rule)} is not a valid rule type.`);
 }
 
+/**
+ * @function
+ * Performs validation over `field` present in `values`, applying
+ * `rules`.
+ * @param {object} values - Values object from where `field` will be retrieved.
+ * @param {string} field - Field to be validated.
+ * @param {object} rules - Object containing validation rules to be applied.
+ */
 export async function validate(values, field, rules) {
   const safeRules = toArray(rules);
 
