@@ -116,7 +116,7 @@ class Label extends React.PureComponent {
           as="div"
           borderless
           paddingless
-          stretched
+          block
           trailing={this.renderTrailing()}
           data-testid="field-content"
         >

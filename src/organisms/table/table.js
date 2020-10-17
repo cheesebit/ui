@@ -54,7 +54,7 @@ class Table extends React.PureComponent {
     return (
       <section id={id} className={this.classes} data-testid="cb-table">
         <Box
-          stretched
+          block
           data-testid="header"
           className="header row"
           paddingless="vertical"
@@ -105,7 +105,7 @@ class Table extends React.PureComponent {
           {this.data.map(entry => (
             <List.Item
               key={entry.id}
-              stretched
+              block
               className="row"
               data-testid="row"
               leading={<Checkbox />}

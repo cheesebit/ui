@@ -48,7 +48,7 @@ class Input extends React.PureComponent {
       type,
       leading,
       trailing,
-      stretched,
+      block,
       ...others
     } = this.props;
 

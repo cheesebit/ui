@@ -78,7 +78,7 @@ function Calendar({ id, name, date: dateProp, className, onChange }) {
             dispatch(actions.subtract(1, 'year'));
           }}
         >
-          &laquo;
+          <span>&laquo;</span>
         </Button>
         <Button
           className="previous-month"
@@ -115,7 +115,7 @@ function Calendar({ id, name, date: dateProp, className, onChange }) {
             dispatch(actions.add(1, 'year'));
           }}
         >
-          &raquo;
+          <span>&raquo;</span>
         </Button>
       </div>
       <div className="days">

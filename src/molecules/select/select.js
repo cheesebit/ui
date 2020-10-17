@@ -232,7 +232,7 @@ Select.defaultProps = {
   id: getID(),
   value: null,
   placeholder: 'Select',
-  unroll: 'stretched',
+  unroll: 'block',
 };
 
 Select.Items = Dropdown.Items;

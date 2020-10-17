@@ -42,7 +42,7 @@ class Dropdown extends React.PureComponent {
       {
         '-unroll-right': equals(unroll, 'right'),
         '-unroll-left': equals(unroll, 'left'),
-        '-unroll-stretched': equals(unroll, 'stretched'),
+        '-unroll-block': equals(unroll, 'block'),
       },
       {
         'is-collapsed': collapsed,
@@ -143,7 +143,7 @@ class Dropdown extends React.PureComponent {
 
 Dropdown.propTypes = {
   collapsed: PropTypes.bool,
-  unroll: PropTypes.oneOf(['right', 'left', 'stretched']),
+  unroll: PropTypes.oneOf(['right', 'left', 'block']),
 };
 
 Dropdown.defaultProps = {

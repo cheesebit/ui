@@ -12,7 +12,7 @@ const Checkbox = ({
   className,
   disabled,
   paddingless,
-  stretched,
+  block,
   trailing,
   ...others
 }) => {
@@ -21,7 +21,7 @@ const Checkbox = ({
       as="label"
       borderless={borderless}
       paddingless={paddingless}
-      stretched={stretched}
+      block={block}
       trailing={trailing}
       className={clsx('cb-checkbox', { 'is-disabled': disabled }, className)}
       data-testid="cb-checkbox"
@@ -46,7 +46,7 @@ const Checkbox = ({
 Checkbox.defaultProps = {
   borderless: true,
   paddingless: 'horizontal',
-  stretched: false,
+  block: false,
 };
 
 export default Checkbox;

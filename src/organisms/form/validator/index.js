@@ -33,7 +33,7 @@ export const validators = {
 };
 
 function getValidator(ruleName) {
-  if (rule in validators) {
+  if (ruleName in validators) {
     return validators[ruleName];
   }
 

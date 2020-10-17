@@ -7,7 +7,6 @@
   display: inline-grid;
   grid-auto-flow: column;
   align-items: center;
-  justify-content: center;
 
   @include var(column-gap, spacing-2);
 
@@ -28,6 +27,11 @@
     @include py(spacing-0);
     @include mx(spacing-0);
     @include my(spacing-0);
+  }
+
+  & > *:not(.leading):not(.trailing):only-child {
+    align-self: center;
+    justify-self: center;
   }
 
   // & > .leading,

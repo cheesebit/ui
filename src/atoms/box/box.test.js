@@ -65,9 +65,9 @@ describe('<Box />', () => {
     expect(getByText(component, props.trailing)).toBeTruthy();
   });
 
-  it('renders stretched correctly', () => {
+  it('renders block correctly', () => {
     const props = {
-      stretched: true,
+      block: true,
       children: generator.word(),
     };
 
@@ -75,7 +75,7 @@ describe('<Box />', () => {
     const component = getByTestId('cb-box');
 
     expect(component).toHaveTextContent(props.children);
-    expect(component).toHaveClass('-stretched');
+    expect(component).toHaveClass('-block');
   });
 
   describe('with paddingless', () => {
