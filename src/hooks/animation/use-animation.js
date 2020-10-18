@@ -20,10 +20,13 @@ function useAnimation(phases) {
   const [timeoutID, setTimeoutID] = React.useState(null);
   const { transition, current } = useAutomaton(STATES, 'out');
 
+  // TODO: Clear timeout when mouse reenters during exit timeout
+  // TODO: Create a more generic way to manage animation
+
   const handleMouseEnter = React.useCallback(() => {
     if (current === 'in') {
       clearTimeout(timeoutID);
-      setTimeoutID(null);
+      return;
     }
 
     const newTimeoutID = setTimeout(() => {
@@ -34,12 +37,11 @@ function useAnimation(phases) {
   }, []);
 
   const handleMouseLeave = React.useCallback(() => {
-    setTimeoutID(null);
     clearTimeout(timeoutID);
 
     const newTimeoutID = setTimeout(() => {
       transition('exit');
-    }, 500);
+    }, 1000);
 
     setTimeoutID(newTimeoutID);
   }, []);

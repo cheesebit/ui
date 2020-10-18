@@ -95,6 +95,7 @@ class Table extends React.PureComponent {
                 paddingless="horizontal"
                 className="cell"
                 data-testid={column.name}
+                style={column?.props?.style}
               >
                 {column.name}
               </Box>

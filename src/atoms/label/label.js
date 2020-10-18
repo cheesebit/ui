@@ -51,7 +51,7 @@ class Label extends React.PureComponent {
   }
 
   renderTrailing() {
-    const { trailing } = this.props;
+    const { trailing, variant } = this.props;
 
     if (!isNil(trailing)) {
       return trailing;
@@ -78,6 +78,7 @@ class Label extends React.PureComponent {
         mode={mode}
         position={position}
         title={text}
+        variant={variant}
         data-testid="field-tooltip"
       >
         <Anchor data-testid="tooltip-anchor">

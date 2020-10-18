@@ -1,12 +1,9 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {} from '../wizard/index';
-import { Input } from '../../atoms/input';
-import { Button } from '../../atoms/button';
-import { Dropdown } from '../../molecules/dropdown';
-import { Icon } from '../../atoms/icon';
 import { Calendar } from '../calendar';
+import { Dropdown } from '../../molecules/dropdown';
+import { Input } from '../../atoms/input';
 import CBDate, { DateFormatter } from '../../common/date';
 
 import './date-picker.scss';
@@ -20,9 +17,13 @@ function DatePicker({ className, value: valueProp }) {
   return (
     <div className={clsx('cb-date-picker', className)}>
       <Dropdown
-        collapsed={false}
         toggle={({ disabled, collapsed, onClick }) => (
-          <div className="input-toggle" onFocus={null}>
+          <div
+            className="input-toggle"
+            onFocus={() => {
+              collapsed && !disabled && onClick();
+            }}
+          >
             <Input
               name="day"
               className="input"

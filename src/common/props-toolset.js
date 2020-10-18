@@ -69,17 +69,15 @@ function evaluateSidedProp(prop, value) {
   }
 
   return clsx({
-    [`cb-no-top-${prop}`]: valueAsArray.some(v =>
-      ['top', 'vertical'].includes(v),
+    [`cb-no-top-${prop}`]: valueAsArray.some(v => ['top'].includes(v)),
+    [`cb-no-right-${prop}`]: valueAsArray.some(v => ['right'].includes(v)),
+    [`cb-no-bottom-${prop}`]: valueAsArray.some(v => ['bottom'].includes(v)),
+    [`cb-no-left-${prop}`]: valueAsArray.some(v => ['left'].includes(v)),
+    [`cb-no-vertical-${prop}`]: valueAsArray.some(v =>
+      ['vertical'].includes(v),
     ),
-    [`cb-no-right-${prop}`]: valueAsArray.some(v =>
-      ['right', 'horizontal'].includes(v),
-    ),
-    [`cb-no-bottom-${prop}`]: valueAsArray.some(v =>
-      ['bottom', 'vertical'].includes(v),
-    ),
-    [`cb-no-left-${prop}`]: valueAsArray.some(v =>
-      ['left', 'horizontal'].includes(v),
+    [`cb-no-horizontal-${prop}`]: valueAsArray.some(v =>
+      ['horizontal'].includes(v),
     ),
   });
 }

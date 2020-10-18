@@ -37,28 +37,24 @@
   }
 
   &.-success {
-    .tooltip,
     & > .prompt {
       @include var(color, color-success);
     }
   }
 
   &.-danger {
-    .tooltip,
     & > .prompt {
       @include var(color, color-danger);
     }
   }
 
   &.-warn {
-    .tooltip,
     & > .prompt {
       @include var(color, color-warn);
     }
   }
 
   &.-info {
-    .tooltip,
     & > .prompt {
       @include var(color, color-info);
     }

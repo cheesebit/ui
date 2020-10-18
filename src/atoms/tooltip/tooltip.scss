@@ -16,9 +16,6 @@ $tooltip-arrow-size: 5px;
   @include bordered;
   @include rounded;
 
-  @include var(background, color-black);
-  @include var(border-color, color-black);
-  @include var(color, color-white);
   @include var(font-size, font-size-sm);
   @include var(font-weight, font-weight-default);
 
@@ -33,4 +30,72 @@ $tooltip-arrow-size: 5px;
   pointer-events: none;
 
   @include var(z-index, layer-3);
+
+  &.-light {
+    @include var(background, color-white);
+    @include var(border-color, color-white);
+    @include var(color, color-black);
+  }
+
+  &.-dark {
+    @include var(background, color-black);
+    @include var(border-color, color-black);
+    @include var(color, color-white);
+  }
+
+  &.-success {
+    &.-light {
+      @include var(background, color-white);
+      @include var(border-color, color-white);
+      @include var(color, color-success);
+    }
+
+    &.-dark {
+      @include var(background, color-success);
+      @include var(border-color, color-success);
+      @include var(color, color-white);
+    }
+  }
+
+  &.-danger {
+    &.-light {
+      @include var(background, color-white);
+      @include var(border-color, color-white);
+      @include var(color, color-danger);
+    }
+
+    &.-dark {
+      @include var(background, color-danger);
+      @include var(border-color, color-danger);
+      @include var(color, color-white);
+    }
+  }
+
+  &.-warn {
+    &.-light {
+      @include var(background, color-white);
+      @include var(border-color, color-white);
+      @include var(color, color-warn);
+    }
+
+    &.-dark {
+      @include var(background, color-warn);
+      @include var(border-color, color-warn);
+      @include var(color, color-white);
+    }
+  }
+
+  &.-info {
+    &.-light {
+      @include var(background, color-white);
+      @include var(border-color, color-white);
+      @include var(color, color-info);
+    }
+
+    &.-dark {
+      @include var(background, color-info);
+      @include var(border-color, color-info);
+      @include var(color, color-white);
+    }
+  }
 }

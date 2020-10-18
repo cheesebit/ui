@@ -1,4 +1,5 @@
 @import '../settings/index';
+@import './tools.functions';
 
 @mixin var($property, $name, $important: false) {
   @if ($important == 'important') {
@@ -7,8 +8,8 @@
     $important: null;
   }
 
-  #{$property}: map-get($vars, $name) $important;
-  #{$property}: var(--cb-#{$name}, map-get($vars, $name)) $important;
+  #{$property}: get-var($name) $important;
+  #{$property}: var(get-var-name($name), get-var($name)) $important;
 }
 
 @mixin font() {
