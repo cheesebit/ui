@@ -2,7 +2,6 @@ import { DEFAULT } from './constants';
 import { isNil } from './toolset';
 
 /**
- * @function
  * Gets width taken by the given element.
  * @param {HTMLElement} element Element to be measured
  * @param {object} options Additional options
@@ -11,14 +10,14 @@ import { isNil } from './toolset';
  *  as named parameters the offsetWidth and the element itselfl
  * @returns {number} Width of the given element, or `0` if anything went wrong.
  */
-export const getWidth = (element, options) => {
+export function getWidth(element, options) {
   const { width = 0 } = getMeasurements(element, options);
 
   return width;
-};
+}
 
 /**
- * @function 
+
 Gets top/left position and width for the given element.
  * @param {HTMLElement} element Element
  * @param {object} options Additional options.
@@ -27,7 +26,7 @@ Gets top/left position and width for the given element.
  *  It's useful for when you need to add a non-measurable value to your width.
  * @returns {object} Object containing `width`, `top`, `left`, `padding`, `margin` values.
  */
-export const getMeasurements = (element, options) => {
+export function getMeasurements(element, options) {
   if (isNil(element)) {
     return DEFAULT.OBJECT;
   }
@@ -65,7 +64,7 @@ export const getMeasurements = (element, options) => {
       left: parseInt(style.marginLeft, 10),
     },
   };
-};
+}
 
 /**
  * This function assigns the given `value` to `attribute` in the

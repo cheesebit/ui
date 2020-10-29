@@ -43,7 +43,6 @@ export const merge = mergeDeepWith(concat);
 export { debounce, get, set, unset };
 
 /**
- * @function
  * Checks if a string is not null, undefined or empty.
  * @param {string} text String to be checked.
  * @returns {boolean} `true` if string is null, undefined or empty, `false` otherwise.
@@ -120,7 +119,6 @@ export const isTruthy = curryN(1, Boolean);
 export const isFalsy = complement(isTruthy);
 
 /**
- * @function
  * Produces array for non-array value.
  * @param {*} value Value to be converted/returned.
  * @returns {Array<*>} Returns `value` itself if it is an array or
@@ -165,7 +163,6 @@ export const getIDGenerator = (alphabet, size) => {
 };
 
 /**
- * @function
  * Wraps up a promise execution and the proper error handling to avoid
  * nested try/catch block for async/await statements.
  * @param { Promise } promise Promise to be axecuted
@@ -184,7 +181,6 @@ export function to(promise) {
 }
 
 /**
- * @function
  * Throws an error with the given message. Useful as default value for mandatory arguments.
  * @param {string} message - Custom error message
  */
@@ -195,7 +191,6 @@ export const mandatory = (message = 'required') => {
 export const compact = reject(isFalsy);
 
 /**
- * @function
  * Returns the valur given as parameter
  */
 export function identity(value) {

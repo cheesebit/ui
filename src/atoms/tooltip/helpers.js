@@ -8,7 +8,6 @@ import ANIMATION_PHASES from './animation-phases.json';
  */
 
 /**
- * @function
  * Calculates tooltip position for the given placement.
  * Important to notice here that the returned placement might be different from the initially provided if
  * we verify that it wil flow out of the screen.

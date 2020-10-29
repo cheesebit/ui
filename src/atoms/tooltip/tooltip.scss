@@ -27,6 +27,7 @@ $tooltip-arrow-size: 5px;
   max-width: $tooltip-max-width;
   width: max-content;
   text-align: center;
+  text-transform: none;
   pointer-events: none;
 
   @include var(z-index, layer-3);

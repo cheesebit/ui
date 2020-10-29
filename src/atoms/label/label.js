@@ -64,7 +64,7 @@ class Label extends React.PureComponent {
       return null;
     }
 
-    const { mode, position, text, icon } = (() => {
+    const { mode, placement, text, icon } = (() => {
       if (!isEmpty(feedback)) {
         return feedback;
       }
@@ -76,7 +76,7 @@ class Label extends React.PureComponent {
       <Tooltip
         className="tooltip"
         mode={mode}
-        position={position}
+        placement={placement}
         title={text}
         variant={variant}
         data-testid="field-tooltip"
@@ -101,15 +101,20 @@ class Label extends React.PureComponent {
   render() {
     const { label, children, className, ...others } = this.props;
 
+    // TODO get additional props to label, content and prompt
     return (
       <div
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
         data-testid="cb-label"
       >
-        <span
+        <Box
+          as="span"
           data-testid="field-label"
           {...resolveProp(label, 'children')}
+          borderless
+          paddingless
+          trailing={this.renderTrailing()}
           className="label"
         />
         <Box
@@ -118,7 +123,6 @@ class Label extends React.PureComponent {
           borderless
           paddingless
           block
-          trailing={this.renderTrailing()}
           data-testid="field-content"
         >
           {children}

@@ -12,7 +12,6 @@ import {
 import { DEFAULT } from './constants';
 
 /**
- * @function
  * Function to compare properties of an object.
  * @param {Array} props - properties to be compared.
  * @returns {function} function to perform props comparison.
@@ -51,7 +50,6 @@ export function resolveProp(prop, key) {
 }
 
 /**
- * @function
  * Gets a property name and its value and generate the proper utility classname for
  * its 4 sides (top, right, bottom, and left).
  * @param {string} prop Property name
@@ -83,7 +81,6 @@ function evaluateSidedProp(prop, value) {
 }
 
 /**
- * @function
  * Based on the given param it returns the CSS utility classes to
  * remove paddings.
  * @example
@@ -100,7 +97,6 @@ export function evaluatePaddingless(paddingless) {
 }
 
 /**
- * @function
  * Based on the given param it returns the CSS utility classes to
  * remove borders.
  * @example
