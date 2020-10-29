@@ -6,8 +6,42 @@ This is a custom hook to provide an easier way to manage form state in React.
 
 ## values: object
 
-This prop serves a single purpose that is provide the initia values for the
+This prop serves a single purpose that is provide the initial values for the
 fields in your form.
+
+This object can have any specific structure, you need as long as you use the
+proper name in your fields to map them to your resulting object.
+
+**Example**
+
+```js
+const { values, dispatch } = useForm(
+  {
+    name: 'Jane Doe',
+    children: [
+      {
+        name: 'Mary Poppins',
+        age: 7,
+      },
+      {
+        name: 'James Bond',
+        age: 13,
+      },
+    ],
+  },
+  schema,
+);
+```
+
+Then you can refer to these fields as follows:
+
+```js
+<input type="text" name="name" />
+
+<input type="text" name="children.0.name" />
+
+<input type="text" name="children.1.name" />
+```
 
 ## schema?: object
 
@@ -221,3 +255,12 @@ const schema = {{
   name: 'required'
 }}
 ```
+
+## About design decisions
+
+- `useValidation` was created from the idea that changing a field value does not
+  necessarily has to do with validation (you are supposed to run validation
+  whenever you want/need). Besides that, being able to run asynchronous
+  validation must not interfere with field maintenance and its result should not
+  be managed as separate state (using `useState`) inside field set/reset
+  reducer.

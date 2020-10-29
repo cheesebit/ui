@@ -1,10 +1,10 @@
 import clsx from 'clsx';
 import React from 'react';
 
-import Field from './form-field';
 import { Label } from '../../atoms/label';
-import FormContext from './form-context';
 import { useForm, useField } from './use-form';
+import Field from './form-field';
+import FormContext from './form-context';
 
 import './form.scss';
 
@@ -14,14 +14,22 @@ import './form.scss';
  * @param {object} schema - Validation schema for the given fields.
  */
 function Form({ className, children, initial, schema }) {
-  const [fields, dispatch] = useForm(initial, schema);
+  const { values, dispatch } = useForm(initial, schema);
+  const [contextValue, setContextValue] = React.useState({ values, dispatch });
+
+  React.useEffect(
+    function updateContextValue() {
+      setContextValue({ values, dispatch });
+    },
+    [values, dispatch],
+  );
 
   return (
     <div className={clsx('cb-form', className)}>
       <div className="my-4">
-        <code>{JSON.stringify(fields)}</code>
+        <code>{JSON.stringify(values)}</code>
       </div>
-      <FormContext.Provider value={{ fields, dispatch }}>
+      <FormContext.Provider value={contextValue}>
         {children}
       </FormContext.Provider>
     </div>

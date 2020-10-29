@@ -33,7 +33,6 @@ export const validators = {
 };
 
 /**
- * @function
  * Gets validator by `ruleName`, or in case it cannot find it, returns a permissive validator,
  * which always returns `true` (valid).
  * @param {string} ruleName - Name of the validation rule to be returned.
@@ -64,7 +63,6 @@ function getValue(values, field, isCustomHandler) {
 }
 
 /**
- * @function
  * Breaks rule as array into named properties.
  * @param {Array} rule - Rule as array
  * @return {object}
@@ -81,7 +79,6 @@ function handleArrayRule(rule) {
 }
 
 /**
- * @function
  * Breaks rule as object into named properties.
  * @param {object} rule - Rule as object
  * @return {object}
@@ -116,7 +113,6 @@ function handleObjectRule(rule) {
 }
 
 /**
- * @function
  * Breaks rule as string into named properties.
  * @param {string} rule - Rule as string
  * @return {string}
@@ -132,7 +128,6 @@ function handleStringRule(rule) {
 }
 
 /**
- * @function
  * Creates an object representing the validation given by `rule`.
  * It handles it based on its type.
  * @param {Array|object|string} rule - Rule that determines the validation.
@@ -152,7 +147,6 @@ function resolveRule(rule) {
 }
 
 /**
- * @function
  * Performs validation over `field` present in `values`, applying
  * `rules`.
  * @param {object} values - Values object from where `field` will be retrieved.
@@ -161,11 +155,9 @@ function resolveRule(rule) {
  */
 export async function validate(values, field, rules) {
   const safeRules = toArray(rules);
-
+  logger.debug('validation', values);
   for (const rule of safeRules) {
-    const { args, custom = false, except, name, on, validator } = resolveRule(
-      rule,
-    );
+    const { args, custom = false, except, name, validator } = resolveRule(rule);
 
     if (except && (await except.apply(this, [values]))) {
       logger.debug('rule', name, ': skipped due to except rule');

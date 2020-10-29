@@ -5,7 +5,6 @@ export function validateRequired(value) {
 }
 
 /**
- * @function
  * Always returns true.
  * @returns {boolean} Returns `true` always.
  */
