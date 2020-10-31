@@ -82,7 +82,7 @@ class Label extends React.PureComponent {
         data-testid="field-tooltip"
       >
         <Anchor data-testid="tooltip-anchor">
-          <Icon size={12} {...resolveProp(icon, 'name')} />
+          <Icon size={12} variant={variant} {...resolveProp(icon, 'name')} />
         </Anchor>
       </Tooltip>
     );

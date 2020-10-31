@@ -1,10 +1,14 @@
 import { DEFAULT } from '../../../common/constants';
+import logger from '../../../common/logger';
+
 import {
-  identity,
+  isBoolean,
   isFunction,
+  isNil,
   isObject,
   isPromise,
   isString,
+  keys,
   toArray,
 } from '../../../common/toolset';
 
@@ -16,7 +20,6 @@ import {
   InvalidValidatorError,
   RuleTypeError,
 } from './exceptions';
-import logger from '../../../common/logger';
 
 export const validators = {
   'number.max': numberValidators.validateMaxValue,
@@ -33,33 +36,63 @@ export const validators = {
 };
 
 /**
- * Gets validator by `ruleName`, or in case it cannot find it, returns a permissive validator,
- * which always returns `true` (valid).
- * @param {string} ruleName - Name of the validation rule to be returned.
- * @returns {function} The validator function
+ * Performs validation over `values` using the given validation `schema`.
+ * @param {object} values - Values object from where `field` will be retrieved.
+ * @param {object} rules - Object containing validation rules to be applied.
  */
-function getValidator(ruleName) {
-  if (ruleName in validators) {
-    return validators[ruleName];
+export async function validate(values, schema) {
+  const safeSchema = schema || mandatory('Schema is required');
+  let status = keys(values).reduce((status, field) => {
+    return {
+      ...status,
+      [field]: true,
+    };
+  }, {});
+
+  for (const field in safeSchema) {
+    const rules = safeSchema[field] || DEFAULT.ARRAY;
+
+    for (const rule of rules) {
+      const { args, custom = false, except, name, validator } = resolveRule(
+        rule,
+      );
+
+      if (except && (await except.apply(this, [values]))) {
+        logger.debug('rule', name, ': skipped due to except rule');
+        continue;
+      }
+
+      const valid = await validator.apply(this, [
+        getValue(values, field, custom),
+        ...(args || DEFAULT.ARRAY),
+      ]);
+
+      status[field] = getStatus(status[field], valid, name);
+
+      logger.debug('rule', name, ': ', Boolean(valid) ? 'VALID' : 'INVALID');
+    }
   }
 
-  return validators.permissive;
+  return status;
 }
 
 /**
- * Gets the value to be provided to validation `function`/`Promise`.
- * If it is a custom validator (`isCustomHandler = true`), then we return
- * a shallow copy of `values` (since we don't know beforehand which fields it will use).
- * @param {object} values - Values object from where `field` will be retrieved.
- * @param {string} field - Field to be validated.
- * @param {boolean} isCustomHandler - Is a custom validator (not a predefined one).
+ * Creates an object representing the validation given by `rule`.
+ * It handles it based on its type.
+ * @param {Array|object|string} rule - Rule that determines the validation.
+ * @returns {ValidationRule}
+ * @throws RuleTypeError
  */
-function getValue(values, field, isCustomHandler) {
-  if (isCustomHandler) {
-    return { ...values };
+function resolveRule(rule) {
+  if (Array.isArray(rule)) {
+    return handleArrayRule(rule);
+  } else if (isObject(rule)) {
+    return handleObjectRule(rule);
+  } else if (isString(rule)) {
+    return handleStringRule(rule);
   }
 
-  return values[field];
+  throw new RuleTypeError(`${rule} is not a valid rule type.`);
 }
 
 /**
@@ -128,49 +161,64 @@ function handleStringRule(rule) {
 }
 
 /**
- * Creates an object representing the validation given by `rule`.
- * It handles it based on its type.
- * @param {Array|object|string} rule - Rule that determines the validation.
- * @returns object
- * @throws RuleTypeError
+ * Gets validator by `ruleName`, or in case it cannot find it, returns a permissive validator,
+ * which always returns `true` (valid).
+ * @param {string} ruleName - Name of the validation rule to be returned.
+ * @returns {function} The validator function
  */
-function resolveRule(rule) {
-  if (Array.isArray(rule)) {
-    return handleArrayRule(rule);
-  } else if (isObject(rule)) {
-    return handleObjectRule(rule);
-  } else if (isString(rule)) {
-    return handleStringRule(rule);
+function getValidator(ruleName) {
+  if (ruleName in validators) {
+    return validators[ruleName];
   }
 
-  throw new RuleTypeError(`${String(rule)} is not a valid rule type.`);
+  return validators.permissive;
 }
 
 /**
- * Performs validation over `field` present in `values`, applying
- * `rules`.
+ * Gets the value to be provided to validation `function`/`Promise`.
+ * If it is a custom validator (`isCustomHandler = true`), then we return
+ * a shallow copy of `values` (since we don't know beforehand which fields it will use).
  * @param {object} values - Values object from where `field` will be retrieved.
  * @param {string} field - Field to be validated.
- * @param {object} rules - Object containing validation rules to be applied.
+ * @param {boolean} isCustomHandler - Is a custom validator (not a predefined one).
  */
-export async function validate(values, field, rules) {
-  const safeRules = toArray(rules);
-  logger.debug('validation', values);
-  for (const rule of safeRules) {
-    const { args, custom = false, except, name, validator } = resolveRule(rule);
-
-    if (except && (await except.apply(this, [values]))) {
-      logger.debug('rule', name, ': skipped due to except rule');
-      continue;
-    }
-
-    logger.debug('rule', name, ': running...');
-
-    const valid = await validator.apply(this, [
-      getValue(values, field, custom),
-      ...(args || DEFAULT.ARRAY),
-    ]);
-
-    logger.debug('rule', name, ': ', Boolean(valid) ? 'VALID' : 'INVALID');
+function getValue(values, field, isCustomHandler) {
+  if (isCustomHandler) {
+    return { ...values };
   }
+
+  return values[field];
 }
+
+/**
+ * Consolidates new validation status with the current one.
+ * @param {boolean|Array<string>} prev - previous validation status
+ * @param {boolean} curr - result of current validator
+ * @param {string} validator - name of the current validator
+ *
+ * @returns {boolean|Array<string>}
+ */
+function getStatus(prev, curr, validator) {
+  if ((!Array.isArray(prev) || isNil(prev)) && curr) {
+    return '';
+  }
+
+  return [...(isBoolean(prev) ? [] : prev), validator];
+}
+
+/**
+ * @typedef {Object} ValidationRule
+ * @property {Array} [args] - Addional to run validation.
+ * @property {boolean} [custom] - It is a custom validator.
+ * @property {function} [except] - Function/Promise to check if validation should be skipped.
+ * @property {string} name - Validator name.
+ * @property {Validator} validator - Function/Promise to check if value is valid.
+ */
+
+/**
+ * @callback Validator
+ * @param {*} value - Value to be validated
+ * @param {*} ...args - Additional args
+ * @returns {boolean} `true` if the provided value is valid according to this validator,
+ * `false` otherwise.
+ */

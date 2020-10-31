@@ -11,4 +11,20 @@
   fill: currentColor;
 
   transform-origin: 50% 50%;
+
+  &.-success {
+    @include var(fill, color-success);
+  }
+
+  &.-danger {
+    @include var(fill, color-danger);
+  }
+
+  &.-warn {
+    @include var(fill, color-warn);
+  }
+
+  &.-info {
+    @include var(fill, color-info);
+  }
 }

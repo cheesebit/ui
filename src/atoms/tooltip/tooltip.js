@@ -130,6 +130,12 @@ Tooltip.propTypes = {
     Placement.left,
   ]),
   mode: PropTypes.oneOf([Mode.light, Mode.dark]),
+  variant: PropTypes.oneOf([
+    Variant.danger,
+    Variant.info,
+    Variant.success,
+    Variant.warn,
+  ]),
 };
 
 Tooltip.defaultProps = {

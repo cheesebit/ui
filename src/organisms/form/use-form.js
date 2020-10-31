@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { DEFAULT } from '../../common/constants';
-import { validate } from './validator';
-import { identity, set } from '../../common/toolset';
 import logger from '../../common/logger';
+import useValidation from './use-validation';
+
+import { set } from '../../common/toolset';
 
 /**
  * Custom React hook to manage form fields.
@@ -11,35 +13,24 @@ import logger from '../../common/logger';
  * @param {object} schema - Validation schema for the given values.
  */
 export function useForm(valuesProp, schema) {
-  const dispatcher = React.useRef(identity);
+  const { status, dispatch: dispatchValidate } = useValidation(schema);
 
   const [values, dispatch] = React.useReducer(function reducer(state, action) {
     const { type, payload } = action;
     const safePayload = payload || DEFAULT.OBJECT;
 
     switch (type) {
-      case 'reset': {
-        return {
-          ...state,
-          ...safePayload,
-        };
-      }
+      case 'reset':
+        return state;
       case 'validate': {
-        // (async () => {
-        //   await validate(state, safeID, schema[safeID]);
-        // })();
-
-        // TODO: dispatch run validation for all fields
+        dispatchValidate('validate', {
+          values: state,
+        });
 
         return state;
       }
       case 'field.set': {
-        const {
-          id,
-          name,
-          value,
-          validate: shouldValidate = false,
-        } = safePayload;
+        const { id, name, value, validate = false } = safePayload;
         const safeID = name || id;
 
         logger.debug('field.set', safeID, ' = ', value);
@@ -51,37 +42,42 @@ export function useForm(valuesProp, schema) {
           value,
         );
 
-        if (shouldValidate) {
-          logger.debug('field.set', 'validation started');
-
-          // (async () => {
-          //   await validate(newState, safeID, schema[safeID]);
-          // })();
-
-          // TODO: dispatch run validation for specific field
-
-          logger.debug('field.set', 'validation finished');
+        if (validate) {
+          dispatchValidate('validate', {
+            id: safeID,
+            values: newState,
+          });
         }
 
-        logger.debug('field.set', 'returning');
-
         return newState;
+      }
+      case 'field.validate': {
+        const { id, name } = safePayload;
+        const safeID = name || id;
+
+        dispatchValidate('field.validate', {
+          id: safeID,
+          values: state,
+        });
+
+        return state;
       }
       default:
         return state;
     }
   }, valuesProp || {});
 
-  React.useEffect(() => {
-    dispatcher.current = function (type, payload) {
-      dispatch({
-        type,
-        payload,
-      });
-    };
-  }, []);
+  const dispatcher = React.useRef(function (type, payload) {
+    dispatch({
+      type,
+      payload,
+    });
+  });
 
-  return { values, dispatch: dispatcher.current };
+  console.log('values', values);
+  console.log('status', status);
+
+  return { values, status, dispatch: dispatcher.current };
 }
 
 export function useField(fieldName) {
