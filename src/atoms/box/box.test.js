@@ -10,8 +10,8 @@ const SIDES = {
   right: 'right',
   bottom: 'bottom',
   left: 'left',
-  horizontal: ['right', 'left'],
-  vertical: ['top', 'bottom'],
+  horizontal: 'horizontal',
+  vertical: 'vertical',
 };
 
 describe('<Box />', () => {

@@ -43,7 +43,6 @@ describe('Tooltip', () => {
 
     userEvent.hover(anchor);
 
-    expect(component).toHaveClass('is-visible');
     expect(component).toHaveTextContent(props.title);
   });
 });
