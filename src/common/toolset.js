@@ -43,7 +43,6 @@ export const merge = mergeDeepWith(concat);
 export { debounce, get, set, unset };
 
 /**
- * @function
  * Checks if a string is not null, undefined or empty.
  * @param {string} text String to be checked.
  * @returns {boolean} `true` if string is null, undefined or empty, `false` otherwise.
@@ -60,16 +59,25 @@ export function isBlank(text) {
 /**
  * Checks if the given value is an Boolean
  * @param {*} value - Value to be checked
- * @returns `true` if `value` is a boolean value, `false` otherwise.
+ * @returns {boolean} `true` if `value` is a boolean value, `false` otherwise.
  */
 export function isBoolean(value) {
   return typeof value === 'boolean';
 }
 
 /**
+ * Checks if the given value is a string
+ * @param {*} value - Value to be checked
+ * @returns {boolean} `true` if `value` is a string value, `false` otherwise.
+ */
+export function isString(value) {
+  return typeof value === 'string';
+}
+
+/**
  * Checks if the given value is an Objectl
  * @param {*} value - Value to be checked
- * @returns `true` if `value` is an object, `false` otherwise.
+ * @returns {boolean} `true` if `value` is an object, `false` otherwise.
  * Source: https://medium.com/javascript-in-plain-english/javascript-check-if-a-variable-is-an-object-and-nothing-else-not-an-array-a-set-etc-a3987ea08fd7
  */
 export function isObject(value) {
@@ -79,11 +87,21 @@ export function isObject(value) {
 /**
  * Checks if the given value is an Objectl
  * @param {*} value - Value to be checked
- * @returns `true` if `value` is a function, `false` otherwise.
+ * @returns {boolean} `true` if `value` is a function, `false` otherwise.
  * Source: https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
  */
 export function isFunction(value) {
   return Object.prototype.toString.call(value) === '[object Function]';
+}
+
+/**
+ * Determines whether the given `value` is a Promise.
+ * @param {*} value - Value to be evaluatd
+ * @returns {boolean} `true` if `value` is a Promise, `false` otherwise.
+ * Source: https://futurestud.io/tutorials/detect-if-value-is-a-promise-in-node-js-and-javascript
+ */
+export function isPromise(value) {
+  return !!value && typeof value.then === 'function';
 }
 
 /**
@@ -101,7 +119,6 @@ export const isTruthy = curryN(1, Boolean);
 export const isFalsy = complement(isTruthy);
 
 /**
- * @function
  * Produces array for non-array value.
  * @param {*} value Value to be converted/returned.
  * @returns {Array<*>} Returns `value` itself if it is an array or
@@ -146,7 +163,6 @@ export const getIDGenerator = (alphabet, size) => {
 };
 
 /**
- * @function
  * Wraps up a promise execution and the proper error handling to avoid
  * nested try/catch block for async/await statements.
  * @param { Promise } promise Promise to be axecuted
@@ -165,7 +181,6 @@ export function to(promise) {
 }
 
 /**
- * @function
  * Throws an error with the given message. Useful as default value for mandatory arguments.
  * @param {string} message - Custom error message
  */
@@ -174,3 +189,10 @@ export const mandatory = (message = 'required') => {
 };
 
 export const compact = reject(isFalsy);
+
+/**
+ * Returns the valur given as parameter
+ */
+export function identity(value) {
+  return value;
+}

@@ -11,7 +11,6 @@ import { DEFAULT } from '../src/common/constants';
 export const chance = new ChanceJS();
 
 /**
- * @function
  * Generates an array of `amount` (or  random) length, based on the given
  * template function.
  * The template function receives as named parameter the current `index`.
@@ -22,7 +21,7 @@ export const chance = new ChanceJS();
  * @returns {Array} Returns an array of lenght `amount`, with items
  * generated based on the provided `template`.
  */
-const generateArray = ({ template, amount }) => {
+function generateArray({ template, amount }) {
   amount = amount || chance.integer({ min: 2, max: 10 });
 
   const data = [];
@@ -32,7 +31,7 @@ const generateArray = ({ template, amount }) => {
   }
 
   return data;
-};
+}
 
 const generatePick = (array, options) => {
   const { quantity = 1, allowRepeat = true } = options || DEFAULT.OBJECT;

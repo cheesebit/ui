@@ -17,17 +17,17 @@ const OMITTED_PROPS = [
   'children',
   'leading',
   'paddingless',
-  'stretched',
+  'block',
   'trailing',
 ];
 
 class Box extends React.PureComponent {
   get classes() {
-    const { borderless, paddingless, stretched, className } = this.props;
+    const { borderless, paddingless, block, className } = this.props;
 
     return clsx(
       'cb-box2',
-      { '-stretched': stretched },
+      { '-block': block },
       evaluateBorderless(borderless),
       evaluatePaddingless(paddingless),
       className,
@@ -62,11 +62,12 @@ class Box extends React.PureComponent {
   renderChildren() {
     const { children } = this.props;
 
-    return (
-      !isNil(children) && (
-        <span className="children" {...resolveProp(children, 'children')} />
-      )
-    );
+    return children;
+    // return (
+    //   !isNil(children) && (
+    //     <span className="children" {...resolveProp(children, 'children')} />
+    //   )
+    // );
   }
 
   renderTrailing() {
@@ -152,11 +153,11 @@ Box.propTypes = {
       ]),
     ),
   ]),
-  stretched: PropTypes.bool,
+  block: PropTypes.bool,
 };
 
 Box.defaultProps = {
-  stretched: false,
+  block: false,
   borderless: false,
 };
 

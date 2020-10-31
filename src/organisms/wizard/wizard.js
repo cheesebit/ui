@@ -11,12 +11,13 @@ import useWizard from './use-wizard';
 import WizardContext from './wizard-context';
 
 import './wizard.scss';
+import { Icon } from '../../atoms/icon';
 
 const PREVIOUS_ICON = { name: 'arrow-back', size: 24 };
-const PREVIOUS_PADDINGLESS = ['vertical', 'left'];
+const PREVIOUS_PADDINGLESS = ['vertical'];
 
 const NEXT_ICON = { name: 'arrow-forward', size: 24 };
-const NEXT_PADDINGLESS = ['vertical', 'right'];
+const NEXT_PADDINGLESS = ['vertical'];
 
 const Wizard = ({ id, className, children, title, flow, ...others }) => {
   const { transition, states, current, contextValue } = useWizard({
@@ -42,23 +43,25 @@ const Wizard = ({ id, className, children, title, flow, ...others }) => {
       <header className="header">
         <Button
           emphasis={Emphasis.text}
-          icon={PREVIOUS_ICON}
           onClick={transitionToPrevious}
           paddingless={PREVIOUS_PADDINGLESS}
           className={clsx({
             'cb-is-invisible': isNil(states?.previous),
           })}
-        />
+        >
+          <Icon {...PREVIOUS_ICON} />
+        </Button>
         <span className="title" {...resolveProp(title, 'children')} />
         <Button
           emphasis={Emphasis.text}
-          icon={NEXT_ICON}
           onClick={transitionToNext}
           paddingless={NEXT_PADDINGLESS}
           className={clsx({
             'cb-is-invisible': isNil(states?.next),
           })}
-        />
+        >
+          <Icon {...NEXT_ICON} />
+        </Button>
       </header>
       <WizardContext.Provider value={contextValue}>
         <Panels>{children}</Panels>

@@ -77,6 +77,8 @@
     @include var(font-size, font-size-sm);
     height: 40px;
     min-width: 40px;
+
+    @include px(spacing-2);
   }
 
   &.-medium {

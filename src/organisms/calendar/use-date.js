@@ -12,8 +12,9 @@ import {
   getMilliseconds,
 } from '../../common/date/date-utils';
 
+// TODO change initialDate to be CheesebitDate and use its operation in the actions
+
 /**
- * @function
  * Hook to handle date operations
  * @param {Date} initialDate - Date object to be managed
  */

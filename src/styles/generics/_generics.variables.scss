@@ -1,8 +1,9 @@
 @import '../settings';
+@import '../tools';
 
 //Here we transfer the variables from the map to the :root element
 :root {
   @each $key, $value in $vars {
-    --cb-#{$key}: #{$value};
+    #{get-var-name($key)}: #{$value};
   }
 }

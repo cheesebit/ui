@@ -8,10 +8,10 @@ import { Icon } from '../icon';
 import { isEmpty, omit, equals, isNil } from '../../common/toolset';
 import { resolveProp } from '../../common/props-toolset';
 import { Tooltip } from '../tooltip';
-import Anchor from './field-anchor';
-import Selectors from './field.selectors';
+import Anchor from './label-anchor';
+import Selectors from './label.selectors';
 
-import './field.scss';
+import './label.scss';
 
 const OMITTED_PROPS = ['tooltip', 'feedback', 'prompt', 'trailing'];
 
@@ -23,12 +23,12 @@ export const Variant = {
 };
 
 // Based on https://uxdesign.cc/ui-cheat-sheet-text-fields-2152112615f8
-class Field extends React.PureComponent {
+class Label extends React.PureComponent {
   get classes() {
     const { className, variant } = this.props;
 
     return clsx(
-      'cb-field',
+      'cb-label',
       {
         '-danger': equals(variant, Variant.danger),
         '-info': equals(variant, Variant.info),
@@ -51,7 +51,7 @@ class Field extends React.PureComponent {
   }
 
   renderTrailing() {
-    const { trailing } = this.props;
+    const { trailing, variant } = this.props;
 
     if (!isNil(trailing)) {
       return trailing;
@@ -64,7 +64,7 @@ class Field extends React.PureComponent {
       return null;
     }
 
-    const { mode, position, text, icon } = (() => {
+    const { mode, placement, text, icon } = (() => {
       if (!isEmpty(feedback)) {
         return feedback;
       }
@@ -76,12 +76,13 @@ class Field extends React.PureComponent {
       <Tooltip
         className="tooltip"
         mode={mode}
-        position={position}
+        placement={placement}
         title={text}
+        variant={variant}
         data-testid="field-tooltip"
       >
         <Anchor data-testid="tooltip-anchor">
-          <Icon size={12} {...resolveProp(icon, 'name')} />
+          <Icon size={12} variant={variant} {...resolveProp(icon, 'name')} />
         </Anchor>
       </Tooltip>
     );
@@ -100,22 +101,28 @@ class Field extends React.PureComponent {
   render() {
     const { label, children, className, ...others } = this.props;
 
+    // TODO get additional props to label, content and prompt
     return (
       <div
         {...omit(OMITTED_PROPS, others)}
         className={this.classes}
-        data-testid="cb-field"
+        data-testid="cb-label"
       >
-        <span className="label" data-testid="field-label">
-          {label}
-        </span>
+        <Box
+          as="span"
+          data-testid="field-label"
+          {...resolveProp(label, 'children')}
+          borderless
+          paddingless
+          trailing={this.renderTrailing()}
+          className="label"
+        />
         <Box
           className="content"
           as="div"
           borderless
           paddingless
-          stretched
-          trailing={this.renderTrailing()}
+          block
           data-testid="field-content"
         >
           {children}
@@ -128,8 +135,8 @@ class Field extends React.PureComponent {
   }
 }
 
-Field.propTypes = {
-  label: PropTypes.string.isRequired,
+Label.propTypes = {
+  label: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired,
   children: PropTypes.node.isRequired,
   prompt: PropTypes.string,
   feedback: PropTypes.shape({
@@ -160,4 +167,4 @@ Field.propTypes = {
   ]),
 };
 
-export default Field;
+export default Label;

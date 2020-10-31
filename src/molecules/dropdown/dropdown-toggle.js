@@ -40,7 +40,7 @@ class DropdownToggle extends React.PureComponent {
     return (
       <Button
         data-testid="toggle"
-        stretched
+        block
         trailing={this.renderArrow()}
         {...others}
         aria-haspopup="true"

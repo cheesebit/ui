@@ -38,9 +38,18 @@
     @include my(spacing-0);
   }
 
-  .leading + .children,
-  .children + .trailing,
-  .leading + .trailing {
+  // .leading + .children,
+  // .children + .trailing,
+  // .leading + .trailing {
+  //   @include var(margin-left, spacing-2);
+  // }
+
+  .leading:not(:only-child) {
+    @include my(spacing-0);
+    @include var(margin-right, spacing-2);
+  }
+
+  .trailing:not(:only-child) {
     @include var(margin-left, spacing-2);
   }
 
@@ -50,7 +59,7 @@
   //   pointer-events: none;
   // }
 
-  &.-stretched {
+  &.-block {
     & > .children {
       flex-grow: 1;
     }

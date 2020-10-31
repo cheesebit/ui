@@ -18,6 +18,16 @@
   border-left: none !important;
 }
 
+.cb-no-vertical-border {
+  @extend .cb-no-top-border;
+  @extend .cb-no-bottom-border;
+}
+
+.cb-no-horizontal-border {
+  @extend .cb-no-right-border;
+  @extend .cb-no-left-border;
+}
+
 .cb-no-padding {
   padding: 0 !important;
 }
@@ -36,4 +46,14 @@
 
 .cb-no-left-padding {
   padding-left: 0 !important;
+}
+
+.cb-no-vertical-padding {
+  @extend .cb-no-top-padding;
+  @extend .cb-no-bottom-padding;
+}
+
+.cb-no-horizontal-padding {
+  @extend .cb-no-right-padding;
+  @extend .cb-no-left-padding;
 }

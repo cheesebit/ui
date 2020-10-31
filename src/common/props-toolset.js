@@ -12,7 +12,6 @@ import {
 import { DEFAULT } from './constants';
 
 /**
- * @function
  * Function to compare properties of an object.
  * @param {Array} props - properties to be compared.
  * @returns {function} function to perform props comparison.
@@ -51,7 +50,6 @@ export function resolveProp(prop, key) {
 }
 
 /**
- * @function
  * Gets a property name and its value and generate the proper utility classname for
  * its 4 sides (top, right, bottom, and left).
  * @param {string} prop Property name
@@ -69,23 +67,20 @@ function evaluateSidedProp(prop, value) {
   }
 
   return clsx({
-    [`cb-no-top-${prop}`]: valueAsArray.some(v =>
-      ['top', 'vertical'].includes(v),
+    [`cb-no-top-${prop}`]: valueAsArray.some(v => ['top'].includes(v)),
+    [`cb-no-right-${prop}`]: valueAsArray.some(v => ['right'].includes(v)),
+    [`cb-no-bottom-${prop}`]: valueAsArray.some(v => ['bottom'].includes(v)),
+    [`cb-no-left-${prop}`]: valueAsArray.some(v => ['left'].includes(v)),
+    [`cb-no-vertical-${prop}`]: valueAsArray.some(v =>
+      ['vertical'].includes(v),
     ),
-    [`cb-no-right-${prop}`]: valueAsArray.some(v =>
-      ['right', 'horizontal'].includes(v),
-    ),
-    [`cb-no-bottom-${prop}`]: valueAsArray.some(v =>
-      ['bottom', 'vertical'].includes(v),
-    ),
-    [`cb-no-left-${prop}`]: valueAsArray.some(v =>
-      ['left', 'horizontal'].includes(v),
+    [`cb-no-horizontal-${prop}`]: valueAsArray.some(v =>
+      ['horizontal'].includes(v),
     ),
   });
 }
 
 /**
- * @function
  * Based on the given param it returns the CSS utility classes to
  * remove paddings.
  * @example
@@ -102,7 +97,6 @@ export function evaluatePaddingless(paddingless) {
 }
 
 /**
- * @function
  * Based on the given param it returns the CSS utility classes to
  * remove borders.
  * @example

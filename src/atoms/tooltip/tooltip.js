@@ -22,6 +22,13 @@ export const Placement = {
   right: 'right',
 };
 
+export const Variant = {
+  danger: 'danger',
+  info: 'info',
+  success: 'success',
+  warn: 'warn',
+};
+
 const Tooltip = ({
   children,
   className,
@@ -29,10 +36,10 @@ const Tooltip = ({
   placement: placementProp,
   style: styleProp,
   title,
+  variant,
   ...others
 }) => {
   const selfRef = React.useRef();
-  const [visible, setVisible] = React.useState(false); // test purpose
   const [{ top, left, placement }, setPosition] = React.useState({
     top: 0,
     left: 0,
@@ -46,6 +53,8 @@ const Tooltip = ({
   if (isNil(title) || isNil(children)) {
     return children;
   }
+
+  // TODO: Update tooltip position when it is visible and user scrolls
 
   React.useEffect(
     function updateStyle() {
@@ -61,13 +70,11 @@ const Tooltip = ({
       e.currentTarget.getBoundingClientRect().top,
     );
 
-    setVisible(true);
     setPosition(calculatePosition(placement, e.currentTarget, selfRef.current));
     onEnter(e);
   };
 
   const handleMouseLeave = e => {
-    setVisible(false);
     onExit(e);
   };
 
@@ -81,15 +88,20 @@ const Tooltip = ({
         className={clsx(
           'cb-tooltip',
           {
-            '-light': equals(mode, Mode.light),
-            '-dark': equals(mode, Mode.dark),
             '-top': TOP_REGEX.test(placement),
             '-bottom': BOTTOM_REGEX.test(placement),
             '-right': RIGHT_REGEX.test(placement),
             '-left': LEFT_REGEX.test(placement),
           },
           {
-            'is-visible': visible,
+            '-light': equals(mode, Mode.light),
+            '-dark': equals(mode, Mode.dark),
+          },
+          {
+            '-danger': equals(variant, Variant.danger),
+            '-info': equals(variant, Variant.info),
+            '-success': equals(variant, Variant.success),
+            '-warn': equals(variant, Variant.warn),
           },
           animationClassName,
           className,
@@ -118,6 +130,12 @@ Tooltip.propTypes = {
     Placement.left,
   ]),
   mode: PropTypes.oneOf([Mode.light, Mode.dark]),
+  variant: PropTypes.oneOf([
+    Variant.danger,
+    Variant.info,
+    Variant.success,
+    Variant.warn,
+  ]),
 };
 
 Tooltip.defaultProps = {

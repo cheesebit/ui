@@ -12,7 +12,7 @@ const Radio = ({
   className,
   disabled,
   paddingless,
-  stretched,
+  block,
   trailing,
   ...others
 }) => {
@@ -21,7 +21,7 @@ const Radio = ({
       as="label"
       borderless={borderless}
       paddingless={paddingless}
-      stretched={stretched}
+      block={block}
       trailing={trailing}
       className={clsx('cb-radio', { 'is-disabled': disabled }, className)}
       data-testid="cb-radio"
@@ -46,7 +46,7 @@ const Radio = ({
 Radio.defaultProps = {
   borderless: true,
   paddingless: 'horizontal',
-  stretched: false,
+  block: false,
 };
 
 export default Radio;

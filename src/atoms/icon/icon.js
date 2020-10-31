@@ -2,21 +2,37 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { isNil } from '../../common/toolset';
+import { equals, isNil } from '../../common/toolset';
 import { DEFAULT } from '../../common/constants';
 import { SVGAttributes } from '../../common/props-dom';
 import mapping from './icon-mapping';
 
 import './icon.scss';
 
+export const Variant = {
+  danger: 'danger',
+  info: 'info',
+  success: 'success',
+  warn: 'warn',
+};
+
 /**
  * This is our component to render Icons.
  */
 class Icon extends React.PureComponent {
   get classes() {
-    const { className } = this.props;
+    const { className, variant } = this.props;
 
-    return clsx('cb-icon', className);
+    return clsx(
+      'cb-icon',
+      {
+        '-danger': equals(variant, Variant.danger),
+        '-info': equals(variant, Variant.info),
+        '-success': equals(variant, Variant.success),
+        '-warn': equals(variant, Variant.warn),
+      },
+      className,
+    );
   }
 
   get style() {
@@ -51,6 +67,12 @@ Icon.propTypes = {
   ...SVGAttributes,
   size: PropTypes.number,
   name: PropTypes.string,
+  variant: PropTypes.oneOf([
+    Variant.danger,
+    Variant.info,
+    Variant.success,
+    Variant.warn,
+  ]),
 };
 
 Icon.defaultProps = { size: 16 };

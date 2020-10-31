@@ -1,7 +1,6 @@
 import { isNil } from '../../common/toolset';
 
 /**
- * @function
  * Get day of month for the given date.
  * @param {Date} date - date
  */
@@ -14,7 +13,6 @@ export function getDay(date) {
 }
 
 /**
- * @function
  * Get day of month for the given date.
  * @param {Date} date - date
  */
@@ -27,7 +25,6 @@ export function getDayOfWeek(date) {
 }
 
 /**
- * @function
  * Get month for the given date.
  * @param {Date} date - date
  */
@@ -40,7 +37,6 @@ export function getMonth(date) {
 }
 
 /**
- * @function
  * Get year for the given date.
  * @param {Date} date - date
  */
@@ -53,7 +49,6 @@ export function getYear(date) {
 }
 
 /**
- * @function
  * Get hours for the given date.
  * @param {Date} date - date
  */
@@ -66,7 +61,6 @@ export function getHours(date) {
 }
 
 /**
- * @function
  * Get minutes for the given date.
  * @param {Date} date - date
  */
@@ -79,7 +73,6 @@ export function getMinutes(date) {
 }
 
 /**
- * @function
  * Get seconds for the given date.
  * @param {Date} date - date
  */
@@ -92,7 +85,6 @@ export function getSeconds(date) {
 }
 
 /**
- * @function
  * Get milliseconds for the given date.
  * @param {Date} date - date
  */
@@ -105,7 +97,6 @@ export function getMilliseconds(date) {
 }
 
 /**
- * @function
  * Get comparable string for the given date.
  * @param {Date} date - date
  * @returns {string}
