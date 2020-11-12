@@ -52,6 +52,9 @@ You can find the docs/demo [here](https://ui.cheesebit.io).
    . You can check the discussion
    [here](https://github.com/facebook/react/issues/16295).
 
+2. Storybook not recognizing imported SVG files. Solved using solution available
+   [here](https://whatjackhasmade.co.uk/storybook-atomic-design-svg-support).
+
 ### ... still open
 
 1. [Testing Library](https://testing-library.com/) is indeed a very helpful tool

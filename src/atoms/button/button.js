@@ -6,7 +6,6 @@ import { Box } from '../box';
 import { equals, omit } from '../../common/toolset';
 import { Icon } from '../icon';
 import { resolveProp } from '../../common/props-toolset';
-import { withForwardedRef } from '../../hocs/with-forwarded-ref';
 
 import './button.scss';
 
@@ -29,7 +28,7 @@ export const Size = {
  */
 class Button extends React.PureComponent {
   get classes() {
-    const { className, emphasis, size, roundless } = this.props;
+    const { className, emphasis, size } = this.props;
 
     return clsx(
       'cb-button',
@@ -75,6 +74,9 @@ class Button extends React.PureComponent {
 }
 
 Button.propTypes = {
+  /**
+   * Determine borders to be supressed.
+   */
   borderless: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.oneOf([
@@ -96,8 +98,17 @@ Button.propTypes = {
       ]),
     ),
   ]),
-  className: PropTypes.string,
+  /**
+   * Should this button be disabled.
+   */
+  disabled: PropTypes.bool,
+  /**
+   * What emphasis you want to apply to this button.
+   */
   emphasis: PropTypes.oneOf([Emphasis.text, Emphasis.ghost, Emphasis.flat]),
+  /**
+   * Set icon to be shown in the leading area of this button.
+   */
   icon: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.shape({
@@ -105,6 +116,9 @@ Button.propTypes = {
       size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     }),
   ]),
+  /**
+   * Determine paddings to be supressed.
+   */
   paddingless: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.oneOf([
@@ -126,15 +140,21 @@ Button.propTypes = {
       ]),
     ),
   ]),
+  /**
+   * How large should the button be?
+   */
   size: PropTypes.oneOf([Size.small, Size.medium, Size.large]),
+  /**
+   * Button type, as per HTML definition.
+   */
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
 
 Button.defaultProps = {
-  className: null,
+  emphasis: Emphasis.flat,
   size: Size.small,
   type: 'button',
   disabled: false,
 };
 
-export default withForwardedRef(Button);
+export default Button;
