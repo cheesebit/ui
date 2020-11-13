@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 
 import { equals, keys, pick } from '../../common/toolset';
 import {
-  resolveProp,
   evaluateBorderless,
   evaluatePaddingless,
 } from '../../common/props-toolset';
-import { withForwardedRef } from '../../hocs/with-forwarded-ref';
 import { InputHTMLAttributes } from '../../common/props-dom';
+
 import './input.scss';
 
 const PICKED_PROPS = [...keys(InputHTMLAttributes)];
@@ -140,4 +139,4 @@ Input.defaultProps = {
   type: 'text',
 };
 
-export default withForwardedRef(Input);
+export default Input;

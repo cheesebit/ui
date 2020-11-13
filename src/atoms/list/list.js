@@ -43,6 +43,12 @@ List.propTypes = {
   hoverable: PropTypes.bool,
 };
 
+List.defaultProps = {
+  bordered: false,
+  striped: false,
+  hoverable: false,
+};
+
 List.Item = ListItem;
 
 export default List;

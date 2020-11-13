@@ -1,4 +1,4 @@
-@import '../../styles/index.scss';
+@import '../../styles/tools/_tools.mixins';
 
 .cb-icon {
   @include transition(opacity transform);

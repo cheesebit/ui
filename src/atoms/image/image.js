@@ -158,11 +158,15 @@ class Image extends React.PureComponent {
 Image.propTypes = {
   src: PropTypes.string,
   alt: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
 
 Image.defaultProps = {
   src: '',
   alt: '',
+  width: 345,
+  height: 517,
 };
 
 export default Image;

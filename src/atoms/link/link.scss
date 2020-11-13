@@ -1,3 +1,5 @@
+@import '../../styles/tools/_tools.mixins';
+
 .cb-link {
   @include font;
   @include interactable;

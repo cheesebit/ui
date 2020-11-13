@@ -62,7 +62,7 @@ export default {
   natural: asGenerator(chance.natural),
   paragraph: asGenerator(chance.paragraph),
   pick: generatePick,
-  profession: asGenerator(chance.ssn),
+  profession: asGenerator(chance.profession),
   sentence: asGenerator(chance.sentence),
   syllable: asGenerator(chance.syllable),
   url: asGenerator(chance.url),
