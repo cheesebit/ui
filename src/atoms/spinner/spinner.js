@@ -38,6 +38,7 @@ Spinner.propTypes = {
     Variant.secondary,
     Variant.terciary,
   ]),
+  size: PropTypes.number,
 };
 
 Spinner.defaultProps = {

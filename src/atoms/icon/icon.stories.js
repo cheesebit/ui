@@ -5,7 +5,7 @@ import icons from './icon-mapping';
 import { keys } from '../../common/toolset';
 
 export default {
-  title: 'Welcome/Atoms/Icon',
+  title: 'Atoms/Icon',
   component: Icon,
   docs: {
     description: {

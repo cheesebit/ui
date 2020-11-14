@@ -6,7 +6,7 @@ import Button from './button';
 import { keys } from '../../common/toolset';
 
 export default {
-  title: 'Welcome/Atoms/Button',
+  title: 'Atoms/Button',
   argTypes: { onClick: { action: 'clicked' } },
   component: Button,
   docs: {

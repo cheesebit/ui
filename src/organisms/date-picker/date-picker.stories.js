@@ -1,11 +1,13 @@
 import React from 'react';
 
-import Badge from './badge';
 import generator from '../../../test/data-generator';
+import icons from '../../atoms/icon/icon-mapping';
+import { keys, capitalize } from '../../common/toolset';
+import DatePicker from './date-picker';
 
 export default {
-  title: 'Atoms/Badge',
-  component: Badge,
+  title: 'Organisms/DatePicker',
+  component: DatePicker,
   docs: {
     description: {
       story: 'some story *a*markdown**',
@@ -13,13 +15,15 @@ export default {
   },
 };
 
+const today = new Date();
 const Template = args => {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Badge ready to be played around. Try me :)
+        This is me, a cool Link ready to be played around. Try me :)
       </p>
-      <Badge {...args}>{generator.name()}</Badge>
+
+      <DatePicker {...args} value={today} />
     </div>
   );
 };

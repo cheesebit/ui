@@ -196,3 +196,19 @@ export const compact = reject(isFalsy);
 export function identity(value) {
   return value;
 }
+
+/**
+ * Capitalizes the given string, if not blank.
+ * A capitalized string has its first letter in upper case.
+ * @example capitalize('belo horizonte') returns 'Belo horizonte'
+ * @param {string} text String to be capitalized.
+ * @returns {string} Returns capitlized string, if not blank
+ */
+export function capitalize(text) {
+  if (isBlank(text)) {
+    return '';
+  }
+
+  const [first, ...rest] = text;
+  return `${first.toUpperCase()}${rest.join('')}`;
+}

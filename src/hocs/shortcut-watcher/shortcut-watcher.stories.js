@@ -1,10 +1,11 @@
 import React from 'react';
-
-import Input from './input';
+import clsx from 'clsx';
+import generator from '../../../test/data-generator';
+import ShortcutWatcher from './shortcut-watcher';
 
 export default {
-  title: 'Atoms/Input',
-  component: Input,
+  title: 'HOCs/ShortcutWatcher',
+  component: ShortcutWatcher,
   docs: {
     description: {
       story: 'some story *a*markdown**',
@@ -16,10 +17,10 @@ const Template = args => {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Input ready to be played around. Try me :)
+        This is me, a cool Link ready to be played around. Try me :)
       </p>
 
-      <Input {...args} />
+      <div>TODO</div>
     </div>
   );
 };

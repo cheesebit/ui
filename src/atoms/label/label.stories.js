@@ -5,7 +5,7 @@ import { Input } from '../input';
 import Label from './label';
 
 export default {
-  title: 'Welcome/Atoms/Label',
+  title: 'Atoms/Label',
   component: Label,
   docs: {
     description: {

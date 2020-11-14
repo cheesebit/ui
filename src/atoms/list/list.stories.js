@@ -1,11 +1,12 @@
 import React from 'react';
 
 import generator from '../../../test/data-generator';
+import { range, values } from '../../common/toolset';
 import { Checkbox } from '../checkbox';
 import List from './list';
 
 export default {
-  title: 'Welcome/Atoms/List',
+  title: 'Atoms/List',
   component: List,
   docs: {
     description: {
@@ -22,22 +23,22 @@ const Template = args => {
       </p>
 
       <List {...args}>
-        <List.Item
-          leading={
-            <Checkbox id="1" aria-label="List item 1" name="list" value="1" />
-          }
-          as="label"
-        >
-          {generator.sentence()}
-        </List.Item>
-        <List.Item
-          leading={
-            <Checkbox id="2" aria-label="List item 2" name="list" value="2" />
-          }
-          as="label"
-        >
-          {generator.sentence()}
-        </List.Item>
+        {range(0, generator.natural({ min: 5, max: 10 })).map(value => (
+          <List.Item
+            key={value}
+            leading={
+              <Checkbox
+                id={value}
+                aria-label="List item 1"
+                name="list"
+                value={value}
+              />
+            }
+            as="label"
+          >
+            {generator.sentence()}
+          </List.Item>
+        ))}
       </List>
     </div>
   );

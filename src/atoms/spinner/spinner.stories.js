@@ -1,11 +1,11 @@
 import React from 'react';
 
 import generator from '../../../test/data-generator';
-import Link from './link';
+import Spinner, { Variant } from './spinner';
 
 export default {
-  title: 'Atoms/Link',
-  component: Link,
+  title: 'Atoms/Spinner',
+  component: Spinner,
   docs: {
     description: {
       story: 'some story *a*markdown**',
@@ -20,7 +20,12 @@ const Template = args => {
         This is me, a cool Link ready to be played around. Try me :)
       </p>
 
-      <Link {...args}>{generator.profession()}</Link>
+      <div className="flex flex-row space-x-4">
+        <Spinner {...args} />
+        <Spinner {...args} variant={Variant.primary} />
+        <Spinner {...args} variant={Variant.secondary} />
+        <Spinner {...args} variant={Variant.terciary} />
+      </div>
     </div>
   );
 };

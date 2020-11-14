@@ -8,6 +8,7 @@
     @include font;
     @include disableable;
     @include transition(background);
+    @include bordered($top: false, $right: false, $bottom: false, $left: false);
 
     @include var(background, color-white);
 
@@ -21,12 +22,7 @@
 
   &.-bordered {
     > .item {
-      @include bordered(
-        $top: false,
-        $right: false,
-        $left: false,
-        $color: color(gray-300)
-      );
+      @include bordered($color: color(gray-300));
     }
   }
 

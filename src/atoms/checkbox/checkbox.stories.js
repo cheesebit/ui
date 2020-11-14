@@ -4,7 +4,7 @@ import Checkbox from './checkbox';
 import generator from '../../../test/data-generator';
 
 export default {
-  title: 'Welcome/Atoms/Checkbox',
+  title: 'Atoms/Checkbox',
   component: Checkbox,
   docs: {
     description: {
@@ -19,7 +19,7 @@ const Template = args => {
       <p className="mb-2">
         This is me, a cool Checkbox family ready to be played around. Try me :)
       </p>
-      <div className="flex flex-col space-y">
+      <div className="flex flex-col space-y-2">
         <Checkbox {...args}>{generator.name()}</Checkbox>
         <Checkbox {...args}>{generator.name()}</Checkbox>
         <Checkbox {...args}>{generator.name()}</Checkbox>

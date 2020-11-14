@@ -1,10 +1,11 @@
 import React from 'react';
 
-import Input from './input';
+import generator from '../../../test/data-generator';
+import Tooltip from './tooltip';
 
 export default {
-  title: 'Atoms/Input',
-  component: Input,
+  title: 'Atoms/Tooltip',
+  component: Tooltip,
   docs: {
     description: {
       story: 'some story *a*markdown**',
@@ -16,10 +17,12 @@ const Template = args => {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Input ready to be played around. Try me :)
+        This is me, a cool Tooltip ready to be played around. Try me :)
       </p>
 
-      <Input {...args} />
+      <Tooltip {...args}>
+        <span>{generator.word()}</span>
+      </Tooltip>
     </div>
   );
 };

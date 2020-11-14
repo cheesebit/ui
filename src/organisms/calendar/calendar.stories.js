@@ -1,11 +1,13 @@
 import React from 'react';
 
-import Badge from './badge';
 import generator from '../../../test/data-generator';
+import icons from '../../atoms/icon/icon-mapping';
+import { keys, capitalize } from '../../common/toolset';
+import Calendar from './calendar';
 
 export default {
-  title: 'Atoms/Badge',
-  component: Badge,
+  title: 'Organisms/Calendar',
+  component: Calendar,
   docs: {
     description: {
       story: 'some story *a*markdown**',
@@ -17,9 +19,10 @@ const Template = args => {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Badge ready to be played around. Try me :)
+        This is me, a cool Link ready to be played around. Try me :)
       </p>
-      <Badge {...args}>{generator.name()}</Badge>
+
+      <Calendar {...args} className="p-4 border" />
     </div>
   );
 };

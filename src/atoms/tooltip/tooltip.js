@@ -143,4 +143,4 @@ Tooltip.defaultProps = {
   mode: Mode.light,
 };
 
-export default React.memo(Tooltip);
+export default Tooltip;

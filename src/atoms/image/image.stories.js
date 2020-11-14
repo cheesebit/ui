@@ -3,7 +3,7 @@ import React from 'react';
 import Image from './image';
 
 export default {
-  title: 'Welcome/Atoms/Image',
+  title: 'Atoms/Image',
   component: Image,
   docs: {
     description: {
