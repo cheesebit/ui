@@ -7,6 +7,6 @@ export default create({
   colorSecondary: '#224a6d',
 
   brandTitle: 'Cheesebit UI',
-  brandUrl: 'http://ui.cheesebit.io/',
-  brandImage: '/logo.png',
+  brandUrl: 'https://ui.cheesebit.io/',
+  brandImage: './logo.png',
 });
