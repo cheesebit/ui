@@ -1,18 +1,18 @@
-import commonjs from '@rollup/plugin-commonjs';
-import resolve from '@rollup/plugin-node-resolve';
-import svgr from '@svgr/rollup';
-import autoprefixer from 'autoprefixer';
-import cssnano from 'cssnano';
-import postcss from 'postcss';
+import { terser } from 'rollup-plugin-terser';
 import analyze from 'rollup-plugin-analyzer';
-import babel from 'rollup-plugin-babel';
+import autoprefixer from 'autoprefixer';
+import babel from '@rollup/plugin-babel';
+import commonjs from '@rollup/plugin-commonjs';
+import cssnano from 'cssnano';
+import del from 'rollup-plugin-delete';
+import external from 'rollup-plugin-peer-deps-external';
 import gzip from 'rollup-plugin-gzip';
 import json from '@rollup/plugin-json';
-// import del from 'rollup-plugin-delete';
-import external from 'rollup-plugin-peer-deps-external';
+import postcss from 'postcss';
+import resolve from '@rollup/plugin-node-resolve';
 import scss from 'rollup-plugin-scss';
-import { terser } from 'rollup-plugin-terser';
-// import pkg from './package.json';
+import svgr from '@svgr/rollup';
+import pkg from './package.json';
 
 const ATOMS_PATH_PREFIX = './src/atoms';
 const MOLECULES_PATH_PREFIX = './src/molecules';
@@ -56,7 +56,7 @@ module.exports = [
     },
     external: ['react', 'react-dom'],
     plugins: [
-      // del({ targets: [`dist/${pkg.version}`] }),
+      del({ targets: [`dist/`] }),
       external(),
       scss({
         // output: `dist/${pkg.version}/styles.css`, version specific
@@ -89,8 +89,8 @@ module.exports = [
     ],
     output: [
       {
-        // dir: `dist/${pkg.version}`, version specific
-        dir: 'dist',
+        dir: `dist/${pkg.version}`,
+        // dir: 'dist',
         format: 'esm',
         sourcemap: true,
       },

@@ -4,6 +4,7 @@
 /public
 /.nyc_output
 npm-debug.log*
+debug.log*
 .DS_Store
 .npmrc
 .vscode
