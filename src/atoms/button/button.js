@@ -151,7 +151,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  emphasis: Emphasis.flat,
+  emphasis: Emphasis.ghost,
   size: Size.small,
   type: 'button',
   disabled: false,

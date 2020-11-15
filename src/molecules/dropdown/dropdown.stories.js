@@ -39,7 +39,7 @@ const Template = args => {
         This is me, a cool Link ready to be played around. Try me :)
       </p>
 
-      <div className="flex flex-row space-x">
+      <div className="flex flex-row space-x-4">
         <Dropdown
           toggle={({ disabled, collapsed, onClick }) => (
             <Dropdown.Toggle

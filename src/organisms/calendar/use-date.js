@@ -1,16 +1,7 @@
-import { DEFAULT } from '../../common/constants';
 import { useSlice } from '@cheesebit/use-slice';
+import { DEFAULT } from '../../common/constants';
 import logger from '../../common/logger';
-import {
-  getComparable,
-  getYear,
-  getMonth,
-  getDay,
-  getHours,
-  getMinutes,
-  getSeconds,
-  getMilliseconds,
-} from '../../common/date/date-utils';
+import { getYear, getMonth, getDay } from '../../common/date/date-utils';
 
 // TODO change initialDate to be CheesebitDate and use its operation in the actions
 

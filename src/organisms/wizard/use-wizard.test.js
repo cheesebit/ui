@@ -7,7 +7,6 @@ const FLOW = {
   'step-0': {
     on: {
       next: 'step-1',
-      skip: 'step-3',
     },
   },
   'step-1': {
@@ -22,15 +21,10 @@ const FLOW = {
       next: 'step-3',
     },
   },
-  'step-3': {
-    on: {
-      previous: 'step-1',
-    },
-  },
 };
 
 describe('useWizard', () => {
-  it('ba dsd dbal', () => {
+  it('handle wizard correctly', () => {
     const { result } = renderHook(() =>
       useWizard({
         current: 'step-0',
@@ -41,6 +35,6 @@ describe('useWizard', () => {
 
     // console.log(result.current);
 
-    expect(result.current.current).not.toBe('step-0');
+    expect(result.current.current).toBe('step-0');
   });
 });

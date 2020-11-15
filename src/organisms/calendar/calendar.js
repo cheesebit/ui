@@ -42,7 +42,7 @@ console.log('DateFormatter', t.date, t.format(f));
 const today = t.date;
 
 function Calendar({ id, name, date: dateProp, className, onChange }) {
-  const { date, actions, dispatch } = useDate(dateProp);
+  const { date, actions, dispatch } = useDate(dateProp || today);
   const [selected, setSelected] = React.useState(
     [
       getComparable(new Date(2020, 8, 22)),
@@ -78,7 +78,7 @@ function Calendar({ id, name, date: dateProp, className, onChange }) {
             dispatch(actions.subtract(1, 'year'));
           }}
         >
-          <span>&laquo;</span>
+          <Icon size={16} name="double-chevron-left" />
         </Button>
         <Button
           className="previous-month"
@@ -115,7 +115,7 @@ function Calendar({ id, name, date: dateProp, className, onChange }) {
             dispatch(actions.add(1, 'year'));
           }}
         >
-          <span>&raquo;</span>
+          <Icon size={16} name="double-chevron-right" />
         </Button>
       </div>
       <div className="days">
@@ -183,8 +183,8 @@ function Calendar({ id, name, date: dateProp, className, onChange }) {
   );
 }
 
-Calendar.defaultProps = {
-  date: today,
+Calendar.propTypes = {
+  // date: PropTypes.instanceOf(Date),
 };
 
 export default Calendar;

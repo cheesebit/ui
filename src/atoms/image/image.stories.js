@@ -10,17 +10,6 @@ export default {
       story: 'some story *a*markdown**',
     },
   },
-  argTypes: {
-    src: {
-      control: {
-        type: 'select',
-        options: [
-          'https://images.unsplash.com/photo-1578030639376-8e9cf3f26b68',
-          'https://images.unsplash.com/photo-1469474968028-56623f02e42e',
-        ],
-      },
-    },
-  },
 };
 
 const Template = args => {
@@ -30,7 +19,10 @@ const Template = args => {
         This is me, a cool Image ready to be played around. Try me :)
       </p>
 
-      <Image {...args} />
+      <Image
+        {...args}
+        src="https://images.unsplash.com/photo-1578030639376-8e9cf3f26b68"
+      />
     </div>
   );
 };

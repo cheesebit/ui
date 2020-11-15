@@ -1,7 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Button, Size } from '../../atoms/button';
+import { Button, Emphasis } from '../../atoms/button';
 import { Icon } from '../../atoms/icon';
 import { isNil } from '../../common/toolset';
 
@@ -42,6 +42,7 @@ class DropdownToggle extends React.PureComponent {
         data-testid="toggle"
         block
         trailing={this.renderArrow()}
+        emphasis={Emphasis.ghost}
         {...others}
         aria-haspopup="true"
         aria-expanded={!collapsed}

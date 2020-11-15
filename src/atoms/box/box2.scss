@@ -30,7 +30,7 @@
 
   & > *:not(.leading):not(.trailing):only-child {
     align-self: center;
-    justify-self: center;
+    justify-self: stretch;
   }
 
   // & > .leading,

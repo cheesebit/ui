@@ -86,8 +86,8 @@ export const DEFAULT_OPTIONS = {
       short: 'Nov',
       long: 'November',
     },
-    1: {
-      numeric: 10,
+    11: {
+      numeric: 12,
       short: 'Dec',
       long: 'December',
     },

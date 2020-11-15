@@ -1,6 +1,5 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
 import Tooltip from './tooltip';
 
 export default {
@@ -20,8 +19,13 @@ const Template = args => {
         This is me, a cool Tooltip ready to be played around. Try me :)
       </p>
 
-      <Tooltip {...args}>
-        <span>{generator.word()}</span>
+      <Tooltip
+        mode="light"
+        placement="top"
+        title="Hi there dear reader."
+        {...args}
+      >
+        <span>Hover me to see my tooltip!</span>
       </Tooltip>
     </div>
   );

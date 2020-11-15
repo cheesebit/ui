@@ -36,6 +36,10 @@
         @include var(background, color-gray-300);
         @include var(color, color-primary-500);
       }
+
+      > .cb-icon {
+        justify-self: center;
+      }
     }
 
     & > .date-display {
