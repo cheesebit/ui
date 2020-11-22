@@ -1,6 +1,5 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
 import { Input } from '../input';
 import Label from './label';
 

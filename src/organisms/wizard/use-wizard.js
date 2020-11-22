@@ -5,20 +5,16 @@ import { getID } from '../../common/toolset';
 
 const useWizard = ({ current: initialCurrent, id, flow }) => {
   const { current, transition } = useAutomaton(flow, initialCurrent);
-  const [contextValue, setContextValue] = React.useState({});
-
-  React.useEffect(() => {
-    setContextValue({
-      transition,
-      id: getID(id),
-    });
-  }, [id, current]);
+  const contextValueRef = React.useRef({
+    id: getID(id),
+    transition,
+  });
 
   return {
     transition,
     states: flow[current]?.on,
     current,
-    contextValue,
+    contextValue: contextValueRef.current,
   };
 };
 

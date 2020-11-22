@@ -1,8 +1,8 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
-import { range, values } from '../../common/toolset';
 import { Checkbox } from '../checkbox';
+import { range, values } from '../../common/toolset';
+import generator from '../../../test/data-generator';
 import List from './list';
 
 export default {

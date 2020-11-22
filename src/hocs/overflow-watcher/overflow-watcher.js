@@ -14,9 +14,10 @@ class OverflowWatcher extends React.Component {
   constructor(props) {
     super(props);
 
+    const { from = 0, to = 0 } = props;
     this.state = {
-      from: 0,
-      to: 0,
+      from,
+      to,
     };
   }
 

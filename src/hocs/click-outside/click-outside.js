@@ -34,7 +34,6 @@ class ClickOutside extends React.Component {
     const ref = this.ref.current;
 
     if (!ref) {
-      console.error('Could not retrieve ref');
       return;
     }
 

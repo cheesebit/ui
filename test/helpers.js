@@ -1,12 +1,36 @@
 import '@testing-library/jest-dom/extend-expect';
-
-const customRender = (ui, options) =>
-  render(ui, { queries: { ...queries }, ...options });
-
-// re-export everything
 export * from '@testing-library/react';
-// export { fireEvent } from '@testing-library/dom';
 export { default as userEvent } from '@testing-library/user-event';
 
-// override render method
-// export { customRender as render };
+import * as Enzime from 'enzyme';
+
+// Enzime wrapper ----------------------------------------
+
+/**
+ * Converts the given value to a valid data-test attribute selector.
+ *
+ * @function
+ * @param {string} value - Data test value.
+ * @returns {EnzymeSelector}
+ */
+export function asTestAttr(value) {
+  return `[data-testid="${value}"]`;
+}
+
+/**
+ * Mounts and renders a react component into the document and provides a testing wrapper around it.
+ * @param  {...any} args
+ */
+export function mount(...args) {
+  const wrapper = Enzime.mount(...args);
+
+  return {
+    wrapper,
+    instance: wrapper.instance(),
+    find: wrapper.find.bind(wrapper),
+    debug: wrapper.debug.bind(wrapper),
+    getByTestId: testID => {
+      return wrapper.find(asTestAttr(testID));
+    },
+  };
+}

@@ -1,10 +1,15 @@
 import React from 'react';
 
 import { Label, Variant } from './index';
+import Selectors, {
+  DEFAULT_FEEDBACK,
+  DEFAULT_TOOLTIP,
+} from './label.selectors';
 import { screen, render, getByTestId, userEvent } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
+import { Mode, Placement } from '../tooltip';
 
-describe('Label', () => {
+describe('<Label />', () => {
   it('renders correctly', () => {
     const props = { label: generator.word(), children: generator.word() };
 
@@ -41,8 +46,6 @@ describe('Label', () => {
 
     const { getByTestId } = render(<Label {...props} />);
 
-    const component = getByTestId('cb-label');
-
     const prompt = getByTestId('field-prompt');
 
     expect(prompt).toHaveTextContent(props.prompt);
@@ -65,6 +68,7 @@ describe('Label', () => {
     const props = {
       label: generator.word(),
       children: generator.word(),
+      trailing: null,
       tooltip: {
         icon: 'help',
         text: generator.sentence(),
@@ -197,7 +201,7 @@ describe('Label', () => {
     expect(icon).toBeInTheDocument();
   });
 
-  it.only('renders custom trailing correctly', () => {
+  it('renders custom trailing correctly', () => {
     const props = {
       label: generator.word(),
       children: generator.word(),
@@ -205,7 +209,7 @@ describe('Label', () => {
     };
 
     const { getByTestId, debug } = render(<Label {...props} />);
-    debug();
+
     const content = getByTestId('field-label');
 
     expect(content).toHaveTextContent(props.trailing);
@@ -264,4 +268,74 @@ describe('Label', () => {
       expect(component).toHaveClass('-warn');
     });
   });
+});
+
+describe('Label Selectors', () => {
+  it('retrieves empty feedback prop correctly', () => {
+    const props = {
+      feedback: {},
+    };
+
+    expect(Selectors.getFeedback(props)).toEqual({});
+  });
+
+  it('retrieves default feedback merged with prop correctly', () => {
+    const props = {
+      feedback: {
+        text: generator.sentence(),
+      },
+    };
+
+    expect(Selectors.getFeedback(props)).toEqual({
+      ...DEFAULT_FEEDBACK,
+      ...props.feedback,
+    });
+  });
+
+  it('retrieves feedback prop correctly', () => {
+    const props = {
+      feedback: {
+        mode: Mode.light,
+        position: Placement.right,
+        text: generator.sentence(),
+      },
+    };
+
+    expect(Selectors.getFeedback(props)).toEqual(props.feedback);
+  });
+
+  it('retrieves empty tooltip prop correctly', () => {
+    const props = {
+      tooltip: {},
+    };
+
+    expect(Selectors.getTooltip(props)).toEqual({});
+  });
+
+  it('retrieves default tooltip merged with prop correctly', () => {
+    const props = {
+      tooltip: {
+        text: generator.sentence(),
+      },
+    };
+
+    expect(Selectors.getTooltip(props)).toEqual({
+      ...DEFAULT_TOOLTIP,
+      ...props.tooltip,
+    });
+  });
+
+  it('retrieves tooltip prop correctly', () => {
+    const props = {
+      tooltip: {
+        mode: Mode.light,
+        position: Placement.right,
+        text: generator.sentence(),
+      },
+    };
+
+    expect(Selectors.getTooltip(props)).toEqual(props.tooltip);
+  });
+
+  it('retrieves prompt prop correctly', () => {});
 });

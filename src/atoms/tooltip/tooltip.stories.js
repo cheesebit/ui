@@ -19,12 +19,7 @@ const Template = args => {
         This is me, a cool Tooltip ready to be played around. Try me :)
       </p>
 
-      <Tooltip
-        mode="light"
-        placement="top"
-        title="Hi there dear reader."
-        {...args}
-      >
+      <Tooltip title="Hi there dear reader." {...args}>
         <span>Hover me to see my tooltip!</span>
       </Tooltip>
     </div>

@@ -1,14 +1,14 @@
 import { DEFAULT } from '../../common/constants';
-import { isEmpty, merge, path } from '../../common/toolset';
+import { isEmpty, path } from '../../common/toolset';
 import { Mode, Placement } from '../tooltip';
 
-const DEFAULT_TOOLTIP = {
+export const DEFAULT_TOOLTIP = {
   mode: Mode.dark,
   position: Placement.top,
   text: '',
 };
 
-const DEFAULT_FEEDBACK = {
+export const DEFAULT_FEEDBACK = {
   mode: Mode.dark,
   position: Placement.top,
   text: '',
@@ -22,7 +22,7 @@ export default {
       return feedback;
     }
 
-    return merge(DEFAULT_FEEDBACK, feedback);
+    return { ...DEFAULT_FEEDBACK, ...feedback };
   },
   getTooltip(props) {
     const tooltip = props?.tooltip || DEFAULT.OBJECT;
@@ -31,7 +31,7 @@ export default {
       return tooltip;
     }
 
-    return merge(DEFAULT_TOOLTIP, tooltip);
+    return { ...DEFAULT_TOOLTIP, ...tooltip };
   },
   getPrompt(props) {
     return (

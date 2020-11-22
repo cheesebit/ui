@@ -5,34 +5,57 @@ import generator from '../../../test/data-generator';
 
 const items = [
   {
-    label: 'label-1',
-    value: '0',
+    label: 'label-a',
+    value: 'a',
     options: [
       {
-        label: 'label-11',
-        value: '0.options[0]',
+        label: 'label-aa',
+        value: 'a.options[a]',
         options: [
           {
-            label: 'label-111',
-            value: '0.options[0].options[0]',
+            label: 'label-aaa',
+            value: 'a.options[a].options[a]',
           },
           {
-            label: 'label-112',
-            value: '0.options[0].options[1]',
+            label: 'label-aab',
+            value: 'a.options[a].options[b]',
           },
         ],
       },
       {
-        label: 'label-12',
-        value: '0.options[1]',
+        label: 'label-ab',
+        value: 'a.options[b]',
         options: [
           {
-            label: 'label-121',
-            value: '0.options[1].options[0]',
+            label: 'label-aba',
+            value: 'a.options[b].options[a]',
           },
           {
-            label: 'label-122',
-            value: '0.options[1].options[1]',
+            label: 'label-abb',
+            value: 'a.options[b].options[b]',
+          },
+        ],
+      },
+    ],
+  },
+];
+
+const itemsSubset = [
+  {
+    label: 'label-a',
+    value: 'a',
+    options: [
+      {
+        label: 'label-aa',
+        value: 'a.options[a]',
+        options: [
+          {
+            label: 'label-aaa',
+            value: 'a.options[a].options[a]',
+          },
+          {
+            label: 'label-aab',
+            value: 'a.options[a].options[b]',
           },
         ],
       },
@@ -41,13 +64,20 @@ const items = [
 ];
 
 const ids = [
-  '0',
-  '0.options[0]',
-  '0.options[0].options[0]',
-  '0.options[0].options[1]',
-  '0.options[1]',
-  '0.options[1].options[0]',
-  '0.options[1].options[1]',
+  'a',
+  'a.options[a]',
+  'a.options[a].options[a]',
+  'a.options[a].options[b]',
+  'a.options[b]',
+  'a.options[b].options[a]',
+  'a.options[b].options[b]',
+];
+
+const idsSubset = [
+  'a',
+  'a.options[a]',
+  'a.options[a].options[a]',
+  'a.options[a].options[b]',
 ];
 
 describe('AttributeManager', () => {
@@ -146,6 +176,81 @@ describe('AttributeManager', () => {
     });
   });
 
+  it('resets attribute correctly', () => {
+    const tree = new Tree(adapter, items);
+    const attributeManager = new AttributeManager(
+      {
+        'attr-unique': Mode.unique,
+        'attr-path': Mode.path,
+        'attr-propagate': Mode.propagate,
+        'attr-toggle': Mode.toggle,
+      },
+      tree,
+    );
+
+    ids.forEach(nodeID => {
+      const value = generator.word();
+
+      attributeManager.set('attr-unique', nodeID, value);
+      attributeManager.set('attr-path', nodeID, value);
+      attributeManager.set('attr-propagate', nodeID, value);
+      attributeManager.set('attr-toggle', nodeID, value);
+    });
+
+    const value = generator.word();
+    attributeManager.reset('attr-unique', value);
+    expect(attributeManager.getAttribute('attr-unique')).toEqual({});
+
+    attributeManager.reset('attr-path', value);
+    expect({ ...attributeManager.getAttribute('attr-path') }).toEqual(
+      ids.reduce(
+        (map, id) => ({
+          ...map,
+          [id]: value,
+        }),
+        {
+          [Tree.ROOT]: value,
+        },
+      ),
+    );
+
+    attributeManager.reset('attr-propagate', value);
+    expect(attributeManager.getAttribute('attr-propagate')).toEqual({});
+
+    attributeManager.reset('attr-toggle', value);
+    expect(attributeManager.getAttribute('attr-toggle')).toEqual({});
+  });
+
+  it('overwrites the current tree correctly', () => {
+    const tree = new Tree(adapter, items);
+    const attributeManager = new AttributeManager(
+      {
+        'attr-toggle': Mode.toggle,
+      },
+      tree,
+    );
+
+    const value = generator.word();
+    ids.forEach(nodeID => {
+      attributeManager.set('attr-toggle', nodeID, value);
+    });
+
+    const otherTree = new Tree(adapter, itemsSubset);
+    attributeManager.tree = otherTree;
+
+    ids.forEach(nodeID => {
+      if (idsSubset.includes(nodeID)) {
+        expect(
+          attributeManager.getAttributeByNodeID('attr-toggle', nodeID),
+        ).toBe(value);
+      } else {
+        expect(
+          attributeManager.getAttributeByNodeID('attr-toggle', nodeID),
+        ).toBeUndefined();
+      }
+    });
+  });
+
   describe('Unique mode', () => {
     it('ensures that only one node is assigned at a time', () => {
       attributeManager.reset('attr-unique');
@@ -169,110 +274,110 @@ describe('AttributeManager', () => {
 
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: true,
-        '0': true,
-        '0.options[0]': true,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': true,
-        '0.options[1]': true,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': true,
+        a: true,
+        'a.options[a]': true,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': true,
+        'a.options[b]': true,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': true,
       });
 
       let value = generator.word();
-      attributeManager.set('attr-path', '0', value);
+      attributeManager.set('attr-path', 'a', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': true,
-        '0.options[1]': value,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': true,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': true,
+        'a.options[b]': value,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': true,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[0]', value);
+      attributeManager.set('attr-path', 'a.options[a]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
-        '0.options[1]': true,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': true,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
+        'a.options[b]': true,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': true,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[0].options[0]', value);
+      attributeManager.set('attr-path', 'a.options[a].options[a]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': true,
-        '0.options[1]': true,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': true,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': true,
+        'a.options[b]': true,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': true,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[0].options[1]', value);
+      attributeManager.set('attr-path', 'a.options[a].options[b]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': value,
-        '0.options[1]': true,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': true,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': value,
+        'a.options[b]': true,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': true,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[1]', value);
+      attributeManager.set('attr-path', 'a.options[b]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': true,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': true,
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': value,
+        a: value,
+        'a.options[a]': true,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': true,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': value,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[1].options[0]', value);
+      attributeManager.set('attr-path', 'a.options[b].options[a]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': true,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': true,
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': true,
+        a: value,
+        'a.options[a]': true,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': true,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': true,
       });
 
       attributeManager.reset('attr-path');
       value = generator.word();
-      attributeManager.set('attr-path', '0.options[1].options[1]', value);
+      attributeManager.set('attr-path', 'a.options[b].options[b]', value);
       expect({ ...attributeManager.getAttribute('attr-path') }).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': true,
-        '0.options[0].options[0]': true,
-        '0.options[0].options[1]': true,
-        '0.options[1]': value,
-        '0.options[1].options[0]': true,
-        '0.options[1].options[1]': value,
+        a: value,
+        'a.options[a]': true,
+        'a.options[a].options[a]': true,
+        'a.options[a].options[b]': true,
+        'a.options[b]': value,
+        'a.options[b].options[a]': true,
+        'a.options[b].options[b]': value,
       });
     });
   });
@@ -288,73 +393,73 @@ describe('AttributeManager', () => {
       attributeManager.set('attr-propagate', Tree.ROOT, value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': value,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0', value);
+      attributeManager.set('attr-propagate', 'a', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': value,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[0]', value);
+      attributeManager.set('attr-propagate', 'a.options[a]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[0].options[0]', value);
+      attributeManager.set('attr-propagate', 'a.options[a].options[a]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[0].options[0]': value,
+        'a.options[a].options[a]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[0].options[1]', value);
+      attributeManager.set('attr-propagate', 'a.options[a].options[b]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[0].options[1]': value,
+        'a.options[a].options[b]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[1]', value);
+      attributeManager.set('attr-propagate', 'a.options[b]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': value,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[1].options[0]', value);
+      attributeManager.set('attr-propagate', 'a.options[b].options[a]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[1].options[0]': value,
+        'a.options[b].options[a]': value,
       });
 
       attributeManager.reset('attr-propagate');
       value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[1].options[1]', value);
+      attributeManager.set('attr-propagate', 'a.options[b].options[b]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[1].options[1]': value,
+        'a.options[b].options[b]': value,
       });
     });
 
@@ -365,16 +470,16 @@ describe('AttributeManager', () => {
       );
 
       let value = generator.word();
-      attributeManager.set('attr-propagate', '0.options[0].options[0]', value);
+      attributeManager.set('attr-propagate', 'a.options[a].options[a]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[0].options[0]': value,
+        'a.options[a].options[a]': value,
       });
 
-      attributeManager.set('attr-propagate', '0.options[0].options[1]', value);
+      attributeManager.set('attr-propagate', 'a.options[a].options[b]', value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
       });
     });
 
@@ -388,13 +493,13 @@ describe('AttributeManager', () => {
       attributeManager.set('attr-propagate', Tree.ROOT, value);
       expect(attributeManager.getAttribute('attr-propagate')).toEqual({
         [Tree.ROOT]: value,
-        '0': value,
-        '0.options[0]': value,
-        '0.options[0].options[0]': value,
-        '0.options[0].options[1]': value,
-        '0.options[1]': value,
-        '0.options[1].options[0]': value,
-        '0.options[1].options[1]': value,
+        a: value,
+        'a.options[a]': value,
+        'a.options[a].options[a]': value,
+        'a.options[a].options[b]': value,
+        'a.options[b]': value,
+        'a.options[b].options[a]': value,
+        'a.options[b].options[b]': value,
       });
     });
   });

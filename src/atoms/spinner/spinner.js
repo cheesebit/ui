@@ -1,7 +1,9 @@
+import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import React from 'react';
+
 import { equals } from '../../common/toolset';
+
 import './spinner.scss';
 
 export const Variant = {

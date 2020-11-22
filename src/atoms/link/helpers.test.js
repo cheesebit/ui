@@ -1,7 +1,6 @@
 import { checkHref, checkTarget, sanitizeProps } from './helpers';
-
-import generator from '../../../test/data-generator';
 import { Target, Rel } from './link';
+import generator from '../../../test/data-generator';
 
 describe('Link helpers', () => {
   describe('checking href', () => {

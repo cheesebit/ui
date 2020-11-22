@@ -1,5 +1,4 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
 import icons from '../icon/icon-mapping';
 import Button from './button';

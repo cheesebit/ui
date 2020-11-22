@@ -1,8 +1,10 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
 import ClickOutside from './click-outside';
 import { Input } from '../../atoms/input';
+import { withForwardedRef } from '../with-forwarded-ref';
+
+const InputWithRef = withForwardedRef(Input);
 
 export default {
   title: 'HOCs/ClickOutside',
@@ -27,7 +29,7 @@ const Template = args => {
         {({ ref }) => {
           return (
             <div className="flex flex-col w-64 mx-auto">
-              <Input
+              <InputWithRef
                 ref={ref}
                 className="h-8 border"
                 onFocus={() => setOutside(false)}

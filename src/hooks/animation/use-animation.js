@@ -18,7 +18,7 @@ const STATES = {
 
 function useAnimation(phases) {
   const [timeoutID, setTimeoutID] = React.useState(null);
-  const { transition, current } = useAutomaton(STATES, 'out');
+  const { transition, current } = useAutomaton(phases || STATES, 'out');
 
   // TODO: Clear timeout when mouse reenters during exit timeout
   // TODO: Create a more generic way to manage animation
@@ -52,10 +52,10 @@ function useAnimation(phases) {
     onEnter: handleMouseEnter,
     onExit: handleMouseLeave,
     className: clsx({
-      [phases['entering']]: current === 'entering',
-      [phases['in']]: current === 'in',
-      [phases['exiting']]: current === 'exiting',
-      [phases['out']]: current === 'out',
+      entering: current === 'entering',
+      in: current === 'in',
+      exiting: current === 'exiting',
+      out: current === 'out',
     }),
   };
 }

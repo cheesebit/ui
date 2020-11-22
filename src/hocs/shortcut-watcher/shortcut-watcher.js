@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { lowercase } from '../../common/toolset';
 import { compareProps } from '../../common/props-toolset';
 import { DEFAULT, Keys } from '../../common/constants';
 import { compact, isEmpty, isNil, toArray, values } from '../../common/toolset';
 
-function getNormalizedKeys(keys) {
-  return `${toArray(keys).sort().join('&')}`.toLowerCase();
+export function getNormalizedKeys(keys) {
+  return `${toArray(keys).map(lowercase).sort().join('&')}`;
 }
 
-function createCustomEvent(shortcut) {
+/**
+ * Creates a custom dispatchable event.
+ * @param {string} shortcut - Event name/type.
+ * @param {boolean} fallback - Test purpose param.
+ */
+export function createCustomEvent(shortcut, fallback = false) {
   let shortcutEvent;
 
-  if (window.CustomEvent) {
+  if (window.CustomEvent && !fallback) {
     shortcutEvent = new CustomEvent(shortcut);
   } else {
     shortcutEvent = document.createEvent('CustomEvent');
@@ -22,7 +28,7 @@ function createCustomEvent(shortcut) {
   return shortcutEvent;
 }
 
-function getCurrentTag() {
+export function getCurrentTag() {
   return document.activeElement.tagName.toLowerCase();
 }
 

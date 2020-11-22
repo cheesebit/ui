@@ -1,4 +1,3 @@
-// export { default as throttle } from 'lodash.throttle';
 const debounce = require('lodash.debounce');
 const get = require('lodash.get');
 const set = require('lodash.set');
@@ -101,7 +100,7 @@ export function isFunction(value) {
  * Source: https://futurestud.io/tutorials/detect-if-value-is-a-promise-in-node-js-and-javascript
  */
 export function isPromise(value) {
-  return !!value && typeof value.then === 'function';
+  return Boolean(value) && typeof value.then === 'function';
 }
 
 /**
@@ -211,4 +210,32 @@ export function capitalize(text) {
 
   const [first, ...rest] = text;
   return `${first.toUpperCase()}${rest.join('')}`;
+}
+
+/**
+ * Changes the given string case to lowercase, if not blank.
+ * @example lowercase('belo horizonte') returns 'belo horizonte'
+ * @param {string} text String to be lowercased.
+ * @returns {string} Returns lowercase string, if not blank
+ */
+export function lowercase(text) {
+  if (isBlank(text)) {
+    return '';
+  }
+
+  return String(text).toLowerCase();
+}
+
+/**
+ * Changes the given string case to uppercase, if not blank.
+ * @example uppercase('belo horizonte') returns 'belo horizonte'
+ * @param {string} text String to be uppercased.
+ * @returns {string} Returns uppercase string, if not blank
+ */
+export function uppercase(text) {
+  if (isBlank(text)) {
+    return '';
+  }
+
+  return String(text).toUpperCase();
 }

@@ -1,5 +1,4 @@
 import {
-  getComparable,
   getYear,
   getMonth,
   getDay,

@@ -1,4 +1,5 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
+@import '../../styles/tools/tools.functions';
 
 .cb-overlay {
   @include transition(background);
@@ -21,7 +22,7 @@
   backdrop-filter: blur(10px);
 
   &.-light {
-    background: rgba(25, 255, 255, 0.85);
+    background: rgba(color(white), 0.85);
   }
 
   &.-dark {

@@ -17,7 +17,12 @@ const Step = ({ id, children, className, ...others }) => {
   }, [children, transition, wizardID]);
 
   return (
-    <Panels.Panel id={id} {...others} className={clsx('step', className)}>
+    <Panels.Panel
+      id={id}
+      {...others}
+      className={clsx('step', className)}
+      data-testid="wizard-step"
+    >
       {renderChildren(children)}
     </Panels.Panel>
   );

@@ -40,7 +40,7 @@ class DataManager {
   }
 
   getParentOf(id) {
-    return this._tree.getChildrenOf(id);
+    return this._tree.getParentOf(id);
   }
 
   /**

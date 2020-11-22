@@ -1,14 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import {
-  equals,
-  isNil,
-  isBoolean,
-  isFunction,
-  isObject,
-  toArray,
-} from './toolset';
+import { equals, isNil, isBoolean, isObject, toArray } from './toolset';
 import { DEFAULT } from './constants';
 
 /**

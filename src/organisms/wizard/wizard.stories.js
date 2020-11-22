@@ -4,6 +4,7 @@ import generator from '../../../test/data-generator';
 import icons from '../../atoms/icon/icon-mapping';
 import { keys, capitalize } from '../../common/toolset';
 import { Block, Page } from '../../atoms/page';
+import { Button } from '../../atoms/button';
 import Wizard from './wizard';
 
 export default {

@@ -49,6 +49,36 @@ const generatePick = (array, options) => {
   return picked;
 };
 
+function generateElement({
+  top,
+  right,
+  bottom,
+  left,
+  offsetHeight,
+  offsetWidth,
+} = {}) {
+  return {
+    getBoundingClientRect() {
+      return {
+        top: top || chance.natural({ min: 100, max: 500 }),
+        right: right || chance.natural({ min: 100, max: 500 }),
+        bottom: bottom || chance.natural({ min: 100, max: 500 }),
+        left: left || chance.natural({ min: 100, max: 500 }),
+      };
+    },
+    offsetHeight: offsetHeight || chance.natural({ min: 100, max: 500 }),
+    offsetWidth: offsetWidth || chance.natural({ min: 100, max: 500 }),
+    style: {},
+  };
+}
+
+function generateTarget({ offsetHeight, offsetWidth } = {}) {
+  return {
+    offsetHeight: offsetHeight || chance.natural({ min: 100, max: 500 }),
+    offsetWidth: offsetWidth || chance.natural({ min: 100, max: 500 }),
+  };
+}
+
 const asGenerator = func => (...args) => func.apply(chance, args);
 
 export default {
@@ -56,6 +86,7 @@ export default {
   array: generateArray,
   bool: asGenerator(chance.bool),
   company: asGenerator(chance.company),
+  element: generateElement,
   email: asGenerator(chance.email),
   float: asGenerator(chance.floating),
   guid: asGenerator(nanoid),
@@ -66,7 +97,9 @@ export default {
   pick: generatePick,
   profession: asGenerator(chance.profession),
   sentence: asGenerator(chance.sentence),
+  shuffle: asGenerator(chance.shuffle),
   syllable: asGenerator(chance.syllable),
+  target: generateTarget,
   url: asGenerator(chance.url),
   word: asGenerator(chance.word),
 };
