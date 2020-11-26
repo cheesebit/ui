@@ -15,8 +15,8 @@
     "prepublishOnly": "npm run build",
     "watch": "rollup -c --environment BUILD:development --watch",
     "build": "rollup -c --environment BUILD:prod",
-    "storybook": "start-storybook -s ./public -p 6006 --no-dll",
-    "build-storybook": "build-storybook -s ./public -o ./docs --no-dll",
+    "storybook": "start-storybook -s ./public -p 6006",
+    "build-storybook": "build-storybook -s ./public -o ./docs",
     "tailwind": "postcss .storybook/tailwind.scss -o public/styles.css"
   },
   "peerDependencies": {
