@@ -38,8 +38,8 @@ jobs:
       # semantic release action from third party
       - name: Release
         uses: codfish/semantic-release-action@master
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       # - name: Release
       #   run: npx semantic-release
