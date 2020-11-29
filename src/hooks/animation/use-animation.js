@@ -2,6 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useAutomaton } from '@cheesebit/use-automaton';
+import { DEFAULT } from '../../common/constants';
 
 const STATES = {
   out: {
@@ -18,7 +19,8 @@ const STATES = {
 
 function useAnimation(phases) {
   const [timeoutID, setTimeoutID] = React.useState(null);
-  const { transition, current } = useAutomaton(phases || STATES, 'out');
+  const { transition, current } = useAutomaton(STATES, 'out');
+  const safePhases = phases || DEFAULT.OBJECT;
 
   // TODO: Clear timeout when mouse reenters during exit timeout
   // TODO: Create a more generic way to manage animation
@@ -52,10 +54,10 @@ function useAnimation(phases) {
     onEnter: handleMouseEnter,
     onExit: handleMouseLeave,
     className: clsx({
-      entering: current === 'entering',
-      in: current === 'in',
-      exiting: current === 'exiting',
-      out: current === 'out',
+      [safePhases['entering']]: current == 'entering',
+      [safePhases['in']]: current == 'in',
+      [safePhases['exiting']]: current == 'exiting',
+      [safePhases['out']]: current == 'out',
     }),
   };
 }
