@@ -1,6 +1,7 @@
 module.exports = {
   important: true,
-  purge: [],
+  purge: ['./src/**/*.stories.js'],
+  darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
       body: ['proxima-soft', 'sans-serif'],
