@@ -45,6 +45,6 @@ jobs:
       #   steps:
       - name: Release
         uses: codfish/semantic-release-action@master
-        with:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
