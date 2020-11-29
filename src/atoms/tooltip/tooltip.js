@@ -29,6 +29,19 @@ export const Variant = {
   warn: 'warn',
 };
 
+const STATES = {
+  out: {
+    on: {
+      enter: 'in',
+    },
+  },
+  in: {
+    on: {
+      exit: 'out',
+    },
+  },
+};
+
 const Tooltip = ({
   children,
   className,
@@ -47,6 +60,7 @@ const Tooltip = ({
   });
   const [style, setStyle] = React.useState({ ...styleProp, top, left });
   const { className: animationClassName, onEnter, onExit } = useAnimation(
+    STATES,
     getAnimationPhases(placement),
   );
 

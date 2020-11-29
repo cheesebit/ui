@@ -2,9 +2,8 @@ import React from 'react';
 import clsx from 'clsx';
 
 import { useAutomaton } from '@cheesebit/use-automaton';
-import { DEFAULT } from '../../common/constants';
 
-const STATES = {
+const DEFAULT_STATES = {
   out: {
     on: {
       enter: 'in',
@@ -17,10 +16,18 @@ const STATES = {
   },
 };
 
-function useAnimation(phases) {
+const DEFAULT_CLASSES = {
+  out: 'animate-out',
+  in: 'animate-in',
+};
+
+function useAnimation(states, classes, currentProp = 'out') {
   const [timeoutID, setTimeoutID] = React.useState(null);
-  const { transition, current } = useAutomaton(STATES, 'out');
-  const safePhases = phases || DEFAULT.OBJECT;
+  const { transition, current } = useAutomaton(
+    states || DEFAULT_STATES,
+    currentProp,
+  );
+  const safeClasses = classes || DEFAULT_CLASSES;
 
   // TODO: Clear timeout when mouse reenters during exit timeout
   // TODO: Create a more generic way to manage animation
@@ -54,10 +61,10 @@ function useAnimation(phases) {
     onEnter: handleMouseEnter,
     onExit: handleMouseLeave,
     className: clsx({
-      [safePhases['entering']]: current == 'entering',
-      [safePhases['in']]: current == 'in',
-      [safePhases['exiting']]: current == 'exiting',
-      [safePhases['out']]: current == 'out',
+      [safeClasses['entering']]: current == 'entering',
+      [safeClasses['in']]: current == 'in',
+      [safeClasses['exiting']]: current == 'exiting',
+      [safeClasses['out']]: current == 'out',
     }),
   };
 }
