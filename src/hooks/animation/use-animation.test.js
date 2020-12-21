@@ -53,7 +53,7 @@ describe('useAnimation', () => {
       result.current.onExit();
     });
 
-    await act(() => sleep(1000));
+    await act(() => sleep(1500));
 
     expect(result.current.className).toBe(CLASSES.out);
   });

@@ -53,12 +53,13 @@ const Tooltip = ({
   ...others
 }) => {
   const selfRef = React.useRef();
+  const [style, setStyle] = React.useState({ ...styleProp });
+
   const [{ top, left, placement }, setPosition] = React.useState({
     top: 0,
     left: 0,
     placement: placementProp,
   });
-  const [style, setStyle] = React.useState({ ...styleProp, top, left });
   const { className: animationClassName, onEnter, onExit } = useAnimation(
     STATES,
     getAnimationPhases(placement),
@@ -74,7 +75,7 @@ const Tooltip = ({
     function updateStyle() {
       setStyle({ ...styleProp, top, left });
     },
-    [top, left, placementProp],
+    [top, left],
   );
 
   const handleMouseEnter = e => {
@@ -84,7 +85,7 @@ const Tooltip = ({
       e.currentTarget.getBoundingClientRect().top,
     );
 
-    setPosition(calculatePosition(placement, e.currentTarget, selfRef.current));
+    setPosition(calculatePosition(placementProp, e.currentTarget, selfRef.current));
     onEnter(e);
   };
 

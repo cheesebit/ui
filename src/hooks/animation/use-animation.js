@@ -22,37 +22,27 @@ const DEFAULT_CLASSES = {
 };
 
 function useAnimation(states, classes, currentProp = 'out') {
-  const [timeoutID, setTimeoutID] = React.useState(null);
+  const timeoutIDRef = React.useRef(null);
   const { transition, current } = useAutomaton(
     states || DEFAULT_STATES,
     currentProp,
   );
   const safeClasses = classes || DEFAULT_CLASSES;
 
-  // TODO: Clear timeout when mouse reenters during exit timeout
   // TODO: Create a more generic way to manage animation
 
   const handleMouseEnter = React.useCallback(() => {
-    if (current === 'in') {
-      clearTimeout(timeoutID);
-      return;
-    }
+    clearTimeout(timeoutIDRef.current);
 
-    const newTimeoutID = setTimeout(() => {
-      transition('enter');
-    }, 250);
-
-    setTimeoutID(newTimeoutID);
+    transition('enter');
   }, []);
 
   const handleMouseLeave = React.useCallback(() => {
-    clearTimeout(timeoutID);
+    clearTimeout(timeoutIDRef.current);
 
-    const newTimeoutID = setTimeout(() => {
+    timeoutIDRef.current = setTimeout(() => {
       transition('exit');
-    }, 1000);
-
-    setTimeoutID(newTimeoutID);
+    }, 1500);
   }, []);
 
   return {
