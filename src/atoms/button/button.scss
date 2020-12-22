@@ -67,9 +67,9 @@
     @include var(color, color-primary-500);
 
     @include hoverable {
-      @include var(background, color-transparent);
-      @include var(border-color, color-transparent);
-      @include var(color, color-secondary-300);
+      @include var(background, color-gray-200);
+      @include var(border-color, color-gray-200);
+      @include var(color, color-primary-500);
     }
   }
 

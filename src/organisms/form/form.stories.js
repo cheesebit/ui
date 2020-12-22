@@ -98,6 +98,7 @@ const Template = args => {
                       status.name && {
                         icon: { name: 'cancel', size: 18 },
                         text: String(status.name),
+                        placement: 'right',
                       }
                     }
                   >
@@ -120,7 +121,7 @@ const Template = args => {
                         });
                       }}
                     >
-                      <Icon name="close" />
+                      <Icon name="close" className="mx-auto" />
                     </Button>
                   </Form.Field>
 
@@ -133,6 +134,7 @@ const Template = args => {
                       status.email && {
                         icon: { name: 'cancel', size: 18 },
                         text: String(status.email),
+                        placement: 'right',
                       }
                     }
                   >

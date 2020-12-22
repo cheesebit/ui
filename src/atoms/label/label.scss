@@ -30,14 +30,14 @@
     width: 100%;
   }
 
-  .tooltip {
-    @include var(color, color-gray-600);
+  // .tooltip {
+  //   @include var(color, color-gray-600);
 
-    display: inline-flex;
+  //   display: inline-flex;
 
-    justify-content: center;
-    align-items: center;
-  }
+  //   justify-content: center;
+  //   align-items: center;
+  // }
 
   &.-success {
     & > .prompt {
