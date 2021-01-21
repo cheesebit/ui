@@ -37,7 +37,7 @@ const generatePick = (array, options) => {
   const { quantity = 1, allowRepeat = true } = options || DEFAULT.OBJECT;
 
   if (quantity === 1) {
-    return chance.pickone(array, quantity);
+    return chance.pickone(array);
   }
 
   let picked = chance.pickset(array, quantity);
