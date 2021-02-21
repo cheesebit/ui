@@ -18,6 +18,7 @@ import CloseFullscreen from './assets/ic_close_fullscreen_48px.svg';
 import Cloud from './assets/ic_cloud_48px.svg';
 import CloudDone from './assets/ic_cloud_done_48px.svg';
 import CloudQueue from './assets/ic_cloud_queue_48px.svg';
+import ContentCopy from './assets/ic_content_copy_48px.svg'
 import Create from './assets/ic_create_48px.svg';
 import DoubleChevronLeft from './assets/ic_double_chevron_left_48px.svg';
 import DoubleChevronRight from './assets/ic_double_chevron_right_48px.svg';
@@ -52,6 +53,7 @@ export default {
   'check-circle': CheckCircle,
   'chevron-left': ChevronLeft,
   'chevron-right': ChevronRight,
+  'content-copy': ContentCopy,
   'double-chevron-left': DoubleChevronLeft,
   'double-chevron-right': DoubleChevronRight,
   'expand-less': ExpandLess,
