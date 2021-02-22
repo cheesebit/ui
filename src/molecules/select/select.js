@@ -150,7 +150,8 @@ class Select extends React.PureComponent {
   };
 
   renderOption = option => {
-    const { label, value, ...others } = option;
+    const value = this.adapter.getID(option)
+    const label = this.adapter.getLabel(option)
 
     return (
       <Option
@@ -160,7 +161,7 @@ class Select extends React.PureComponent {
             this.manager.getAttributeByNodeID(SELECTED, value),
           ),
         })}
-        {...others}
+        {...option}
         onClick={this.handleSelect}
         value={value}
       >
