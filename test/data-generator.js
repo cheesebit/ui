@@ -21,7 +21,7 @@ export const chance = new ChanceJS();
  * @returns {Array} Returns an array of lenght `amount`, with items
  * generated based on the provided `template`.
  */
-function generateArray({ template, amount }) {
+function generateArray(template, amount) {
   amount = amount || chance.integer({ min: 2, max: 10 });
 
   const data = [];

@@ -6,18 +6,15 @@ import generator from '../../../test/data-generator';
 
 describe('Tabbed', () => {
   const amount = generator.natural({ min: 2, max: 10 });
-  const tabs = generator.array({
-    template: () => {
-      const id = generator.id();
+  const tabs = generator.array(() => {
+    const id = generator.id();
 
-      return {
-        id: `tab-${id}`,
-        for: `panel-${id}`,
-        label: generator.word({ length: 10 }),
-      };
-    },
-    amount,
-  });
+    return {
+      id: `tab-${id}`,
+      for: `panel-${id}`,
+      label: generator.word({ length: 10 }),
+    };
+  }, amount);
 
   it('renders correctly', () => {
     const props = {

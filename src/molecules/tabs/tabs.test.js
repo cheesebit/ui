@@ -8,16 +8,13 @@ import Tab from './tabs-tab';
 describe('Tabs', () => {
   describe('default', () => {
     const amount = generator.natural({ min: 2, max: 10 });
-    const tabs = generator.array({
-      template: () => {
-        return {
-          id: generator.id(),
-          for: generator.id(),
-          label: generator.word({ length: 10 }),
-        };
-      },
-      amount,
-    });
+    const tabs = generator.array(() => {
+      return {
+        id: generator.id(),
+        for: generator.id(),
+        label: generator.word({ length: 10 }),
+      };
+    }, amount);
 
     it('renders correctly', () => {
       const props = {
@@ -78,16 +75,13 @@ describe('Tabs', () => {
   describe('overflow tabs to dropdown', () => {
     const amount = generator.natural({ min: 10, max: 15 });
 
-    const tabs = generator.array({
-      template: () => {
-        return {
-          id: generator.id(),
-          for: generator.id(),
-          label: generator.word({ length: 10 }),
-        };
-      },
-      amount,
-    });
+    const tabs = generator.array(() => {
+      return {
+        id: generator.id(),
+        for: generator.id(),
+        label: generator.word({ length: 10 }),
+      };
+    }, amount);
 
     const props = {
       items: tabs,

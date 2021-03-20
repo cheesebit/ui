@@ -85,7 +85,9 @@ const Tooltip = ({
       e.currentTarget.getBoundingClientRect().top,
     );
 
-    setPosition(calculatePosition(placementProp, e.currentTarget, selfRef.current));
+    setPosition(
+      calculatePosition(placementProp, e.currentTarget, selfRef.current),
+    );
     onEnter(e);
   };
 
@@ -155,7 +157,7 @@ Tooltip.propTypes = {
 
 Tooltip.defaultProps = {
   placement: Placement.top,
-  mode: Mode.light,
+  mode: Mode.dark,
 };
 
 export default Tooltip;

@@ -10,9 +10,13 @@
     flex: 1;
   }
 
+  & > .header {
+    @include var(border-color, color-gray-500);
+  }
+
   & > .header .cell {
     @include var(font-size, font-size-sm);
-    @include var(font-weight, font-weight-medium);
+    @include var(font-weight, font-weight-bold);
     @include var(color, color-gray-500);
 
     text-decoration: none;

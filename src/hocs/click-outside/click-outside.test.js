@@ -5,15 +5,7 @@ import generator from '../../../test/data-generator';
 import ClickOutside from './click-outside';
 
 describe('ClickOutside', () => {
-  beforeEach(() => {
-    window.setTimeout = jest.fn(fn => fn());
-  });
-
-  afterEach(() => {
-    jest.clearAllMocks();
-  });
-
-  it('render successfully', () => {
+  it('renders successfully', () => {
     const label = generator.word();
 
     const props = {
@@ -32,7 +24,7 @@ describe('ClickOutside', () => {
     getByLabelText(label);
   });
 
-  it('ignores blur when disabled', () => {
+  it('ignores event when disabled', () => {
     const text = generator.word();
 
     const props = {
@@ -55,9 +47,7 @@ describe('ClickOutside', () => {
       contains: jest.fn(() => false),
     };
 
-    instance.handleBlur();
-
-    expect(setTimeout).not.toHaveBeenCalled();
+    instance.handleEvent();
   });
 
   it('ignores blur when ref is null', () => {
@@ -78,9 +68,7 @@ describe('ClickOutside', () => {
     };
 
     const { instance } = mount(<ClickOutside {...props} />);
-    instance.handleBlur({});
-
-    expect(setTimeout).not.toHaveBeenCalled();
+    instance.handleEvent({});
   });
 
   it('calls onClickOutside correctly', () => {
@@ -104,12 +92,16 @@ describe('ClickOutside', () => {
     const input = getByTestId('my-input');
 
     instance.ref.current = {
+      contains: jest.fn(() => true),
+    };
+
+    instance.handleEvent({});
+
+    instance.ref.current = {
       contains: jest.fn(() => false),
     };
 
-    instance.handleBlur({});
-
-    expect(setTimeout).toHaveBeenCalled();
+    instance.handleEvent({});
 
     expect(props.onClickOutside).toHaveBeenCalled();
   });

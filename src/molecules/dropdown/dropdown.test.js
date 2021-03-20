@@ -9,17 +9,14 @@ describe('Dropdown', () => {
   describe('default', () => {
     const props = {
       toggle: <Icon name="bell" size={12} />,
-      items: generator.array({
-        template: () => {
-          return {
-            id: generator.id(),
-            label: generator.word(),
-            icon: 'bell',
-            onClick: jest.fn(),
-          };
-        },
-        amount: generator.natural({ min: 3, max: 10 }),
-      }),
+      items: generator.array(() => {
+        return {
+          id: generator.id(),
+          label: generator.word(),
+          icon: 'bell',
+          onClick: jest.fn(),
+        };
+      }, generator.natural({ min: 3, max: 10 })),
       header: generator.word(),
       footer: generator.word(),
     };

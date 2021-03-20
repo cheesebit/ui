@@ -12,7 +12,7 @@
 
     @include var(background, color-white);
 
-    min-height: 42px;
+    min-height: 48px;
     align-items: center;
 
     &.is-highlighted {
@@ -22,7 +22,7 @@
 
   &.-bordered {
     > .item {
-      @include bordered($color: color(gray-300));
+      @include bordered($color: color(gray-300), $style: dotted);
     }
   }
 
@@ -30,14 +30,14 @@
     > .item {
       @include interactable;
       @include hoverable {
-        @include var(background, color-gray-100);
+        @include var(background, color-gray-200);
       }
     }
   }
 
   &.-striped {
     > .item:nth-of-type(odd) {
-      @include var(background, color-gray-200);
+      @include var(background, color-gray-100);
     }
   }
 }

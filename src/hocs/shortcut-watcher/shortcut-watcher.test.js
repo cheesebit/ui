@@ -65,8 +65,8 @@ describe('ShortcutWatcher', () => {
   it('dispatches custom event succesfully', () => {
     const letters = generator.shuffle(['a', 'b', 'c', 'd', 'e', 'f']);
 
-    const shortcuts = generator.array({
-      template: ({ index }) => ({
+    const shortcuts = generator.array(
+      ({ index }) => ({
         keys: [
           Keys.CONTROL,
           generator.pick([Keys.SHIFT, Keys.ALT]),
@@ -74,8 +74,8 @@ describe('ShortcutWatcher', () => {
         ],
         event: `onEvent${index}`,
       }),
-      amount: 3,
-    });
+      3,
+    );
 
     const props = {
       shortcuts,

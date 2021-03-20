@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals, keys, pick } from '../../common/toolset';
+import { equals, omit } from '../../common/toolset';
 import {
   evaluateBorderless,
   evaluatePaddingless,
@@ -11,7 +11,7 @@ import { InputHTMLAttributes } from '../../common/props-dom';
 
 import './input.scss';
 
-const PICKED_PROPS = [...keys(InputHTMLAttributes)];
+const OMITTED_PROPS = ['paddingless', 'borderless', 'variant'];
 
 export const Variant = {
   danger: 'danger',
@@ -53,7 +53,7 @@ class Input extends React.PureComponent {
 
     return (
       <input
-        {...pick(PICKED_PROPS, others)}
+        {...omit(OMITTED_PROPS, others)}
         ref={forwardedRef}
         className={this.classes}
         type={type}

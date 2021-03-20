@@ -43,7 +43,7 @@ class Table extends React.PureComponent {
   }
 
   render() {
-    const { id } = this.props;
+    const { id, bordered, hoverable, striped } = this.props;
 
     /**
      * TODO: Remove literal objects/arrays
@@ -60,31 +60,6 @@ class Table extends React.PureComponent {
           paddingless="vertical"
           borderless={['horizontal', 'top']}
           leading={<Checkbox />}
-          trailing={
-            <Dropdown
-              unroll="left"
-              toggle={({ disabled, collapsed, onClick }) => (
-                <Dropdown.Toggle
-                  disabled={disabled}
-                  collapsed={collapsed}
-                  onClick={onClick}
-                  icon="more-horizontal"
-                  trailing={null}
-                  borderless
-                />
-              )}
-              items={[
-                {
-                  id: 1,
-                  children: 'Editar Colunas',
-                  icon: 'create',
-                  onClick: () => {
-                    alert('Hi ' + entry[this.columns[0].name]);
-                  },
-                },
-              ]}
-            />
-          }
         >
           <div style={this.style}>
             {this.columns.map(column => (
@@ -102,7 +77,13 @@ class Table extends React.PureComponent {
             ))}
           </div>
         </Box>
-        <List data-testid="body" className="body" bordered hoverable striped>
+        <List
+          data-testid="body"
+          className="body"
+          bordered={bordered}
+          hoverable={hoverable}
+          striped={striped}
+        >
           {this.data.map(entry => (
             <List.Item
               key={entry.id}
@@ -111,31 +92,6 @@ class Table extends React.PureComponent {
               data-testid="row"
               leading={<Checkbox />}
               padding="vertical"
-              trailing={
-                <Dropdown
-                  unroll="left"
-                  toggle={({ disabled, collapsed, onClick }) => (
-                    <Dropdown.Toggle
-                      disabled={disabled}
-                      collapsed={collapsed}
-                      onClick={onClick}
-                      icon="more-horizontal"
-                      trailing={null}
-                      borderless
-                    />
-                  )}
-                  items={[
-                    {
-                      id: 1,
-                      children: 'Editar',
-                      icon: 'create',
-                      onClick: () => {
-                        alert('Hi ' + entry[this.columns[0].name]);
-                      },
-                    },
-                  ]}
-                />
-              }
             >
               <div style={this.style}>
                 {this.columns.map(column => (
@@ -167,6 +123,15 @@ Table.propTypes = {
       label: PropTypes.string,
     }),
   ),
+  bordered: PropTypes.bool,
+  striped: PropTypes.bool,
+  hoverable: PropTypes.bool,
+};
+
+Table.defaultProps = {
+  bordered: true,
+  striped: false,
+  hoverable: true,
 };
 
 export default Table;

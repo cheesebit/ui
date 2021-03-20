@@ -13,6 +13,23 @@ export default {
       story: 'some story *a*markdown**',
     },
   },
+  argTypes: {
+    bordered: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    striped: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    hoverable: {
+      control: {
+        type: 'boolean',
+      },
+    },
+  },
 };
 
 const Template = args => {

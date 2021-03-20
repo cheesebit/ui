@@ -9,47 +9,47 @@ class ClickOutside extends React.Component {
     super(props);
 
     this.ref = React.createRef();
-    this.timeout = null;
 
-    this.handleBlur = this.handleBlur.bind(this);
+    this.state = {
+      active: false,
+    };
+
+    this.handleEvent = this.handleEvent.bind(this);
   }
 
   componentDidMount() {
-    document.addEventListener('mousedown', this.handleBlur, false);
+    document.addEventListener('mousedown', this.handleEvent, true);
+    document.addEventListener('keyup', this.handleEvent, true);
   }
 
   componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleBlur, false);
-
-    clearTimeout(this.timeout);
+    document.removeEventListener('mousedown', this.handleEvent, true);
+    document.removeEventListener('keyup', this.handleEvent, true);
   }
 
-  handleBlur(e) {
-    const { disabled, onClickOutside } = this.props;
+  activate = () => {
+    this.setState({ active: true });
+  };
 
-    if (disabled) {
-      return;
-    }
+  deactivate = () => {
+    this.setState({ active: false });
+  };
+
+  handleEvent(e) {
+    const { active } = this.state;
+    const { disabled, onClickOutside } = this.props;
 
     const ref = this.ref.current;
 
-    if (!ref) {
+    if (!ref || disabled) {
       return;
     }
 
-    if (!ref.contains(e.target)) {
-      /**
-       * We call the callback on the next tick by using setTimeout.
-       * This is necessary because we need to first check if another child
-       * of the element has received focus as the blur event fires prior to the new focus event.
-       *
-       * Based on: https://reactjs.org/docs/accessibility.html
-       */
-      this.timeout = setTimeout(() => {
-        onClickOutside && onClickOutside();
-      });
-    } else {
-      clearTimeout(this.timeout);
+    if (ref.contains(e.target) && !active) {
+      this.activate();
+    } else if (!ref.contains(e.target) && active) {
+      this.deactivate();
+      onClickOutside?.();
     }
   }
 

@@ -32,7 +32,9 @@ const Template = args => {
               <InputWithRef
                 ref={ref}
                 className="h-8 border"
-                onFocus={() => setOutside(false)}
+                onFocus={() => {
+                  setOutside(false);
+                }}
                 type="text"
               />
               <p>{isOutside ? 'Outside' : 'Inside'}</p>

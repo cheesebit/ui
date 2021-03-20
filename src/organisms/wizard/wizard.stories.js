@@ -18,17 +18,14 @@ export default {
 };
 
 const generateTableData = () =>
-  generator.array({
-    template: ({ index }) => {
-      return {
-        company: generator.company(),
-        id: generator.guid(),
-        profession: generator.profession(),
-        salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
-      };
-    },
-    amount: generator.natural({ min: 2, max: 12 }),
-  });
+  generator.array(({ index }) => {
+    return {
+      company: generator.company(),
+      id: generator.guid(),
+      profession: generator.profession(),
+      salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
+    };
+  }, generator.natural({ min: 2, max: 12 }));
 
 const data = generateTableData();
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
@@ -10,10 +10,17 @@ import DropdownItem from './dropdown-item';
 import DropdownToggle from './dropdown-toggle';
 import DropdownContext from './dropdown-context';
 
+import { useID } from '../../hooks/id';
+
 import './dropdown.scss';
 
 const OMITTED_PROPS = ['toggle', 'collapsed', 'items', 'unroll'];
 
+function DropdownB(props) {
+  // const { collapsed } = props;
+  const id = useID(props);
+  const [collapsed, setCollapsed] = useState(props.collapsed || true);
+}
 class Dropdown extends React.PureComponent {
   constructor(props) {
     super(props);
@@ -31,6 +38,16 @@ class Dropdown extends React.PureComponent {
       collapsed,
       toggle: this.handleToggle,
     };
+  }
+
+  static getDerivedStateFromProps(props, state) {
+    if (props.collapsed !== state.collapsed) {
+      return {
+        collapsed: props.collapsed,
+      };
+    }
+
+    return null;
   }
 
   get classes() {

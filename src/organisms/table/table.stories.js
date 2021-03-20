@@ -16,29 +16,27 @@ export default {
 };
 
 const generateTableData = () =>
-  generator.array({
-    template: ({ index }) => {
-      return {
-        company: generator.company(),
-        id: generator.guid(),
-        profession: generator.profession(),
-        salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
-      };
-    },
-    amount: generator.natural({ min: 2, max: 12 }),
-  });
+  generator.array(({ index }) => {
+    return {
+      company: generator.company(),
+      id: generator.guid(),
+      profession: generator.profession(),
+      salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
+    };
+  }, generator.natural({ min: 2, max: 12 }));
 
 const data = generateTableData();
 
 const today = new Date();
 const Template = args => {
   return (
-    <div className="block">
+    <div className="block w-full">
       <p className="mb-2">
         This is me, a cool Link ready to be played around. Try me :)
       </p>
 
       <Table
+        {...args}
         data={data}
         columns={[
           {

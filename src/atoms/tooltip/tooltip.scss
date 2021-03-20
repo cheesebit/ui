@@ -5,18 +5,16 @@ $tooltip-max-width: 290px;
 $tooltip-arrow-size: 5px;
 
 *:hover + .cb-tooltip {
-  display: block;
-
   pointer-events: initial;
 }
 
 .cb-tooltip {
+  display: block;
   @include font;
 
   position: fixed;
   @include shadow;
   @include bordered;
-  @include rounded;
 
   @include var(font-size, font-size-sm);
   @include var(font-weight, font-weight-default);
@@ -100,5 +98,45 @@ $tooltip-arrow-size: 5px;
       @include var(border-color, color-info);
       @include var(color, color-white);
     }
+  }
+
+  &.-top {
+    @include rounded(
+      $border-radius: 0.375rem,
+      $top-left: true,
+      $top-right: true,
+      $bottom-left: false,
+      $bottom-right: true
+    );
+  }
+
+  &.-bottom {
+    @include rounded(
+      $border-radius: 0.375rem,
+      $top-left: false,
+      $top-right: true,
+      $bottom-left: true,
+      $bottom-right: true
+    );
+  }
+
+  &.-right {
+    @include rounded(
+      $border-radius: 0.375rem,
+      $top-left: true,
+      $top-right: true,
+      $bottom-left: false,
+      $bottom-right: true
+    );
+  }
+
+  &.-left {
+    @include rounded(
+      $border-radius: 0.375rem,
+      $top-left: true,
+      $top-right: true,
+      $bottom-left: true,
+      $bottom-right: false
+    );
   }
 }

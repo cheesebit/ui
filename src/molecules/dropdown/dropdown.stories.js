@@ -16,21 +16,18 @@ export default {
 };
 
 const generateDropdownOptions = () =>
-  generator.array({
-    template: ({ index }) => {
-      const label = generator.animal();
+  generator.array(({ index }) => {
+    const label = generator.animal();
 
-      return {
-        id: generator.id(),
-        children: label,
-        icon: generator.pick(keys(icons)),
-        onClick: () => {
-          alert(`You clicked ${label} (Index ${index})`);
-        },
-      };
-    },
-    amount: generator.natural({ min: 2, max: 5 }),
-  });
+    return {
+      id: generator.id(),
+      children: label,
+      icon: generator.pick(keys(icons)),
+      onClick: () => {
+        alert(`You clicked ${label} (Index ${index})`);
+      },
+    };
+  }, generator.natural({ min: 2, max: 5 }));
 
 const Template = args => {
   return (

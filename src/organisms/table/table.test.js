@@ -20,18 +20,15 @@ const COLUMNS = [
 ];
 
 const generateTableData = () =>
-  generator.array({
-    template: () => {
-      return {
-        company: generator.company(),
-        id: generator.id(),
-        profession: generator.profession(),
-        salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
-        syllable: generator.syllable(),
-      };
-    },
-    amount: generator.natural({ min: 2, max: 5 }),
-  });
+  generator.array(() => {
+    return {
+      company: generator.company(),
+      id: generator.id(),
+      profession: generator.profession(),
+      salary: generator.float({ min: 100, max: 19999, fixed: 2 }),
+      syllable: generator.syllable(),
+    };
+  }, generator.natural({ min: 2, max: 5 }));
 
 describe('Table', () => {
   it('renders correctly', () => {

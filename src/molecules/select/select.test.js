@@ -7,12 +7,10 @@ import generator from '../../../test/data-generator';
 describe('Select', () => {
   it('renders correctly', () => {
     const props = {
-      options: generator.array({
-        template: () => ({
-          label: generator.name(),
-          value: generator.id(),
-        }),
-      }),
+      options: generator.array(() => ({
+        label: generator.name(),
+        value: generator.id(),
+      })),
     };
 
     render(<Select {...props} />);
@@ -25,12 +23,10 @@ describe('Select', () => {
 
   it('sets as selected when an option is clicked', () => {
     const props = {
-      options: generator.array({
-        template: () => ({
-          label: generator.name(),
-          value: generator.id(),
-        }),
-      }),
+      options: generator.array(() => ({
+        label: generator.name(),
+        value: generator.id(),
+      })),
     };
 
     render(<Select {...props} />);

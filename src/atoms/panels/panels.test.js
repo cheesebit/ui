@@ -6,15 +6,12 @@ import generator from '../../../test/data-generator';
 
 describe('Panels', () => {
   const amount = generator.natural({ min: 2, max: 10 });
-  const data = generator.array({
-    template: () => {
-      return {
-        id: generator.id(),
-        content: generator.word({ length: 10 }),
-      };
-    },
-    amount,
-  });
+  const data = generator.array(() => {
+    return {
+      id: generator.id(),
+      content: generator.word({ length: 10 }),
+    };
+  }, amount);
 
   it('renders correctly', () => {
     const props = {

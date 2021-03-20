@@ -6,17 +6,14 @@ import { keys, capitalize } from '../../common/toolset';
 import Tabs from './tabs';
 
 const generateTabs = (options = { min: 2, max: 5 }) =>
-  generator.array({
-    template: ({ index }) => {
-      return {
-        id: generator.id(),
-        props: {
-          children: capitalize(generator.word({ length: 7 })),
-        },
-      };
-    },
-    amount: generator.natural(options),
-  });
+  generator.array(() => {
+    return {
+      id: generator.id(),
+      props: {
+        children: capitalize(generator.word({ length: 7 })),
+      },
+    };
+  }, generator.natural(options));
 
 const tabs = generateTabs({ min: 4, max: 20 });
 

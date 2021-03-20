@@ -156,28 +156,29 @@
   $right: true,
   $bottom: true,
   $left: true,
-  $color: color(gray-400)
+  $color: color(gray-400),
+  $style: solid
 ) {
   @if $top {
-    border-top: 1px solid $color;
+    border-top: 1px $style $color;
   } @else {
     border-top: none;
   }
 
   @if $right {
-    border-right: 1px solid $color;
+    border-right: 1px $style $color;
   } @else {
     border-right: none;
   }
 
   @if $bottom {
-    border-bottom: 1px solid $color;
+    border-bottom: 1px $style $color;
   } @else {
     border-bottom: none;
   }
 
   @if $left {
-    border-left: 1px solid $color;
+    border-left: 1px $style $color;
   } @else {
     border-left: none;
   }

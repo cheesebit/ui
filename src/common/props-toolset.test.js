@@ -40,13 +40,13 @@ describe('Props toolset', () => {
 
     it('evaluates non-primitive props correctly', () => {
       const obj1 = {
-        key1: generator.array({ template: generator.word }),
-        key1: generator.array({ template: generator.natural }),
+        key1: generator.array(generator.word),
+        key1: generator.array(generator.natural),
       };
 
       const obj2 = {
-        key1: generator.array({ template: generator.word }),
-        key1: generator.array({ template: generator.natural }),
+        key1: generator.array(generator.word),
+        key1: generator.array(generator.natural),
       };
 
       const comparator = compareProps(['key1', 'key2']);

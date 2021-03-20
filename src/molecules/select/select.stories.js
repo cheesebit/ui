@@ -6,18 +6,15 @@ import { keys } from '../../common/toolset';
 import Select from './select';
 
 const generateSelectOptions = () =>
-  generator.array({
-    template: ({ index }) => {
-      const label = generator.name();
+  generator.array(() => {
+    const label = generator.name();
 
-      return {
-        value: generator.id(),
-        label,
-        icon: generator.pick(icons),
-      };
-    },
-    amount: generator.natural({ min: 5, max: 10 }),
-  });
+    return {
+      value: generator.id(),
+      label,
+      icon: generator.pick(icons),
+    };
+  }, generator.natural({ min: 5, max: 10 }));
 
 export default {
   title: 'Molecules/Select',
@@ -28,23 +25,6 @@ export default {
     },
   },
 };
-
-const generateDropdownOptions = () =>
-  generator.array({
-    template: ({ index }) => {
-      const label = generator.animal();
-
-      return {
-        id: generator.id(),
-        children: label,
-        icon: generator.pick(keys(icons)),
-        onClick: () => {
-          alert(`You clicked ${label} (Index ${index})`);
-        },
-      };
-    },
-    amount: generator.natural({ min: 2, max: 5 }),
-  });
 
 const Template = args => {
   return (
