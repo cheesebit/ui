@@ -1,5 +1,5 @@
 import React from 'react';
-import Suggestion from './Suggestion';
+import Suggestion from './suggestion';
 import generator from '../../../test/data-generator';
 import {
   render,
