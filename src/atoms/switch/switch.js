@@ -34,7 +34,7 @@ const Switch = ({
             className="selector"
             data-testid="selector"
           />
-          <Icon name="circle" className="check" size={14} />
+          <Icon name="circle" className="check" size={16} />
         </React.Fragment>
       }
     >
