@@ -5,5 +5,6 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/preset-scss',
     '@storybook/addon-actions',
+    '@storybook/addon-postcss',
   ],
 };
