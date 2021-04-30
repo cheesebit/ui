@@ -50,6 +50,7 @@ List.defaultProps = {
   bordered: false,
   striped: false,
   hoverable: false,
+  as: 'section',
 };
 
 List.Item = ListItem;

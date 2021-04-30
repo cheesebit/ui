@@ -155,6 +155,8 @@ Button.defaultProps = {
   size: Size.small,
   type: 'button',
   disabled: false,
+  borderless: false,
+  paddingless: 'vertical',
 };
 
 export default Button;

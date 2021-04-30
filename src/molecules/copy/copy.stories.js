@@ -6,11 +6,6 @@ import Copy from './copy';
 export default {
   title: 'Molecules/Copy',
   component: Copy,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const Template = args => {
@@ -21,7 +16,7 @@ const Template = args => {
         :)
       </p>
 
-      <Copy value={generator.animal()} {...args} className="" />
+      <Copy value={generator.animal()} {...args} />
     </div>
   );
 };

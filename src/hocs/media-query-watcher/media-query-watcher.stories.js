@@ -6,20 +6,16 @@ import MediaQueryWatcher from './media-query-watcher';
 export default {
   title: 'HOCs/MediaQueryWatcher',
   component: MediaQueryWatcher,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   const [currentMedia, setCurrentMedia] = React.useState(null);
 
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool MediaQueryWatcher HOC ready to be played around. Try
+        me :)
       </p>
 
       <MediaQueryWatcher
@@ -47,6 +43,4 @@ const Template = args => {
       </MediaQueryWatcher>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

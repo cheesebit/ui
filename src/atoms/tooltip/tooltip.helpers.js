@@ -38,7 +38,7 @@ export function getAnimationPhases(placement) {
   return ANIMATION_PHASES[placement] || ANIMATION_PHASES.top;
 }
 
-const DISTANCE = 10;
+const DISTANCE = 4;
 
 /**
  * Calculates `top` and `left` position for a top placed tooltip, based on the given anchor.
@@ -50,7 +50,8 @@ function calculateTopPlacement(anchor, tooltip) {
   const top = anchorRect.top - tooltip.offsetHeight - DISTANCE || 0;
 
   const left = (() => {
-    let temp = anchorRect.left - (tooltip.offsetWidth - anchor.offsetWidth) / 2;
+    // let temp = anchorRect.left - (tooltip.offsetWidth - anchor.offsetWidth) / 2; // centralized
+    let temp = anchorRect.left;
 
     if (temp < 0) {
       temp = anchorRect.left;
@@ -87,7 +88,8 @@ function calculateRightPlacement(anchor, tooltip) {
   }
 
   const top = (() => {
-    return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2;
+    // return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2; // centralized
+    return anchorRect.top - anchor.offsetHeight;
   })();
 
   return {
@@ -110,7 +112,8 @@ function calculateBottomPlacement(anchor, tooltip) {
   })();
 
   const left = (() => {
-    let temp = anchorRect.left - (tooltip.offsetWidth - anchor.offsetWidth) / 2;
+    // let temp = anchorRect.left - (tooltip.offsetWidth - anchor.offsetWidth) / 2; // centralized
+    let temp = anchorRect.left;
 
     if (temp < 0) {
       temp = anchorRect.left;
@@ -147,7 +150,8 @@ function calculateLeftPlacement(anchor, tooltip) {
   }
 
   const top = (() => {
-    return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2;
+    // return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2; // centralized
+    return anchorRect.top - anchor.offsetHeight + DISTANCE;
   })();
 
   return {

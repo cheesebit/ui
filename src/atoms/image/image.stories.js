@@ -5,14 +5,9 @@ import Image from './image';
 export default {
   title: 'Atoms/Image',
   component: Image,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   return (
     <div className="block">
       <p className="mb-2">
@@ -136,6 +131,4 @@ const Template = args => {
       <Image src="https://images.unsplash.com/photo-1469474968028-56623f02e42e" />
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

@@ -7,6 +7,7 @@ import { equals } from '../../common/toolset';
 import './badge.scss';
 
 export const Variant = {
+  neutral: 'neutral',
   primary: 'primary',
   secondary: 'secondary',
   terciary: 'terciary',
@@ -35,11 +36,12 @@ Badge.propTypes = {
     Variant.primary,
     Variant.secondary,
     Variant.terciary,
+    Variant.neutral,
   ]),
 };
 
 Badge.defaultProps = {
-  variant: null,
+  variant: Variant.neutral,
 };
 
 export default Badge;

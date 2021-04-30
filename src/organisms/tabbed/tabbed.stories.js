@@ -1,26 +1,18 @@
 import React from 'react';
 
 import generator from '../../../test/data-generator';
-import icons from '../../atoms/icon/icon-mapping';
-import { keys, capitalize } from '../../common/toolset';
 import Tabbed from './tabbed';
 
 export default {
   title: 'Organisms/Tabbed',
   component: Tabbed,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const today = new Date();
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool Tabbed ready to be played around. Try me :)
       </p>
 
       <Tabbed
@@ -82,6 +74,4 @@ const Template = args => {
       </Tabbed>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

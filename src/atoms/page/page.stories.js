@@ -8,18 +8,13 @@ import { Checkbox } from '../checkbox';
 export default {
   title: 'Atoms/Page',
   component: Page,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool Page block ready to be played around. Try me :)
       </p>
 
       <Page>
@@ -59,6 +54,4 @@ const Template = args => {
       </Page>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

@@ -1,34 +1,30 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
-import icons from '../../atoms/icon/icon-mapping';
-import { isBlank } from '../../common/toolset';
 import { Button } from '../../atoms/button';
 import { Checkbox } from '../../atoms/checkbox';
-import Form from './form';
 import { Icon } from '../../atoms/icon';
 import { Input } from '../../atoms/input';
+import { isBlank } from '../../common/toolset';
 import { Radio } from '../../atoms/radio';
 import { Select } from '../../molecules/select';
+import Form from './form';
+import generator from '../../../test/data-generator';
 
 export default {
   title: 'Organisms/Form',
   component: Form,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const FormContext = Form.Context;
 
 const today = new Date();
-const Template = args => {
+
+export function Playground() {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool Form, <b>still a work in progress</b>, but you can
+        play me around. Try me :)
       </p>
 
       <Form
@@ -245,6 +241,4 @@ const Template = args => {
       </Form>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

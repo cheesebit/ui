@@ -6,14 +6,9 @@ import generator from '../../../test/data-generator';
 export default {
   title: 'Atoms/Badge',
   component: Badge,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
       <p className="mb-2">
@@ -22,6 +17,4 @@ const Template = args => {
       <Badge {...args}>{generator.name()}</Badge>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

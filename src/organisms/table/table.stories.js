@@ -1,18 +1,11 @@
 import React from 'react';
 
 import generator from '../../../test/data-generator';
-import icons from '../../atoms/icon/icon-mapping';
-import { keys, capitalize } from '../../common/toolset';
 import Table from './table';
 
 export default {
   title: 'Organisms/Table',
   component: Table,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const generateTableData = () =>
@@ -27,12 +20,12 @@ const generateTableData = () =>
 
 const data = generateTableData();
 
-const today = new Date();
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block w-full">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool Table, <b>still a work in progress</b>, but you can
+        play me around. Try me :)
       </p>
 
       <Table
@@ -58,6 +51,4 @@ const Template = args => {
       />
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

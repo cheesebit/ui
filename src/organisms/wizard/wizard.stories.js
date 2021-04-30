@@ -1,8 +1,6 @@
 import React from 'react';
 
 import generator from '../../../test/data-generator';
-import icons from '../../atoms/icon/icon-mapping';
-import { keys, capitalize } from '../../common/toolset';
 import { Block, Page } from '../../atoms/page';
 import { Button } from '../../atoms/button';
 import Wizard from './wizard';
@@ -10,11 +8,6 @@ import Wizard from './wizard';
 export default {
   title: 'Organisms/Wizard',
   component: Wizard,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const generateTableData = () =>
@@ -27,14 +20,12 @@ const generateTableData = () =>
     };
   }, generator.natural({ min: 2, max: 12 }));
 
-const data = generateTableData();
-
-const today = new Date();
-const Template = args => {
+export function Playground() {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool Wizard (you might know me as Stepper or something
+        like that) ready to be played around. Try me :)
       </p>
 
       <Wizard
@@ -147,6 +138,4 @@ const Template = args => {
       </Wizard>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

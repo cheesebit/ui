@@ -6,18 +6,14 @@ import ResizeWatcher from './resize-watcher';
 export default {
   title: 'HOCs/ResizeWatcher',
   component: ResizeWatcher,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool ResizeWatcher HOC ready to be played around. Try me
+        :)
       </p>
 
       <div>
@@ -45,6 +41,4 @@ const Template = args => {
       </div>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

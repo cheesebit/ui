@@ -11,7 +11,7 @@ export const parameters = {
 export const decorators = [
   Story => {
     return (
-      <div className="w-full p-16">
+      <div className="flex items-center justify-center w-full h-full p-16">
         <Story />
       </div>
     );

@@ -9,20 +9,15 @@ const InputWithRef = withForwardedRef(Input);
 export default {
   title: 'HOCs/ClickOutside',
   component: ClickOutside,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   const [isOutside, setOutside] = React.useState(true);
 
   return (
     <div className="block">
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        This is me, a cool ClickOutside HOC ready to be played around. Try me :)
       </p>
 
       <ClickOutside onClickOutside={() => setOutside(true)}>
@@ -44,6 +39,4 @@ const Template = args => {
       </ClickOutside>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

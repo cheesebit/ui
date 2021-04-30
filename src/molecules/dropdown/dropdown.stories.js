@@ -8,11 +8,6 @@ import Dropdown from './dropdown';
 export default {
   title: 'Molecules/Dropdown',
   component: Dropdown,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const generateDropdownOptions = () =>
@@ -29,11 +24,13 @@ const generateDropdownOptions = () =>
     };
   }, generator.natural({ min: 2, max: 5 }));
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
+      <p className="mb-2">This is me, a cool Dropdown.</p>
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        As I'm <b>still a work in progress</b>, there's some maintenance going
+        on, but soon enough you will be able to try me :)
       </p>
 
       <div className="flex flex-row space-x-4">
@@ -72,6 +69,4 @@ const Template = args => {
       </div>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

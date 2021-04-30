@@ -86,18 +86,20 @@
   opacity: 1;
 }
 
-@mixin focusable($color: rgba(color(primary-200), 0.5)) {
+@mixin focusable($color: rgba(color(primary-200), 0.75)) {
   outline: none;
 
   &:focus,
   &.is-focused {
-    box-shadow: 0 0 0 0.2rem $color;
+    box-shadow: 0 0 0.45rem $color;
+    // box-shadow: 120px 80px 40px 20px #0ff;
+    // box-shadow: 0 5px 15px rgba(145, 92, 182, 0.4);
     @content;
   }
 }
 
 @mixin hoverable {
-  &:not(.is-disabled):not(:disabled) {
+  &:not(.is-disabled):not(:disabled):not(:focus) {
     &:hover,
     &:active {
       @content;

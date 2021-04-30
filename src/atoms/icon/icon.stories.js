@@ -7,11 +7,7 @@ import { keys } from '../../common/toolset';
 export default {
   title: 'Atoms/Icon',
   component: Icon,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
+
   argTypes: {
     name: {
       control: {
@@ -22,7 +18,7 @@ export default {
   },
 };
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
       <p className="mb-2">
@@ -32,6 +28,4 @@ const Template = args => {
       <Icon {...args} />
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

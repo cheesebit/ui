@@ -6,11 +6,6 @@ import generator from '../../../test/data-generator';
 export default {
   title: 'Molecules/Suggestion',
   component: Suggestion,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const adapter = {
@@ -157,12 +152,15 @@ function useDs4() {
   };
 }
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
+      <p className="mb-2">This is me, a cool Suggestion.</p>
       <p className="mb-2">
-        This is me, a cool Suggestion ready to be played around. Try me :)
+        As I'm <b>still a work in progress</b>, there's some maintenance going
+        on, but soon enough you will be able to try me :)
       </p>
+
       <div style={{ width: 250 }}>
         <Suggestion
           {...args}
@@ -172,6 +170,4 @@ const Template = args => {
       </div>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}
