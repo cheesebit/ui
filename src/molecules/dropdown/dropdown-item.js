@@ -4,13 +4,24 @@ import { Icon } from '../../atoms/icon';
 import { List } from '../../atoms/list';
 import DropdownContext from './dropdown-context';
 
-const DropdownItem = ({ id, icon, onClick, children, label, ...others }) => {
+function DropdownItem({
+  id,
+  icon,
+  onClick,
+  children,
+  label,
+  disabled,
+  ...others
+}) {
   return (
     <DropdownContext.Consumer>
       {({ toggle, collapsed }) => (
         <List.Item
+          key={id}
           leading={icon && <Icon name={icon} />}
           data-testid="item"
+          // {/* we disable when collapsed so it becomes unfocusable */}
+          disabled={collapsed || disabled}
           {...others}
           {...(collapsed && { tabIndex: '-1' })}
           id={id}
@@ -18,10 +29,7 @@ const DropdownItem = ({ id, icon, onClick, children, label, ...others }) => {
           onClick={e => {
             toggle();
 
-            if (onClick) {
-              e.persist();
-              onClick({ id });
-            }
+            onClick?.({ id });
           }}
           as="button"
           type="button"
@@ -31,6 +39,6 @@ const DropdownItem = ({ id, icon, onClick, children, label, ...others }) => {
       )}
     </DropdownContext.Consumer>
   );
-};
+}
 
 export default DropdownItem;

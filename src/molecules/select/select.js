@@ -12,12 +12,12 @@ import {
   isEmpty,
   keys,
 } from '../../common/toolset';
-import { Icon } from '../../atoms/icon';
 import { DataManager } from '../../common/data-manager/';
+import { getUpdateID, toValue } from './select.helpers';
+import { Icon } from '../../atoms/icon';
 import { Mode } from '../../common/attribute-manager';
 import Option from './select-option';
 import Selectors from './selectors';
-import { getUpdateID, toValue } from './helpers';
 
 const [SELECTED, VISIBLE] = ['selected', 'visible'];
 const OMITTED_PROPS = ['adapter', 'options', 'placeholder'];
@@ -150,8 +150,8 @@ class Select extends React.PureComponent {
   };
 
   renderOption = option => {
-    const value = this.adapter.getID(option)
-    const label = this.adapter.getLabel(option)
+    const value = this.adapter.getID(option);
+    const label = this.adapter.getLabel(option);
 
     return (
       <Option
@@ -179,6 +179,7 @@ class Select extends React.PureComponent {
         collapsed,
         disabled,
         onClick,
+        selected,
         value: this.value,
       });
     }

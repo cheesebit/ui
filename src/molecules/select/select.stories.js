@@ -20,6 +20,39 @@ const generateSelectOptions = () =>
 export default {
   title: 'Molecules/Select',
   component: Select,
+  argTypes: {
+    unroll: {
+      control: {
+        type: 'select',
+        options: ['right', 'left', 'block'],
+      },
+    },
+    className: {
+      table: {
+        disable: true,
+      },
+    },
+    multiple: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    id: {
+      table: {
+        disable: true,
+      },
+    },
+    value: {
+      table: {
+        disable: true,
+      },
+    },
+    options: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
 
 const Template = args => {

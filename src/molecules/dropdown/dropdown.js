@@ -1,170 +1,104 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { ClickOutside } from '../../hocs/click-outside';
-import { DEFAULT } from '../../common/constants';
-import { isFunction, isNil, getID, omit, equals } from '../../common/toolset';
+import { isFunction, isNil, omit } from '../../common/toolset';
+import { useClickOutside } from '../../hooks/click-outside/';
+import { useID } from '../../hooks/id';
 import DropdownItems from './dropdown-items';
 import DropdownItem from './dropdown-item';
 import DropdownToggle from './dropdown-toggle';
 import DropdownContext from './dropdown-context';
 
-import { useID } from '../../hooks/id';
-
 import './dropdown.scss';
 
 const OMITTED_PROPS = ['toggle', 'collapsed', 'items', 'unroll'];
 
-function DropdownB(props) {
-  // const { collapsed } = props;
+function Dropdown(props) {
+  const { prop, classy } = useClassy(props);
+  const ref = useRef();
   const id = useID(props);
   const [collapsed, setCollapsed] = useState(props.collapsed || true);
-}
-class Dropdown extends React.PureComponent {
-  constructor(props) {
-    super(props);
 
-    const { collapsed } = props;
-    this.state = {
-      collapsed,
-    };
+  const {
+    className,
+    header,
+    footer,
+    children,
+    items,
+    disabled,
+    toggle,
+    ...others
+  } = props;
 
-    this.handleToggle = this.handleToggle.bind(this);
-
-    const { id } = props;
-    this.id = getID(id);
-    this.value = {
-      collapsed,
-      toggle: this.handleToggle,
-    };
+  function handleToggle() {
+    setCollapsed(collapsed => !collapsed);
   }
 
-  static getDerivedStateFromProps(props, state) {
-    if (props.collapsed !== state.collapsed) {
-      return {
-        collapsed: props.collapsed,
-      };
-    }
-
-    return null;
-  }
-
-  get classes() {
-    const { className, unroll } = this.props;
-    const { collapsed } = this.state;
-
-    return clsx(
-      'cb-dropdown',
-      {
-        '-unroll-right': equals(unroll, 'right'),
-        '-unroll-left': equals(unroll, 'left'),
-        '-unroll-block': equals(unroll, 'block'),
-      },
-      {
-        'is-collapsed': collapsed,
-      },
-      className,
-    );
-  }
-
-  get items() {
-    const { items } = this.props;
-
-    return items || DEFAULT.ARRAY;
-  }
-
-  handleToggle() {
-    this.setState(({ collapsed }) => {
-      const newCollapsed = !collapsed;
-
-      this.value = {
-        ...this.value,
-        collapsed: newCollapsed,
-      };
-
-      return {
-        collapsed: newCollapsed,
-      };
-    });
-  }
-
-  handleClickOutside = () => {
-    const { collapsed } = this.state;
-
+  useClickOutside(ref, function handleClickOutside() {
     if (collapsed) {
       return;
     }
 
-    this.handleToggle();
-  };
+    handleToggle();
+  });
 
-  renderToggle() {
-    const { collapsed } = this.state;
-    const { disabled, toggle } = this.props;
-
+  function renderToggle() {
     if (isFunction(toggle)) {
-      return toggle({ disabled, onClick: this.handleToggle, collapsed });
+      return toggle({ disabled, onClick: handleToggle, collapsed });
     }
 
     return (
       <DropdownToggle
         disabled={disabled}
         collapsed={collapsed}
-        onClick={this.handleToggle}
+        onClick={handleToggle}
       >
         {toggle}
       </DropdownToggle>
     );
   }
 
-  renderItems() {
-    const { children } = this.props;
-    const items = this.items;
-
+  function renderItems() {
     if (!isNil(children)) {
       return children;
     }
 
-    return <DropdownItems items={items} />;
+    return <DropdownItems items={items} collapsed={collapsed} hoverable />;
   }
 
-  renderDropdown = ({ ref }) => {
-    const { classes, className, header, footer, style, ...others } = this.props;
-
-    return (
-      <DropdownContext.Provider value={this.value}>
-        <div
-          data-testid="cb-dropdown"
-          {...omit(OMITTED_PROPS, others)}
-          ref={ref}
-          className={clsx(this.classes)}
-          id={this.id}
-          style={style}
-        >
-          {this.renderToggle()}
-          {this.renderItems()}
-        </div>
-      </DropdownContext.Provider>
-    );
-  };
-
-  render() {
-    return (
-      <ClickOutside onClickOutside={this.handleClickOutside}>
-        {this.renderDropdown}
-      </ClickOutside>
-    );
-  }
+  return (
+    <DropdownContext.Provider value={{ collapsed, toggle: handleToggle }}>
+      <div
+        data-testid="cb-dropdown"
+        {...omit(OMITTED_PROPS, others)}
+        ref={ref}
+        className={classy(
+          'cb-dropdown',
+          {
+            '-unroll-right': prop({ unroll: 'right' }),
+            '-unroll-left': prop({ unroll: 'left' }),
+            '-unroll-block': prop({ unroll: 'block' }),
+          },
+          {
+            'is-collapsed': collapsed,
+          },
+          className,
+        )}
+        id={id}
+      >
+        {renderToggle()}
+        {renderItems()}
+      </div>
+    </DropdownContext.Provider>
+  );
 }
 
 Dropdown.propTypes = {
-  collapsed: PropTypes.bool,
   unroll: PropTypes.oneOf(['right', 'left', 'block']),
 };
 
 Dropdown.defaultProps = {
-  collapsed: true,
   unroll: 'right',
 };
 
