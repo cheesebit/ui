@@ -40,4 +40,20 @@
       @include var(background, color-gray-100);
     }
   }
+
+  &.-floatable {
+    @include rounded;
+    @include transition(max-height opacity);
+    @include var(background, color-white);
+
+    @include shadow;
+    @include var(z-index, layer-3);
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    opacity: 1;
+
+    padding: 0;
+  }
 }

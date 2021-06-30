@@ -2,10 +2,13 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
+import { omit } from '../../common/toolset';
 import ListContext from './list-context';
 import ListItem from './list-item';
 
 import './list.scss';
+
+const OMITTED_PROPS = ['hoverable', 'collapsed', 'striped'];
 
 const List = ({
   as = 'section',
@@ -23,7 +26,7 @@ const List = ({
       <Tag
         data-testid="cb-list"
         role="list"
-        {...others}
+        {...omit(OMITTED_PROPS, others)}
         className={clsx(
           'cb-list',
           {
