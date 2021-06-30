@@ -4,7 +4,7 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     fontFamily: {
-      body: ['proxima-soft', 'sans-serif'],
+      body: ['Karla', 'sans-serif'],
     },
     extend: {
       colors: {
