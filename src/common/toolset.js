@@ -20,6 +20,7 @@ export const {
   concat,
   dissoc,
   equals,
+  forEach: each,
   isEmpty,
   isNil,
   keys,

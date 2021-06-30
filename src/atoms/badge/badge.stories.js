@@ -1,10 +1,14 @@
 import React from 'react';
 
-import Badge from './badge';
+import Badge, { Variant } from './badge';
 import generator from '../../../test/data-generator';
+import {
+  setupDefaultStory,
+  setupDerivedStory,
+} from '../../common/stories-toolset';
 
 export default {
-  title: 'Atoms/Badge',
+  title: 'Components/Atoms/Badge',
   component: Badge,
 };
 
@@ -14,7 +18,26 @@ export function Playground(args) {
       <p className="mb-2">
         This is me, a cool Badge ready to be played around. Try me :)
       </p>
-      <Badge {...args}>{generator.name()}</Badge>
+      <Badge {...args} />
     </div>
   );
 }
+
+Playground.args = {
+  children: generator.name(),
+};
+
+export const Default = Playground.bind({});
+Default.args = { ...Playground.args, variant: Variant.neutral };
+
+export const Primary = Playground.bind({});
+Primary.args = { ...Playground.args, variant: Variant.primary };
+
+export const Secondary = Playground.bind({});
+Secondary.args = { ...Playground.args, variant: Variant.secondary };
+
+export const Terciary = Playground.bind({});
+Terciary.args = { ...Playground.args, variant: Variant.terciary };
+
+setupDefaultStory(Playground);
+setupDerivedStory([Default, Primary, Secondary, Terciary]);
