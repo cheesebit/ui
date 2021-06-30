@@ -97,6 +97,18 @@ export function getMilliseconds(date) {
 }
 
 /**
+ * Get timezone offset for the given date.
+ * @param {Date} date - date
+ */
+export function getTimezoneOffset(date) {
+  if (isNil(date)) {
+    return null;
+  }
+
+  return date.getTimezoneOffset();
+}
+
+/**
  * Get comparable string for the given date.
  * @param {Date} date - date
  * @returns {string}

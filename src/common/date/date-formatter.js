@@ -7,37 +7,10 @@ import {
   getMinutes,
   getSeconds,
   getMilliseconds,
+  getTimezoneOffset,
 } from './date-utils';
 import parser from './date-parser';
 import { DEFAULT_OPTIONS, EXPECTED_EXP } from './constants';
-
-function getStringYear(date) {
-  return String(getYear(date));
-}
-
-function getStringMonth(date) {
-  return String(getMonth(date));
-}
-
-function getStringDay(date) {
-  return String(getDay(date));
-}
-
-function getStringHours(date) {
-  return String(getHours(date));
-}
-
-function getStringMinutes(date) {
-  return String(getMinutes(date));
-}
-
-function getStringSeconds(date) {
-  return String(getSeconds(date));
-}
-
-function getStringMilliseconds(date) {
-  return String(getMilliseconds(date));
-}
 
 /**
  * Date formatter
@@ -80,19 +53,27 @@ class DateFormatter {
     const options = this.options;
     const pattern = this._pattern;
 
+    /**
+     * "The timezone is always zero UTC offset, as denoted by the suffix "Z"
+     * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString
+     */
+    const isZeroUTCOffset = pattern.includes('Z');
+    // TODO: handle zero UTC offset
+
     // TODO: validate `date`
     // TODO: think of a better way to extract date pieces regarding options
 
     var formatted = '';
 
-    const year = getStringYear(date);
+    const year = getYear(date);
     const month = getMonth(date);
-    const day = getStringDay(date);
+    const day = getDay(date);
     const dayOfWeek = getDayOfWeek(date);
-    const hours = getStringHours(date);
-    const minutes = getStringMinutes(date);
-    const seconds = getStringSeconds(date);
-    const milliseconds = getStringMilliseconds(date);
+    const hours = getHours(date);
+    const minutes = getMinutes(date);
+    const seconds = getSeconds(date);
+    const milliseconds = getMilliseconds(date);
+    const timezoneOffset = getTimezoneOffset(date);
 
     for (let part of pattern) {
       switch (part) {
@@ -100,7 +81,7 @@ class DateFormatter {
           formatted = formatted + year; // 2020
           break;
         case 'YY':
-          formatted = formatted + year.substring(2); // 20
+          formatted = formatted + String(year).substring(2); // 20
           break;
         case 'MMMM':
           formatted = formatted + options.months[month].long; // September
@@ -125,31 +106,31 @@ class DateFormatter {
           formatted = formatted + options.week[dayOfWeek].short[0]; // Mon
           break;
         case 'DD':
-          formatted = formatted + day.padStart(2, '0'); // 01
+          formatted = formatted + String(day).padStart(2, '0'); // 01
           break;
         case 'D':
           formatted = formatted + day; // 1
           break;
         case 'hh':
-          formatted = formatted + hours.padStart(2, '0');
+          formatted = formatted + String(hours).padStart(2, '0');
           break;
         case 'h':
           formatted = formatted + hours;
           break;
         case 'mm':
-          formatted = formatted + minutes.padStart(2, '0');
+          formatted = formatted + String(minutes).padStart(2, '0');
           break;
         case 'm':
           formatted = formatted + minutes;
           break;
         case 'ss':
-          formatted = formatted + seconds.padStart(2, '0');
+          formatted = formatted + String(seconds).padStart(2, '0');
           break;
         case 's':
           formatted = formatted + seconds;
           break;
         case 'll':
-          formatted = formatted + milliseconds.padStart(3, '0');
+          formatted = formatted + String(milliseconds).padStart(3, '0');
           break;
         case 'l':
           formatted = formatted + milliseconds;
