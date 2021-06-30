@@ -1,4 +1,5 @@
-import { RefObject, useCallback, useEffect, useRef } from 'react';
+import { RefObject, useCallback, useEffect, useState } from 'react';
+import { Keys } from '../../common/constants';
 
 /**
  * useClickOutside
@@ -8,14 +9,25 @@ import { RefObject, useCallback, useEffect, useRef } from 'react';
 function useClickOutside(ref, callback, disabled = false) {
   const [active, setActive] = useState(false);
 
+  function subscribe() {
+    document.addEventListener('mousedown', handleEvent, true);
+    document.addEventListener('touchend', handleEvent, true);
+    document.addEventListener('keyup', handleEvent);
+  }
+
+  function unsubscribe() {
+    document.removeEventListener('mousedown', handleEvent, true);
+    document.removeEventListener('touchend', handleEvent, true);
+    document.removeEventListener('keyup', handleEvent);
+  }
+
   const handleEvent = useCallback(
     /**
      * Handle keyboard or mouse event, checking if it happened
      * outside the the given referenced element.
-     * @param {Document} this
      * @param {MouseEvent | KeyboardEvent} e
      */
-    function handleEvent(this, e) {
+    function handleEvent(e) {
       function activate() {
         setActive(true);
       }
@@ -30,7 +42,10 @@ function useClickOutside(ref, callback, disabled = false) {
 
       if (ref.current.contains(e.target) && !active) {
         activate();
-      } else if (!ref.current.contains(e.target) && active) {
+      } else if (
+        (!ref.current.contains(e.target) || e.key === Keys.ESCAPE) &&
+        active
+      ) {
         deactivate();
 
         callback();
@@ -40,16 +55,6 @@ function useClickOutside(ref, callback, disabled = false) {
   );
 
   useEffect(() => {
-    function subscribe() {
-      document.addEventListener('mousedown', handleEvent, true);
-      document.addEventListener('keyup', handleEvent, true);
-    }
-
-    function unsubscribe() {
-      document.removeEventListener('mousedown', handleEvent, true);
-      document.removeEventListener('keyup', handleEvent, true);
-    }
-
     subscribe();
 
     return () => {
