@@ -37,7 +37,7 @@ module.exports = [
       radio: `${ATOMS_PATH_PREFIX}/radio/index`,
       spinner: `${ATOMS_PATH_PREFIX}/spinner/index`,
       tooltip: `${ATOMS_PATH_PREFIX}/tooltip/index`,
-      card: `${MOLECULES_PATH_PREFIX}/card/index`,
+      // card: `${MOLECULES_PATH_PREFIX}/card/index`,
       dropdown: `${MOLECULES_PATH_PREFIX}/dropdown/index`,
       pagination: `${MOLECULES_PATH_PREFIX}/pagination/index`,
       select: `${MOLECULES_PATH_PREFIX}/select/index`,

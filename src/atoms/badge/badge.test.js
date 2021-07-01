@@ -1,9 +1,9 @@
 import React from 'react';
 import { composeStories } from '@storybook/testing-react';
 
-import { render, screen } from '../../../test/helpers';
+import { render, screen } from 'test/helpers';
 import * as stories from './badge.stories';
-import generator from '../../../test/data-generator';
+import generator from 'test/data-generator';
 
 const { Default, Primary, Secondary, Terciary } = composeStories(stories);
 

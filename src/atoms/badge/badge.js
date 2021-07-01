@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals } from '../../common/toolset';
+import { equals } from 'common/toolset';
 
 import './badge.scss';
 

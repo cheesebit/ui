@@ -1,11 +1,8 @@
 import React from 'react';
 
 import Badge, { Variant } from './badge';
-import generator from '../../../test/data-generator';
-import {
-  setupDefaultStory,
-  setupDerivedStory,
-} from '../../common/stories-toolset';
+import generator from 'test/data-generator';
+import { setupDefaultStory, setupDerivedStory } from 'common/stories-toolset';
 
 export default {
   title: 'Components/Atoms/Badge',
