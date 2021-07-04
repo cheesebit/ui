@@ -102,7 +102,7 @@ $tooltip-arrow-size: 5px;
 
   &.-top {
     @include rounded(
-      $border-radius: 0.375rem,
+      $border-radius: 0.25rem,
       $top-left: true,
       $top-right: true,
       $bottom-left: false,
@@ -112,7 +112,7 @@ $tooltip-arrow-size: 5px;
 
   &.-bottom {
     @include rounded(
-      $border-radius: 0.375rem,
+      $border-radius: 0.25rem,
       $top-left: false,
       $top-right: true,
       $bottom-left: true,
@@ -122,7 +122,7 @@ $tooltip-arrow-size: 5px;
 
   &.-right {
     @include rounded(
-      $border-radius: 0.375rem,
+      $border-radius: 0.25rem,
       $top-left: true,
       $top-right: true,
       $bottom-left: false,
@@ -132,7 +132,7 @@ $tooltip-arrow-size: 5px;
 
   &.-left {
     @include rounded(
-      $border-radius: 0.375rem,
+      $border-radius: 0.25rem,
       $top-left: true,
       $top-right: true,
       $bottom-left: true,

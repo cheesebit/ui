@@ -40,11 +40,12 @@ Spinner.propTypes = {
     Variant.secondary,
     Variant.terciary,
   ]),
-  size: PropTypes.number,
+  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
 };
 
 Spinner.defaultProps = {
   variant: null,
+  size: '.25rem',
 };
 
 export default React.memo(Spinner);

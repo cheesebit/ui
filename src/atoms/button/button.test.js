@@ -1,20 +1,24 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Button } from './index';
 import { Emphasis, Size } from './button';
-import { render, fireEvent } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { fireEvent, render, screen } from 'test/helpers';
+import * as stories from './button.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories(stories);
 
 describe('<Button />', () => {
   it('renders correctly', () => {
     const props = { children: generator.word() };
+    render(<Playground {...props} />);
 
-    const { getByTestId } = render(<Button {...props} />);
-
-    const component = getByTestId('cb-button');
-
+    const component = screen.getByTestId('cb-button');
+    screen.debug();
     expect(component).toHaveAttribute('type', 'button');
     expect(component).toHaveTextContent(props.children);
+    expect(component).toHaveClass('-ghost');
+    expect(component).toHaveClass('cb-no-vertical-padding');
     expect(component).toHaveClass('-small');
   });
 
@@ -24,10 +28,9 @@ describe('<Button />', () => {
       children: generator.word(),
     };
 
-    const { getByTestId } = render(<Button {...props} />);
+    render(<Playground {...props} />);
 
-    const component = getByTestId('cb-button');
-
+    const component = screen.getByTestId('cb-button');
     expect(component).toHaveAttribute('type', props.type);
     expect(component).toHaveTextContent(props.children);
   });
@@ -39,10 +42,9 @@ describe('<Button />', () => {
         emphasis: Emphasis.text,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-text');
     });
 
@@ -52,10 +54,9 @@ describe('<Button />', () => {
         emphasis: Emphasis.ghost,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-ghost');
     });
 
@@ -65,10 +66,9 @@ describe('<Button />', () => {
         emphasis: Emphasis.flat,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-flat');
     });
   });
@@ -80,10 +80,9 @@ describe('<Button />', () => {
         size: Size.small,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-small');
     });
 
@@ -93,10 +92,9 @@ describe('<Button />', () => {
         size: Size.medium,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-medium');
     });
 
@@ -106,10 +104,9 @@ describe('<Button />', () => {
         size: Size.large,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-
+      const component = screen.getByTestId('cb-button');
       expect(component).toHaveClass('-large');
     });
   });
@@ -120,11 +117,10 @@ describe('<Button />', () => {
         icon: 'search',
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-      const icon = getByTestId('cb-icon');
-
+      const component = screen.getByTestId('cb-button');
+      const icon = screen.getByTestId('cb-icon');
       expect(component).toContainElement(icon);
     });
 
@@ -135,10 +131,10 @@ describe('<Button />', () => {
         children: label,
       };
 
-      const { getByTestId } = render(<Button {...props} />);
+      render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-      const icon = getByTestId('cb-icon');
+      const component = screen.getByTestId('cb-button');
+      const icon = screen.getByTestId('cb-icon');
 
       expect(component).toHaveTextContent(props.children);
       expect(component).toContainElement(icon);
@@ -151,9 +147,9 @@ describe('<Button />', () => {
       onClick: jest.fn(),
     };
 
-    const { getByTestId } = render(<Button {...props} />);
+    render(<Playground {...props} />);
 
-    const component = getByTestId('cb-button');
+    const component = screen.getByTestId('cb-button');
     fireEvent.click(component);
     expect(props.onClick).toHaveBeenCalled();
   });
@@ -165,10 +161,9 @@ describe('<Button />', () => {
       onClick: jest.fn(),
     };
 
-    const { getByTestId } = render(<Button {...props} />);
+    render(<Playground {...props} />);
 
-    const component = getByTestId('cb-button');
-
+    const component = screen.getByTestId('cb-button');
     expect(component).toHaveAttribute('disabled');
     fireEvent.click(component);
     expect(props.onClick).not.toHaveBeenCalled();

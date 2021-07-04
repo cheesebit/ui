@@ -1,8 +1,9 @@
 import React from 'react';
+import { action } from '@storybook/addon-actions';
 
 import generator from '../../../test/data-generator';
 import icons from '../../atoms/icon/icon-mapping';
-import { keys } from '../../common/toolset';
+
 import Select from './select';
 
 const generateSelectOptions = () =>
@@ -19,9 +20,37 @@ const generateSelectOptions = () =>
 export default {
   title: 'Molecules/Select',
   component: Select,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
+  argTypes: {
+    unroll: {
+      control: {
+        type: 'select',
+        options: ['right', 'left', 'block'],
+      },
+    },
+    className: {
+      table: {
+        disable: true,
+      },
+    },
+    multiple: {
+      control: {
+        type: 'boolean',
+      },
+    },
+    id: {
+      table: {
+        disable: true,
+      },
+    },
+    value: {
+      table: {
+        disable: true,
+      },
+    },
+    options: {
+      table: {
+        disable: true,
+      },
     },
   },
 };
@@ -29,14 +58,16 @@ export default {
 const Template = args => {
   return (
     <div className="block">
+      <p className="mb-2">This is me, a cool Select.</p>
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        As I'm <b>still a work in progress</b>, there's some maintenance going
+        on, but soon enough you will be able to try me :)
       </p>
 
       <Select
         {...args}
         options={generateSelectOptions()}
-        onChange={console.log}
+        onChange={action('select')}
       />
     </div>
   );

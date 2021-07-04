@@ -8,11 +8,7 @@ import List from './list';
 export default {
   title: 'Atoms/List',
   component: List,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
+
   argTypes: {
     bordered: {
       control: {
@@ -32,7 +28,7 @@ export default {
   },
 };
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
       <p className="mb-2">
@@ -59,6 +55,4 @@ const Template = args => {
       </List>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

@@ -1,16 +1,13 @@
 module.exports = {
   moduleNameMapper: {
     '\\.(sa|sc|c)ss$': 'identity-obj-proxy',
+    '\\.svg$': '<rootDir>/src/mocks/svg.mock',
   },
   transform: {
-    '^.+\\.js$': 'babel-jest',
-    '^.+\\.svg$': 'jest-svg-transformer',
+    '^.+\\.[jt]s(x)?$': 'babel-jest',
   },
-  coveragePathIgnorePatterns: [
-    '/node_modules/',
-    '/dist/',
-    '<rootDir>/src/common/logger',
-    '<rootDir>/src/atoms/icon/assets/',
-  ],
-  setupFilesAfterEnv: ['<rootDir>/test/setup'],
+  testEnvironment: 'jsdom',
+  transformIgnorePatterns: ['/node_modules/'],
+  moduleDirectories: ['node_modules', '<rootDir>/node_modules', '.'],
+  setupFilesAfterEnv: ['./test/setup'],
 };

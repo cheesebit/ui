@@ -6,11 +6,6 @@ import generator from '../../../test/data-generator';
 export default {
   title: 'Atoms/Switch',
   component: Switch,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
 const Template = args => {

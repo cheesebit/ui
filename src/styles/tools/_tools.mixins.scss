@@ -55,7 +55,7 @@
   $properties: (
     all,
   ),
-  $duration: 0.125s,
+  $duration: 0.35s,
   $delay: null,
   $easing: ease-in-out
 ) {
@@ -86,19 +86,30 @@
   opacity: 1;
 }
 
-@mixin focusable($color: rgba(color(primary-200), 0.5)) {
+@mixin focusable($color: rgba(color(primary-200), 0.25)) {
   outline: none;
 
-  &:focus,
-  &.is-focused {
-    box-shadow: 0 0 0 0.2rem $color;
-    @content;
+  &:enabled:not(.is-disabled) {
+    &:focus,
+    &.is-focused {
+      // box-shadow: 0 0 0.45rem $color;
+      box-shadow: 0 0 0 0.2rem $color;
+
+      @content;
+    }
   }
 }
 
 @mixin hoverable {
-  &:not(.is-disabled):not(:disabled) {
-    &:hover,
+  &:enabled:not(.is-disabled) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin activable {
+  &:enabled:not(.is-disabled) {
     &:active {
       @content;
     }

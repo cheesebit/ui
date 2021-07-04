@@ -6,14 +6,9 @@ import Link from './link';
 export default {
   title: 'Atoms/Link',
   component: Link,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
       <p className="mb-2">
@@ -23,6 +18,4 @@ const Template = args => {
       <Link {...args}>{generator.profession()}</Link>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

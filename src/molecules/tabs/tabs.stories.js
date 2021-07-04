@@ -20,23 +20,19 @@ const tabs = generateTabs({ min: 4, max: 20 });
 export default {
   title: 'Molecules/Tabs',
   component: Tabs,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground(args) {
   return (
     <div className="block">
+      <p className="mb-2">This is me, a cool Tabs.</p>
+
       <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
+        As I'm <b>still a work in progress</b>, there's some maintenance going
+        on, but soon enough you will be able to try me :)
       </p>
 
       <Tabs {...args} items={tabs} />
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

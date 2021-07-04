@@ -19,6 +19,10 @@
   @include var(color, color-gray-600);
   @include m(spacing-0);
 
+  @include focusable {
+    @include var(z-index, layer-1);
+  }
+
   & > .children {
     @include truncate;
 
@@ -27,14 +31,10 @@
     line-height: 2rem;
   }
 
-  @include focusable {
-    @include var(z-index, layer-1);
-  }
-
-  @include hoverable {
-    @include var(background, color-transparent);
-    @include var(border-color, color-gray-500);
-    @include var(color, color-gray-600);
+  .leading,
+  .trailing,
+  .children {
+    pointer-events: none;
   }
 
   &.-flat {
@@ -43,6 +43,12 @@
     @include var(color, color-white);
 
     @include hoverable {
+      @include var(background, color-secondary-500);
+      @include var(border-color, color-secondary-500);
+      @include var(color, color-white);
+    }
+
+    @include activable {
       @include var(background, color-secondary-300);
       @include var(border-color, color-secondary-300);
       @include var(color, color-white);
@@ -59,6 +65,12 @@
       @include var(border-color, color-primary-500);
       @include var(color, color-white);
     }
+
+    @include activable {
+      @include var(background, color-primary-300);
+      @include var(border-color, color-primary-300);
+      @include var(color, color-white);
+    }
   }
 
   &.-text {
@@ -67,9 +79,15 @@
     @include var(color, color-primary-500);
 
     @include hoverable {
-      @include var(background, color-gray-200);
-      @include var(border-color, color-gray-200);
-      @include var(color, color-primary-500);
+      @include var(background, color-transparent);
+      @include var(border-color, color-transparent);
+      @include var(color, color-secondary-500);
+    }
+
+    @include activable {
+      @include var(background, color-transparent);
+      @include var(border-color, color-transparent);
+      @include var(color, color-secondary-300);
     }
   }
 
@@ -91,11 +109,5 @@
     @include var(font-size, font-size-base);
     height: 72px;
     min-width: 72px;
-  }
-
-  .leading,
-  .trailing,
-  .children {
-    pointer-events: none;
   }
 }

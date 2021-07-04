@@ -34,7 +34,7 @@ function Tabbed({ active, tabs, children, className, disabled, ...others }) {
 }
 
 Tabbed.propTypes = {
-  active: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
+  active: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   onChange: PropTypes.func,
   tabs: PropTypes.arrayOf(
     PropTypes.shape({

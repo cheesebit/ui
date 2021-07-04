@@ -6,23 +6,14 @@ import ShortcutWatcher from './shortcut-watcher';
 export default {
   title: 'HOCs/ShortcutWatcher',
   component: ShortcutWatcher,
-  docs: {
-    description: {
-      story: 'some story *a*markdown**',
-    },
-  },
 };
 
-const Template = args => {
+export function Playground() {
   return (
     <div className="block">
-      <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
-      </p>
+      <p className="mb-2">Sorry, I'm not available to be played with yet :(</p>
 
       <div>TODO</div>
     </div>
   );
-};
-
-export const Playground = Template.bind({});
+}

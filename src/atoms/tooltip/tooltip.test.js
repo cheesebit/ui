@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { calculatePosition } from './helpers';
+import { calculatePosition } from './tooltip.helpers';
 import { screen, render, userEvent } from '../../../test/helpers';
 import { Tooltip } from './index';
 import generator from '../../../test/data-generator';

@@ -1,11 +1,14 @@
 @import '../../styles/index.scss';
 
-.cb-box {
+.cb-box2 {
   @include font;
   @include bordered;
 
-  display: inline-flex;
+  display: inline-grid;
+  grid-auto-flow: column;
   align-items: center;
+
+  @include var(column-gap, spacing-2);
 
   @include m(spacing-0);
   @include px(spacing-4);
@@ -23,34 +26,11 @@
     @include py(spacing-0);
     @include mx(spacing-0);
     @include my(spacing-0);
-
-    line-height: 1rem;
   }
 
-  & > .children {
-    display: inline-block;
-    text-align: left;
-    // line-height: 2rem;
-
-    @include px(spacing-0);
-    @include py(spacing-0);
-    @include mx(spacing-0);
-    @include my(spacing-0);
-  }
-
-  // .leading + .children,
-  // .children + .trailing,
-  // .leading + .trailing {
-  //   @include var(margin-left, spacing-2);
-  // }
-
-  .leading:not(:only-child) {
-    @include my(spacing-0);
-    @include var(margin-right, spacing-2);
-  }
-
-  .trailing:not(:only-child) {
-    @include var(margin-left, spacing-2);
+  & > *:not(.leading):not(.trailing):only-child {
+    align-self: center;
+    justify-self: center;
   }
 
   // & > .leading,
@@ -58,10 +38,4 @@
   // & > .children {
   //   pointer-events: none;
   // }
-
-  &.-block {
-    & > .children {
-      flex-grow: 1;
-    }
-  }
 }

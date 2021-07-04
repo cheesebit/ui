@@ -14,24 +14,11 @@
   }
 
   & > .menu {
-    @include rounded;
-    @include transition(max-height opacity);
-    @include var(background, color-white);
-
-    @include shadow;
-    @include var(z-index, layer-3);
-
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    opacity: 1;
-
     position: absolute;
 
     @include mx(spacing-0);
     @include var(margin-bottom, spacing-0);
     @include var(margin-top, spacing-2);
-    padding: 0;
 
     top: calc(100% - 1px);
     min-width: 10rem;
@@ -41,8 +28,11 @@
     @include interactable;
     @include disableable;
 
-    @include focusable {
+    @include focusable($color: transparent) {
       @include var(z-index, layer-1);
+
+      // TODO: parameterize the background color
+      @include var(background, color-gray-300);
     }
 
     & > .children {
@@ -51,6 +41,9 @@
       display: inline-block;
       text-align: left;
       line-height: 2rem;
+
+      // TODO: for God's sake get rid of this override
+      justify-self: start;
     }
   }
 

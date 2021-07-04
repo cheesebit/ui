@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
 import { equals, isNil } from '../../common/toolset';
-import { calculatePosition, getAnimationPhases } from './helpers';
+import { calculatePosition, getAnimationPhases } from './tooltip.helpers';
 import { useAnimation } from '../../hooks/animation';
 import { BOTTOM_REGEX, LEFT_REGEX, RIGHT_REGEX, TOP_REGEX } from './constants';
 import logger from '../../common/logger';
@@ -94,6 +94,8 @@ const Tooltip = ({
   const handleMouseLeave = e => {
     onExit(e);
   };
+
+  console.log(placementProp, placement);
 
   return (
     <React.Fragment>

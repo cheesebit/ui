@@ -1,9 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
 import { Box } from '../box';
-import { equals, omit } from '../../common/toolset';
+import { omit } from '../../common/toolset';
 import { Icon } from '../icon';
 import { resolveProp } from '../../common/props-toolset';
 
@@ -26,51 +27,61 @@ export const Size = {
 /**
  * This component represents a button element.
  */
-class Button extends React.PureComponent {
-  get classes() {
-    const { className, emphasis, size } = this.props;
 
-    return clsx(
-      'cb-button',
-      {
-        '-flat': equals(emphasis, Emphasis.flat),
-        '-ghost': equals(emphasis, Emphasis.ghost),
-        '-text': equals(emphasis, Emphasis.text),
-        '-small': equals(size, Size.small),
-        '-medium': equals(size, Size.medium),
-        '-large': equals(size, Size.large),
-      },
-      className,
-    );
-  }
+Button.defaultProps = {
+  emphasis: Emphasis.ghost,
+  size: Size.small,
+  type: 'button',
+  disabled: false,
+  borderless: false,
+  paddingless: 'vertical',
+};
 
-  renderLeading() {
-    const { icon, leading } = this.props;
+function Button(props) {
+  const { prop, classy } = useClassy(props);
+  const {
+    emphasis = Emphasis.ghost,
+    paddingless = 'vertical',
+    size = Size.small,
+    type = 'button',
+    className,
+    icon,
+    leading,
+    ...others
+  } = props;
 
+  function renderLeading() {
     if (icon) {
-      const { icon } = this.props;
-
       return <Icon {...resolveProp(icon, 'name')} />;
     }
 
     return leading;
   }
 
-  render() {
-    const { type, ...others } = this.props;
-
-    return (
-      <Box
-        as="button"
-        data-testid="cb-button"
-        paddingless="vertical"
-        {...omit(OMITTED_PROPS, others)}
-        type={type}
-        className={this.classes}
-        leading={this.renderLeading()}
-      />
-    );
-  }
+  return (
+    <Box
+      as="button"
+      data-testid="cb-button"
+      paddingless={paddingless}
+      {...omit(OMITTED_PROPS, others)}
+      type={type}
+      leading={renderLeading()}
+      className={classy(
+        'cb-button',
+        {
+          '-flat': prop({ emphasis: Emphasis.flat }),
+          '-ghost': prop({ emphasis: Emphasis.ghost }),
+          '-text': prop({ emphasis: Emphasis.text }),
+        },
+        {
+          '-small': prop({ size: Size.small }),
+          '-medium': prop({ size: Size.medium }),
+          '-large': prop({ size: Size.large }),
+        },
+        className,
+      )}
+    />
+  );
 }
 
 Button.propTypes = {
@@ -148,13 +159,6 @@ Button.propTypes = {
    * Button type, as per HTML definition.
    */
   type: PropTypes.oneOf(['button', 'submit', 'reset']),
-};
-
-Button.defaultProps = {
-  emphasis: Emphasis.ghost,
-  size: Size.small,
-  type: 'button',
-  disabled: false,
 };
 
 export default Button;
