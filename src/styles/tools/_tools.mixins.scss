@@ -89,18 +89,27 @@
 @mixin focusable($color: rgba(color(primary-200), 0.25)) {
   outline: none;
 
-  &:focus,
-  &.is-focused {
-    // box-shadow: 0 0 0.45rem $color;
-    box-shadow: 0 0 0 0.2rem $color;
+  &:enabled:not(.is-disabled) {
+    &:focus,
+    &.is-focused {
+      // box-shadow: 0 0 0.45rem $color;
+      box-shadow: 0 0 0 0.2rem $color;
 
-    @content;
+      @content;
+    }
   }
 }
 
 @mixin hoverable {
-  &:not(.is-disabled):not(:disabled):not(:focus) {
-    &:hover,
+  &:enabled:not(.is-disabled) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+@mixin activable {
+  &:enabled:not(.is-disabled) {
     &:active {
       @content;
     }

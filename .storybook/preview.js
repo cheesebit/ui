@@ -3,7 +3,15 @@ export const parameters = {
   layout: 'fullscreen',
   options: {
     storySort: {
-      order: ['Welcome', 'Atoms', 'Organisms', 'Molecules', 'HOCs'],
+      order: [
+        'Welcome',
+        'Components',
+        'Hooks',
+        'HOCs',
+        'Atoms',
+        'Organisms',
+        'Molecules',
+      ],
     },
   },
 };
