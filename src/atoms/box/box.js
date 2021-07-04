@@ -2,12 +2,12 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { omit, isNil } from '../../common/toolset';
+import { omit, isNil } from 'common/toolset';
 import {
   resolveProp,
   evaluateBorderless,
   evaluatePaddingless,
-} from '../../common/props-toolset';
+} from 'common/props-toolset';
 
 import './box.scss';
 
@@ -26,12 +26,27 @@ class Box extends React.PureComponent {
     const { borderless, paddingless, block, className } = this.props;
 
     return clsx(
-      'cb-box',
+      'cb-box2',
       { '-block': block },
       evaluateBorderless(borderless),
       evaluatePaddingless(paddingless),
       className,
     );
+  }
+
+  get style() {
+    const { leading, children, trailing, style } = this.props;
+
+    const widths = [];
+
+    !isNil(leading) && widths.push('min-content');
+    !isNil(children) && widths.push('1fr');
+    !isNil(trailing) && widths.push('min-content');
+
+    return {
+      gridTemplateColumns: widths.join(' '),
+      ...style,
+    };
   }
 
   renderLeading() {
@@ -47,12 +62,12 @@ class Box extends React.PureComponent {
   renderChildren() {
     const { children } = this.props;
 
+    return children;
     // return (
     //   !isNil(children) && (
     //     <span className="children" {...resolveProp(children, 'children')} />
     //   )
     // );
-    return children;
   }
 
   renderTrailing() {
@@ -73,6 +88,7 @@ class Box extends React.PureComponent {
         data-testid="cb-box"
         ref={forwardedRef}
         {...omit(OMITTED_PROPS, others)}
+        style={this.style}
         className={this.classes}
       >
         {this.renderLeading()}

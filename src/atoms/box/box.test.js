@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Box } from './index';
+import { Box } from './box';
 import { keys, toArray } from '../../common/toolset';
 import { render, getByText } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
