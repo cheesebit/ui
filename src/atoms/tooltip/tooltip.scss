@@ -35,12 +35,12 @@ $tooltip-arrow-size: 5px;
   &.-light {
     @include var(background, color-white);
     @include var(border-color, color-white);
-    @include var(color, color-black);
+    @include var(color, color-gray-700);
   }
 
   &.-dark {
-    @include var(background, color-black);
-    @include var(border-color, color-black);
+    @include var(background, color-gray-700);
+    @include var(border-color, color-gray-700);
     @include var(color, color-white);
   }
 
