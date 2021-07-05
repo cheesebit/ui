@@ -1,17 +1,17 @@
 import React from 'react';
 
-import { Button } from '../../atoms/button';
-import { Checkbox } from '../../atoms/checkbox';
-import { Icon } from '../../atoms/icon';
-import { Input } from '../../atoms/input';
-import { isBlank } from '../../common/toolset';
-import { Radio } from '../../atoms/radio';
-import { Select } from '../../molecules/select';
+// import { Checkbox } from '../../atoms/checkbox';
+// import { Radio } from '../../atoms/radio';
+// import { Select } from '../../molecules/select';
+import { Button } from 'atoms/button';
+import { Icon } from 'atoms/icon';
+import { Input } from 'atoms/input';
+import { isBlank } from 'common/toolset';
+import generator from 'test/data-generator';
 import Form from './form';
-import generator from '../../../test/data-generator';
 
 export default {
-  title: 'Organisms/Form',
+  title: 'Components/Organisms/Form',
   component: Form,
 };
 
@@ -58,10 +58,7 @@ export function Playground() {
             {
               name: 'custom-validator-2',
               handler: function validate({ name, email }) {
-                return (
-                  name === 'Welington Silva' &&
-                  email === 'cheesebit@cheesebit.io'
-                );
+                return name === 'Welington Silva' && email === 'email@email.io';
               },
             },
           ],
@@ -86,7 +83,16 @@ export function Playground() {
                     prompt="Type you first and last name"
                     tooltip={{
                       icon: { name: 'help', size: 18 },
-                      text: 'We are cool like that',
+                      text: (
+                        <ul className="pl-2 text-left list-disc">
+                          <li>Required</li>
+                          <li>Min length 8 characters</li>
+                          <li>
+                            Custom async validator that checks if name is
+                            "Welington Silva", except when the value is empty
+                          </li>
+                        </ul>
+                      ),
                       placement: 'right',
                     }}
                     variant={status.name && 'danger'}
@@ -125,6 +131,19 @@ export function Playground() {
                     label="email"
                     className="w-full md:w-auto"
                     prompt="Type your email"
+                    tooltip={{
+                      icon: { name: 'help', size: 18 },
+                      text: (
+                        <ul className="pl-2 text-left list-disc">
+                          <li>Required</li>
+                          <li>
+                            Custom sync validator that checks if email is
+                            "email@email.io" and name is "Welington Silva"
+                          </li>
+                        </ul>
+                      ),
+                      placement: 'right',
+                    }}
                     variant={status.email && 'danger'}
                     feedback={
                       status.email && {
@@ -143,7 +162,7 @@ export function Playground() {
                     />
                   </Form.Field>
 
-                  <Form.Field
+                  {/* <Form.Field
                     label="favorite character"
                     className="w-full md:w-auto"
                     prompt="Favorite character"
@@ -222,7 +241,7 @@ export function Playground() {
                     >
                       About travel tips
                     </Checkbox>
-                  </Form.Field>
+                  </Form.Field> */}
 
                   <Button
                     onClick={function reset() {

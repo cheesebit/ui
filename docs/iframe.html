@@ -108,19 +108,34 @@
   window.onerror = function onerror(message, source, line, column, err) {
     if (window.CONFIG_TYPE !== 'DEVELOPMENT') return;
     // eslint-disable-next-line no-var, vars-on-top
-    var error = { message: err.message, name: err.name, stack: err.stack };
-    window.fetch('/runtime-error', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message, source, line, column, error, origin: 'preview' }),
-    });
+    var xhr = new window.XMLHttpRequest();
+    xhr.open('POST', '/runtime-error');
+    xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
+    xhr.send(
+      JSON.stringify({
+        /* eslint-disable object-shorthand */
+        message: message,
+        source: source,
+        line: line,
+        column: column,
+        error: err && { message: err.message, name: err.name, stack: err.stack },
+        origin: 'preview',
+        /* eslint-enable object-shorthand */
+      })
+    );
   };</script><link rel="stylesheet" href="https://use.typekit.net/abq0gqd.css"><link rel="stylesheet" href="styles.css"><style>#root[hidden],
       #docs-root[hidden] {
         display: none !important;
       }</style></head><body><style>body {
     font-family: 'proxima-soft', sans-serif;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
   }</style><div class="sb-nopreview sb-wrapper"><div class="sb-nopreview_main"><h1 class="sb-nopreview_heading sb-heading">No Preview</h1><p>Sorry, but you either have no stories or none are selected somehow.</p><ul><li>Please check the Storybook config.</li><li>Try reloading the page.</li></ul><p>If the problem persists, check the browser console, or the terminal you've run Storybook from.</p></div></div><div class="sb-errordisplay sb-wrapper"><pre id="error-message" class="sb-heading"></pre><pre class="sb-errordisplay_code"><code id="error-stack"></code></pre></div><div id="root"></div><div id="docs-root"></div><script>window['LOGLEVEL'] = "info";
             
         
             
-              window['FRAMEWORK_OPTIONS'] = {};</script><script src="runtime~main.b041de8e7b7d17a3c3fc.bundle.js"></script><script src="vendors~main.b041de8e7b7d17a3c3fc.bundle.js"></script><script src="main.b041de8e7b7d17a3c3fc.bundle.js"></script></body></html>
+              window['FRAMEWORK_OPTIONS'] = {};</script><script src="runtime~main.7867571f.iframe.bundle.js"></script><script src="vendors~main.0b4d7389.iframe.bundle.js"></script><script src="main.7097a299.iframe.bundle.js"></script></body></html>
