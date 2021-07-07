@@ -1,10 +1,10 @@
 import React from 'react';
 
 // import { Checkbox } from '../../atoms/checkbox';
+// import { Icon } from 'atoms/icon';
 // import { Radio } from '../../atoms/radio';
 // import { Select } from '../../molecules/select';
 import { Button } from 'atoms/button';
-import { Icon } from 'atoms/icon';
 import { Input } from 'atoms/input';
 import { isBlank } from 'common/toolset';
 import generator from 'test/data-generator';
@@ -111,7 +111,7 @@ export function Playground() {
                       value={values.name}
                       onChange={onChange}
                     />
-                    <Button
+                    {/* <Button
                       emphasis="text"
                       onClick={function clear() {
                         const field = 'name';
@@ -124,7 +124,7 @@ export function Playground() {
                       }}
                     >
                       <Icon name="close" className="mx-auto" />
-                    </Button>
+                    </Button> */}
                   </Form.Field>
 
                   <Form.Field
