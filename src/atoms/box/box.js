@@ -26,7 +26,7 @@ class Box extends React.PureComponent {
     const { borderless, paddingless, block, className } = this.props;
 
     return clsx(
-      'cb-box2',
+      'cb-box',
       { '-block': block },
       evaluateBorderless(borderless),
       evaluatePaddingless(paddingless),
