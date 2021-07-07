@@ -1,27 +1,28 @@
 import React from 'react';
 
-import { DEFAULT } from '../../common/constants';
-import { mandatory } from '../../common/toolset';
-import { useAsyncReducer } from '../../hooks/async-reducer';
+import { DEFAULT } from 'common/constants';
+import { useAsyncReducer } from 'hooks/async-reducer';
 import { validate } from './validator';
-import logger from '../../common/logger';
+import logger from 'common/logger';
 
 /**
  * useValidation hook
  * @param {object} schema - Validation schema
  * @returns {ValidationSetup}
  */
-export default function useValidation(schema) {
-  const safeSchema = schema || mandatory('Schema is required');
+function useValidation(schema) {
+  const safeSchema = schema || DEFAULT.OBJECT;
 
   const [status, dispatch] = useAsyncReducer(function reducer(state, action) {
     const { type, payload } = action;
+
     const safePayload = payload || DEFAULT.OBJECT;
-    const { status } = safePayload;
 
     switch (type) {
       case 'validate':
       case 'field.validate': {
+        const { status } = safePayload;
+
         return {
           ...state,
           ...status,
@@ -35,7 +36,7 @@ export default function useValidation(schema) {
 
   const dispatcher = React.useRef(async function (type, payload) {
     const safePayload = payload || DEFAULT.OBJECT;
-    const { id, values } = safePayload;
+    const { id, values } = safePayload; // ?
 
     dispatch(async innerDispatch => {
       switch (type) {
@@ -65,6 +66,8 @@ export default function useValidation(schema) {
   logger.debug('use-validation', status);
   return { status, dispatch: dispatcher.current };
 }
+
+export default useValidation;
 
 /**
  * @callback DispatchValidation
