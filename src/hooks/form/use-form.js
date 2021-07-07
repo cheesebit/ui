@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { DEFAULT } from '../../common/constants';
-import logger from '../../common/logger';
-import useValidation from './use-validation';
-
-import { set } from '../../common/toolset';
+import { DEFAULT } from 'common/constants';
+import { set } from 'common/toolset';
+import { useValidation } from '../validation';
+import logger from 'common/logger';
 
 /**
  * Custom React hook to manage form fields.
