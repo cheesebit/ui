@@ -17,13 +17,14 @@ export default function useAsyncReducer(reducer, initializerArg, initializer) {
     initializer,
   );
 
-  const dispatcher = React.useRef(function thunkenize(action) {
+  function thunkenize(action) {
     if (isFunction(action)) {
-      return action(dispatch);
+      action(dispatch);
+      return;
     }
 
-    return dispatch(action);
-  });
+    dispatch(action);
+  }
 
-  return [state, dispatcher.current];
+  return [state, thunkenize];
 }
