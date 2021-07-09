@@ -11,107 +11,105 @@ import generator from 'test/data-generator';
 import Form from './form';
 
 export default {
-  title: 'Components/Organisms/Form',
-  component: Form,
+	title: 'Components/Organisms/Form',
+	component: Form,
 };
 
 const FormContext = Form.Context;
 
-const today = new Date();
-
 export function Playground() {
-  return (
-    <div className="block">
-      <p className="mb-2">
-        This is me, a cool Form, <b>still a work in progress</b>, but you can
-        play me around. Try me :)
-      </p>
+	return (
+		<div className="block">
+			<p className="mb-2">
+				This is me, a cool Form, <b>still a work in progress</b>, but you can
+				play me around. Try me :)
+			</p>
 
-      <Form
-        initial={{
-          name: generator.name(),
-          email: generator.email(),
-          notifications: generator.pick(['0', '1']),
-          'favorite-character': generator.pick(['mickey', 'shrek']),
-          type: '',
-        }}
-        schema={{
-          name: [
-            'required',
-            ['string.length.min', 8],
-            {
-              name: 'custom-validator',
-              except: function except({ email }) {
-                return isBlank(email);
-              },
-              handler: function validate({ name }) {
-                return new Promise(resolve => {
-                  setTimeout(() => {
-                    resolve(name === 'Welington Silva');
-                  }, 5000);
-                });
-              },
-            },
-          ],
-          email: [
-            'required',
-            {
-              name: 'custom-validator-2',
-              handler: function validate({ name, email }) {
-                return name === 'Welington Silva' && email === 'email@email.io';
-              },
-            },
-          ],
-        }}
-      >
-        <div className="flex flex-col flex-wrap space-y-4">
-          <FormContext.Consumer>
-            {({ values, status, dispatch }) => {
-              const onChange = ({ target: { name, value } }) => {
-                dispatch('field.set', {
-                  name,
-                  value,
-                  validate: true,
-                });
-              };
+			<Form
+				initial={ {
+					name: generator.name(),
+					email: generator.email(),
+					notifications: generator.pick( [ '0', '1' ] ),
+					'favorite-character': generator.pick( [ 'mickey', 'shrek' ] ),
+					type: '',
+				} }
+				schema={ {
+					name: [
+						'required',
+						[ 'string.length.min', 8 ],
+						{
+							name: 'custom-validator',
+							except: function except( { email } ) {
+								return isBlank( email );
+							},
+							handler: function validate( { name } ) {
+								return new Promise( ( resolve ) => {
+									setTimeout( () => {
+										resolve( name === 'Welington Silva' );
+									}, 5000 );
+								} );
+							},
+						},
+					],
+					email: [
+						'required',
+						{
+							name: 'custom-validator-2',
+							handler: function validate( { name, email } ) {
+								return name === 'Welington Silva' && email === 'email@email.io';
+							},
+						},
+					],
+				} }
+			>
+				<div className="flex flex-col flex-wrap space-y-4">
+					<FormContext.Consumer>
+						{ ( { values, status, dispatch } ) => {
+							const onChange = ( { target: { name, value } } ) => {
+								dispatch( 'field.set', {
+									name,
+									value,
+									validate: true,
+								} );
+							};
 
-              return (
-                <React.Fragment>
-                  <Form.Field
-                    label="name"
-                    className="w-full md:w-auto"
-                    prompt="Type you first and last name"
-                    tooltip={{
-                      icon: { name: 'help', size: 18 },
-                      text: (
-                        <ul className="pl-2 text-left list-disc">
-                          <li>Required</li>
-                          <li>Min length 8 characters</li>
-                          <li>
-                            Custom async validator that checks if name is
-                            "Welington Silva", except when the value is empty
-                          </li>
-                        </ul>
-                      ),
-                      placement: 'right',
-                    }}
-                    variant={status.name && 'danger'}
-                    feedback={
-                      status.name && {
-                        icon: { name: 'cancel', size: 18 },
-                        text: String(status.name),
-                        placement: 'right',
-                      }
-                    }
-                  >
-                    <Input
-                      variant={status.name && 'danger'}
-                      name="name"
-                      type="text"
-                      value={values.name}
-                      onChange={onChange}
-                    />
-                    {/* <Button
+							return (
+								<React.Fragment>
+									<Form.Field
+										label="name"
+										className="w-full md:w-auto"
+										prompt="Type you first and last name"
+										tooltip={ {
+											icon: { name: 'help', size: 18 },
+											text: (
+												<ul className="pl-2 text-left list-disc">
+													<li>Required</li>
+													<li>Min length 8 characters</li>
+													<li>
+														Custom async validator that checks if name is
+														&lquot;Welington Silva&rquot;, except when the value is empty
+													</li>
+												</ul>
+											),
+											placement: 'right',
+										} }
+										variant={ status.name && 'danger' }
+										feedback={
+											status.name && {
+												icon: { name: 'cancel', size: 18 },
+												text: String( status.name ),
+												placement: 'right',
+											}
+										}
+									>
+										<Input
+											variant={ status.name && 'danger' }
+											name="name"
+											type="text"
+											value={ values.name }
+											onChange={ onChange }
+										/>
+										{ /* <Button
                       emphasis="text"
                       onClick={function clear() {
                         const field = 'name';
@@ -124,45 +122,45 @@ export function Playground() {
                       }}
                     >
                       <Icon name="close" className="mx-auto" />
-                    </Button> */}
-                  </Form.Field>
+                    </Button> */ }
+									</Form.Field>
 
-                  <Form.Field
-                    label="email"
-                    className="w-full md:w-auto"
-                    prompt="Type your email"
-                    tooltip={{
-                      icon: { name: 'help', size: 18 },
-                      text: (
-                        <ul className="pl-2 text-left list-disc">
-                          <li>Required</li>
-                          <li>
-                            Custom sync validator that checks if email is
-                            "email@email.io" and name is "Welington Silva"
-                          </li>
-                        </ul>
-                      ),
-                      placement: 'right',
-                    }}
-                    variant={status.email && 'danger'}
-                    feedback={
-                      status.email && {
-                        icon: { name: 'cancel', size: 18 },
-                        text: String(status.email),
-                        placement: 'right',
-                      }
-                    }
-                  >
-                    <Input
-                      variant={status.email && 'danger'}
-                      name="email"
-                      type="email"
-                      value={values.email}
-                      onChange={onChange}
-                    />
-                  </Form.Field>
+									<Form.Field
+										label="email"
+										className="w-full md:w-auto"
+										prompt="Type your email"
+										tooltip={ {
+											icon: { name: 'help', size: 18 },
+											text: (
+												<ul className="pl-2 text-left list-disc">
+													<li>Required</li>
+													<li>
+														Custom sync validator that checks if email is
+														&lquot;email@email.io&rquot; and name is &lquot;Welington Silva&rquot;
+													</li>
+												</ul>
+											),
+											placement: 'right',
+										} }
+										variant={ status.email && 'danger' }
+										feedback={
+											status.email && {
+												icon: { name: 'cancel', size: 18 },
+												text: String( status.email ),
+												placement: 'right',
+											}
+										}
+									>
+										<Input
+											variant={ status.email && 'danger' }
+											name="email"
+											type="email"
+											value={ values.email }
+											onChange={ onChange }
+										/>
+									</Form.Field>
 
-                  {/* <Form.Field
+									{ /* <Form.Field
                     label="favorite character"
                     className="w-full md:w-auto"
                     prompt="Favorite character"
@@ -241,25 +239,25 @@ export function Playground() {
                     >
                       About travel tips
                     </Checkbox>
-                  </Form.Field> */}
+                  </Form.Field> */ }
 
-                  <Button
-                    onClick={function reset() {
-                      dispatch('reset', {
-                        name: '',
-                        email: '',
-                        notifications: null,
-                      });
-                    }}
-                  >
-                    Reset
-                  </Button>
-                </React.Fragment>
-              );
-            }}
-          </FormContext.Consumer>
-        </div>
-      </Form>
-    </div>
-  );
+									<Button
+										onClick={ function reset() {
+											dispatch( 'reset', {
+												name: '',
+												email: '',
+												notifications: null,
+											} );
+										} }
+									>
+										Reset
+									</Button>
+								</React.Fragment>
+							);
+						} }
+					</FormContext.Consumer>
+				</div>
+			</Form>
+		</div>
+	);
 }

@@ -8,42 +8,42 @@ import { Tabs } from '../../molecules/tabs';
 
 import './tabbed.scss';
 
-function Tabbed({ active, tabs, children, className, disabled, ...others }) {
-  const setPanelActive = ({ active }) => {
-    // TODO improve
-    const tab = (tabs || []).find(({ id }) => id == active);
+function Tabbed( { active, tabs, children, className, disabled, ...others } ) {
+	const setPanelActive = ( { active } ) => {
+		// TODO improve
+		const tab = ( tabs || [] ).find( ( { id } ) => id == active );
 
-    if (tab != null) {
-      check(getPanelRadioID(tab.for));
-    }
-  };
+		if ( tab != null ) {
+			check( getPanelRadioID( tab.for ) );
+		}
+	};
 
-  return (
-    <section className={clsx('cb-tabbed', className)} data-testid="cb-tabbed">
-      <Tabs
-        active={active}
-        disabled={disabled}
-        items={tabs}
-        onChange={setPanelActive}
-        {...others}
-      />
+	return (
+		<section className={ clsx( 'cb-tabbed', className ) } data-testid="cb-tabbed">
+			<Tabs
+				active={ active }
+				disabled={ disabled }
+				items={ tabs }
+				onChange={ setPanelActive }
+				{ ...others }
+			/>
 
-      <Panels>{children}</Panels>
-    </section>
-  );
+			<Panels>{ children }</Panels>
+		</section>
+	);
 }
 
 Tabbed.propTypes = {
-  active: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func,
-  tabs: PropTypes.arrayOf(
-    PropTypes.shape({
-      for: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-      props: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
-      label: PropTypes.node,
-      icon: PropTypes.string,
-    }),
-  ).isRequired,
+	active: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ),
+	onChange: PropTypes.func,
+	tabs: PropTypes.arrayOf(
+		PropTypes.shape( {
+			for: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ).isRequired,
+			props: PropTypes.oneOfType( [ PropTypes.func, PropTypes.object ] ),
+			label: PropTypes.node,
+			icon: PropTypes.string,
+		} ),
+	).isRequired,
 };
 
 Tabbed.Panel = Panels.Panel;

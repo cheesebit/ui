@@ -1,13 +1,14 @@
 import { isNil } from '../../../../common/toolset';
 
-export function validateRequired(value) {
-  return !isNil(value);
+export function validateRequired( value ) {
+	return ! isNil( value );
 }
 
 /**
  * Always returns true.
- * @returns {boolean} Returns `true` always.
+ *
+ * @return {boolean} Returns `true` always.
  */
 export function validatePermissive() {
-  return true;
+	return true;
 }

@@ -1,1 +1,1 @@
-export { default as useChangeable } from './use-changeable'
+export { default as useChangeable } from './use-changeable';

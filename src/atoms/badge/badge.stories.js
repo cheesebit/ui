@@ -5,36 +5,36 @@ import generator from 'test/data-generator';
 import { setupDefaultStory, setupDerivedStory } from 'common/stories-toolset';
 
 export default {
-  title: 'Components/Atoms/Badge',
-  component: Badge,
+	title: 'Components/Atoms/Badge',
+	component: Badge,
 };
 
-export function Playground(args) {
-  return (
-    <div className="block">
-      <p className="mb-2">
-        This is me, a cool Badge ready to be played around. Try me :)
-      </p>
-      <Badge {...args} />
-    </div>
-  );
+export function Playground( args ) {
+	return (
+		<div className="block">
+			<p className="mb-2">
+				This is me, a cool Badge ready to be played around. Try me :)
+			</p>
+			<Badge { ...args } />
+		</div>
+	);
 }
 
 Playground.args = {
-  children: generator.name(),
+	children: generator.name(),
 };
 
-export const Default = Playground.bind({});
+export const Default = Playground.bind( {} );
 Default.args = { ...Playground.args, variant: Variant.neutral };
 
-export const Primary = Playground.bind({});
+export const Primary = Playground.bind( {} );
 Primary.args = { ...Playground.args, variant: Variant.primary };
 
-export const Secondary = Playground.bind({});
+export const Secondary = Playground.bind( {} );
 Secondary.args = { ...Playground.args, variant: Variant.secondary };
 
-export const Terciary = Playground.bind({});
+export const Terciary = Playground.bind( {} );
 Terciary.args = { ...Playground.args, variant: Variant.terciary };
 
-setupDefaultStory(Playground);
-setupDerivedStory([Default, Primary, Secondary, Terciary]);
+setupDefaultStory( Playground );
+setupDerivedStory( [ Default, Primary, Secondary, Terciary ] );

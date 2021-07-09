@@ -7,16 +7,15 @@ import PageFooter from './page-footer';
 
 import './page.scss';
 
-const Page = ({ className, children }) => {
-  return (
-    <article
-      role="article"
-      className={clsx('cb-page', className)}
-      data-testid="cb-page"
-    >
-      {children}
-    </article>
-  );
+const Page = ( { className, children } ) => {
+	return (
+		<article
+			className={ clsx( 'cb-page', className ) }
+			data-testid="cb-page"
+		>
+			{ children }
+		</article>
+	);
 };
 
 Page.propTypes = {};

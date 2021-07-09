@@ -1,91 +1,91 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { debounce } from '../../common/toolset';
+import { debounce } from 'common/toolset';
 import { DEFAULT_WAIT } from './constants';
-import { getWidth } from '../../common/ui-toolset';
+import { getWidth } from 'common/ui-toolset';
 
 /**
  * This HOC monitors a specific element (referred to by the provided ref) and
  * returns its width whenever window resizes.
  */
 class ResizeWatcher extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor( props ) {
+		super( props );
 
-    this.state = {
-      width: 0,
-    };
+		this.state = {
+			width: 0,
+		};
 
-    const { wait = DEFAULT_WAIT, forwardedRef } = props;
+		const { wait = DEFAULT_WAIT, forwardedRef } = props;
 
-    this.ref = forwardedRef ?? React.createRef();
-    this.unmounted = false;
+		this.ref = forwardedRef ?? React.createRef();
+		this.unmounted = false;
 
-    this.updateWidth = debounce(this.updateWidth.bind(this), wait);
-  }
+		this.updateWidth = debounce( this.updateWidth.bind( this ), wait );
+	}
 
-  componentDidMount() {
-    window.addEventListener('resize', this.updateWidth, false);
+	componentDidMount() {
+		window.addEventListener( 'resize', this.updateWidth, false );
 
-    const { initial } = this.props;
-    initial && this.updateWidth();
-  }
+		const { initial } = this.props;
+		initial && this.updateWidth();
+	}
 
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWidth, false);
+	componentWillUnmount() {
+		window.removeEventListener( 'resize', this.updateWidth, false );
 
-    this.unmounted = true;
-  }
+		this.unmounted = true;
+	}
 
-  updateWidth() {
-    const { width } = this.state;
-    const ref = this.ref.current;
+	updateWidth() {
+		const { width } = this.state;
+		const ref = this.ref.current;
 
-    let newWidth = window.innerWidth;
-    if (ref) {
-      newWidth = getWidth(ref);
-    }
+		let newWidth = window.innerWidth;
+		if ( ref ) {
+			newWidth = getWidth( ref );
+		}
 
-    if (width === newWidth || this.unmounted) {
-      return;
-    }
+		if ( width === newWidth || this.unmounted ) {
+			return;
+		}
 
-    this.setState(
-      {
-        width: newWidth,
-      },
-      this.publish,
-    );
-  }
+		this.setState(
+			{
+				width: newWidth,
+			},
+			this.publish,
+		);
+	}
 
-  publish = () => {
-    const { width } = this.state;
-    const { onResize } = this.props;
+publish = () => {
+	const { width } = this.state;
+	const { onResize } = this.props;
 
-    onResize && onResize({ width, ref: this.ref });
-  };
+	onResize && onResize( { width, ref: this.ref } );
+};
 
-  render() {
-    const { children } = this.props;
-    const { width } = this.state;
+render() {
+	const { children } = this.props;
+	const { width } = this.state;
 
-    return children({ width, ref: this.ref });
-  }
+	return children( { width, ref: this.ref } );
+}
 }
 
 ResizeWatcher.propTypes = {
-  children: PropTypes.func.isRequired,
-  forwardedRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
-  onResize: PropTypes.func,
-  wait: PropTypes.number,
+	children: PropTypes.func.isRequired,
+	forwardedRef: PropTypes.oneOfType( [
+		PropTypes.func,
+		PropTypes.shape( { current: PropTypes.instanceOf( Element ) } ),
+	] ),
+	onResize: PropTypes.func,
+	wait: PropTypes.number,
 };
 
 ResizeWatcher.defaultProps = {
-  initial: true,
+	initial: true,
 };
 
 export default ResizeWatcher;

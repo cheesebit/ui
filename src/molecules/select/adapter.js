@@ -1,11 +1,11 @@
 import { prop } from '../../common/toolset';
 
-const getValue = prop('value');
-const getLabel = prop('label');
-const getChildren = prop('options');
+const getValue = prop( 'value' );
+const getLabel = prop( 'label' );
+const getChildren = prop( 'options' );
 
 export default {
-  getID: getValue,
-  getLabel: getLabel,
-  getChildren: getChildren,
+	getID: getValue,
+	getLabel,
+	getChildren,
 };

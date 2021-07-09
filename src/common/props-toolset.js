@@ -6,15 +6,16 @@ import { DEFAULT } from './constants';
 
 /**
  * Function to compare properties of an object.
+ *
  * @param {Array} props - properties to be compared.
- * @returns {function} function to perform props comparison.
+ * @return {Function} function to perform props comparison.
  */
-export function compareProps(props) {
-  return function (prevProps, currProps) {
-    return toArray(props).every(prop =>
-      equals(prevProps[prop], currProps[prop]),
-    );
-  };
+export function compareProps( props ) {
+	return function( prevProps, currProps ) {
+		return toArray( props ).every( ( prop ) =>
+			equals( prevProps[ prop ], currProps[ prop ] ),
+		);
+	};
 }
 
 /**
@@ -28,54 +29,57 @@ export function compareProps(props) {
  *  resolveProp('John Doe', 'author')
  *  // returns { name: 'John Doe ' }
  *  resolveProp({ name: 'John Doe ' }, 'author')
- * @returns {object} Prop itself or prop mapped to given key
+ * @return {Object} Prop itself or prop mapped to given key
  */
-export function resolveProp(prop, key) {
-  if (isObject(prop) && !React.isValidElement(prop)) {
-    return prop;
-  }
+export function resolveProp( prop, key ) {
+	if ( isObject( prop ) && ! React.isValidElement( prop ) ) {
+		return prop;
+	}
 
-  if (isNil(key)) {
-    return DEFAULT.OBJECT;
-  }
+	if ( isNil( key ) ) {
+		return DEFAULT.OBJECT;
+	}
 
-  return { [key]: prop };
+	return { [ key ]: prop };
 }
 
 /**
  * Gets a property name and its value and generate the proper utility classname for
  * its 4 sides (top, right, bottom, and left).
+ *
  * @param {string} prop Property name
  * @param {boolean|Array<string>} value Property value. It can be either a boolean, which means
  * the property should/should not be applied to all side, or an array with the strings that represent
  * to which sides the property should be applied.
- * @returns {string} Classes generated based on the given param
+ * @return {string} Classes generated based on the given param
  */
-function evaluateSidedProp(prop, value) {
-  const suppressAllSides = isBoolean(value) && value;
-  const valueAsArray = toArray(value);
+function evaluateSidedProp( prop, value ) {
+	const suppressAllSides = isBoolean( value ) && value;
 
-  if (suppressAllSides) {
-    return `cb-no-${prop}`;
-  }
+	if ( suppressAllSides ) {
+		return `cb-no-${ prop }`;
+	}
 
-  return clsx({
-    [`cb-no-top-${prop}`]: valueAsArray.some(v => ['top'].includes(v)),
-    [`cb-no-right-${prop}`]: valueAsArray.some(v => ['right'].includes(v)),
-    [`cb-no-bottom-${prop}`]: valueAsArray.some(v => ['bottom'].includes(v)),
-    [`cb-no-left-${prop}`]: valueAsArray.some(v => ['left'].includes(v)),
-    [`cb-no-vertical-${prop}`]: valueAsArray.some(v =>
-      ['vertical'].includes(v),
-    ),
-    [`cb-no-horizontal-${prop}`]: valueAsArray.some(v =>
-      ['horizontal'].includes(v),
-    ),
-  });
+	const valueAsArray = toArray( value );
+
+	return clsx( {
+		[ `cb-no-top-${ prop }` ]: valueAsArray.some( ( v ) => [ 'top' ].includes( v ) ),
+		[ `cb-no-right-${ prop }` ]: valueAsArray.some( ( v ) => [ 'right' ].includes( v ) ),
+		[ `cb-no-bottom-${ prop }` ]: valueAsArray.some( ( v ) => [ 'bottom' ].includes( v ) ),
+		[ `cb-no-left-${ prop }` ]: valueAsArray.some( ( v ) => [ 'left' ].includes( v ) ),
+		[ `cb-no-vertical-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'vertical' ].includes( v ),
+		),
+		[ `cb-no-horizontal-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'horizontal' ].includes( v ),
+		),
+	} );
 }
 
 /**
  * Based on the given param it returns the CSS utility classes to
  * remove paddings.
+ *
  * @example
  *  // u-is-top-paddingless u-is-right-paddingless...
  *  evaluatePaddingless(true);
@@ -83,15 +87,16 @@ function evaluateSidedProp(prop, value) {
  *  evaluatePaddingless(['right', 'left']);
  * @param {boolean|Array<string>} paddingless - `true`/`false` or array containing
  *  which sides should have no border
- * @returns {string} Classes for the given paddingless param
+ * @return {string} Classes for the given paddingless param
  */
-export function evaluatePaddingless(paddingless) {
-  return evaluateSidedProp('padding', paddingless);
+export function evaluatePaddingless( paddingless ) {
+	return evaluateSidedProp( 'padding', paddingless );
 }
 
 /**
  * Based on the given param it returns the CSS utility classes to
  * remove borders.
+ *
  * @example
  *  // u-is-top-borderless u-is-right-borderless...
  *  evaluateBorder(true);
@@ -99,8 +104,8 @@ export function evaluatePaddingless(paddingless) {
  *  evaluateBorder(['right', 'left']);
  * @param {boolean|Array<string>} borderless - `true`/`false` or array containing
  *  which sides should have no border
- * @returns {string} Classes for the given borderless param
+ * @return {string} Classes for the given borderless param
  */
-export function evaluateBorderless(borderless) {
-  return evaluateSidedProp('border', borderless);
+export function evaluateBorderless( borderless ) {
+	return evaluateSidedProp( 'border', borderless );
 }

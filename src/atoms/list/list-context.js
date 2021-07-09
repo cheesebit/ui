@@ -1,5 +1,5 @@
 import React from 'react';
 
-export default React.createContext({
-  bordered: false,
-});
+export default React.createContext( {
+	bordered: false,
+} );

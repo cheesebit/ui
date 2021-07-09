@@ -7,41 +7,41 @@ import { equals } from 'common/toolset';
 import './badge.scss';
 
 export const Variant = {
-  neutral: 'neutral',
-  primary: 'primary',
-  secondary: 'secondary',
-  terciary: 'terciary',
+	neutral: 'neutral',
+	primary: 'primary',
+	secondary: 'secondary',
+	terciary: 'terciary',
 };
 
-const Badge = ({ className, children, variant, ...others }) => {
-  const classes = clsx(
-    'cb-badge',
-    {
-      '-primary': equals(variant, Variant.primary),
-      '-secondary': equals(variant, Variant.secondary),
-      '-terciary': equals(variant, Variant.terciary),
-    },
-    className,
-  );
+const Badge = ( { className, children, variant, ...others } ) => {
+	const classes = clsx(
+		'cb-badge',
+		{
+			'-primary': equals( variant, Variant.primary ),
+			'-secondary': equals( variant, Variant.secondary ),
+			'-terciary': equals( variant, Variant.terciary ),
+		},
+		className,
+	);
 
-  return (
-    <span className={classes} data-testid="cb-badge" {...others}>
-      {children}
-    </span>
-  );
+	return (
+		<span className={ classes } data-testid="cb-badge" { ...others }>
+			{ children }
+		</span>
+	);
 };
 
 Badge.propTypes = {
-  variant: PropTypes.oneOf([
-    Variant.primary,
-    Variant.secondary,
-    Variant.terciary,
-    Variant.neutral,
-  ]),
+	variant: PropTypes.oneOf( [
+		Variant.primary,
+		Variant.secondary,
+		Variant.terciary,
+		Variant.neutral,
+	] ),
 };
 
 Badge.defaultProps = {
-  variant: Variant.neutral,
+	variant: Variant.neutral,
 };
 
 export default Badge;

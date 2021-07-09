@@ -5,104 +5,104 @@ import { DEFAULT } from '../constants';
 
 const ROOT_ID = '*$+#_ROOT_#+$*';
 
-function buildNode(adapter, node, parent) {
-  const nodeID = adapter.getID(node);
-  const children = adapter.getChildren(node) || DEFAULT.ARRAY;
+function buildNode( adapter, node, parent ) {
+	const nodeID = adapter.getID( node );
+	const children = adapter.getChildren( node ) || DEFAULT.ARRAY;
 
-  return merge(
-    {
-      [nodeID]: {
-        id: nodeID,
-        node,
-        parent,
-        children: map(adapter.getID, children),
-      },
-    },
-    buildNodes(adapter, children, nodeID),
-  );
+	return merge(
+		{
+			[ nodeID ]: {
+				id: nodeID,
+				node,
+				parent,
+				children: map( adapter.getID, children ),
+			},
+		},
+		buildNodes( adapter, children, nodeID ),
+	);
 }
 
-function buildNodes(adapter, nodes, parentID) {
-  let tree = {};
+function buildNodes( adapter, nodes, parentID ) {
+	let tree = {};
 
-  (nodes || DEFAULT.ARRAY).forEach(item => {
-    try {
-      tree = merge(tree, buildNode(adapter, item, parentID));
-    } catch (error) {
-      console.error(error);
-    }
-  });
+	( nodes || DEFAULT.ARRAY ).forEach( ( item ) => {
+		try {
+			tree = merge( tree, buildNode( adapter, item, parentID ) );
+		} catch ( error ) {
+			// TODO: handle error
+		}
+	} );
 
-  return tree;
+	return tree;
 }
 
-function buildTree(adapter, nodes) {
-  const children = buildNodes(adapter, nodes, ROOT_ID);
+function buildTree( adapter, nodes ) {
+	const children = buildNodes( adapter, nodes, ROOT_ID );
 
-  if (isEmpty(children)) {
-    return {};
-  }
+	if ( isEmpty( children ) ) {
+		return {};
+	}
 
-  let root = {
-    ...children,
-    [ROOT_ID]: {
-      id: ROOT_ID,
-      node: null,
-      parent: null,
-      children: keys(children).filter(
-        childID => children[childID].parent === ROOT_ID,
-      ),
-    },
-  };
+	const root = {
+		...children,
+		[ ROOT_ID ]: {
+			id: ROOT_ID,
+			node: null,
+			parent: null,
+			children: keys( children ).filter(
+				( childID ) => children[ childID ].parent === ROOT_ID,
+			),
+		},
+	};
 
-  return root;
+	return root;
 }
 
 class Tree {
-  constructor(adapter = mandatory('adapter is required'), nodes) {
-    this._adapter = adapter;
+	constructor( adapter = mandatory( 'adapter is required' ), nodes ) {
+		this._adapter = adapter;
 
-    // calling setter to trigger buildTree
-    this.mapping = nodes;
-  }
+		// calling setter to trigger buildTree
+		this.mapping = nodes;
+	}
 
-  set mapping(nodes) {
-    this._mapping = buildTree(this._adapter, nodes);
-  }
+	set mapping( nodes ) {
+		this._mapping = buildTree( this._adapter, nodes );
+	}
 
-  get mapping() {
-    return this._mapping;
-  }
+	get mapping() {
+		return this._mapping;
+	}
 
-  getRoot() {
-    return this.getNode(ROOT_ID);
-  }
+	getRoot() {
+		return this.getNode( ROOT_ID );
+	}
 
-  getNode(id) {
-    const node = get(this._mapping, [id], null);
+	getNode( id ) {
+		const node = get( this._mapping, [ id ], null );
 
-    return node;
-  }
+		return node;
+	}
 
-  getChildrenOf(id) {
-    const node = this.getNode(id);
+	getChildrenOf( id ) {
+		const node = this.getNode( id );
 
-    if (isNil(node)) {
-      return [];
-    }
+		if ( isNil( node ) ) {
+			return [];
+		}
 
-    return node.children || [];
-  }
+		return node.children || [];
+	}
 
-  getParentOf(id) {
-    const node = this.getNode(id);
+	getParentOf( id ) {
+		const node = this.getNode( id );
 
-    if (isNil(node)) {
-      return null;
-    }
+		if ( isNil( node ) ) {
+			return null;
+		}
 
-    return node.parent;
-  }
+		return node.parent;
+	}
 }
 
 Tree.ROOT = ROOT_ID;

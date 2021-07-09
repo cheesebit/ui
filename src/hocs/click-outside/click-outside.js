@@ -5,71 +5,71 @@ import PropTypes from 'prop-types';
  * HoC to detect if an interaction has happened outside the given component.
  */
 class ClickOutside extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor( props ) {
+		super( props );
 
-    this.ref = React.createRef();
+		this.ref = React.createRef();
 
-    this.state = {
-      active: false,
-    };
+		this.state = {
+			active: false,
+		};
 
-    this.handleEvent = this.handleEvent.bind(this);
-  }
+		this.handleEvent = this.handleEvent.bind( this );
+	}
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleEvent, true);
-    document.addEventListener('keyup', this.handleEvent, true);
-  }
+	componentDidMount() {
+		document.addEventListener( 'mousedown', this.handleEvent, true );
+		document.addEventListener( 'keyup', this.handleEvent, true );
+	}
 
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleEvent, true);
-    document.removeEventListener('keyup', this.handleEvent, true);
-  }
+	componentWillUnmount() {
+		document.removeEventListener( 'mousedown', this.handleEvent, true );
+		document.removeEventListener( 'keyup', this.handleEvent, true );
+	}
 
-  activate = () => {
-    this.setState({ active: true });
-  };
+activate = () => {
+	this.setState( { active: true } );
+};
 
-  deactivate = () => {
-    this.setState({ active: false });
-  };
+deactivate = () => {
+	this.setState( { active: false } );
+};
 
-  handleEvent(e) {
-    const { active } = this.state;
-    const { disabled, onClickOutside } = this.props;
+handleEvent( e ) {
+	const { active } = this.state;
+	const { disabled, onClickOutside } = this.props;
 
-    const ref = this.ref.current;
+	const ref = this.ref.current;
 
-    if (!ref || disabled) {
-      return;
-    }
+	if ( ! ref || disabled ) {
+		return;
+	}
 
-    if (ref.contains(e.target) && !active) {
-      this.activate();
-    } else if (!ref.contains(e.target) && active) {
-      this.deactivate();
-      onClickOutside?.();
-    }
-  }
+	if ( ref.contains( e.target ) && ! active ) {
+		this.activate();
+	} else if ( ! ref.contains( e.target ) && active ) {
+		this.deactivate();
+		onClickOutside?.();
+	}
+}
 
-  render() {
-    const { children } = this.props;
+render() {
+	const { children } = this.props;
 
-    return children({
-      ref: this.ref,
-    });
-  }
+	return children( {
+		ref: this.ref,
+	} );
+}
 }
 
 ClickOutside.propTypes = {
-  children: PropTypes.func.isRequired,
-  disabled: PropTypes.bool,
-  onClickOutside: PropTypes.func.isRequired,
+	children: PropTypes.func.isRequired,
+	disabled: PropTypes.bool,
+	onClickOutside: PropTypes.func.isRequired,
 };
 
 ClickOutside.defaultProps = {
-  disabled: false,
+	disabled: false,
 };
 
 export default ClickOutside;

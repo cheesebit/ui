@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DEFAULT } from '../../common/constants';
+import { DEFAULT } from 'common/constants';
 import { DEFAULT_WAIT } from './constants';
-import { isEmpty } from '../../common/toolset';
+import { isEmpty } from 'common/toolset';
 import { withResizeWatcher } from '../resize-watcher';
 
 /**
@@ -12,83 +12,83 @@ import { withResizeWatcher } from '../resize-watcher';
  * Use `initial` to indicates that match media should be run when component is mounted.
  */
 class MediaQueryWatcher extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor( props ) {
+		super( props );
 
-    this.state = {
-      currentQuery: null,
-    };
-  }
+		this.state = {
+			currentQuery: null,
+		};
+	}
 
-  componentDidMount() {
-    const { initial } = this.props;
+	componentDidMount() {
+		const { initial } = this.props;
 
-    initial && this.executeQueries();
-  }
+		initial && this.executeQueries();
+	}
 
-  componentDidUpdate(prevProps) {
-    const { width, initial } = this.props;
+	componentDidUpdate( prevProps ) {
+		const { width, initial } = this.props;
 
-    if ((initial || prevProps.width) && width !== prevProps.width) {
-      this.executeQueries();
-    }
-  }
+		if ( ( initial || prevProps.width ) && width !== prevProps.width ) {
+			this.executeQueries();
+		}
+	}
 
-  get queries() {
-    const { queries } = this.props;
+	get queries() {
+		const { queries } = this.props;
 
-    return queries || DEFAULT.ARRAY;
-  }
+		return queries || DEFAULT.ARRAY;
+	}
 
-  executeQueries = () => {
-    const { currentQuery } = this.state;
-    const queries = this.queries;
+executeQueries = () => {
+	const { currentQuery } = this.state;
+	const queries = this.queries;
 
-    if (isEmpty(queries)) {
-      return;
-    }
+	if ( isEmpty( queries ) ) {
+		return;
+	}
 
-    let newCurrentQuery = null;
-    for (let i = 0; i < queries.length && !newCurrentQuery; i++) {
-      const query = queries[i];
+	let newCurrentQuery = null;
+	for ( let i = 0; i < queries.length && ! newCurrentQuery; i++ ) {
+		const query = queries[ i ];
 
-      if (window.matchMedia(query).matches) {
-        newCurrentQuery = query;
-      }
-    }
+		if ( window.matchMedia( query ).matches ) {
+			newCurrentQuery = query;
+		}
+	}
 
-    if (currentQuery !== newCurrentQuery) {
-      this.setState(
-        {
-          currentQuery: newCurrentQuery,
-        },
-        this.publish
-      );
-    }
-  };
+	if ( currentQuery !== newCurrentQuery ) {
+		this.setState(
+			{
+				currentQuery: newCurrentQuery,
+			},
+			this.publish,
+		);
+	}
+};
 
-  publish = () => {
-    const { currentQuery } = this.state;
-    const { onQueryMatch } = this.props;
+publish = () => {
+	const { currentQuery } = this.state;
+	const { onQueryMatch } = this.props;
 
-    onQueryMatch && onQueryMatch({ query: currentQuery });
-  };
+	onQueryMatch && onQueryMatch( { query: currentQuery } );
+};
 
-  render() {
-    const { children } = this.props;
+render() {
+	const { children } = this.props;
 
-    return children;
-  }
+	return children;
+}
 }
 
 MediaQueryWatcher.propTypes = {
-  initial: PropTypes.bool,
-  onQueryMatch: PropTypes.func.isRequired,
-  queries: PropTypes.arrayOf(PropTypes.string).isRequired,
+	initial: PropTypes.bool,
+	onQueryMatch: PropTypes.func.isRequired,
+	queries: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 
 MediaQueryWatcher.defaultProps = {
-  initial: false,
+	initial: false,
 };
 
-export default withResizeWatcher(MediaQueryWatcher, { wait: DEFAULT_WAIT });
+export default withResizeWatcher( MediaQueryWatcher, { wait: DEFAULT_WAIT } );

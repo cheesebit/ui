@@ -1,3 +1,4 @@
+/* eslint-disable @wordpress/no-unused-vars-before-return */
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
@@ -11,155 +12,152 @@ import logger from '../../common/logger';
 import './tooltip.scss';
 
 export const Mode = {
-  light: 'light',
-  dark: 'dark',
+	light: 'light',
+	dark: 'dark',
 };
 
 export const Placement = {
-  top: 'top',
-  bottom: 'bottom',
-  left: 'left',
-  right: 'right',
+	top: 'top',
+	bottom: 'bottom',
+	left: 'left',
+	right: 'right',
 };
 
 export const Variant = {
-  danger: 'danger',
-  info: 'info',
-  success: 'success',
-  warn: 'warn',
+	danger: 'danger',
+	info: 'info',
+	success: 'success',
+	warn: 'warn',
 };
 
 const STATES = {
-  out: {
-    on: {
-      enter: 'in',
-    },
-  },
-  in: {
-    on: {
-      exit: 'out',
-    },
-  },
+	out: {
+		on: {
+			enter: 'in',
+		},
+	},
+	in: {
+		on: {
+			exit: 'out',
+		},
+	},
 };
 
-const Tooltip = ({
-  children,
-  className,
-  mode,
-  placement: placementProp,
-  style: styleProp,
-  title,
-  variant,
-  ...others
-}) => {
-  const selfRef = React.useRef();
-  const [style, setStyle] = React.useState({ ...styleProp });
+const Tooltip = ( {
+	children,
+	className,
+	mode,
+	placement: placementProp,
+	style: styleProp,
+	title,
+	variant,
+	...others
+} ) => {
+	const selfRef = React.useRef();
+	const [ style, setStyle ] = React.useState( { ...styleProp } );
 
-  const [{ top, left, placement }, setPosition] = React.useState({
-    top: 0,
-    left: 0,
-    placement: placementProp,
-  });
-  const { className: animationClassName, onEnter, onExit } = useAnimation(
-    STATES,
-    getAnimationPhases(placement),
-  );
+	const [ { top, left, placement }, setPosition ] = React.useState( {
+		top: 0,
+		left: 0,
+		placement: placementProp,
+	} );
+	const { className: animationClassName, onEnter, onExit } = useAnimation(
+		STATES,
+		getAnimationPhases( placement ),
+	);
+	// TODO: Update tooltip position when it is visible and user scrolls
 
-  if (isNil(title) || isNil(children)) {
-    return children;
-  }
+	React.useEffect(
+		function updateStyle() {
+			setStyle( { ...styleProp, top, left } );
+		},
+		[ top, left ],
+	);
 
-  // TODO: Update tooltip position when it is visible and user scrolls
+	const handleMouseEnter = ( e ) => {
+		logger.debug(
+			'[tooltip]',
+			e.currentTarget.offsetTop,
+			e.currentTarget.getBoundingClientRect().top,
+		);
 
-  React.useEffect(
-    function updateStyle() {
-      setStyle({ ...styleProp, top, left });
-    },
-    [top, left],
-  );
+		setPosition(
+			calculatePosition( placementProp, e.currentTarget, selfRef.current ),
+		);
+		onEnter( e );
+	};
 
-  const handleMouseEnter = e => {
-    logger.debug(
-      '[tooltip]',
-      e.currentTarget.offsetTop,
-      e.currentTarget.getBoundingClientRect().top,
-    );
+	const handleMouseLeave = ( e ) => {
+		onExit( e );
+	};
 
-    setPosition(
-      calculatePosition(placementProp, e.currentTarget, selfRef.current),
-    );
-    onEnter(e);
-  };
+	if ( isNil( title ) || isNil( children ) ) {
+		return children;
+	}
 
-  const handleMouseLeave = e => {
-    onExit(e);
-  };
-
-  console.log(placementProp, placement);
-
-  return (
-    <React.Fragment>
-      {React.cloneElement(children, {
-        onMouseEnter: handleMouseEnter,
-        onMouseLeave: handleMouseLeave,
-      })}
-      <span
-        className={clsx(
-          'cb-tooltip',
-          {
-            '-top': TOP_REGEX.test(placement),
-            '-bottom': BOTTOM_REGEX.test(placement),
-            '-right': RIGHT_REGEX.test(placement),
-            '-left': LEFT_REGEX.test(placement),
-          },
-          {
-            '-light': equals(mode, Mode.light),
-            '-dark': equals(mode, Mode.dark),
-          },
-          {
-            '-danger': equals(variant, Variant.danger),
-            '-info': equals(variant, Variant.info),
-            '-success': equals(variant, Variant.success),
-            '-warn': equals(variant, Variant.warn),
-          },
-          animationClassName,
-          className,
-        )}
-        {...others}
-        ref={selfRef}
-        title={null}
-        style={style}
-        aria-label={title}
-        data-testid="cb-tooltip"
-      >
-        {title}
-        {/* TODO Add an arrow */}
-      </span>
-    </React.Fragment>
-  );
+	return (
+		<React.Fragment>
+			{ React.cloneElement( children, {
+				onMouseEnter: handleMouseEnter,
+				onMouseLeave: handleMouseLeave,
+			} ) }
+			<span
+				className={ clsx(
+					'cb-tooltip',
+					{
+						'-top': TOP_REGEX.test( placement ),
+						'-bottom': BOTTOM_REGEX.test( placement ),
+						'-right': RIGHT_REGEX.test( placement ),
+						'-left': LEFT_REGEX.test( placement ),
+					},
+					{
+						'-light': equals( mode, Mode.light ),
+						'-dark': equals( mode, Mode.dark ),
+					},
+					{
+						'-danger': equals( variant, Variant.danger ),
+						'-info': equals( variant, Variant.info ),
+						'-success': equals( variant, Variant.success ),
+						'-warn': equals( variant, Variant.warn ),
+					},
+					animationClassName,
+					className,
+				) }
+				{ ...others }
+				ref={ selfRef }
+				title={ null }
+				style={ style }
+				aria-label={ title }
+				data-testid="cb-tooltip"
+			>
+				{ title }
+				{ /* TODO Add an arrow */ }
+			</span>
+		</React.Fragment>
+	);
 };
 
 Tooltip.propTypes = {
-  children: PropTypes.node,
-  text: PropTypes.string,
-  placement: PropTypes.oneOf([
-    Placement.top,
-    Placement.bottom,
-    Placement.right,
-    Placement.left,
-  ]),
-  mode: PropTypes.oneOf([Mode.light, Mode.dark]),
-  variant: PropTypes.oneOf([
-    Variant.danger,
-    Variant.info,
-    Variant.success,
-    Variant.warn,
-  ]),
+	children: PropTypes.node,
+	text: PropTypes.string,
+	placement: PropTypes.oneOf( [
+		Placement.top,
+		Placement.bottom,
+		Placement.right,
+		Placement.left,
+	] ),
+	mode: PropTypes.oneOf( [ Mode.light, Mode.dark ] ),
+	variant: PropTypes.oneOf( [
+		Variant.danger,
+		Variant.info,
+		Variant.success,
+		Variant.warn,
+	] ),
 };
 
 Tooltip.defaultProps = {
-  placement: Placement.top,
-  mode: Mode.dark,
+	placement: Placement.top,
+	mode: Mode.dark,
 };
 
 export default Tooltip;

@@ -7,64 +7,65 @@ import logger from 'common/logger';
 
 /**
  * useValidation hook
- * @param {object} schema - Validation schema
- * @returns {ValidationSetup}
+ *
+ * @param {Object} schema - Validation schema
+ * @return {ValidationSetup} Object with validation status and validation dispatcher.
  */
-function useValidation(schema) {
-  const safeSchema = schema || DEFAULT.OBJECT;
+function useValidation( schema ) {
+	const safeSchema = schema || DEFAULT.OBJECT;
 
-  const [status, dispatch] = useAsyncReducer(function reducer(state, action) {
-    const { type, payload } = action;
+	const [ status, dispatch ] = useAsyncReducer( function reducer( state, action ) {
+		const { type, payload } = action;
 
-    const safePayload = payload || DEFAULT.OBJECT;
+		const safePayload = payload || DEFAULT.OBJECT;
 
-    switch (type) {
-      case 'validate':
-      case 'field.validate': {
-        const { status } = safePayload;
+		switch ( type ) {
+			case 'validate':
+			case 'field.validate': {
+				const { status } = safePayload;
 
-        return {
-          ...state,
-          ...status,
-        };
-      }
+				return {
+					...state,
+					...status,
+				};
+			}
 
-      default:
-        return state;
-    }
-  }, {});
+			default:
+				return state;
+		}
+	}, {} );
 
-  const dispatcher = React.useRef(async function (type, payload) {
-    const safePayload = payload || DEFAULT.OBJECT;
-    const { id, values } = safePayload; // ?
+	const dispatcher = React.useRef( async function( type, payload ) {
+		const safePayload = payload || DEFAULT.OBJECT;
+		const { id, values } = safePayload; // ?
 
-    dispatch(async innerDispatch => {
-      switch (type) {
-        case 'validate': {
-          const newStatus = await validate(values, safeSchema);
-          innerDispatch({
-            type,
-            payload: { status: newStatus },
-          });
+		dispatch( async ( innerDispatch ) => {
+			switch ( type ) {
+				case 'validate': {
+					const newStatus = await validate( values, safeSchema );
+					innerDispatch( {
+						type,
+						payload: { status: newStatus },
+					} );
 
-          break;
-        }
+					break;
+				}
 
-        case 'field.validate': {
-          const newStatus = await validate(values, { [id]: safeSchema[id] });
-          innerDispatch({
-            type,
-            payload: { id, status: newStatus },
-          });
+				case 'field.validate': {
+					const newStatus = await validate( values, { [ id ]: safeSchema[ id ] } );
+					innerDispatch( {
+						type,
+						payload: { id, status: newStatus },
+					} );
 
-          break;
-        }
-      }
-    });
-  });
+					break;
+				}
+			}
+		} );
+	} );
 
-  logger.debug('use-validation', status);
-  return { status, dispatch: dispatcher.current };
+	logger.debug( 'use-validation', status );
+	return { status, dispatch: dispatcher.current };
 }
 
 export default useValidation;
@@ -77,6 +78,6 @@ export default useValidation;
 
 /**
  * @typedef {Object} ValidationSetup
- * @property {object} status - Object containing validation status.
+ * @property {Object} status - Object containing validation status.
  * @property {DispatchValidation} dispatch - Validation dispatcher.
  */

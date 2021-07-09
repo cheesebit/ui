@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react';
 
 const useUnmounted = () => {
-  const isUnmountedRef = useRef(false)
+	const isUnmountedRef = useRef( false );
 
-  useEffect(() => {
-    return () => {
-      isUnmountedRef.current = true
-    }
-  }, [])
+	useEffect( () => {
+		return () => {
+			isUnmountedRef.current = true;
+		};
+	}, [] );
 
-  const isUnmounted = useCallback(() => {
-    return isUnmountedRef.current
-  }, [])
+	const isUnmounted = useCallback( () => {
+		return isUnmountedRef.current;
+	}, [] );
 
-  return isUnmounted
-}
+	return isUnmounted;
+};
 
-export default useUnmounted
+export default useUnmounted;

@@ -4,39 +4,39 @@ import ClickOutside from './click-outside';
 import { Input } from '../../atoms/input';
 import { withForwardedRef } from '../with-forwarded-ref';
 
-const InputWithRef = withForwardedRef(Input);
+const InputWithRef = withForwardedRef( Input );
 
 export default {
-  title: 'HOCs/ClickOutside',
-  component: ClickOutside,
+	title: 'HOCs/ClickOutside',
+	component: ClickOutside,
 };
 
 export function Playground() {
-  const [isOutside, setOutside] = React.useState(true);
+	const [ isOutside, setOutside ] = React.useState( true );
 
-  return (
-    <div className="block">
-      <p className="mb-2">
-        This is me, a cool ClickOutside HOC ready to be played around. Try me :)
-      </p>
+	return (
+		<div className="block">
+			<p className="mb-2">
+				This is me, a cool ClickOutside HOC ready to be played around. Try me :)
+			</p>
 
-      <ClickOutside onClickOutside={() => setOutside(true)}>
-        {({ ref }) => {
-          return (
-            <div className="flex flex-col w-64 mx-auto">
-              <InputWithRef
-                ref={ref}
-                className="h-8 border"
-                onFocus={() => {
-                  setOutside(false);
-                }}
-                type="text"
-              />
-              <p>{isOutside ? 'Outside' : 'Inside'}</p>
-            </div>
-          );
-        }}
-      </ClickOutside>
-    </div>
-  );
+			<ClickOutside onClickOutside={ () => setOutside( true ) }>
+				{ ( { ref } ) => {
+					return (
+						<div className="flex flex-col w-64 mx-auto">
+							<InputWithRef
+								ref={ ref }
+								className="h-8 border"
+								onFocus={ () => {
+									setOutside( false );
+								} }
+								type="text"
+							/>
+							<p>{ isOutside ? 'Outside' : 'Inside' }</p>
+						</div>
+					);
+				} }
+			</ClickOutside>
+		</div>
+	);
 }

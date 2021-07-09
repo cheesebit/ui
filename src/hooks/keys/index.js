@@ -1,1 +1,1 @@
-export { default as useKeys } from './use-keys'
+export { default as useKeys } from './use-keys';

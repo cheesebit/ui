@@ -1,9 +1,6 @@
-import { prop } from '../../common/toolset';
-
-const getValue = prop('value');
-const getLabel = prop('label');
+import { prop } from 'common/toolset';
 
 export default {
-  getID: id => id,
-  getLabel: label => label,
+	getID: prop( 'id' ),
+	getLabel: prop( 'label' ),
 };
