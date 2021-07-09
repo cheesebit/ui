@@ -96,7 +96,9 @@ export function isObject( value ) {
  * Source: https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
  */
 export function isFunction( value ) {
-	return Object.prototype.toString.call( value ) === '[object Function]';
+	return [ '[object Function]', '[object AsyncFunction]' ].includes(
+		Object.prototype.toString.call( value ),
+	);
 }
 
 /**

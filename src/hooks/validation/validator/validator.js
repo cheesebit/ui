@@ -9,7 +9,6 @@ import {
 	isString,
 	keys,
 	mandatory,
-	toArray,
 } from 'common/toolset';
 
 import * as commonValidators from './common';
@@ -62,7 +61,7 @@ export async function validate( values, schema ) {
 				validator,
 			} = resolveRule( rule );
 
-			if ( except && ( await except( values ) ) ) {
+			if ( await except( values ) ) {
 				logger.debug( 'rule', name, ': skipped due to except rule' );
 				continue;
 			}
@@ -127,9 +126,9 @@ function handleArrayRule( rule ) {
  * @throws InvalidValidatorError
  * @throws InvalidExceptCheckerError
  */
-function handleObjectRule( rule ) {
-	const { name: ruleName, on, except, handler, args } = rule;
-	const validator = handler || getValidator( rule );
+export function handleObjectRule( rule ) {
+	const { name: ruleName, except, handler } = rule;
+	const validator = handler || getValidator( ruleName );
 
 	if ( ! isFunction( validator ) && ! isPromise( validator ) ) {
 		throw new InvalidValidatorError(
@@ -137,18 +136,16 @@ function handleObjectRule( rule ) {
 		);
 	}
 
-	if ( except && ! isFunction( except ) && ! isPromise( except ) ) {
+	if ( except && ! ( isFunction( except ) || isPromise( except ) ) ) {
 		throw new InvalidExceptCheckerError(
 			`Except checker for ${ ruleName } is nor a function, neither a Promise.`,
 		);
 	}
 
 	return {
-		args: toArray( args ),
-		isCustomHandler: true,
+		isCustomHandler: Boolean( handler ),
 		except,
 		name: ruleName,
-		on,
 		validator,
 	};
 }
@@ -156,12 +153,11 @@ function handleObjectRule( rule ) {
 /**
  * Breaks rule as string into named properties.
  *
- * @param {string} rule - Rule as string
+ * @param {string} ruleName - Rule as string
  * @return {string} Complete validation rule object.
  */
-function handleStringRule( rule ) {
-	const ruleName = rule;
-	const validator = getValidator( rule );
+export function handleStringRule( ruleName ) {
+	const validator = getValidator( ruleName );
 
 	return {
 		name: ruleName,

@@ -1,7 +1,19 @@
 import generator from 'test/data-generator';
 
 import { each, keys } from 'common/toolset';
-import { validate, validators, getStatus, getValue, getValidator } from './validator';
+import { validate,
+	validators,
+	getStatus,
+	getValue,
+	getValidator,
+	handleStringRule,
+	handleObjectRule,
+} from './validator';
+import {
+	InvalidExceptCheckerError,
+	InvalidValidatorError,
+	RuleTypeError,
+} from './exceptions';
 
 describe( 'validator', () => {
 	describe( 'getStatus', () => {
@@ -63,6 +75,68 @@ describe( 'validator', () => {
 			const ruleName = generator.word();
 
 			expect( getValidator( ruleName ) ).toEqual( validators.permissive );
+		} );
+	} );
+
+	describe( 'handleStringRule', () => {
+		it( 'returns an object with the validator name and its handler', () => {
+			each( ( ruleName ) => {
+				expect( handleStringRule( ruleName ) ).toEqual( {
+					name: ruleName,
+					validator: validators[ ruleName ],
+				} );
+			}, keys( validators ) );
+		} );
+	} );
+
+	describe( 'handleObjectRule', () => {
+		it( 'returns an object with the provided validator', () => {
+			const rule = {
+				name: generator.word(),
+				except: jest.fn(),
+				handler: jest.fn(),
+			};
+
+			expect( handleObjectRule( rule ) ).toEqual( {
+				isCustomHandler: true,
+				except: rule.except,
+				name: rule.name,
+				validator: rule.handler,
+			} );
+		} );
+
+		it( 'returns an object with the requested predefined validator', () => {
+			const rule = {
+				name: generator.pick( keys( validators ) ),
+				except: jest.fn(),
+			};
+
+			expect( handleObjectRule( rule ) ).toEqual( {
+				isCustomHandler: false,
+				except: rule.except,
+				name: rule.name,
+				validator: validators[ rule.name ],
+			} );
+		} );
+
+		it( 'throws an error if the provided validator neither a Promise nor a function', () => {
+			const rule = {
+				name: generator.word(),
+				except: jest.fn(),
+				handler: generator.word(),
+			};
+
+			expect( () => handleObjectRule( rule ) ).toThrowError( InvalidValidatorError );
+		} );
+
+		it( 'throws an error if the provided except is not a Promise or a function', () => {
+			const rule = {
+				name: generator.word(),
+				except: generator.word(),
+				handler: jest.fn(),
+			};
+
+			expect( () => handleObjectRule( rule ) ).toThrowError( InvalidExceptCheckerError );
 		} );
 	} );
 
