@@ -1,4 +1,4 @@
-import { equals, isNil, until, keys } from 'toolset';
+import { equals, isNil, until, keys } from '../../toolset';
 
 export default function PathMode( manager, attribute ) {
 	const getChildrenOf = ( id ) => {

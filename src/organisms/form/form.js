@@ -14,6 +14,7 @@ import './form.scss';
 const merge = mergeDeepWith( ( l, r ) => {
 	return [ l, r ];
 } );
+
 /**
  * @param {Object} props - Fields with the initial value to be managed by the form hook.
  * @param {string} props.className

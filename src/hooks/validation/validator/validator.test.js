@@ -1,13 +1,16 @@
 import generator from 'test/data-generator';
 
 import { each, keys } from 'common/toolset';
-import { validate,
-	validators,
+import {
 	getStatus,
-	getValue,
 	getValidator,
-	handleStringRule,
+	getValue,
+	handleArrayRule,
 	handleObjectRule,
+	handleStringRule,
+	resolveRule,
+	validate,
+	validators,
 } from './validator';
 import {
 	InvalidExceptCheckerError,
@@ -102,6 +105,7 @@ describe( 'validator', () => {
 				except: rule.except,
 				name: rule.name,
 				validator: rule.handler,
+				args: [],
 			} );
 		} );
 
@@ -116,6 +120,7 @@ describe( 'validator', () => {
 				except: rule.except,
 				name: rule.name,
 				validator: validators[ rule.name ],
+				args: [],
 			} );
 		} );
 
@@ -137,6 +142,67 @@ describe( 'validator', () => {
 			};
 
 			expect( () => handleObjectRule( rule ) ).toThrowError( InvalidExceptCheckerError );
+		} );
+	} );
+
+	describe( 'handleArrayRule', () => {
+		it( 'returns a permissive validator if the provided predefined validator is not found', () => {
+			const args = [ generator.word(), generator.natural() ];
+			const ruleName = generator.pick( keys( validators ) );
+			const rule = [ ruleName, ...args ];
+
+			expect( handleArrayRule( rule ) ).toEqual( {
+				name: ruleName,
+				validator: validators[ ruleName ],
+				args,
+			} );
+		} );
+
+		it( 'returns a predefined validator if the provided predefined validator is found', () => {
+			const args = [ generator.word(), generator.natural() ];
+			const ruleName = generator.word();
+			const rule = [ ruleName, ...args ];
+
+			expect( handleArrayRule( rule ) ).toEqual( {
+				name: ruleName,
+				validator: validators.permissive,
+				args,
+			} );
+		} );
+	} );
+
+	describe( 'resolveRule', () => {
+		it( 'calls `resolveArrayRule` if an array is provided', () => {
+			const resolveArrayRule = jest.fn();
+			const rule = [];
+
+			resolveRule( rule, resolveArrayRule, null, null );
+			expect( resolveArrayRule ).toHaveBeenNthCalledWith( 1, rule );
+		} );
+
+		it( 'calls `resolveStringRule` if a  is provided', () => {
+			const resolveStringRule = jest.fn();
+			const rule = '';
+
+			resolveRule( rule, null, null, resolveStringRule );
+			expect( resolveStringRule ).toHaveBeenCalled();
+		} );
+
+		it( 'calls `resolveObjectRule` if a  is provided', () => {
+			const resolveObjectRule = jest.fn();
+			const rule = {};
+
+			resolveRule( rule, null, resolveObjectRule, null );
+			expect( resolveObjectRule ).toHaveBeenCalled();
+		} );
+
+		it( 'throws an error if the provided rule is not an array/object/string', () => {
+			const resolveObjectRule = jest.fn();
+			const rule = generator.natural();
+
+			expect( () => {
+				resolveRule( rule, null, resolveObjectRule, null );
+			} ).toThrowError( RuleTypeError );
 		} );
 	} );
 
@@ -165,6 +231,77 @@ describe( 'validator', () => {
 				name: true,
 				email: true,
 			} );
+		} );
+
+		it( 'returns status true for fields that have no validation schema', async () => {
+			expect(
+				await validate(
+					{ name: 'John Doe', email: 'john@doe.com' },
+					{},
+				),
+			).toEqual( {
+				name: true,
+				email: true,
+			} );
+		} );
+
+		it( 'skips validation if `except` returns `true`', async () => {
+			const schema = {
+				name: {
+					except: () => true,
+					handler: jest.fn(),
+				},
+			};
+
+			await validate( { name: 'John Doe' }, schema );
+
+			expect(
+				schema.name.handler,
+			).not.toHaveBeenCalled();
+		} );
+
+		it( 'proceeds with validation if `except` returns `false`', async () => {
+			const schema = {
+				name: {
+					except: () => false,
+					handler: jest.fn(),
+				},
+			};
+
+			await validate( { name: 'John Doe' }, schema );
+
+			expect(
+				schema.name.handler,
+			).toHaveBeenCalled();
+		} );
+
+		it( 'runs validator successfully', async () => {
+			const schema = {
+				name: {
+					handler: jest.fn(),
+				},
+			};
+
+			const values = { name: 'John Doe' };
+
+			await validate( values, schema );
+
+			expect( schema.name.handler ).toHaveBeenCalledWith( values );
+		} );
+
+		it( 'runs validator successfully with aditional args', async () => {
+			const schema = {
+				name: {
+					handler: jest.fn(),
+					args: [ generator.natural( { min: 1, max: 5 } ) ],
+				},
+			};
+
+			const values = { name: 'John Doe' };
+
+			await validate( values, schema );
+
+			expect( schema.name.handler ).toHaveBeenCalledWith( values, ...schema.name.args );
 		} );
 	} );
 } );

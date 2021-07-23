@@ -29,9 +29,10 @@ export function Playground() {
 				initial={ {
 					name: generator.name(),
 					email: generator.email(),
-					notifications: generator.pick( [ '0', '1' ] ),
-					'favorite-character': generator.pick( [ 'mickey', 'shrek' ] ),
-					type: '',
+					age: 18,
+					// notifications: generator.pick( [ '0', '1' ] ),
+					// 'favorite-character': generator.pick( [ 'mickey', 'shrek' ] ),
+					// type: '',
 				} }
 				schema={ {
 					name: [
@@ -46,19 +47,19 @@ export function Playground() {
 								return new Promise( ( resolve ) => {
 									setTimeout( () => {
 										resolve( name === 'Welington Silva' );
-									}, 5000 );
+									}, 2000 );
 								} );
 							},
 						},
 					],
 					email: [
 						'required',
-						{
-							name: 'custom-validator-2',
-							handler: function validate( { name, email } ) {
-								return name === 'Welington Silva' && email === 'email@email.io';
-							},
-						},
+						[ 'string.length.max', 12 ],
+					],
+					age: [
+						[ 'number.range', 18, 65 ],
+						// [ 'number.min', 18 ],
+						// [ 'number.max', 65 ],
 					],
 				} }
 			>
@@ -93,9 +94,9 @@ export function Playground() {
 											),
 											placement: 'right',
 										} }
-										variant={ status.name && 'danger' }
+										variant={ Array.isArray( status.name ) && 'danger' }
 										feedback={
-											status.name && {
+											Array.isArray( status.name ) && {
 												icon: { name: 'cancel', size: 18 },
 												text: String( status.name ),
 												placement: 'right',
@@ -103,26 +104,12 @@ export function Playground() {
 										}
 									>
 										<Input
-											variant={ status.name && 'danger' }
+											variant={ Array.isArray( status.name ) && 'danger' }
 											name="name"
 											type="text"
 											value={ values.name }
 											onChange={ onChange }
 										/>
-										{ /* <Button
-                      emphasis="text"
-                      onClick={function clear() {
-                        const field = 'name';
-
-                        dispatch('field.set', {
-                          id: field,
-                          name: field,
-                          value: '',
-                        });
-                      }}
-                    >
-                      <Icon name="close" className="mx-auto" />
-                    </Button> */ }
 									</Form.Field>
 
 									<Form.Field
@@ -142,9 +129,9 @@ export function Playground() {
 											),
 											placement: 'right',
 										} }
-										variant={ status.email && 'danger' }
+										variant={ Array.isArray( status.email ) && 'danger' }
 										feedback={
-											status.email && {
+											Array.isArray( status.email ) && {
 												icon: { name: 'cancel', size: 18 },
 												text: String( status.email ),
 												placement: 'right',
@@ -152,10 +139,43 @@ export function Playground() {
 										}
 									>
 										<Input
-											variant={ status.email && 'danger' }
+											variant={ Array.isArray( status.email ) && 'danger' }
 											name="email"
 											type="email"
 											value={ values.email }
+											onChange={ onChange }
+										/>
+									</Form.Field>
+
+									<Form.Field
+										label="age"
+										className="w-full md:w-auto"
+										prompt="Type your age"
+										tooltip={ {
+											icon: { name: 'help', size: 18 },
+											text: (
+												<ul className="pl-2 text-left list-disc">
+													<li>Min value 18</li>
+													<li>Max value 65</li>
+
+												</ul>
+											),
+											placement: 'left',
+										} }
+										variant={ Array.isArray( status.age ) && 'danger' }
+										feedback={
+											Array.isArray( status.age ) && {
+												icon: { name: 'cancel', size: 18 },
+												text: String( status.age ),
+												placement: 'left',
+											}
+										}
+									>
+										<Input
+											variant={ Array.isArray( status.age ) && 'danger' }
+											name="age"
+											type="number"
+											value={ values.age }
 											onChange={ onChange }
 										/>
 									</Form.Field>

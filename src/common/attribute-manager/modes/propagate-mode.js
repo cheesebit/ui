@@ -1,4 +1,4 @@
-import { isNil, until } from 'toolset';
+import { isNil, until } from '../../toolset';
 
 export default function PropagateMode( manager, attribute ) {
 	const getChildrenOf = ( id ) => {

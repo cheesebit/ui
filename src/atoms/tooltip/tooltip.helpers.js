@@ -93,7 +93,7 @@ function calculateRightPlacement( anchor, tooltip ) {
 
 	const top = ( () => {
 		// return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2; // centralized
-		return anchorRect.top - anchor.offsetHeight;
+		return anchorRect.top - ( tooltip.offsetHeight - anchor.offsetHeight );
 	} )();
 
 	return {
@@ -157,7 +157,7 @@ function calculateLeftPlacement( anchor, tooltip ) {
 
 	const top = ( () => {
 		// return anchorRect.top - (tooltip.offsetHeight - anchor.offsetHeight) / 2; // centralized
-		return anchorRect.top - anchor.offsetHeight + DISTANCE;
+		return anchorRect.top - ( tooltip.offsetHeight - anchor.offsetHeight );
 	} )();
 
 	return {

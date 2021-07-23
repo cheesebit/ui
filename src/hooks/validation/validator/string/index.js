@@ -1,4 +1,4 @@
-export { isBlank, isEmpty } from '../../../../common/toolset';
+export { isBlank, isEmpty } from 'common/toolset';
 
 export {
 	validateMinLength,

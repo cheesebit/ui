@@ -1,9 +1,3 @@
-import { isNil } from '../../../../common/toolset';
-
-export function validateRequired( value ) {
-	return ! isNil( value );
-}
-
 /**
  * Always returns true.
  *

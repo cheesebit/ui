@@ -9,6 +9,7 @@ import {
 	isString,
 	keys,
 	mandatory,
+	toArray,
 } from 'common/toolset';
 
 import * as commonValidators from './common';
@@ -20,13 +21,21 @@ import {
 	RuleTypeError,
 } from './exceptions';
 
+/**
+ * 💡 Ideas:
+ * - For the validation configuration:
+ *  - if, para indicar quando a validação deve ser executada
+ *  - needs, para indicar qual outra validação deve ser executada antes
+ *  - uses, para utilizar uma validação já existente
+ */
+
 export const validators = {
 	'number.max': numberValidators.validateMaxValue,
 	'number.min': numberValidators.validateMinValue,
 	'number.range': numberValidators.validateRange,
 	'string.blank': stringValidators.isBlank,
 	'string.empty': stringValidators.isEmpty,
-	'string.length.max': stringValidators.validateMinLength,
+	'string.length.max': stringValidators.validateMaxLength,
 	'string.length.min': stringValidators.validateMinLength,
 	'string.length.range': stringValidators.validateRangeLength,
 	'string.length': stringValidators.validateLength,
@@ -50,26 +59,23 @@ export async function validate( values, schema ) {
 	}, {} );
 
 	for ( const field in safeSchema ) {
-		const rules = safeSchema[ field ] || DEFAULT.ARRAY;
+		const rules = toArray( safeSchema[ field ] );
 
 		for ( const rule of rules ) {
 			const {
-				args,
-				isCustomHandler = false,
-				except,
 				name,
 				validator,
-			} = resolveRule( rule );
+				isCustomHandler = false,
+				except,
+				args,
+			} = resolveRule( rule ); //?
 
-			if ( await except( values ) ) {
+			if ( ( isFunction( except ) || isPromise( except ) ) && await except( values ) ) {
 				logger.debug( 'rule', name, ': skipped due to except rule' );
 				continue;
 			}
 
-			const valid = await validator(
-				getValue( values, field, isCustomHandler ),
-				...( args || DEFAULT.ARRAY ),
-			);
+			const valid = await validator( getValue( values, field, isCustomHandler ), ...( args || DEFAULT.ARRAY ) );
 
 			status[ field ] = getStatus( status[ field ], valid, name );
 
@@ -85,16 +91,24 @@ export async function validate( values, schema ) {
  * It handles it based on its type.
  *
  * @param {Array | Object | string} rule - Rule that determines the validation.
+ * @param {Function} resolveArrayRule
+ * @param {Function} resolveObjectRule
+ * @param {Function} resolveStringRule
  * @return {ValidationRule} Complete validation rule object
  * @throws RuleTypeError
  */
-export function resolveRule( rule ) {
+export function resolveRule(
+	rule,
+	resolveArrayRule = handleArrayRule,
+	resolveObjectRule = handleObjectRule,
+	resolveStringRule = handleStringRule,
+) {
 	if ( Array.isArray( rule ) ) {
-		return handleArrayRule( rule );
+		return resolveArrayRule( rule );
 	} else if ( isObject( rule ) ) {
-		return handleObjectRule( rule );
+		return resolveObjectRule( rule );
 	} else if ( isString( rule ) ) {
-		return handleStringRule( rule );
+		return resolveStringRule( rule );
 	}
 
 	throw new RuleTypeError( `${ rule } is not a valid rule type.` );
@@ -106,9 +120,9 @@ export function resolveRule( rule ) {
  * @param {Array} rule - Rule as array
  * @return {Object} Complete validation rule object.
  */
-function handleArrayRule( rule ) {
+export function handleArrayRule( rule ) {
 	const [ ruleName, ...args ] = rule;
-	const validator = getValidator( rule );
+	const validator = getValidator( ruleName );
 
 	return {
 		name: ruleName,
@@ -127,7 +141,8 @@ function handleArrayRule( rule ) {
  * @throws InvalidExceptCheckerError
  */
 export function handleObjectRule( rule ) {
-	const { name: ruleName, except, handler } = rule;
+	const { name: ruleName, except, handler, args } = rule;
+
 	const validator = handler || getValidator( ruleName );
 
 	if ( ! isFunction( validator ) && ! isPromise( validator ) ) {
@@ -147,6 +162,7 @@ export function handleObjectRule( rule ) {
 		except,
 		name: ruleName,
 		validator,
+		args: args || DEFAULT.ARRAY,
 	};
 }
 

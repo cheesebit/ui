@@ -4,6 +4,7 @@ import { DEFAULT } from 'common/constants';
 import { useAsyncReducer } from 'hooks/async-reducer';
 import { validate } from './validator';
 import logger from 'common/logger';
+import { debounce } from 'common/toolset';
 
 /**
  * useValidation hook
@@ -35,9 +36,9 @@ function useValidation( schema ) {
 		}
 	}, {} );
 
-	const dispatcher = React.useRef( async function( type, payload ) {
+	const dispatcher = React.useCallback( async function( type, payload ) {
 		const safePayload = payload || DEFAULT.OBJECT;
-		const { id, values } = safePayload; // ?
+		const { id, values } = safePayload;
 
 		dispatch( async ( innerDispatch ) => {
 			switch ( type ) {
@@ -62,10 +63,10 @@ function useValidation( schema ) {
 				}
 			}
 		} );
-	} );
+	}, [ dispatch ] );
 
 	logger.debug( 'use-validation', status );
-	return { status, dispatch: dispatcher.current };
+	return { status, dispatch: dispatcher };
 }
 
 export default useValidation;

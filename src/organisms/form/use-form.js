@@ -1,10 +1,9 @@
 import React from 'react';
 
-import { DEFAULT } from '../../common/constants';
-import logger from '../../common/logger';
-import useValidation from './use-validation';
-
-import { set } from '../../common/toolset';
+import { DEFAULT } from 'common/constants';
+import { set } from 'common/toolset';
+import { useValidation } from 'hooks/validation';
+import logger from 'common/logger';
 
 /**
  * Custom React hook to manage form fields.
@@ -22,7 +21,7 @@ export function useForm( valuesProp, schema ) {
 
 		switch ( type ) {
 			case 'reset':
-				return state;
+				return { ...state, ...payload };
 			case 'validate': {
 				dispatchValidate( 'validate', {
 					values: state,
@@ -68,14 +67,14 @@ export function useForm( valuesProp, schema ) {
 		}
 	}, valuesProp || {} );
 
-	const dispatcher = React.useRef( function( type, payload ) {
+	const dispatcher = React.useCallback( function( type, payload ) {
 		dispatch( {
 			type,
 			payload,
 		} );
-	} );
+	}, [ dispatch ] );
 
-	return { values, status, dispatch: dispatcher.current };
+	return { values, status, dispatch: dispatcher };
 }
 
 // export function useField( fieldName ) {
