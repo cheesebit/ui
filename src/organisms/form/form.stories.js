@@ -4,9 +4,9 @@ import React from 'react';
 // import { Icon } from 'atoms/icon';
 // import { Radio } from '../../atoms/radio';
 // import { Select } from '../../molecules/select';
+// import { isBlank } from 'common/toolset';
 import { Button } from 'atoms/button';
 import { Input } from 'atoms/input';
-import { isBlank } from 'common/toolset';
 import generator from 'test/data-generator';
 import Form from './form';
 
@@ -30,9 +30,6 @@ export function Playground() {
 					name: generator.name(),
 					email: generator.email(),
 					age: 18,
-					// notifications: generator.pick( [ '0', '1' ] ),
-					// 'favorite-character': generator.pick( [ 'mickey', 'shrek' ] ),
-					// type: '',
 				} }
 				schema={ {
 					name: [
@@ -40,9 +37,9 @@ export function Playground() {
 						[ 'string.length.min', 8 ],
 						{
 							name: 'custom-validator',
-							except: function except( { email } ) {
-								return isBlank( email );
-							},
+							// except: function except( { email } ) {
+							// 	return isBlank( email );
+							// },
 							handler: function validate( { name } ) {
 								return new Promise( ( resolve ) => {
 									setTimeout( () => {
@@ -58,8 +55,6 @@ export function Playground() {
 					],
 					age: [
 						[ 'number.range', 18, 65 ],
-						// [ 'number.min', 18 ],
-						// [ 'number.max', 65 ],
 					],
 				} }
 			>
@@ -88,7 +83,7 @@ export function Playground() {
 													<li>Min length 8 characters</li>
 													<li>
 														Custom async validator that checks if name is
-														&lquot;Welington Silva&rquot;, except when the value is empty
+														&lquot;Welington Silva&rquot;
 													</li>
 												</ul>
 											),

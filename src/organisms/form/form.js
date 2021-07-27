@@ -2,11 +2,10 @@ import React, { ReactNode } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { FormHTMLAttributes } from '../../common/props-dom';
-import { Label } from '../../atoms/label';
-import { mergeDeepWith } from '../../common/toolset';
-import { useForm } from './use-form';
-//import Field from './form-field';
+import { FormHTMLAttributes } from 'common/props-dom';
+import { Label } from 'atoms/label';
+import { mergeDeepWith } from 'common/toolset';
+import { useForm } from 'hooks/form/use-form';
 import FormContext from './form-context';
 
 import './form.scss';
@@ -25,15 +24,15 @@ const merge = mergeDeepWith( ( l, r ) => {
 function Form( props ) {
 	const { className, children, initial, schema } = props;
 	const { values, status, dispatch } = useForm( initial, schema );
-	const [ contextValue, setContextValue ] = React.useState( {
+	const [ context, setContext ] = React.useState( {
 		values,
 		status,
 		dispatch,
 	} );
 
 	React.useEffect(
-		function updateContextValue() {
-			setContextValue( { values, status, dispatch } );
+		function updateContext() {
+			setContext( { values, status, dispatch } );
 		},
 		[ values, status, dispatch ],
 	);
@@ -43,7 +42,7 @@ function Form( props ) {
 			<div className="my-4">
 				<code>{ JSON.stringify( merge( values, status ) ) }</code>
 			</div>
-			<FormContext.Provider value={ contextValue }>
+			<FormContext.Provider value={ context }>
 				{ children }
 			</FormContext.Provider>
 		</div>

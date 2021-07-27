@@ -12,6 +12,7 @@ import {
 	toArray,
 } from 'common/toolset';
 
+import Task from 'common/task';
 import * as commonValidators from './common';
 import * as numberValidators from './number';
 import * as stringValidators from './string';
@@ -48,8 +49,10 @@ export const validators = {
  *
  * @param {Object} values - Values object from where `field` will be retrieved.
  * @param {Object} schema - Object containing validation rules to be applied.
+ * @param {Object} [options] - Optional
+ * @param {AbortSignal} signal - Signal to abort validation.
  */
-export async function validate( values, schema ) {
+export function validate( values, schema ) {
 	const safeSchema = schema || mandatory( 'Schema is required' );
 	const status = keys( values ).reduce( ( status, field ) => {
 		return {
@@ -58,32 +61,42 @@ export async function validate( values, schema ) {
 		};
 	}, {} );
 
-	for ( const field in safeSchema ) {
-		const rules = toArray( safeSchema[ field ] );
+	return new Task( async ( resolve, reject, _, onAbort ) => {
+		onAbort( () => {
+			reject( 'Aborted' );
+		} );
 
-		for ( const rule of rules ) {
-			const {
-				name,
-				validator,
-				isCustomHandler = false,
-				except,
-				args,
-			} = resolveRule( rule ); //?
+		try {
+			for ( const field in safeSchema ) {
+				const rules = toArray( safeSchema[ field ] );
 
-			if ( ( isFunction( except ) || isPromise( except ) ) && await except( values ) ) {
-				logger.debug( 'rule', name, ': skipped due to except rule' );
-				continue;
+				for ( const rule of rules ) {
+					const {
+						name,
+						validator,
+						isCustomHandler = false,
+						except,
+						args,
+					} = resolveRule( rule ); //?
+
+					if ( ( isFunction( except ) || isPromise( except ) ) && await except( values ) ) {
+						logger.debug( 'rule', name, ': skipped due to except rule' );
+						continue;
+					}
+
+					const valid = await validator( getValue( values, field, isCustomHandler ), ...( args || DEFAULT.ARRAY ) );
+
+					status[ field ] = getStatus( status[ field ], valid, name );
+
+					logger.debug( 'rule', name, ': ', Boolean( valid ) ? 'VALID' : 'INVALID' );
+				}
 			}
 
-			const valid = await validator( getValue( values, field, isCustomHandler ), ...( args || DEFAULT.ARRAY ) );
-
-			status[ field ] = getStatus( status[ field ], valid, name );
-
-			logger.debug( 'rule', name, ': ', Boolean( valid ) ? 'VALID' : 'INVALID' );
+			resolve( status );
+		} catch ( err ) {
+			reject( err );
 		}
-	}
-
-	return status;
+	} );
 }
 
 /**

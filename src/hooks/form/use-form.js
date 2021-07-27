@@ -22,7 +22,8 @@ export function useForm( valuesProp, schema ) {
 		switch ( type ) {
 			case 'reset':
 				return state;
-			case 'validate': {
+			case 'validate':
+			case 'field.validate': {
 				dispatchValidate( 'validate', {
 					values: state,
 				} );
@@ -50,17 +51,6 @@ export function useForm( valuesProp, schema ) {
 				}
 
 				return newState;
-			}
-			case 'field.validate': {
-				const { id, name } = safePayload;
-				const safeID = name || id;
-
-				dispatchValidate( 'field.validate', {
-					id: safeID,
-					values: state,
-				} );
-
-				return state;
 			}
 			default:
 				return state;

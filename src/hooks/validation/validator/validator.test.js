@@ -208,7 +208,7 @@ describe( 'validator', () => {
 
 	describe( 'validate', () => {
 		it( 'throws an error if schema is missing', async () => {
-			await expect( validate( {} ) ).rejects.toThrowError( 'Schema is required' );
+			expect( () => validate( {} ) ).toThrowError( 'Schema is required' );
 		} );
 
 		it( 'returns status true for all fields if schema is empty', async () => {
