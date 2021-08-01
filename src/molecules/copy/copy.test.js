@@ -1,8 +1,11 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, userEvent } from 'test/helpers';
-import { Copy } from './index';
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './copy.stories';
 import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Copy', () => {
 	it( 'renders correctly', () => {
@@ -10,10 +13,10 @@ describe( 'Copy', () => {
 			value: generator.animal(),
 		};
 
-		const { getByTestId } = render( <Copy { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		expect( getByTestId( 'cb-copy-button' ) ).toBeTruthy();
-		expect( getByTestId( 'cb-input' ) ).toBeTruthy();
+		expect( screen.getByTestId( 'cb-copy-button' ) ).toBeTruthy();
+		expect( screen.getByTestId( 'cb-input' ) ).toBeTruthy();
 	} );
 
 	it( 'copies content', () => {
@@ -24,9 +27,9 @@ describe( 'Copy', () => {
 			onCopy: jest.fn(),
 		};
 
-		const { getByTestId } = render( <Copy { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		userEvent.click( getByTestId( 'cb-copy-button' ) );
+		userEvent.click( screen.getByTestId( 'cb-copy-button' ) );
 
 		expect( document.execCommand ).toHaveBeenCalledWith( 'copy' );
 	} );

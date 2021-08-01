@@ -7,7 +7,7 @@ export default {
 	component: MediaQueryWatcher,
 };
 
-export function Playground() {
+export function Playground( args ) {
 	const [ currentMedia, setCurrentMedia ] = React.useState( null );
 
 	return (
@@ -18,15 +18,7 @@ export function Playground() {
 			</p>
 
 			<MediaQueryWatcher
-				initial
-				queries={ [
-					'(max-width: 320px)',
-					'(max-width: 375px)',
-					'(max-width: 414px)',
-					'(max-width: 768px)',
-					'(max-width: 834px)',
-					'(min-width: 835px)',
-				] }
+				{ ...args }
 				onQueryMatch={ ( { query } ) => setCurrentMedia( query ) }
 			>
 				<p className="p-4 bg-gray-200 border">
@@ -43,3 +35,15 @@ export function Playground() {
 		</div>
 	);
 }
+
+Playground.args = {
+	initial: true,
+	queries: [
+		'(max-width: 320px)',
+		'(max-width: 375px)',
+		'(max-width: 414px)',
+		'(max-width: 768px)',
+		'(max-width: 834px)',
+		'(min-width: 835px)',
+	],
+};

@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { Button, Emphasis } from '../../atoms/button';
 import { check } from './dom-helper';
 import { isNil, getID } from '../../common/toolset';
-import { Panels, getPanelRadioID } from '../../atoms/panels';
+import { Panels } from '../../atoms/panels';
 import { resolveProp } from '../../common/props-toolset';
 import Step from './wizard-step';
 import useWizard from './use-wizard';
@@ -26,10 +26,6 @@ const Wizard = ( { id, className, children, title, flow, ...others } ) => {
 		flow,
 	} );
 
-	React.useEffect( () => {
-		check( getPanelRadioID( current ) );
-	}, [ current ] );
-
 	const transitionToPrevious = React.useCallback( () => {
 		transition( 'previous' );
 	}, [ transition ] );
@@ -37,6 +33,8 @@ const Wizard = ( { id, className, children, title, flow, ...others } ) => {
 	const transitionToNext = React.useCallback( () => {
 		transition( 'next' );
 	}, [ transition ] );
+
+	console.log( 'wizard', states, current, contextValue );
 
 	return (
 		<article id={ id } className={ clsx( 'cc-wizard', className ) } { ...others }>

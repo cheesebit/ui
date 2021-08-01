@@ -1,10 +1,10 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
+import generator from 'test/data-generator';
 import Link from './link';
 
 export default {
-	title: 'Atoms/Link',
+	title: 'Components/Atoms/Link',
 	component: Link,
 };
 
@@ -15,7 +15,11 @@ export function Playground( args ) {
 				This is me, a cool Link ready to be played around. Try me :)
 			</p>
 
-			<Link { ...args }>{ generator.profession() }</Link>
+			<Link { ...args } />
 		</div>
 	);
 }
+
+Playground.args = {
+	children: generator.profession(),
+};

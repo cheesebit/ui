@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { equals, omit } from 'common/toolset';
 import { evaluateBorderless, evaluatePaddingless } from 'common/props-toolset';
 import { InputHTMLAttributes } from 'common/props-dom';
+import { PaddinglessPropType, BorderlessPropType } from '../../common/prop-types';
 
 import './input.scss';
 
@@ -17,9 +18,6 @@ export const Variant = {
 	warn: 'warn',
 };
 
-/**
- * This component represents a button element.
- */
 class Input extends React.PureComponent {
 	get classes() {
 		const { borderless, className, paddingless, variant } = this.props;
@@ -59,49 +57,9 @@ class Input extends React.PureComponent {
 
 Input.propTypes = {
 	...InputHTMLAttributes,
-	borderless: PropTypes.oneOfType( [
-		PropTypes.bool,
-		PropTypes.oneOf( [
-			'top',
-			'right',
-			'bottom',
-			'left',
-			'horizontal',
-			'vertical',
-		] ),
-		PropTypes.arrayOf(
-			PropTypes.oneOf( [
-				'top',
-				'right',
-				'bottom',
-				'left',
-				'horizontal',
-				'vertical',
-			] ),
-		),
-	] ),
+	borderless: BorderlessPropType,
 	className: PropTypes.string,
-	paddingless: PropTypes.oneOfType( [
-		PropTypes.bool,
-		PropTypes.oneOf( [
-			'top',
-			'right',
-			'bottom',
-			'left',
-			'horizontal',
-			'vertical',
-		] ),
-		PropTypes.arrayOf(
-			PropTypes.oneOf( [
-				'top',
-				'right',
-				'bottom',
-				'left',
-				'horizontal',
-				'vertical',
-			] ),
-		),
-	] ),
+	paddingless: PaddinglessPropType,
 	type: PropTypes.oneOf( [
 		'button',
 		'color',

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { render, mount } from 'test/helpers';
+import { screen, render, mount } from 'test/helpers';
 import generator from 'test/data-generator';
 import ClickOutside from './click-outside';
 
@@ -20,8 +20,8 @@ describe( 'ClickOutside', () => {
 			onClickOutside: jest.fn(),
 		};
 
-		const { getByLabelText } = render( <ClickOutside { ...props } /> );
-		getByLabelText( label );
+		render( <ClickOutside { ...props } /> );
+		screen.getByLabelText( label );
 	} );
 
 	it( 'ignores event when disabled', () => {

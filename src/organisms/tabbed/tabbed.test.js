@@ -1,8 +1,13 @@
 import React from 'react';
 
-import { render, userEvent } from '../../../test/helpers';
-import { Tabbed } from './index';
-import generator from '../../../test/data-generator';
+import { composeStories } from '@storybook/testing-react';
+
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './tabbed.stories';
+import generator from 'test/data-generator';
+import Tabbed from './tabbed';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Tabbed', () => {
 	const amount = generator.natural( { min: 2, max: 10 } );
@@ -27,10 +32,10 @@ describe( 'Tabbed', () => {
 			) ),
 		};
 
-		const { getByTestId } = render( <Tabbed { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		const component = getByTestId( 'cb-tabbed' );
-		const activeIndicator = getByTestId( 'active-indicator' );
+		const component = screen.getByTestId( 'cb-tabbed' );
+		const activeIndicator = screen.getByTestId( 'active-indicator' );
 
 		expect( component ).toBeTruthy();
 		expect( activeIndicator ).toBeTruthy();
@@ -47,9 +52,9 @@ describe( 'Tabbed', () => {
 			) ),
 		};
 
-		const { getAllByTestId } = render( <Tabbed { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		expect( getAllByTestId( 'tab' ) ).toHaveLength( amount );
+		expect( screen.getAllByTestId( 'tab' ) ).toHaveLength( amount );
 	} );
 
 	it( 'sets tab as active on tab click', () => {
@@ -63,9 +68,9 @@ describe( 'Tabbed', () => {
 			) ),
 		};
 
-		const { getAllByRole } = render( <Tabbed { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		const tabComponents = getAllByRole( 'tab' );
+		const tabComponents = screen.getAllByRole( 'tab' );
 		const at = generator.natural( { min: 0, max: amount - 1 } );
 
 		userEvent.click( tabComponents[ at ] );
@@ -87,15 +92,15 @@ describe( 'Tabbed', () => {
 			) ),
 		};
 
-		const { getAllByRole, getByTestId } = render( <Tabbed { ...props } /> );
+		render( <Playground { ...props } /> );
 
-		const tabComponents = getAllByRole( 'tab' );
+		const tabComponents = screen.getAllByRole( 'tab' );
 
 		const at = generator.natural( { min: 0, max: amount - 1 } );
 
 		userEvent.click( tabComponents[ at ] );
 
 		expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
-		expect( getByTestId( `panel-${ tabs[ at ].for }` ) ).toBeVisible();
+		expect( screen.getByTestId( `panel-${ tabs[ at ].for }` ) ).toBeVisible();
 	} );
 } );

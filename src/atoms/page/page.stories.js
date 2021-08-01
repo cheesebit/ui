@@ -1,12 +1,12 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
-import Page from './page';
 import { Block } from './block';
 import { Checkbox } from '../checkbox';
+import generator from 'test/data-generator';
+import Page from './page';
 
 export default {
-	title: 'Atoms/Page',
+	title: 'Components/Organisms/Page',
 	component: Page,
 };
 

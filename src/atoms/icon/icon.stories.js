@@ -1,11 +1,11 @@
 import React from 'react';
 
-import Icon from './icon';
+import Icon, { Variant } from './icon';
 import icons from './icon-mapping';
-import { keys } from '../../common/toolset';
+import { keys } from 'common/toolset';
 
 export default {
-	title: 'Atoms/Icon',
+	title: 'Components/Atoms/Icon',
 	component: Icon,
 
 	argTypes: {
@@ -29,3 +29,5 @@ export function Playground( args ) {
 		</div>
 	);
 }
+
+Playground.args = { variant: Variant.info };

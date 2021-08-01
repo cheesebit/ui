@@ -1,12 +1,14 @@
 import React from 'react';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
+import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
 
 import './switch.scss';
 
-const Switch = ( {
+function Switch( {
 	borderless = true,
 	children,
 	className,
@@ -15,7 +17,7 @@ const Switch = ( {
 	block = false,
 	trailing,
 	...others
-} ) => {
+} ) {
 	return (
 		<Box
 			as="label"
@@ -41,6 +43,33 @@ const Switch = ( {
 			{ children }
 		</Box>
 	);
+}
+
+Switch.propTypes = {
+	/**
+	 * Determine borders to be supressed.
+	 */
+	borderless: BorderlessPropType,
+	/**
+	 * Should this button be disabled.
+	 */
+	disabled: PropTypes.bool,
+	/**
+	 * Should take up the entire width of the container.
+	 */
+	block: PropTypes.bool,
+	/**
+	 * Determine paddings to be supressed.
+	 */
+	paddingless: PaddinglessPropType,
+
+};
+
+Switch.defaultProps = {
+	...Box.defaultProps,
+	borderless: true,
+	paddingless: 'horizontal',
+	block: false,
 };
 
 export default Switch;

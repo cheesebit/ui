@@ -1,23 +1,12 @@
 import React from 'react';
 
-import generator from 'test/data-generator';
-import { capitalize } from 'common/toolset';
+import { generateTabs } from './tabs.fixtures';
 import Tabs from './tabs';
-
-const generateTabs = ( options = { min: 2, max: 5 } ) =>
-	generator.array( () => {
-		return {
-			id: generator.id(),
-			props: {
-				children: capitalize( generator.word( { length: 7 } ) ),
-			},
-		};
-	}, generator.natural( options ) );
 
 const tabs = generateTabs( { min: 4, max: 20 } );
 
 export default {
-	title: 'Molecules/Tabs',
+	title: 'Components/Molecules/Tabs',
 	component: Tabs,
 };
 
@@ -31,7 +20,11 @@ export function Playground( args ) {
 				on, but soon enough you will be able to try me :)
 			</p>
 
-			<Tabs { ...args } items={ tabs } />
+			<Tabs { ...args } />
 		</div>
 	);
 }
+
+Playground.args = {
+	items: tabs,
+};

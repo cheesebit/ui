@@ -1,11 +1,18 @@
 import React from 'react';
 
 import Checkbox from './checkbox';
-import generator from '../../../test/data-generator';
+import generator from 'test/data-generator';
 
 export default {
-	title: 'Atoms/Checkbox',
+	title: 'Components/Atoms/Checkbox',
 	component: Checkbox,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {
@@ -14,6 +21,20 @@ export function Playground( args ) {
 			<p className="mb-2">
 				This is me, a cool Checkbox family ready to be played around. Try me :)
 			</p>
+			<div className="flex flex-col space-y-2">
+				<Checkbox { ...args } />
+			</div>
+		</div>
+	);
+}
+
+Playground.args = {
+	children: generator.name(),
+};
+
+export function Default( args ) {
+	return (
+		<div className="block">
 			<div className="flex flex-col space-y-2">
 				<Checkbox { ...args }>{ generator.name() }</Checkbox>
 				<Checkbox { ...args }>{ generator.name() }</Checkbox>

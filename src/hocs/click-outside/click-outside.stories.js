@@ -1,18 +1,31 @@
 import React from 'react';
 
-import ClickOutside from './click-outside';
-import { Input } from '../../atoms/input';
+import { Input } from 'atoms/input';
+import { useValue } from '../../hooks/value';
 import { withForwardedRef } from '../with-forwarded-ref';
+import ClickOutside from './click-outside';
 
 const InputWithRef = withForwardedRef( Input );
 
 export default {
 	title: 'HOCs/ClickOutside',
 	component: ClickOutside,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+		onClickOutside: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
-export function Playground() {
-	const [ isOutside, setOutside ] = React.useState( true );
+export function Playground( args ) {
+	const outside = useValue( true );
 
 	return (
 		<div className="block">
@@ -20,7 +33,7 @@ export function Playground() {
 				This is me, a cool ClickOutside HOC ready to be played around. Try me :)
 			</p>
 
-			<ClickOutside onClickOutside={ () => setOutside( true ) }>
+			<ClickOutside { ...args } onClickOutside={ () => outside( true ) }>
 				{ ( { ref } ) => {
 					return (
 						<div className="flex flex-col w-64 mx-auto">
@@ -28,11 +41,11 @@ export function Playground() {
 								ref={ ref }
 								className="h-8 border"
 								onFocus={ () => {
-									setOutside( false );
+									outside( false );
 								} }
 								type="text"
 							/>
-							<p>{ isOutside ? 'Outside' : 'Inside' }</p>
+							<p>{ outside() ? 'Outside' : 'Inside' }</p>
 						</div>
 					);
 				} }

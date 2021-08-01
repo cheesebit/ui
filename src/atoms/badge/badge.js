@@ -13,7 +13,7 @@ export const Variant = {
 	terciary: 'terciary',
 };
 
-const Badge = ( { className, children, variant, ...others } ) => {
+function Badge( { className, children, variant, ...others } ) {
 	const classes = clsx(
 		'cb-badge',
 		{
@@ -29,7 +29,7 @@ const Badge = ( { className, children, variant, ...others } ) => {
 			{ children }
 		</span>
 	);
-};
+}
 
 Badge.propTypes = {
 	variant: PropTypes.oneOf( [

@@ -1,8 +1,12 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render } from '../../../test/helpers';
-import { Spinner, Variant } from './index';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import { Variant } from './spinner';
+import * as stories from './spinner.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Spinner', () => {
 	it( 'renders correctly', () => {
@@ -10,8 +14,8 @@ describe( 'Spinner', () => {
 			children: generator.word(),
 		};
 
-		const { getByTestId } = render( <Spinner { ...props } /> );
-		const component = getByTestId( 'cb-spinner' );
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-spinner' );
 
 		expect( component ).toBeTruthy();
 		expect( component ).toHaveTextContent( props.children );
@@ -21,8 +25,8 @@ describe( 'Spinner', () => {
 		it( `renders correctly with variant ${ Variant.primary }`, () => {
 			const props = { children: generator.word(), variant: Variant.primary };
 
-			const { getByTestId } = render( <Spinner { ...props } /> );
-			const component = getByTestId( 'cb-spinner' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-spinner' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-primary' );
@@ -31,8 +35,8 @@ describe( 'Spinner', () => {
 		it( `renders correctly with variant ${ Variant.secondary }`, () => {
 			const props = { children: generator.word(), variant: Variant.secondary };
 
-			const { getByTestId } = render( <Spinner { ...props } /> );
-			const component = getByTestId( 'cb-spinner' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-spinner' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-secondary' );
@@ -41,8 +45,8 @@ describe( 'Spinner', () => {
 		it( `renders correctly with variant ${ Variant.terciary }`, () => {
 			const props = { children: generator.word(), variant: Variant.terciary };
 
-			const { getByTestId } = render( <Spinner { ...props } /> );
-			const component = getByTestId( 'cb-spinner' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-spinner' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-terciary' );

@@ -3,7 +3,7 @@ import React from 'react';
 import Calendar from './calendar';
 
 export default {
-	title: 'Organisms/Calendar',
+	title: 'Components/Molecules/Calendar',
 	component: Calendar,
 };
 

@@ -38,8 +38,8 @@
     @include var(width, spacing-8);
 
     &:checked {
-      @include var(border-color, color-secondary-400);
-      @include var(background-color, color-secondary-400);
+      @include var(border-color, color-primary-400);
+      @include var(background-color, color-primary-400);
     }
 
     &:checked + .check {
@@ -53,8 +53,8 @@
       @include var(background-color, color-gray-400);
 
       &:checked {
-        @include var(border-color, color-secondary-500);
-        @include var(background-color, color-secondary-500);
+        @include var(border-color, color-primary-500);
+        @include var(background-color, color-primary-500);
       }
     }
   }

@@ -3,8 +3,15 @@ import React from 'react';
 import Tooltip from './tooltip';
 
 export default {
-	title: 'Atoms/Tooltip',
+	title: 'Components/Atoms/Tooltip',
 	component: Tooltip,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {
@@ -14,9 +21,12 @@ export function Playground( args ) {
 				This is me, a cool Tooltip ready to be played around. Try me :)
 			</p>
 
-			<Tooltip title="Hi there dear reader." { ...args }>
-				<span>Hover me to see my tooltip!</span>
-			</Tooltip>
+			<Tooltip { ...args } />
 		</div>
 	);
 }
+
+Playground.args = {
+	title: 'Hi there dear reader.',
+	children: <span>Hover me to see my tooltip!</span>,
+};

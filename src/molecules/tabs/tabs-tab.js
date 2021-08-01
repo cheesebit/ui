@@ -2,68 +2,30 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { Box } from '../../atoms/box';
-import { isFunction } from '../../common/toolset';
-import TabsContext from './tabs-context';
+import { Box } from 'atoms/box';
 
-function Tab( {
-	active,
-	children,
-	className,
-	disabled,
-	id,
-	label,
-	onClick,
-	...others
-} ) {
-	const tabsID = React.useContext( TabsContext );
-
-	const setCurrentActive = React.useCallback( ( ) => {
-		onClick?.( { id } );
-	} );
-
-	const renderLabel = () => {
-		if ( isFunction( children ) ) {
-			return children( { id, active } );
-		}
-
-		return label || children;
-	};
-
+function Tab( { active, className, disabled, label, ...others } ) {
 	return (
-		<React.Fragment>
-			<input
-				type="radio"
-				id={ id }
-				name={ tabsID }
-				value={ id }
-				data-testid="tab-radio"
-				onFocus={ setCurrentActive }
-			/>
-
-			<Box
-				borderless
-				{ ...others }
-				role="tab"
-				aria-disabled={ disabled }
-				aria-selected={ active }
-				as="label"
-				className={ clsx(
-					'tab',
-					{
-						'is-active': active,
-						'is-focused': active,
-						'is-disabled': disabled,
-					},
-					className,
-				) }
-				data-testid="tab"
-				htmlFor={ id }
-				onClick={ setCurrentActive }
-			>
-				{ renderLabel() }
-			</Box>
-		</React.Fragment>
+		<Box
+			borderless
+			{ ...others }
+			role="tab"
+			aria-disabled={ disabled }
+			aria-selected={ active }
+			as="a"
+			className={ clsx(
+				'tab',
+				{
+					'is-active': active,
+					'is-focused': active,
+					'is-disabled': disabled,
+				},
+				className,
+			) }
+			data-testid="tab"
+		>
+			{ label }
+		</Box>
 	);
 }
 

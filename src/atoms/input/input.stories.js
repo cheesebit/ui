@@ -3,8 +3,15 @@ import React from 'react';
 import Input from './input';
 
 export default {
-	title: 'Atoms/Input',
+	title: 'Components/Atoms/Input',
 	component: Input,
+	argTypes: {
+		className: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {

@@ -1,17 +1,21 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
 import { DISTANCE, calculatePosition } from './tooltip.helpers';
-import { screen, render, userEvent } from 'test/helpers';
-import { Tooltip } from './index';
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './tooltip.stories';
 import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( '<Tooltip />', () => {
 	it( 'renders untouched children if no title is provided', () => {
 		const props = {
+			title: null,
 			children: <span>{ generator.word() }</span>,
 		};
 
-		render( <Tooltip { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		expect( screen.queryByTestId( 'cb-tooltip' ) ).toBeNull();
 	} );
@@ -22,7 +26,7 @@ describe( '<Tooltip />', () => {
 			children: <span>{ generator.word() }</span>,
 		};
 
-		render( <Tooltip { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-tooltip' );
 
 		expect( component ).not.toHaveClass( 'is-visible' );
@@ -37,7 +41,7 @@ describe( '<Tooltip />', () => {
 			children: <span>{ anchorText }</span>,
 		};
 
-		render( <Tooltip { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const component = screen.getByTestId( 'cb-tooltip' );
 		const anchor = screen.getByText( anchorText );

@@ -1,10 +1,13 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { screen, render } from '../../../test/helpers';
-import { Link } from './index';
+import { render, screen } from 'test/helpers';
 import { Target, Rel } from './link';
-import { values } from '../../common/toolset';
-import generator from '../../../test/data-generator';
+import { values } from 'common/toolset';
+import * as stories from './link.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Link', () => {
 	describe( 'default', () => {
@@ -16,7 +19,7 @@ describe( 'Link', () => {
 			target: generator.pick( values( Target ) ),
 		};
 
-		render( <Link { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const component = screen.getByTestId( 'cb-link' );
 
@@ -43,7 +46,7 @@ describe( 'Link', () => {
 				alt: generator.sentence(),
 			};
 
-			render( <Link { ...props } /> );
+			render( <Playground { ...props } /> );
 			const component = screen.getByLabelText( props.alt );
 
 			expect( component ).toBeTruthy();
@@ -55,7 +58,7 @@ describe( 'Link', () => {
 				title: generator.sentence(),
 			};
 
-			render( <Link { ...props } /> );
+			render( <Playground { ...props } /> );
 			const component = screen.getByLabelText( props.title );
 
 			expect( component ).toBeTruthy();
@@ -66,7 +69,7 @@ describe( 'Link', () => {
 				title: generator.sentence(),
 			};
 
-			render( <Link { ...props } /> );
+			render( <Playground { ...props } /> );
 			const component = screen.getByTitle( props.title );
 
 			expect( component ).toBeTruthy();
@@ -78,7 +81,7 @@ describe( 'Link', () => {
 				title: generator.sentence(),
 			};
 
-			render( <Link { ...props } /> );
+			render( <Playground { ...props } /> );
 			const component = screen.getByTitle( props.title );
 
 			expect( component ).toBeTruthy();
@@ -94,7 +97,7 @@ describe( 'Link', () => {
 			target: Target.blank,
 		};
 
-		render( <Link { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTitle( props.alt );
 
 		it( 'removes the insecure href prop', () => {

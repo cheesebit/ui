@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { omit } from '../../common/toolset';
+import { omit } from 'common/toolset';
 import ListContext from './list-context';
 import ListItem from './list-item';
 

@@ -1,8 +1,12 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Input, Variant } from './index';
-import { render } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import { Variant } from './input';
+import * as stories from './input.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Input', () => {
 	it( 'renders correctly', () => {
@@ -10,8 +14,8 @@ describe( 'Input', () => {
 			type: 'text',
 		};
 
-		const { getByTestId } = render( <Input { ...props } /> );
-		const component = getByTestId( 'cb-input' );
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-input' );
 
 		expect( component ).toBeTruthy();
 
@@ -44,8 +48,8 @@ describe( 'Input', () => {
 			] ),
 		};
 
-		const { getByTestId } = render( <Input { ...props } /> );
-		const component = getByTestId( 'cb-input' );
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-input' );
 
 		expect( component ).toBeTruthy();
 		expect( component ).toHaveAttribute( 'type', props.type );
@@ -58,8 +62,8 @@ describe( 'Input', () => {
 				variant: Variant.danger,
 			};
 
-			const { getByTestId } = render( <Input { ...props } /> );
-			const component = getByTestId( 'cb-input' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-input' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-danger' );
@@ -71,8 +75,8 @@ describe( 'Input', () => {
 				variant: Variant.info,
 			};
 
-			const { getByTestId } = render( <Input { ...props } /> );
-			const component = getByTestId( 'cb-input' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-input' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-info' );
@@ -84,8 +88,8 @@ describe( 'Input', () => {
 				variant: Variant.success,
 			};
 
-			const { getByTestId } = render( <Input { ...props } /> );
-			const component = getByTestId( 'cb-input' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-input' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-success' );
@@ -97,8 +101,8 @@ describe( 'Input', () => {
 				variant: Variant.warn,
 			};
 
-			const { getByTestId } = render( <Input { ...props } /> );
-			const component = getByTestId( 'cb-input' );
+			render( <Playground { ...props } /> );
+			const component = screen.getByTestId( 'cb-input' );
 
 			expect( component ).toBeTruthy();
 			expect( component ).toHaveClass( '-warn' );

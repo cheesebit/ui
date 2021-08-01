@@ -1,11 +1,18 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
+import generator from 'test/data-generator';
 import Radio from './radio';
 
 export default {
-	title: 'Atoms/Radio',
+	title: 'Components/Atoms/Radio',
 	component: Radio,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {
@@ -16,6 +23,23 @@ export function Playground( args ) {
 			</p>
 
 			<div className="flex flex-col space-y">
+				<Radio { ...args } />
+
+			</div>
+		</div>
+	);
+}
+
+Playground.args = {
+	name: generator.word(),
+	value: generator.natural( { min: 0, max: 100 } ),
+	children: generator.name(),
+};
+
+export function Default( args ) {
+	return (
+		<div className="block">
+			<div className="flex flex-col space-y-2">
 				<Radio { ...args } name="radio-generic" value="0">
 					{ generator.name() }
 				</Radio>
@@ -29,3 +53,4 @@ export function Playground( args ) {
 		</div>
 	);
 }
+

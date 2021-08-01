@@ -1,8 +1,12 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, screen } from '../../../test/helpers';
-import { List } from './index';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import * as stories from './list.stories';
+import generator from 'test/data-generator';
+import List from './list';
+
+const { Playground } = composeStories( stories );
 
 describe( 'List', () => {
 	it( 'renders correctly', () => {
@@ -10,7 +14,7 @@ describe( 'List', () => {
 			children: generator.word(),
 		};
 
-		render( <List { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-list' );
 
 		expect( component ).toBeTruthy();
@@ -23,7 +27,7 @@ describe( 'List', () => {
 			bordered: true,
 		};
 
-		render( <List { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-list' );
 
 		expect( component ).toHaveClass( '-bordered' );
@@ -35,7 +39,7 @@ describe( 'List', () => {
 			hoverable: true,
 		};
 
-		render( <List { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-list' );
 
 		expect( component ).toHaveClass( '-hoverable' );
@@ -47,7 +51,7 @@ describe( 'List', () => {
 			striped: true,
 		};
 
-		render( <List { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-list' );
 
 		expect( component ).toHaveClass( '-striped' );

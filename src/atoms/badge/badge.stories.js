@@ -7,6 +7,13 @@ import { setupDefaultStory, setupDerivedStory } from 'common/stories-toolset';
 export default {
 	title: 'Components/Atoms/Badge',
 	component: Badge,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {

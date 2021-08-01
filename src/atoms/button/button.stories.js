@@ -9,7 +9,12 @@ export default {
 	title: 'Components/Atoms/Button',
 	component: Button,
 	argTypes: {
-		onClick: { action: 'clicked' },
+		onClick: {
+			action: 'clicked',
+			table: {
+				disable: true,
+			},
+		},
 		icon: {
 			control: {
 				type: 'select',

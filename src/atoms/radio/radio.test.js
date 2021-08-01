@@ -1,8 +1,12 @@
 import React from 'react';
 
-import { render, screen, fireEvent } from '../../../test/helpers';
-import { Radio } from './index';
-import generator from '../../../test/data-generator';
+import { composeStories } from '@storybook/testing-react';
+
+import { render, screen, fireEvent } from 'test/helpers';
+import * as stories from './radio.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Radio', () => {
 	const props = {
@@ -10,7 +14,7 @@ describe( 'Radio', () => {
 		onChange: jest.fn(),
 	};
 
-	const { getByTestId } = render( <Radio { ...props } /> );
+	const { getByTestId } = render( <Playground { ...props } /> );
 
 	const component = screen.getByTestId( 'cb-radio' );
 	const selector = getByTestId( 'selector' );

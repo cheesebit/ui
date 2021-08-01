@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import { useClassy } from '@cheesebit/classy';
 
 import { Box } from '../box';
-import { omit } from '../../common/toolset';
 import { Icon } from '../icon';
-import { resolveProp } from '../../common/props-toolset';
+import { omit } from 'common/toolset';
+import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
+import { resolveProp } from 'common/props-toolset';
 
 import './button.scss';
 
@@ -85,27 +86,7 @@ Button.propTypes = {
 	/**
 	 * Determine borders to be supressed.
 	 */
-	borderless: PropTypes.oneOfType( [
-		PropTypes.bool,
-		PropTypes.oneOf( [
-			'top',
-			'right',
-			'bottom',
-			'left',
-			'horizontal',
-			'vertical',
-		] ),
-		PropTypes.arrayOf(
-			PropTypes.oneOf( [
-				'top',
-				'right',
-				'bottom',
-				'left',
-				'horizontal',
-				'vertical',
-			] ),
-		),
-	] ),
+	borderless: BorderlessPropType,
 	/**
 	 * Should this button be disabled.
 	 */
@@ -127,27 +108,7 @@ Button.propTypes = {
 	/**
 	 * Determine paddings to be supressed.
 	 */
-	paddingless: PropTypes.oneOfType( [
-		PropTypes.bool,
-		PropTypes.oneOf( [
-			'top',
-			'right',
-			'bottom',
-			'left',
-			'horizontal',
-			'vertical',
-		] ),
-		PropTypes.arrayOf(
-			PropTypes.oneOf( [
-				'top',
-				'right',
-				'bottom',
-				'left',
-				'horizontal',
-				'vertical',
-			] ),
-		),
-	] ),
+	paddingless: PaddinglessPropType,
 	/**
 	 * How large should the button be?
 	 */

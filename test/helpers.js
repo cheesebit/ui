@@ -11,26 +11,27 @@ import * as Enzime from 'enzyme';
  *
  * @function
  * @param {string} value - Data test value.
- * @returns {EnzymeSelector}
+ * @return {EnzymeSelector}
  */
-export function asTestAttr(value) {
-  return `[data-testid="${value}"]`;
+export function asTestAttr( value ) {
+	return `[data-testid="${ value }"]`;
 }
 
 /**
  * Mounts and renders a react component into the document and provides a testing wrapper around it.
+ *
  * @param  {...any} args
  */
-export function mount(...args) {
-  const wrapper = Enzime.mount(...args);
+export function mount( ...args ) {
+	const wrapper = Enzime.mount( ...args );
 
-  return {
-    wrapper,
-    instance: wrapper.instance(),
-    find: wrapper.find.bind(wrapper),
-    debug: wrapper.debug.bind(wrapper),
-    getByTestId: testID => {
-      return wrapper.find(asTestAttr(testID));
-    },
-  };
+	return {
+		wrapper,
+		instance: wrapper.instance(),
+		find: wrapper.find.bind( wrapper ),
+		debug: wrapper.debug.bind( wrapper ),
+		getByTestId: ( testID ) => {
+			return wrapper.find( asTestAttr( testID ) );
+		},
+	};
 }

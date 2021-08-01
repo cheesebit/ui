@@ -23,20 +23,18 @@ describe( 'Panels', () => {
 			) ),
 		};
 
-		const { getByTestId, getAllByTestId, getAllByRole } = render(
+		const { getByTestId, getAllByTestId } = render(
 			<Panels { ...props } />,
 		);
 
 		const component = getByTestId( 'cb-panels' );
 		const panels = getAllByTestId( 'panel' );
-		const radios = getAllByRole( 'radio' );
 
 		expect( component ).toBeTruthy();
 
 		for ( let i = 0; i < data.length; i++ ) {
 			expect( panels[ i ] ).toHaveTextContent( data[ i ].content );
 			expect( panels[ i ] ).toHaveAttribute( 'id', data[ i ].id );
-			expect( radios[ i ] ).toHaveAttribute( 'id', getPanelRadioID( data[ i ].id ) );
 		}
 	} );
 } );

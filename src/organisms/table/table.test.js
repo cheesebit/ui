@@ -1,8 +1,11 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Table } from './index';
-import { screen, render, getByTestId } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { generateTableData } from './table.fixtures';
+import { render, screen, within } from 'test/helpers';
+import * as stories from './table.stories';
+
+const { Playground } = composeStories( stories );
 
 const COLUMNS = [
 	{
@@ -14,27 +17,13 @@ const COLUMNS = [
 	{
 		name: 'salary',
 	},
-	{
-		name: 'syllable',
-	},
 ];
-
-const generateTableData = () =>
-	generator.array( () => {
-		return {
-			company: generator.company(),
-			id: generator.id(),
-			profession: generator.profession(),
-			salary: generator.float( { min: 100, max: 19999, fixed: 2 } ),
-			syllable: generator.syllable(),
-		};
-	}, generator.natural( { min: 2, max: 5 } ) );
 
 describe( 'Table', () => {
 	it( 'renders correctly', () => {
 		const props = { columns: COLUMNS, data: generateTableData() };
 
-		render( <Table { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-table' );
 		const rows = screen.getAllByTestId( 'row' );
 
@@ -45,7 +34,7 @@ describe( 'Table', () => {
 			const entry = props.data[ i ];
 
 			for ( const column of props.columns ) {
-				expect( getByTestId( rows[ i ], column.name ) ).toHaveTextContent(
+				expect( within( rows[ i ] ).getByTestId( column.name ) ).toHaveTextContent(
 					String( entry[ column.name ] ),
 				);
 			}

@@ -6,7 +6,7 @@ import generator from 'test/data-generator';
 import List from './list';
 
 export default {
-	title: 'Atoms/List',
+	title: 'Components/Molecules/List',
 	component: List,
 
 	argTypes: {
@@ -35,24 +35,30 @@ export function Playground( args ) {
 				This is me, a cool List ready to be played around. Try me :)
 			</p>
 
-			<List { ...args }>
-				{ range( 0, generator.natural( { min: 5, max: 10 } ) ).map( ( value ) => (
-					<List.Item
-						key={ value }
-						leading={
-							<Checkbox
-								id={ value }
-								aria-label="List item 1"
-								name="list"
-								value={ value }
-							/>
-						}
-						as="label"
-					>
-						{ generator.sentence() }
-					</List.Item>
-				) ) }
-			</List>
+			<List { ...args } />
 		</div>
 	);
 }
+
+Playground.args = {
+	children: (
+		<React.Fragment>
+			{ range( 0, generator.natural( { min: 5, max: 10 } ) ).map( ( value ) => (
+				<List.Item
+					key={ value }
+					leading={
+						<Checkbox
+							id={ value }
+							aria-label="List item 1"
+							name="list"
+							value={ value }
+						/>
+					}
+					as="label"
+				>
+					{ generator.sentence() }
+				</List.Item>
+			) ) }
+		</React.Fragment>
+	),
+};

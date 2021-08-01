@@ -16,9 +16,6 @@ export const Variant = {
 	warn: 'warn',
 };
 
-/**
- * This is our component to render Icons.
- */
 class Icon extends React.PureComponent {
 	get classes() {
 		const { className, variant } = this.props;
@@ -66,7 +63,7 @@ class Icon extends React.PureComponent {
 Icon.propTypes = {
 	...SVGAttributes,
 	size: PropTypes.number,
-	name: PropTypes.string,
+	name: PropTypes.oneOf( Object.keys( mapping ) ).isRequired,
 	variant: PropTypes.oneOf( [
 		Variant.danger,
 		Variant.info,

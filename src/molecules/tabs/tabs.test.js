@@ -1,30 +1,26 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, userEvent } from '../../../test/helpers';
-import { Tabs } from './index';
-import generator from '../../../test/data-generator';
-import Tab from './tabs-tab';
+import { generateTabs } from './tabs.fixtures';
+import { screen, render, userEvent } from 'test/helpers';
+import * as stories from './tabs.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Tabs', () => {
 	describe( 'default', () => {
-		const amount = generator.natural( { min: 2, max: 10 } );
-		const tabs = generator.array( () => {
-			return {
-				id: generator.id(),
-				for: generator.id(),
-				label: generator.word( { length: 10 } ),
-			};
-		}, amount );
+		const tabs = generateTabs( { min: 2, max: 10 } );
 
 		it( 'renders correctly', () => {
 			const props = {
 				items: tabs,
 			};
 
-			const { getByTestId } = render( <Tabs { ...props } /> );
+			render( <Playground { ...props } /> );
 
-			const component = getByTestId( 'cb-tabs' );
-			const activeIndicator = getByTestId( 'active-indicator' );
+			const component = screen.getByTestId( 'cb-tabs' );
+			const activeIndicator = screen.getByTestId( 'active-indicator' );
 
 			expect( component ).toBeTruthy();
 			expect( activeIndicator ).toBeTruthy();
@@ -35,9 +31,9 @@ describe( 'Tabs', () => {
 				items: tabs,
 			};
 
-			const { getAllByRole } = render( <Tabs { ...props } /> );
+			const { getAllByRole } = render( <Playground { ...props } /> );
 
-			expect( getAllByRole( 'tab' ) ).toHaveLength( amount );
+			expect( getAllByRole( 'tab' ) ).toHaveLength( tabs.length );
 		} );
 
 		it( 'sets tab as active on tab click', () => {
@@ -45,31 +41,31 @@ describe( 'Tabs', () => {
 				items: tabs,
 			};
 
-			const { getAllByRole } = render( <Tabs { ...props } /> );
+			const { getAllByRole } = render( <Playground { ...props } /> );
 
 			const tabComponents = getAllByRole( 'tab' );
-			const at = generator.natural( { min: 0, max: amount - 1 } );
+			const at = generator.natural( { min: 0, max: tabs.length - 1 } );
 
 			userEvent.click( tabComponents[ at ] );
 			expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
 		} );
 
-		it( 'renders children as function', () => {
-			const props = {
-				id: generator.id(),
-				active: generator.bool(),
-				children: jest.fn(),
-			};
+		// it( 'renders children as function', () => {
+		// 	const props = {
+		// 		id: generator.id(),
+		// 		active: generator.bool(),
+		// 		children: jest.fn(),
+		// 	};
 
-			const { getByRole } = render( <Tab { ...props } /> );
-			const component = getByRole( 'tab' );
+		// 	const { getByRole } = render( <Tab { ...props } /> );
+		// 	const component = getByRole( 'tab' );
 
-			expect( component ).toBeTruthy();
-			expect( props.children ).toHaveBeenCalledWith( {
-				id: props.id,
-				active: props.active,
-			} );
-		} );
+		// 	expect( component ).toBeTruthy();
+		// 	expect( props.children ).toHaveBeenCalledWith( {
+		// 		id: props.id,
+		// 		active: props.active,
+		// 	} );
+		// } );
 	} );
 
 	describe( 'overflow tabs to dropdown', () => {
@@ -88,10 +84,10 @@ describe( 'Tabs', () => {
 		};
 
 		it( `renders a dropdown`, () => {
-			const { getByTestId } = render( <Tabs { ...props } /> );
+			render( <Playground { ...props } /> );
 
-			const component = getByTestId( 'cb-tabs' );
-			const dropdown = getByTestId( 'cb-dropdown' );
+			const component = screen.getByTestId( 'cb-tabs' );
+			const dropdown = screen.getByTestId( 'cb-dropdown' );
 
 			expect( component ).toBeTruthy();
 			expect( dropdown ).toBeTruthy();

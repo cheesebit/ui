@@ -4,8 +4,15 @@ import { Input } from '../input';
 import Label from './label';
 
 export default {
-	title: 'Atoms/Label',
+	title: 'Components/Atoms/Label',
 	component: Label,
+	argTypes: {
+		children: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground( args ) {
@@ -15,13 +22,12 @@ export function Playground( args ) {
 				This is me, a cool Label (Field) ready to be played around. Try me :)
 			</p>
 
-			<Label { ...args }>
-				<Input type="text" />
-			</Label>
+			<Label { ...args } />
 		</div>
 	);
 }
 
 Playground.args = {
 	label: 'My cool field',
+	children: <Input type="text" />,
 };

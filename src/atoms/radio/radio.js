@@ -1,8 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
+import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
 
 import './radio.scss';
 
@@ -41,6 +43,26 @@ const Radio = ( {
 			{ children }
 		</Box>
 	);
+};
+
+Radio.propTypes = {
+	/**
+	 * Determine borders to be supressed.
+	 */
+	borderless: BorderlessPropType,
+	/**
+	 * Should this button be disabled.
+	 */
+	disabled: PropTypes.bool,
+	/**
+	 * Should take up the entire width of the container.
+	 */
+	block: PropTypes.bool,
+	/**
+	 * Determine paddings to be supressed.
+	 */
+	paddingless: PaddinglessPropType,
+
 };
 
 Radio.defaultProps = {

@@ -1,8 +1,11 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, fireEvent } from '../../../test/helpers';
-import { Checkbox } from './index';
-import generator from '../../../test/data-generator';
+import { render, screen, fireEvent } from 'test/helpers';
+import * as stories from './checkbox.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Checkbox', () => {
 	const props = {
@@ -10,10 +13,10 @@ describe( 'Checkbox', () => {
 		onChange: jest.fn(),
 	};
 
-	const { getByTestId } = render( <Checkbox { ...props } /> );
+	render( <Playground { ...props } /> );
 
-	const component = getByTestId( 'cb-checkbox' );
-	const selector = getByTestId( 'selector' );
+	const component = screen.getByTestId( 'cb-checkbox' );
+	const selector = screen.getByTestId( 'selector' );
 
 	it( 'renders correctly', () => {
 		expect( component ).toHaveTextContent( props.children );

@@ -1,21 +1,25 @@
 import React from 'react';
 import clsx from 'clsx';
+import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
+import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
 
 import './checkbox.scss';
 
-const Checkbox = ( {
-	borderless,
-	children,
-	className,
-	disabled,
-	paddingless,
-	block,
-	trailing,
-	...others
-} ) => {
+function Checkbox( props ) {
+	const {
+		borderless,
+		children,
+		className,
+		disabled,
+		paddingless,
+		block,
+		trailing,
+		...others
+	} = props;
+
 	return (
 		<Box
 			as="label"
@@ -41,9 +45,30 @@ const Checkbox = ( {
 			{ children }
 		</Box>
 	);
+}
+
+Checkbox.propTypes = {
+	/**
+	 * Determine borders to be supressed.
+	 */
+	borderless: BorderlessPropType,
+	/**
+	 * Should this button be disabled.
+	 */
+	disabled: PropTypes.bool,
+	/**
+	 * Should take up the entire width of the container.
+	 */
+	block: PropTypes.bool,
+	/**
+	 * Determine paddings to be supressed.
+	 */
+	paddingless: PaddinglessPropType,
+
 };
 
 Checkbox.defaultProps = {
+	...Box.defaultProps,
 	borderless: true,
 	paddingless: 'horizontal',
 	block: false,

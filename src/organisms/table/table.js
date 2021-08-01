@@ -2,10 +2,10 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { Box } from '../../atoms/box';
-import { Checkbox } from '../../atoms/checkbox';
-import { DEFAULT } from '../../common/constants';
-import { List } from '../../atoms/list';
+import { Box } from 'atoms/box';
+import { Checkbox } from 'atoms/checkbox';
+import { DEFAULT } from 'common/constants';
+import { List } from 'atoms/list';
 
 import './table.scss';
 
@@ -134,20 +134,3 @@ Table.defaultProps = {
 };
 
 export default Table;
-
-// children={{
-//   style: this.style,
-//   children: this.columns.map(column => (
-//     <Box
-//       key={column.name}
-//       as="span"
-//       borderless
-//       className="cell"
-//       paddingless="horizontal"
-//       data-testid={column.name}
-//       style={column?.props?.style}
-//     >
-//       {entry[column.name]}
-//     </Box>
-//   )),
-// }}

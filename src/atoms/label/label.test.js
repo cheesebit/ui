@@ -1,19 +1,20 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Label, Variant } from './index';
-import Selectors, {
-	DEFAULT_FEEDBACK,
-	DEFAULT_TOOLTIP,
-} from './label.selectors';
-import { screen, render, userEvent } from 'test/helpers';
-import generator from 'test/data-generator';
 import { Mode, Placement } from '../tooltip';
+import { render, screen, userEvent } from 'test/helpers';
+import { Variant } from './label';
+import * as stories from './label.stories';
+import generator from 'test/data-generator';
+import Selectors, { DEFAULT_FEEDBACK, DEFAULT_TOOLTIP } from './label.selectors';
 
-describe( '<Label />', () => {
+const { Playground } = composeStories( stories );
+
+describe( '<Playground />', () => {
 	it( 'renders correctly', () => {
 		const props = { label: generator.word(), children: generator.word() };
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const component = screen.getByTestId( 'cb-label' );
 		const label = screen.getByTestId( 'field-label' );
@@ -29,7 +30,7 @@ describe( '<Label />', () => {
 	it( 'renders label correctly', () => {
 		const props = { label: generator.word(), children: generator.word() };
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		screen.getByTestId( 'cb-label' );
 		const label = screen.getByTestId( 'field-label' );
@@ -44,7 +45,7 @@ describe( '<Label />', () => {
 			prompt: generator.sentence(),
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const prompt = screen.getByTestId( 'field-prompt' );
 
@@ -57,7 +58,7 @@ describe( '<Label />', () => {
 			children: generator.word(),
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const component = screen.getByTestId( 'cb-label' );
 
@@ -75,7 +76,7 @@ describe( '<Label />', () => {
 			},
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const tooltip = screen.getByTestId( 'cb-tooltip' );
 		const anchor = screen.getByTestId( 'tooltip-anchor' );
@@ -95,7 +96,7 @@ describe( '<Label />', () => {
 			},
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const prompt = screen.getByTestId( 'field-prompt' );
 		const icon = screen.getByLabelText( props.feedback.icon );
@@ -113,7 +114,7 @@ describe( '<Label />', () => {
 			},
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const prompt = screen.getByTestId( 'field-prompt' );
 		const icon = screen.getByLabelText( props.feedback.icon );
@@ -134,7 +135,7 @@ describe( '<Label />', () => {
 		};
 
 		const { rerender } = render(
-			<Label { ...props } />,
+			<Playground { ...props } />,
 		);
 
 		const prompt = screen.getByTestId( 'field-prompt' );
@@ -152,7 +153,7 @@ describe( '<Label />', () => {
 			},
 		};
 
-		rerender( <Label { ...props } { ...addedProps } /> );
+		rerender( <Playground { ...props } { ...addedProps } /> );
 
 		icon = screen.getByLabelText( addedProps.feedback.icon );
 
@@ -177,7 +178,7 @@ describe( '<Label />', () => {
 		};
 
 		const { rerender } = render(
-			<Label { ...props } />,
+			<Playground { ...props } />,
 		);
 
 		const prompt = screen.getByTestId( 'field-prompt' );
@@ -192,7 +193,7 @@ describe( '<Label />', () => {
 			feedback: {},
 		};
 
-		rerender( <Label { ...props } { ...addedProps } /> );
+		rerender( <Playground { ...props } { ...addedProps } /> );
 
 		icon = screen.getByLabelText( props.tooltip.icon );
 
@@ -208,7 +209,7 @@ describe( '<Label />', () => {
 			trailing: generator.animal(),
 		};
 
-		render( <Label { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const content = screen.getByTestId( 'field-label' );
 
@@ -223,7 +224,7 @@ describe( '<Label />', () => {
 				variant: Variant.danger,
 			};
 
-			render( <Label { ...props } /> );
+			render( <Playground { ...props } /> );
 
 			const component = screen.getByTestId( 'cb-label' );
 			expect( component ).toHaveClass( '-danger' );
@@ -236,7 +237,7 @@ describe( '<Label />', () => {
 				variant: Variant.info,
 			};
 
-			render( <Label { ...props } /> );
+			render( <Playground { ...props } /> );
 
 			const component = screen.getByTestId( 'cb-label' );
 			expect( component ).toHaveClass( '-info' );
@@ -249,7 +250,7 @@ describe( '<Label />', () => {
 				variant: Variant.success,
 			};
 
-			render( <Label { ...props } /> );
+			render( <Playground { ...props } /> );
 
 			const component = screen.getByTestId( 'cb-label' );
 			expect( component ).toHaveClass( '-success' );
@@ -262,7 +263,7 @@ describe( '<Label />', () => {
 				variant: Variant.warn,
 			};
 
-			render( <Label { ...props } /> );
+			render( <Playground { ...props } /> );
 
 			const component = screen.getByTestId( 'cb-label' );
 			expect( component ).toHaveClass( '-warn' );
@@ -337,5 +338,5 @@ describe( 'Label Selectors', () => {
 		expect( Selectors.getTooltip( props ) ).toEqual( props.tooltip );
 	} );
 
-	it( 'retrieves prompt prop correctly', () => {} );
+	// it( 'retrieves prompt prop correctly', () => {} );
 } );
