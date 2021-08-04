@@ -85,3 +85,24 @@ export const setElementStyle = ( element, attribute, value ) => {
 	element.style[ attribute ] = value;
 	return true;
 };
+
+/**
+ * Get value from  change event.
+ *
+ * @param {ChangeEvent} e
+ * @return {string}|boolean
+ */
+export function getValueFromEvent( e ) {
+	const { target, target: { type } } = e;
+	const value = type === 'checkbox' ? target.checked : target.value;
+
+	return value;
+}
+
+/**
+ * @typedef {Object} ChangeEvent
+ * @property {Object} target - Option label
+ * @property {string} target.type - Type of event targe
+ * @property {string} target.checked - Checked value, if `type` is 'checkbox'
+ * @property {string} target.value - Event value
+ */

@@ -64,7 +64,7 @@ function Tabs( props ) {
 		return (
 			<Dropdown.Toggle
 				disabled={ disabled }
-				collapsed={ collapsed }
+				collapsed={ collapsed() }
 				onClick={ onClick }
 				icon="more-horizontal"
 				trailing={ null }

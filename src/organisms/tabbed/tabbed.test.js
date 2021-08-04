@@ -16,7 +16,6 @@ describe( 'Tabbed', () => {
 
 		return {
 			id: `tab-${ id }`,
-			for: `panel-${ id }`,
 			label: generator.word( { length: 10 } ),
 		};
 	}, amount );
@@ -25,7 +24,7 @@ describe( 'Tabbed', () => {
 		const props = {
 			tabs,
 			children: tabs.map( ( tab ) => (
-				<Tabbed.Panel key={ tab.for } id={ tab.for }>
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
 					<h1>{ tab.label }</h1>
 					<p>{ generator.paragraph() }</p>
 				</Tabbed.Panel>
@@ -45,7 +44,7 @@ describe( 'Tabbed', () => {
 		const props = {
 			tabs,
 			children: tabs.map( ( tab ) => (
-				<Tabbed.Panel key={ tab.for } id={ tab.for }>
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
 					<h1>{ tab.label }</h1>
 					<p>{ generator.paragraph() }</p>
 				</Tabbed.Panel>
@@ -61,7 +60,7 @@ describe( 'Tabbed', () => {
 		const props = {
 			tabs,
 			children: tabs.map( ( tab ) => (
-				<Tabbed.Panel key={ tab.for } id={ tab.for }>
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
 					<h1>{ tab.label }</h1>
 					<p>{ generator.paragraph() }</p>
 				</Tabbed.Panel>
@@ -82,9 +81,9 @@ describe( 'Tabbed', () => {
 			tabs,
 			children: tabs.map( ( tab ) => (
 				<Tabbed.Panel
-					key={ tab.for }
-					id={ tab.for }
-					data-testid={ `panel-${ tab.for }` }
+					key={ tab.id }
+					id={ tab.id }
+					data-testid={ `panel-${ tab.id }` }
 				>
 					<h1>{ tab.label }</h1>
 					<p>{ generator.paragraph() }</p>
@@ -101,6 +100,6 @@ describe( 'Tabbed', () => {
 		userEvent.click( tabComponents[ at ] );
 
 		expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
-		expect( screen.getByTestId( `panel-${ tabs[ at ].for }` ) ).toBeVisible();
+		expect( screen.getByTestId( `panel-${ tabs[ at ].id }` ) ).toBeVisible();
 	} );
 } );

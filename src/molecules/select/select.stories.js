@@ -1,24 +1,10 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
-import generator from 'test/data-generator';
-import icons from 'atoms/icon/icon-mapping';
-
+import { generateSelectOptions } from './select.fixtures';
 import Select from './select';
 
-const generateSelectOptions = () =>
-	generator.array( () => {
-		const label = generator.name();
-
-		return {
-			value: generator.id(),
-			label,
-			icon: generator.pick( icons ),
-		};
-	}, generator.natural( { min: 5, max: 10 } ) );
-
 export default {
-	title: 'Molecules/Select',
+	title: 'Components/Molecules/Select',
 	component: Select,
 	argTypes: {
 		unroll: {
@@ -52,25 +38,30 @@ export default {
 				disable: true,
 			},
 		},
+		onChange: {
+			action: 'changed',
+			table: {
+				disable: true,
+			},
+		},
 	},
 };
 
-const Template = ( args ) => {
+export function Playground( args ) {
 	return (
 		<div className="block">
 			<p className="mb-2">This is me, a cool Select.</p>
 			<p className="mb-2">
-				As I&apos;m <b>still a work in progress</b>, there&apos;s some maintenance going
-				on, but soon enough you will be able to try me :)
+				As I&apos;m <b>still a work in progress</b>, there&apos;s some maintenance going on, but
+				soon enough you will be able to try me :)
 			</p>
 
-			<Select
-				{ ...args }
-				options={ generateSelectOptions() }
-				onChange={ action( 'select' ) }
-			/>
+			<Select { ...args } />
 		</div>
 	);
-};
+}
 
-export const Playground = Template.bind( {} );
+Playground.args = {
+	options: generateSelectOptions(),
+	placeholder: 'Select or Search',
+};

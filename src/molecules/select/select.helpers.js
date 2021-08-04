@@ -1,4 +1,5 @@
-import { getIDGenerator, path } from '../../common/toolset';
+import { getIDGenerator, toArray, join } from '../../common/toolset';
+import { DEFAULT } from '../../common/constants';
 
 const updateIDGenerator = getIDGenerator(
 	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -12,11 +13,16 @@ export function getUpdateID() {
 /**
  * Returns the select value based on its `multiple` prop;
  *
- * @param {Array} selected - Selection value
- * @param {boolean} multiple - Is multiple selection
- * @return {Array | Object} Array with selected items, if `multiple`
- * or a single item otherwise.
+ * @param {Array} selected - Selection value.
+ * @param {SelectAdapter} adapter - Adapter to handle options.
+ * @return {string} - String representation of the selected value.
  */
-export function toValue( selected, multiple ) {
-	return multiple ? selected : path( [ '0' ], selected );
+export function toValue( selected, adapter ) {
+	return join( toArray( selected || DEFAULT.ARRAY ).reduce( ( array, item ) => {
+		return array.concat( [ adapter.getLabel( item ) ] );
+	}, [] ) );
 }
+
+/**
+ * @typedef {import('./adapter').SelectAdapter} SelectAdapter
+ */

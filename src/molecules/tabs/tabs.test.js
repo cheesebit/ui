@@ -74,7 +74,6 @@ describe( 'Tabs', () => {
 		const tabs = generator.array( () => {
 			return {
 				id: generator.id(),
-				for: generator.id(),
 				label: generator.word( { length: 10 } ),
 			};
 		}, amount );

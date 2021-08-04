@@ -14,7 +14,7 @@ describe( '<Button />', () => {
 		render( <Playground { ...props } /> );
 
 		const component = screen.getByTestId( 'cb-button' );
-		screen.debug();
+
 		expect( component ).toHaveAttribute( 'type', 'button' );
 		expect( component ).toHaveTextContent( props.children );
 		expect( component ).toHaveClass( '-ghost' );

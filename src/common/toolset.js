@@ -258,3 +258,18 @@ export function uppercase( text ) {
 
 	return String( text ).toUpperCase();
 }
+
+/**
+ * Join strings together, adding the `and` to last element;
+ *
+ * @param  {string[]} args - Strings to be joined.
+ */
+export function join( args ) {
+	args = args || [];
+	if ( args.length < 2 ) {
+		return ( args || [] ).join( ',' );
+	}
+
+	return `${ args.slice( 0, -1 ).join( ', ' ) }, and ${ args.slice( -1 ) }`;
+}
+

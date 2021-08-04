@@ -1,8 +1,11 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Select } from './index';
-import { render, screen, userEvent } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './select.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories( stories );
 
 describe( 'Select', () => {
 	it( 'renders correctly', () => {
@@ -13,7 +16,7 @@ describe( 'Select', () => {
 			} ) ),
 		};
 
-		render( <Select { ...props } /> );
+		render( <Playground { ...props } /> );
 		const component = screen.getByTestId( 'cb-select' );
 
 		const options = screen.getAllByTestId( 'option' );
@@ -29,12 +32,12 @@ describe( 'Select', () => {
 			} ) ),
 		};
 
-		render( <Select { ...props } /> );
+		render( <Playground { ...props } /> );
 
 		const option = generator.pick( props.options );
 
 		userEvent.click( screen.getByText( option.label ) );
 
-		expect( screen.getByTestId( 'toggle' ) ).toHaveTextContent( option.label );
+		expect( screen.getByTestId( 'toggle' ) ).toHaveValue( option.label );
 	} );
 } );

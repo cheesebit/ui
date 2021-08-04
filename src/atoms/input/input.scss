@@ -1,5 +1,19 @@
 @import '../../styles/tools/_tools.mixins';
 
+.cb-input-wrapper {
+  position: relative;
+
+  & > .leading,
+  & > .trailing {
+    position: absolute;
+  }
+
+  & > .trailing {
+    position: absolute;
+    right: 16px;
+  }
+}
+
 .cb-input {
   @include transition(all);
 
@@ -24,6 +38,10 @@
 
   @include px(spacing-4);
   @include py(spacing-2);
+
+  &.has-trailing {
+    padding-right: 32px;
+  }
 
   height: 40px;
 

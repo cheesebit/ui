@@ -5,20 +5,21 @@ import { useClassy } from '@cheesebit/classy';
 import { isFunction, isNil, omit } from 'common/toolset';
 import { useClickOutside } from 'hooks/click-outside/';
 import { useID } from 'hooks/id';
-import DropdownItems from './dropdown-items';
-import DropdownItem from './dropdown-item';
-import DropdownToggle from './dropdown-toggle';
+import { useValue } from 'hooks/value';
 import DropdownContext from './dropdown-context';
+import DropdownItem from './dropdown-item';
+import DropdownItems from './dropdown-items';
+import DropdownToggle from './dropdown-toggle';
 
 import './dropdown.scss';
 
-const OMITTED_PROPS = [ 'toggle', 'collapsed', 'items', 'unroll' ];
+const OMITTED_PROPS = [ 'toggle', 'collapsed', 'items', 'unroll', 'hoverable' ];
 
 function Dropdown( props ) {
 	const { prop, classy } = useClassy( props );
 	const ref = useRef();
 	const id = useID( props );
-	const [ collapsed, setCollapsed ] = useState( props.collapsed || true );
+	const collapsed = useValue( props.collapsed || true );
 
 	const {
 		className,
@@ -30,11 +31,11 @@ function Dropdown( props ) {
 	} = props;
 
 	function handleToggle() {
-		setCollapsed( ( collapsed ) => ! collapsed );
+		collapsed( ( isCollapsed ) => ! isCollapsed );
 	}
 
 	useClickOutside( ref, function handleClickOutside() {
-		if ( collapsed ) {
+		if ( collapsed() ) {
 			return;
 		}
 
@@ -49,7 +50,7 @@ function Dropdown( props ) {
 		return (
 			<DropdownToggle
 				disabled={ disabled }
-				collapsed={ collapsed }
+				collapsed={ collapsed() }
 				onClick={ handleToggle }
 			>
 				{ toggle }
@@ -62,11 +63,11 @@ function Dropdown( props ) {
 			return children;
 		}
 
-		return <DropdownItems items={ items } collapsed={ collapsed } hoverable />;
+		return <DropdownItems items={ items } collapsed={ collapsed() } hoverable />;
 	}
 
 	return (
-		<DropdownContext.Provider value={ { collapsed, toggle: handleToggle } }>
+		<DropdownContext.Provider value={ { collapsed: collapsed(), toggle: handleToggle } }>
 			<div
 				data-testid="cb-dropdown"
 				{ ...omit( OMITTED_PROPS, others ) }
@@ -79,7 +80,7 @@ function Dropdown( props ) {
 						'-unroll-block': prop( { unroll: 'block' } ),
 					},
 					{
-						'is-collapsed': collapsed,
+						'is-collapsed': collapsed(),
 					},
 					className,
 				) }

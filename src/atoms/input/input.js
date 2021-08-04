@@ -2,14 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals, omit } from 'common/toolset';
-import { evaluateBorderless, evaluatePaddingless } from 'common/props-toolset';
+import { Box } from '../box';
+import { equals, omit, isNil } from 'common/toolset';
 import { InputHTMLAttributes } from 'common/props-dom';
 import { PaddinglessPropType, BorderlessPropType } from '../../common/prop-types';
 
 import './input.scss';
 
-const OMITTED_PROPS = [ 'paddingless', 'borderless', 'variant' ];
+const OMITTED_PROPS = [ 'variant', 'borderless', 'paddingless' ];
 
 export const Variant = {
 	danger: 'danger',
@@ -20,7 +20,7 @@ export const Variant = {
 
 class Input extends React.PureComponent {
 	get classes() {
-		const { borderless, className, paddingless, variant } = this.props;
+		const { className, variant, leading, trailing } = this.props;
 
 		return clsx(
 			'cb-input',
@@ -30,8 +30,10 @@ class Input extends React.PureComponent {
 				'-success': equals( variant, Variant.success ),
 				'-warn': equals( variant, Variant.warn ),
 			},
-			evaluateBorderless( borderless ),
-			evaluatePaddingless( paddingless ),
+			{
+				'has-leading': ! isNil( leading ),
+				'has-trailing': ! isNil( trailing ),
+			},
 			className,
 		);
 	}
@@ -40,17 +42,28 @@ class Input extends React.PureComponent {
 		const {
 			forwardedRef,
 			type,
+			trailing,
+			leading,
 			...others
 		} = this.props;
 
 		return (
-			<input
-				{ ...omit( OMITTED_PROPS, others ) }
-				ref={ forwardedRef }
-				className={ this.classes }
-				type={ type }
-				data-testid="cb-input"
-			/>
+			<Box
+				as="label"
+				trailing={ trailing }
+				leading={ leading }
+				paddingless
+				borderless
+				className="cb-input-wrapper"
+			>
+				<input
+					data-testid="cb-input"
+					{ ...omit( OMITTED_PROPS, others ) }
+					className={ this.classes }
+					ref={ forwardedRef }
+					type={ type }
+				/>
+			</Box>
 		);
 	}
 }
