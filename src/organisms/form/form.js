@@ -8,8 +8,6 @@ import { mergeDeepWith } from 'common/toolset';
 import { useForm } from 'hooks/form/use-form';
 import FormContext from './form-context';
 
-import './form.scss';
-
 const merge = mergeDeepWith( ( l, r ) => {
 	return [ l, r ];
 } );

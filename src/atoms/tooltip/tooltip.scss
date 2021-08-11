@@ -4,15 +4,19 @@ $tooltip-size: 16px;
 $tooltip-max-width: 290px;
 $tooltip-arrow-size: 5px;
 
-*:hover + .cb-tooltip {
-  pointer-events: initial;
-}
-
 .cb-tooltip {
-  display: block;
-  @include font;
-
   position: fixed;
+
+  display: block;
+  width: max-content;
+
+  max-width: $tooltip-max-width;
+
+  text-align: center;
+  text-transform: none;
+
+  pointer-events: none;
+  @include font;
   @include shadow;
   @include bordered;
 
@@ -23,12 +27,6 @@ $tooltip-arrow-size: 5px;
 
   @include px(spacing-4);
   @include py(spacing-2);
-
-  max-width: $tooltip-max-width;
-  width: max-content;
-  text-align: center;
-  text-transform: none;
-  pointer-events: none;
 
   @include var(z-index, layer-3);
 
@@ -139,4 +137,8 @@ $tooltip-arrow-size: 5px;
       $bottom-right: false
     );
   }
+}
+
+*:hover + .cb-tooltip {
+  pointer-events: initial;
 }

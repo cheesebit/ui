@@ -78,11 +78,13 @@
 }
 
 @mixin interactable {
-  overflow: visible;
   position: relative;
 
-  cursor: pointer;
+  overflow: visible;
+
   outline: none !important;
+
+  cursor: pointer;
   opacity: 1;
 }
 
@@ -233,8 +235,9 @@
   }
 
   max-width: $limit $important;
-  white-space: nowrap $important;
   overflow: hidden $important;
+
+  white-space: nowrap $important;
   text-overflow: ellipsis $important;
 }
 
@@ -242,18 +245,25 @@
 @mixin hidden($accessible: false) {
   @if $accessible != false {
     display: none !important;
+
     opacity: 0 !important;
   } @else {
     border: 0 !important;
+
     clip: rect(0 0 0 0) !important;
     clip-path: inset(50%) !important;
+
     height: 1px !important;
     margin: -1px !important;
     overflow: hidden !important;
     padding: 0 !important;
+
     position: absolute !important;
+
     white-space: nowrap !important;
+
     width: 1px !important;
+
     pointer-events: none;
   }
 }

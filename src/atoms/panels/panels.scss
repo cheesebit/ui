@@ -9,8 +9,10 @@
     @include font;
 
     position: relative;
-    animation: cb-animation-enter normal 0.25s ease-out 1;
+
     display: none;
+
+    animation: cb-animation-enter normal 0.25s ease-out 1;
   }
 
   & > .panel:target {

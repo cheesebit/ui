@@ -4,6 +4,7 @@
   @include var(background, color-background);
 
   position: relative;
+
   overflow: hidden;
 
   > img {
@@ -24,8 +25,8 @@
     left: 0;
 
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
 
   &.-ar-1x1 {

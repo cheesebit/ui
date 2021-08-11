@@ -24,17 +24,17 @@
     @include rounded;
 
     display: block;
-    @include var(border-color, color-gray-400);
+    margin: 0;
 
     padding: 0;
-    margin: 0;
+    @include var(border-color, color-gray-400);
   }
 
   & > .footer {
     display: block;
-    @include var(border-color, color-gray-400);
+    margin: 0;
 
     padding: 0;
-    margin: 0;
+    @include var(border-color, color-gray-400);
   }
 }

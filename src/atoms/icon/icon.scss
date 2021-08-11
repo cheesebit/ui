@@ -2,15 +2,16 @@
 
 .cb-icon {
   @include transition(opacity transform);
-  pointer-events: none;
 
   display: inline-flex;
-  justify-content: center;
   align-items: center;
-
-  fill: currentColor;
+  justify-content: center;
 
   transform-origin: 50% 50%;
+
+  pointer-events: none;
+
+  fill: currentColor;
 
   &.-success {
     @include var(fill, color-success);

@@ -11,9 +11,9 @@
     @include bordered($top: false, $right: false, $bottom: false, $left: false);
 
     @include var(background, color-white);
+    align-items: center;
 
     min-height: 48px;
-    align-items: center;
 
     &.is-highlighted {
       @include var(background, color-gray-300);
@@ -49,11 +49,11 @@
     @include shadow;
     @include var(z-index, layer-3);
 
+    padding: 0;
+
     overflow-x: hidden;
     overflow-y: auto;
 
     opacity: 1;
-
-    padding: 0;
   }
 }

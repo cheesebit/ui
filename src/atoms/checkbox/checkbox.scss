@@ -10,9 +10,9 @@
 
   .check {
     @include var(color, color-white);
+    position: absolute;
 
     fill: currentColor;
-    position: absolute;
   }
 
   .selector:first-of-type {
@@ -22,14 +22,16 @@
 
     @include transition(background color border-color);
 
-    cursor: pointer !important;
-    appearance: none;
+    flex-shrink: 0;
+
     outline: none;
+
+    cursor: pointer !important;
+
+    appearance: none;
 
     @include var(border-color, color-gray-400);
     @include var(background-color, color-white);
-
-    flex-shrink: 0;
 
     @include var(height, spacing-4);
     @include var(width, spacing-4);

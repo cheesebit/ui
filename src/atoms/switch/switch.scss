@@ -12,10 +12,10 @@
     @include transition(left);
 
     @include var(color, color-white);
-
-    fill: currentColor;
     position: absolute;
     left: 0;
+
+    fill: currentColor;
   }
 
   .selector:first-of-type {
@@ -25,14 +25,16 @@
 
     @include transition(background color border-color);
 
-    cursor: pointer !important;
-    appearance: none;
+    flex-shrink: 0;
+
     outline: none;
+
+    cursor: pointer !important;
+
+    appearance: none;
 
     @include var(border-color, color-gray-300);
     @include var(background-color, color-gray-300);
-
-    flex-shrink: 0;
 
     @include var(height, spacing-4);
     @include var(width, spacing-8);

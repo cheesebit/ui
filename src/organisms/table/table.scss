@@ -18,8 +18,8 @@
     @include var(font-size, font-size-sm);
     @include var(font-weight, font-weight-bold);
     @include var(color, color-gray-500);
+    text-transform: capitalize;
 
     text-decoration: none;
-    text-transform: capitalize;
   }
 }

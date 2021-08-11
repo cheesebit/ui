@@ -11,10 +11,12 @@ $background: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
   justify-content: center;
 
   > .circle {
-    font-size: 0.25rem;
 
     width: 10em;
     height: 10em;
+
+    font-size: 0.25rem;
+
     border-radius: 50%;
     box-shadow: $background, 2px 1px 0px color(gray-600);
 

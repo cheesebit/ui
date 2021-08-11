@@ -19,8 +19,8 @@
   & > .leading,
   & > .trailing {
     display: inline-flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     @include px(spacing-0);
     @include py(spacing-0);

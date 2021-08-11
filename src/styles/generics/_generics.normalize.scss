@@ -2,7 +2,8 @@
 ::before,
 ::after {
   box-sizing: border-box;
-  border-width: 0;
-  border-style: solid;
+
   border-color: #e2e8f0;
+  border-style: solid;
+  border-width: 0;
 }

@@ -11,8 +11,9 @@
   align-items: center;
   justify-content: center;
 
-  text-decoration: none;
   text-transform: uppercase;
+
+  text-decoration: none;
 
   @include var(background, color-transparent);
   @include var(border-color, color-gray-400);
@@ -27,8 +28,9 @@
     @include truncate;
 
     display: inline-block;
-    text-align: center;
+
     line-height: 2rem;
+    text-align: center;
   }
 
   .leading,
@@ -93,21 +95,21 @@
 
   &.-small {
     @include var(font-size, font-size-sm);
-    height: 40px;
     min-width: 40px;
+    height: 40px;
 
     @include px(spacing-2);
   }
 
   &.-medium {
     @include var(font-size, font-size-sm);
-    height: 56px;
     min-width: 56px;
+    height: 56px;
   }
 
   &.-large {
     @include var(font-size, font-size-base);
-    height: 72px;
     min-width: 72px;
+    height: 72px;
   }
 }

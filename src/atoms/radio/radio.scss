@@ -13,16 +13,17 @@
     @include bordered;
 
     @include transition(color border-color);
+    flex-shrink: 0;
+
+    border-radius: 50%;
+    outline: none;
 
     cursor: pointer !important;
+
     appearance: none;
-    outline: none;
 
     @include var(border-color, color-gray-400);
     @include var(background-color, color-white);
-
-    border-radius: 50%;
-    flex-shrink: 0;
 
     @include var(height, spacing-4);
     @include var(width, spacing-4);
@@ -30,9 +31,9 @@
     ~ .circle {
       @include transition(background color);
       @include var(color, color-white);
+      position: absolute;
 
       fill: currentColor;
-      position: absolute;
     }
 
     &:checked {

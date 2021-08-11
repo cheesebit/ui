@@ -7,6 +7,7 @@
   @include disableable;
 
   position: relative;
+
   display: inline-flex;
   flex-direction: column;
 
@@ -15,8 +16,8 @@
 
   & > .header {
     display: grid;
-    grid-template-columns: 40px 40px 1fr 40px 40px;
     grid-template-rows: 40px;
+    grid-template-columns: 40px 40px 1fr 40px 40px;
     align-items: center;
 
     @include var(column-gap, spacing-2);
@@ -44,8 +45,8 @@
 
     & > .date-display {
       display: grid;
-      grid-template-columns: 1fr;
       grid-template-rows: 28px 12px;
+      grid-template-columns: 1fr;
       align-items: center;
 
       & > .year,
@@ -76,9 +77,10 @@
       @include var(font-size, font-size-xs);
 
       position: relative;
+
       display: inline-flex;
-      justify-content: center;
       align-items: center;
+      justify-content: center;
 
       &.is-today {
         @include var(color, color-blue-300);

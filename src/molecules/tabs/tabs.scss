@@ -38,10 +38,12 @@ $active-indicator-height: spacing(1);
     @include var(font-weight, font-weight-default);
 
     position: relative;
+
     display: inline-flex;
     flex-direction: column;
 
     cursor: pointer;
+
     user-select: none;
 
     // text-transform: uppercase;
@@ -50,11 +52,6 @@ $active-indicator-height: spacing(1);
       @include my(spacing-0);
       @include var(margin-right, spacing-8);
       @include var(margin-left, spacing-0);
-
-      html[dir='rtl'] & {
-        @include var(margin-right, spacing-0);
-        @include var(margin-left, spacing-8);
-      }
     }
 
     &:hover:not(.is-active) {
@@ -68,10 +65,10 @@ $active-indicator-height: spacing(1);
 
     &.is-hidden {
       @include var(z-index, layer-0);
-
-      visibility: hidden;
       position: absolute;
       right: 0;
+
+      visibility: hidden;
     }
   }
 
@@ -82,13 +79,13 @@ $active-indicator-height: spacing(1);
       $easing: cubic-bezier(0.38, 0.8, 0.32, 1.07)
     );
     @include var(background, color-primary-500);
+    position: absolute;
+    bottom: 0;
+    left: 0;
 
     display: inline-block;
-    position: absolute;
-    height: $active-indicator-height;
     width: 0;
-    left: 0;
-    bottom: 0;
+    height: $active-indicator-height;
   }
 
   & > .overflown-tabs {

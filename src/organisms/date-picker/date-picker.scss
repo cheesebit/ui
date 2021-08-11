@@ -4,21 +4,23 @@
   @include font;
 
   position: relative;
+
   display: inline-flex;
   flex-direction: column;
 
   .input-toggle {
     & > .input {
-      text-align: center;
       width: 8rem;
+
+      text-align: center;
     }
   }
 
   .year-selector {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     @include px(spacing-6);
     @include var(padding-top, spacing-6);

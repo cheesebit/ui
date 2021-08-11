@@ -4,6 +4,7 @@
   @include font;
 
   position: relative;
+
   display: inline-flex;
   flex-direction: column;
 
@@ -21,6 +22,7 @@
     @include var(margin-top, spacing-2);
 
     top: calc(100% - 1px);
+
     min-width: 10rem;
   }
 
@@ -39,32 +41,33 @@
       @include truncate;
 
       display: inline-block;
-      text-align: left;
-      line-height: 2rem;
 
       // TODO: for God's sake get rid of this override
       justify-self: start;
+
+      line-height: 2rem;
+      text-align: left;
     }
   }
 
   &.-unroll-block {
     & > .menu {
-      left: 0 !important;
       right: 0 !important;
+      left: 0 !important;
     }
   }
 
   &.-unroll-right {
     & > .menu {
-      left: 0;
       right: auto;
+      left: 0;
     }
   }
 
   &.-unroll-left {
     & > .menu {
-      left: auto;
       right: 0;
+      left: auto;
     }
   }
 
