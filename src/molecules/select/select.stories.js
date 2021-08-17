@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { generateSelectOptions } from './select.fixtures';
+import { useSyncFruits, useAsyncUsers } from './select.fixtures';
 import Select from './select';
 
 export default {
@@ -47,7 +47,7 @@ export default {
 	},
 };
 
-export function Playground( args ) {
+export function Playground( ) {
 	return (
 		<div className="block">
 			<p className="mb-2">This is me, a cool Select.</p>
@@ -56,12 +56,27 @@ export function Playground( args ) {
 				soon enough you will be able to try me :)
 			</p>
 
-			<Select { ...args } />
+			<Select datasources={ [ useSyncFruits, useAsyncUsers ] } />
 		</div>
 	);
 }
 
-Playground.args = {
-	options: generateSelectOptions(),
-	placeholder: 'Select or Search',
-};
+// export function Playground( args ) {
+// 	return (
+// 		<div className="block">
+// 			<p className="mb-2">This is me, a cool Select.</p>
+// 			<p className="mb-2">
+// 				As I&apos;m <b>still a work in progress</b>, there&apos;s some maintenance going on, but
+// 				soon enough you will be able to try me :)
+// 			</p>
+
+// 			<Select { ...args } />
+// 		</div>
+// 	);
+// }
+
+// Playground.args = {
+// 	options: generateSelectOptions(),
+// 	placeholder: 'Select or Search',
+// };
+

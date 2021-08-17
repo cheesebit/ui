@@ -8,8 +8,11 @@
   @include disableable;
   @include rounded;
 
+  position: relative;
+
   align-items: center;
   justify-content: center;
+  overflow: hidden;
 
   text-transform: uppercase;
 

@@ -4,6 +4,7 @@ import { useClassy } from '@cheesebit/classy';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
+import { Overlay } from '../overlay';
 import { omit } from 'common/toolset';
 import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
 import { resolveProp } from 'common/props-toolset';
@@ -33,10 +34,10 @@ Button.defaultProps = {
 	size: Size.small,
 	type: 'button',
 	disabled: false,
+	busy: false,
 	borderless: false,
 	paddingless: 'vertical',
 };
-
 function Button( props ) {
 	const { prop, classy } = useClassy( props );
 	const {
@@ -45,6 +46,9 @@ function Button( props ) {
 		className,
 		icon,
 		leading,
+		children,
+		disabled,
+		busy,
 		...others
 	} = props;
 
@@ -63,6 +67,7 @@ function Button( props ) {
 			paddingless={ paddingless }
 			{ ...omit( OMITTED_PROPS, others ) }
 			type={ type }
+			disabled={ disabled || busy }
 			leading={ renderLeading() }
 			className={ classy(
 				'cb-button',
@@ -78,7 +83,15 @@ function Button( props ) {
 				},
 				className,
 			) }
-		/>
+		>
+			{ busy && (
+				<Overlay as="span" theme="light">
+					&middot;&middot;&middot;
+				</Overlay>
+			) }
+
+			{ children }
+		</Box>
 	);
 }
 
@@ -87,6 +100,10 @@ Button.propTypes = {
 	 * Determine borders to be supressed.
 	 */
 	borderless: BorderlessPropType,
+	/**
+	 * Button is busy performing action.
+	 */
+	busy: PropTypes.bool,
 	/**
 	 * Should this button be disabled.
 	 */

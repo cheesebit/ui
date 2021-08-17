@@ -1,6 +1,6 @@
 import React from 'react';
 
-import generator from 'test/data-generator';
+import { generateDropdownOptions } from './dropdown.fixtures';
 import Dropdown from './dropdown';
 
 export default {
@@ -21,21 +21,6 @@ export default {
 	},
 };
 
-const generateDropdownOptions = () =>
-	generator.array( ( { index } ) => {
-		const label = generator.word( { length: 10 } );
-
-		return {
-			id: generator.id(),
-			children: label,
-			// icon: generator.pick(keys(icons)),
-			onClick: () => {
-				// eslint-disable-next-line no-alert
-				alert( `You clicked ${ label } (Index ${ index })` );
-			},
-		};
-	}, 5 );
-
 const ITEMS = generateDropdownOptions();
 
 export function Playground( args ) {
@@ -43,7 +28,7 @@ export function Playground( args ) {
 }
 
 Playground.args = {
-	toggle: 'Action',
+	trigger: 'Action',
 	unroll: 'right',
 	hoverable: true,
 	items: ITEMS,

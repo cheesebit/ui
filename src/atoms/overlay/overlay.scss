@@ -17,15 +17,17 @@
 
   text-align: center;
 
+  background: inherit;
+
   backdrop-filter: blur(10px);
   @include var(margin, spacing-0);
   @include var(padding, spacing-4);
 
   &.-light {
-    background: rgba(rgb(255, 255, 255), 0.85);
+    background: white;
   }
 
   &.-dark {
-    background: rgba(rgb(160, 174, 192), 0.5);
+    background: rgba(rgb(160, 174, 192), 0.85);
   }
 }

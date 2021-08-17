@@ -5,61 +5,11 @@ import { useClassy } from '@cheesebit/classy';
 import { DEFAULT } from 'common/constants';
 import { FloatingList } from 'atoms/list';
 import { isNil } from 'common/toolset';
-import { useAnimation } from 'hooks/animation/';
-import DropdownContext from './dropdown-context';
 import DropdownItem from './dropdown-item';
 
-const ANIMATION_PHASES = {
-	top: {
-		out: 'cb-animation-enter-upward',
-		in: 'cb-animation-exit-downard',
-	},
-	right: {
-		out: 'cb-animation-enter-right',
-		in: 'cb-animation-exit-left',
-	},
-	bottom: {
-		out: 'cb-animation-enter-downard',
-		in: 'cb-animation-exit-upward',
-	},
-	left: {
-		out: 'cb-animation-enter-left',
-		in: 'cb-animation-exit-right',
-	},
-};
-
-const STATES = {
-	out: {
-		on: {
-			enter: 'in',
-		},
-	},
-	in: {
-		on: {
-			exit: 'out',
-		},
-	},
-};
-
 function DropdownItems( props ) {
-	const { collapsed } = useContext( DropdownContext );
 	const { classy } = useClassy( props );
-	const { className: animationClassName, onEnter, onExit } = useAnimation(
-		STATES,
-		ANIMATION_PHASES.bottom,
-	);
 	const { items, className, children, ...others } = props;
-
-	useEffect(
-		function animate() {
-			if ( collapsed ) {
-				onExit();
-			} else {
-				onEnter();
-			}
-		},
-		[ collapsed ],
-	);
 
 	function renderItems() {
 		if ( ! isNil( children ) ) {
@@ -67,6 +17,7 @@ function DropdownItems( props ) {
 		}
 
 		return ( items || DEFAULT.ARRAY ).map( ( item ) => (
+			// TODO: use adapter here, instead of assuming the item has an ID
 			<DropdownItem key={ item.id } { ...item } />
 		) );
 	}
@@ -74,7 +25,7 @@ function DropdownItems( props ) {
 	return (
 		<FloatingList
 			data-testid="items"
-			className={ classy( 'menu', animationClassName, className ) }
+			className={ classy( 'menu', className ) }
 			{ ...others }
 		>
 			{ renderItems() }

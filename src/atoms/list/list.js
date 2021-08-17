@@ -8,7 +8,7 @@ import ListItem from './list-item';
 
 import './list.scss';
 
-const OMITTED_PROPS = [ 'hoverable', 'collapsed', 'striped' ];
+const OMITTED_PROPS = [ 'hoverable', 'striped' ];
 
 const List = ( {
 	as = 'section',

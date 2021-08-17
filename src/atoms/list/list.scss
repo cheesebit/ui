@@ -18,6 +18,10 @@
     &.is-highlighted {
       @include var(background, color-gray-300);
     }
+
+    &.is-hidden {
+      @include hidden;
+    }
   }
 
   &.-bordered {
@@ -43,7 +47,7 @@
 
   &.-floatable {
     @include rounded;
-    @include transition(max-height opacity);
+    @include transition(opacity, $duration: 75ms);
     @include var(background, color-white);
 
     @include shadow;

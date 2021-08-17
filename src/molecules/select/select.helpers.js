@@ -1,14 +1,5 @@
-import { getIDGenerator, toArray, join } from '../../common/toolset';
-import { DEFAULT } from '../../common/constants';
-
-const updateIDGenerator = getIDGenerator(
-	'0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ',
-	5,
-);
-
-export function getUpdateID() {
-	return updateIDGenerator();
-}
+import { DEFAULT } from 'common/constants';
+import { toArray, join } from 'common/toolset';
 
 /**
  * Returns the select value based on its `multiple` prop;

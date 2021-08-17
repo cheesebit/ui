@@ -17,11 +17,11 @@ function DatePicker( { className, value: valueProp } ) {
 	return (
 		<div className={ clsx( 'cb-date-picker', className ) }>
 			<Dropdown
-				toggle={ ( { disabled, collapsed, onClick } ) => (
+				toggle={ ( { disabled, expanded, onClick } ) => (
 					<div
 						className="input-toggle"
 						onFocus={ () => {
-							collapsed && ! disabled && onClick();
+							expanded && ! disabled && onClick();
 						} }
 					>
 						<Input

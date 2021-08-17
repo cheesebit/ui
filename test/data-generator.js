@@ -15,14 +15,9 @@ export const chance = new ChanceJS();
  * template function.
  * The template function receives as named parameter the current `index`.
  *
- * @param {Object} args
- * @param {Function} args.template Template function to generate one item
- * @param {number} args.amount Amount of items to be generated. If none is provide,
+ * @param {Function} template Template function to generate one item
+ * @param {number} amount Amount of items to be generated. If none is provide,
  * then a random amount is generated.
- * @param template
- * @param amount
- * @param template
- * @param amount
  * @return {Array} Returns an array of lenght `amount`, with items
  * generated based on the provided `template`.
  */

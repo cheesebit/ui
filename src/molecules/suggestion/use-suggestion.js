@@ -14,24 +14,6 @@ export const QueryStatus = {
 };
 
 /**
- * @typedef {Object} SuggestionItemAdapter
- * @property {Function} getID - Get item ID
- * @property {Function} getLabel - Get item label
- */
-
-/**
- * @typedef {Object} SuggestionDatasource<T>
- * @property {SuggestionItemAdapter} adapter - Item adapter for this datasource
- * @property {Function} fetch - Get item label
- */
-
-/**
- * @typedef {Object} SuggestionOption
- * @property {string} label - Option label
- * @property {string | number} value - Option unique value
- */
-
-/**
  * getData
  *
  * @param {Function[]} datasources
@@ -100,3 +82,21 @@ function useSuggestion( delay = 450, ...datasources ) {
 }
 
 export default useSuggestion;
+
+/**
+ * @typedef {Object} SuggestionItemAdapter
+ * @property {Function} getID - Get item ID
+ * @property {Function} getLabel - Get item label
+ */
+
+/**
+ * @typedef {Object} SuggestionDatasource<T>
+ * @property {SuggestionItemAdapter} adapter - Item adapter for this datasource
+ * @property {Function} fetch - Get item label
+ */
+
+/**
+ * @typedef {Object} SuggestionOption
+ * @property {string} label - Option label
+ * @property {string | number} value - Option unique value
+ */

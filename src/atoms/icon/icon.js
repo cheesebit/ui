@@ -62,7 +62,7 @@ class Icon extends React.PureComponent {
 
 Icon.propTypes = {
 	...SVGAttributes,
-	size: PropTypes.number,
+	size: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
 	name: PropTypes.oneOf( Object.keys( mapping ) ).isRequired,
 	variant: PropTypes.oneOf( [
 		Variant.danger,
@@ -72,6 +72,6 @@ Icon.propTypes = {
 	] ),
 };
 
-Icon.defaultProps = { size: 16 };
+Icon.defaultProps = { size: '1em' };
 
 export default Icon;

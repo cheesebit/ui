@@ -8,7 +8,7 @@
   display: inline-flex;
   flex-direction: column;
 
-  & > .toggle {
+  & > .trigger {
     @include var(font-size, font-size-base);
 
     text-transform: initial;
@@ -17,13 +17,15 @@
   & > .menu {
     position: absolute;
 
-    @include mx(spacing-0);
-    @include var(margin-bottom, spacing-0);
-    @include var(margin-top, spacing-2);
-
     top: calc(100% - 1px);
 
     min-width: 10rem;
+    max-height: 0;
+    overflow-y: auto;
+
+    @include mx(spacing-0);
+    @include var(margin-bottom, spacing-0);
+    @include var(margin-top, spacing-2);
   }
 
   & > .menu > .item {
@@ -71,9 +73,9 @@
     }
   }
 
-  &.is-collapsed {
+  &.is-expanded {
     & > .menu {
-      max-height: 0;
+      max-height: 240px;
     }
   }
 }

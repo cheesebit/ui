@@ -118,11 +118,11 @@
   }
 }
 
-@mixin disableable {
+@mixin disableable($opacity: .25) {
   &.is-disabled,
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.25;
+    opacity: $opacity;
 
     user-select: none;
 

@@ -1,60 +1,81 @@
-import React, { useState, useRef } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useClassy } from '@cheesebit/classy';
+import { useValue } from '@cheesebit/use-value';
 
 import { isFunction, isNil, omit } from 'common/toolset';
 import { useClickOutside } from 'hooks/click-outside/';
 import { useID } from 'hooks/id';
-import { useValue } from 'hooks/value';
 import DropdownContext from './dropdown-context';
 import DropdownItem from './dropdown-item';
 import DropdownItems from './dropdown-items';
-import DropdownToggle from './dropdown-toggle';
+import DropdownTrigger from './dropdown-trigger';
 
 import './dropdown.scss';
 
-const OMITTED_PROPS = [ 'toggle', 'collapsed', 'items', 'unroll', 'hoverable' ];
+const OMITTED_PROPS = [ 'trigger', 'expanded', 'items', 'unroll', 'hoverable' ];
 
-function Dropdown( props ) {
-	const { prop, classy } = useClassy( props );
+export function useTrigger( props ) {
+	const expanded = useValue( Boolean( props.expanded ) );
+
+	React.useEffect(
+		function update() {
+			expanded( Boolean( props.expanded ) );
+		},
+		[ props.expanded ],
+	);
+
+	const toggle = React.useCallback(
+		function toggle() {
+			expanded( ( isExpanded ) => ! isExpanded );
+		},
+		[ expanded ],
+	);
+
+	return { expanded, toggle };
+}
+
+export function useDropdown( props ) {
+	const { expanded, toggle } = useTrigger( props );
+
+	return { expanded, toggle };
+}
+
+export function GenericDropdown( props ) {
 	const ref = useRef();
 	const id = useID( props );
-	const collapsed = useValue( props.collapsed || true );
+	const { prop, classy } = useClassy( props );
 
 	const {
-		className,
 		children,
-		items,
+		className,
 		disabled,
+		items,
+		onBlur,
+		trigger,
+		expanded,
 		toggle,
 		...others
 	} = props;
 
-	function handleToggle() {
-		collapsed( ( isCollapsed ) => ! isCollapsed );
-	}
-
 	useClickOutside( ref, function handleClickOutside() {
-		if ( collapsed() ) {
+		if ( ! expanded() ) {
 			return;
 		}
 
-		handleToggle();
+		toggle();
+		onBlur?.();
 	} );
 
-	function renderToggle() {
-		if ( isFunction( toggle ) ) {
-			return toggle( { disabled, onClick: handleToggle, collapsed } );
+	function renderTrigger() {
+		if ( isFunction( trigger ) ) {
+			return trigger( { disabled, expanded, toggle } );
 		}
 
 		return (
-			<DropdownToggle
-				disabled={ disabled }
-				collapsed={ collapsed() }
-				onClick={ handleToggle }
-			>
-				{ toggle }
-			</DropdownToggle>
+			<DropdownTrigger disabled={ disabled } expanded={ expanded() } onClick={ toggle }>
+				{ trigger }
+			</DropdownTrigger>
 		);
 	}
 
@@ -63,11 +84,11 @@ function Dropdown( props ) {
 			return children;
 		}
 
-		return <DropdownItems items={ items } collapsed={ collapsed() } hoverable />;
+		return <DropdownItems items={ items } hoverable />;
 	}
 
 	return (
-		<DropdownContext.Provider value={ { collapsed: collapsed(), toggle: handleToggle } }>
+		<DropdownContext.Provider value={ { expanded, toggle } }>
 			<div
 				data-testid="cb-dropdown"
 				{ ...omit( OMITTED_PROPS, others ) }
@@ -80,17 +101,27 @@ function Dropdown( props ) {
 						'-unroll-block': prop( { unroll: 'block' } ),
 					},
 					{
-						'is-collapsed': collapsed(),
+						'is-expanded': expanded(),
 					},
 					className,
 				) }
 				id={ id }
 			>
-				{ renderToggle() }
+				{ renderTrigger() }
 				{ renderItems() }
 			</div>
 		</DropdownContext.Provider>
 	);
+}
+
+GenericDropdown.Items = DropdownItems;
+GenericDropdown.Item = DropdownItem;
+GenericDropdown.Trigger = DropdownTrigger;
+
+function Dropdown( props ) {
+	const dropdownProps = useDropdown( props );
+
+	return <GenericDropdown { ...props } { ...dropdownProps } />;
 }
 
 Dropdown.propTypes = {
@@ -103,6 +134,6 @@ Dropdown.defaultProps = {
 
 Dropdown.Items = DropdownItems;
 Dropdown.Item = DropdownItem;
-Dropdown.Toggle = DropdownToggle;
+Dropdown.Trigger = DropdownTrigger;
 
 export default Dropdown;

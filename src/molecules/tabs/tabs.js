@@ -1,6 +1,7 @@
 import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useValue } from '@cheesebit/use-value';
 
 import {
 	OVERFLOW_OPTIONS,
@@ -15,7 +16,6 @@ import { isEmpty, isNil, omit } from 'common/toolset';
 import { OverflowWatcher } from 'hocs/overflow-watcher';
 import { setElementStyle } from 'common/ui-toolset';
 import { useID } from 'hooks/id';
-import { useValue } from 'hooks/value';
 import ActiveTabIndicator from './active-indicator';
 import selectors from './selectors';
 import Tab from './tabs-tab';
@@ -60,12 +60,12 @@ function Tabs( props ) {
 		active( window.location.hash );
 	}, [] );
 
-	function renderToggle( { disabled, collapsed, onClick } ) {
+	function renderTrigger( { disabled, expanded } ) {
 		return (
-			<Dropdown.Toggle
+			<Dropdown.Trigger
 				disabled={ disabled }
-				collapsed={ collapsed() }
-				onClick={ onClick }
+				expanded={ expanded() }
+				onClick={ expanded( ( c ) => ! c ) }
 				icon="more-horizontal"
 				trailing={ null }
 				borderless
@@ -85,7 +85,7 @@ function Tabs( props ) {
 		}
 
 		return (
-			<Dropdown className="overflown-tabs" toggle={ renderToggle } unroll="left">
+			<Dropdown className="overflown-tabs" trigger={ renderTrigger } unroll="left">
 				<Dropdown.Items hoverable>{ overflownItems.map( renderDropdownItem ) }</Dropdown.Items>
 			</Dropdown>
 		);

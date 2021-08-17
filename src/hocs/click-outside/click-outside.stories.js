@@ -1,7 +1,7 @@
 import React from 'react';
+import { useValue } from '@cheesebit/use-value';
 
 import { Input } from 'atoms/input';
-import { useValue } from '../../hooks/value';
 import { withForwardedRef } from '../with-forwarded-ref';
 import ClickOutside from './click-outside';
 

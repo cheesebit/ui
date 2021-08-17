@@ -44,7 +44,7 @@ function Suggestion( { className, delay = 450, datasources = [] } ) {
 	return (
 		<div className={ clsx( 'cb-suggestion', className ) }>
 			<Input value={ query } onChange={ handleChange } />
-			<Select options={ options } collapsed={ status !== 'done' } />
+			<Select options={ options } expanded={ status !== 'done' } />
 			{ JSON.stringify( options ) }
 		</div>
 	);

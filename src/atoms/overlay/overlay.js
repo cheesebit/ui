@@ -11,22 +11,26 @@ export const Theme = {
 	dark: 'dark',
 };
 
-const Overlay = ( { className, children, theme, ...others } ) => (
-	<div
-		className={ clsx(
-			'cb-overlay',
-			{
-				'-light': equals( theme )( Theme.light ),
-				'-dark': equals( theme )( Theme.dark ),
-			},
-			className,
-		) }
-		data-testid="cb-overlay"
-		{ ...others }
-	>
-		{ children }
-	</div>
-);
+const Overlay = ( { as = 'div', className, children, theme, ...others } ) => {
+	const Tag = as;
+
+	return (
+		<Tag
+			className={ clsx(
+				'cb-overlay',
+				{
+					'-light': equals( theme )( Theme.light ),
+					'-dark': equals( theme )( Theme.dark ),
+				},
+				className,
+			) }
+			data-testid="cb-overlay"
+			{ ...others }
+		>
+			{ children }
+		</Tag>
+	);
+};
 
 Overlay.propTypes = {
 	theme: PropTypes.oneOf( [ Theme.light, Theme.dark ] ),
