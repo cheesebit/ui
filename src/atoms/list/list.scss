@@ -1,63 +1,66 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-list {
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
 
-  > .item {
-    @include font;
-    @include disableable;
-    @include transition(background);
-    @include bordered($top: false, $right: false, $bottom: false, $left: false);
+	> .item {
+		@include font;
+		@include disableable;
+		@include transition(background);
+		@include bordered(
+			$top: false,
+			$right: false,
+			$bottom: false,
+			$left: false
+		);
 
-    @include var(background, color-white);
-    align-items: center;
+		@include var(background, color-white);
 
-    min-height: 48px;
+		align-items: center;
+		min-height: 48px;
 
-    &.is-highlighted {
-      @include var(background, color-gray-300);
-    }
+		&.is-highlighted {
+			@include var(background, color-gray-300);
+		}
 
-    &.is-hidden {
-      @include hidden;
-    }
-  }
+		&.is-hidden {
+			@include hidden;
+		}
+	}
 
-  &.-bordered {
-    > .item {
-      @include bordered($color: color(gray-300), $style: dotted);
-    }
-  }
+	&.-bordered {
+		> .item {
+			@include bordered($color: color(gray-300), $style: dotted);
+		}
+	}
 
-  &.-hoverable {
-    > .item {
-      @include interactable;
-      @include hoverable {
-        @include var(background, color-gray-200);
-      }
-    }
-  }
+	&.-hoverable {
+		> .item {
+			@include interactable;
+			@include hoverable {
+				@include var(background, color-gray-200);
+			}
+		}
+	}
 
-  &.-striped {
-    > .item:nth-of-type(odd) {
-      @include var(background, color-gray-100);
-    }
-  }
+	&.-striped {
+		> .item:nth-of-type(odd) {
+			@include var(background, color-gray-100);
+		}
+	}
 
-  &.-floatable {
-    @include rounded;
-    @include transition(opacity, $duration: 75ms);
-    @include var(background, color-white);
+	&.-floatable {
+		@include rounded;
+		@include transition(opacity, $duration: 75ms);
+		@include var(background, color-white);
 
-    @include shadow;
-    @include var(z-index, layer-3);
+		@include shadow;
+		@include var(z-index, layer-3);
 
-    padding: 0;
-
-    overflow-x: hidden;
-    overflow-y: auto;
-
-    opacity: 1;
-  }
+		padding: 0;
+		overflow-x: hidden;
+		overflow-y: auto;
+		opacity: 100%;
+	}
 }

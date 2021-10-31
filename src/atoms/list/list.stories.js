@@ -25,17 +25,22 @@ export default {
 				type: 'boolean',
 			},
 		},
+		children: {
+			table: {
+				disable: true,
+			},
+		},
 	},
 };
 
-export function Playground( args ) {
+export function Playground(args) {
 	return (
 		<div className="block">
 			<p className="mb-2">
 				This is me, a cool List ready to be played around. Try me :)
 			</p>
 
-			<List { ...args } />
+			<List {...args} />
 		</div>
 	);
 }
@@ -43,22 +48,22 @@ export function Playground( args ) {
 Playground.args = {
 	children: (
 		<React.Fragment>
-			{ range( 0, generator.natural( { min: 5, max: 10 } ) ).map( ( value ) => (
+			{range(0, generator.natural({ min: 5, max: 10 })).map((value) => (
 				<List.Item
-					key={ value }
+					key={value}
 					leading={
 						<Checkbox
-							id={ value }
+							id={value}
 							aria-label="List item 1"
 							name="list"
-							value={ value }
+							value={value}
 						/>
 					}
 					as="label"
 				>
-					{ generator.sentence() }
+					{generator.sentence()}
 				</List.Item>
-			) ) }
+			))}
 		</React.Fragment>
 	),
 };

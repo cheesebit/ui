@@ -1,10 +1,27 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 
 import List from './list';
 
-const FloatingList = ( { className, ...others } ) => {
-	return <List className={ clsx( '-floatable', className ) } { ...others } />;
-};
+const FloatingList = React.forwardRef(
+	/**
+	 *
+	 * @param {import('./list').ListProps} props - floating list props
+	 * @param {React.Ref<HTMLElement>} ref
+	 * @return {JSX.Element} Floating list component
+	 */
+	function FloatingList(props, ref) {
+		const { className, ...others } = props;
+		const { classy } = useClassy(props);
+
+		return (
+			<List
+				className={classy('-floatable', className)}
+				ref={ref}
+				{...others}
+			/>
+		);
+	}
+);
 
 export default FloatingList;
