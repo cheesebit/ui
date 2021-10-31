@@ -1,6 +1,7 @@
+// @ts-nocheck
 import React from 'react';
 
-import { DEFAULT } from '../../common/constants';
+import { DEFAULT } from 'common/constants';
 import ResizeWatcher from './resize-watcher';
 
 /**
@@ -12,10 +13,10 @@ import ResizeWatcher from './resize-watcher';
  * @param {number} options.wait Debounce wait to the resize listener
  * @return {React.Component} The given WrappedComponent as children of a ResizeWatcher.
  */
-function withResizeWatcher( WrappedComponent, options ) {
-	return ( props ) => (
-		<ResizeWatcher { ...( options || DEFAULT.OBJECT ) }>
-			{ ( { width } ) => <WrappedComponent { ...props } width={ width } /> }
+function withResizeWatcher(WrappedComponent, options) {
+	return (props) => (
+		<ResizeWatcher {...(options || DEFAULT.OBJECT)}>
+			{({ width }) => <WrappedComponent {...props} width={width} />}
 		</ResizeWatcher>
 	);
 }

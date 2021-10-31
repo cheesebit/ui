@@ -11,30 +11,33 @@ export function Playground() {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool ResizeWatcher HOC ready to be played around. Try me
-				:)
+				This is me, a cool ResizeWatcher HOC ready to be played around.
+				Try me :)
 			</p>
 
 			<div>
-				<ResizeWatcher onResize={ () => {} }>
-					{ ( { width } ) => {
+				<ResizeWatcher onResize={() => {}}>
+					{({ width }) => {
 						return (
 							<p className="p-4 bg-gray-200 border">
-								Width <code>{ width }px</code>
+								Viewport width <code>{width}px</code>
 							</p>
 						);
-					} }
+					}}
 				</ResizeWatcher>
 
 				<div>
-					<ResizeWatcher onResize={ () => {} }>
-						{ ( { width, ref } ) => {
+					<ResizeWatcher onResize={() => {}}>
+						{({ width, ref }) => {
 							return (
-								<div className="p-4 bg-gray-200 border" ref={ ref }>
-									Width <code>{ width }px</code>
+								<div
+									className="p-4 bg-gray-200 border"
+									ref={ref}
+								>
+									Grey area width <code>{width}px</code>
 								</div>
 							);
-						} }
+						}}
 					</ResizeWatcher>
 				</div>
 			</div>
