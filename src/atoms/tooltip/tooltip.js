@@ -1,163 +1,126 @@
-/* eslint-disable @wordpress/no-unused-vars-before-return */
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { equals, isNil } from '../../common/toolset';
-import { calculatePosition, getAnimationPhases } from './tooltip.helpers';
-import { useAnimation } from '../../hooks/animation';
-import { BOTTOM_REGEX, LEFT_REGEX, RIGHT_REGEX, TOP_REGEX } from './constants';
-import logger from '../../common/logger';
+import {
+	BOTTOM_REGEX,
+	CENTER_REGEX,
+	END_REGEX,
+	LEFT_REGEX,
+	RIGHT_REGEX,
+	START_REGEX,
+	TOP_REGEX,
+} from './constants';
+import { isBlank, isNil } from 'common/toolset';
 
 import './tooltip.scss';
 
-export const Mode = {
-	light: 'light',
-	dark: 'dark',
-};
+/**
+ * Tooltip.
+ *
+ * @param {TooltipProps} props
+ * @return {JSX.Element} Tooltip component.
+ */
+function Tooltip(props) {
+	const {
+		mode = 'dark',
+		placement = 'top-start',
+		variant = 'neutral',
+		children,
+		className,
+		text,
+	} = props;
+	const { classy, prop } = useClassy({ mode, variant });
 
-export const Placement = {
-	top: 'top',
-	bottom: 'bottom',
-	left: 'left',
-	right: 'right',
-};
-
-export const Variant = {
-	danger: 'danger',
-	info: 'info',
-	success: 'success',
-	warn: 'warn',
-};
-
-const STATES = {
-	out: {
-		on: {
-			enter: 'in',
-		},
-	},
-	in: {
-		on: {
-			exit: 'out',
-		},
-	},
-};
-
-const Tooltip = ( {
-	children,
-	className,
-	mode,
-	placement: placementProp,
-	style: styleProp,
-	title,
-	variant,
-	...others
-} ) => {
-	const selfRef = React.useRef();
-	const [ style, setStyle ] = React.useState( { ...styleProp } );
-
-	const [ { top, left, placement }, setPosition ] = React.useState( {
-		top: 0,
-		left: 0,
-		placement: placementProp,
-	} );
-	const { className: animationClassName, onEnter, onExit } = useAnimation(
-		STATES,
-		getAnimationPhases( placement ),
-	);
-	// TODO: Update tooltip position when it is visible and user scrolls
-
-	React.useEffect(
-		function updateStyle() {
-			setStyle( { ...styleProp, top, left } );
-		},
-		[ top, left ],
-	);
-
-	const handleMouseEnter = ( e ) => {
-		logger.debug(
-			'[tooltip]',
-			e.currentTarget.offsetTop,
-			e.currentTarget.getBoundingClientRect().top,
-		);
-
-		setPosition(
-			calculatePosition( placementProp, e.currentTarget, selfRef.current ),
-		);
-		onEnter( e );
-	};
-
-	const handleMouseLeave = ( e ) => {
-		onExit( e );
-	};
-
-	if ( isNil( title ) || isNil( children ) ) {
-		return children;
+	if (
+		(typeof text == 'string' && isBlank(text)) ||
+		!Boolean(text) ||
+		isNil(children)
+	) {
+		return null;
 	}
 
 	return (
-		<React.Fragment>
-			{ React.cloneElement( children, {
-				onMouseEnter: handleMouseEnter,
-				onMouseLeave: handleMouseLeave,
-			} ) }
+		<div className="cb-tooltip-container">
+			{children}
 			<span
-				className={ clsx(
+				data-testid="cb-tooltip"
+				className={classy(
 					'cb-tooltip',
 					{
-						'-top': TOP_REGEX.test( placement ),
-						'-bottom': BOTTOM_REGEX.test( placement ),
-						'-right': RIGHT_REGEX.test( placement ),
-						'-left': LEFT_REGEX.test( placement ),
+						'-top': TOP_REGEX.test(placement),
+						'-right': RIGHT_REGEX.test(placement),
+						'-bottom': BOTTOM_REGEX.test(placement),
+						'-left': LEFT_REGEX.test(placement),
 					},
 					{
-						'-light': equals( mode, Mode.light ),
-						'-dark': equals( mode, Mode.dark ),
+						'-start': START_REGEX.test(placement),
+						'-center': CENTER_REGEX.test(placement),
+						'-end': END_REGEX.test(placement),
 					},
 					{
-						'-danger': equals( variant, Variant.danger ),
-						'-info': equals( variant, Variant.info ),
-						'-success': equals( variant, Variant.success ),
-						'-warn': equals( variant, Variant.warn ),
+						'-light': prop({ mode: 'light' }),
+						'-dark': prop({ mode: 'dark' }),
 					},
-					animationClassName,
-					className,
-				) }
-				{ ...others }
-				ref={ selfRef }
-				title={ null }
-				style={ style }
-				aria-label={ title }
-				data-testid="cb-tooltip"
+					{
+						'-danger': prop({ variant: 'danger' }),
+						'-info': prop({ variant: 'info' }),
+						'-success': prop({ variant: 'success' }),
+						'-warn': prop({ variant: 'warn' }),
+					},
+					// animationClassName,
+					className
+				)}
+				title={null}
+				aria-label={typeof text == 'string' ? text : ''}
 			>
-				{ title }
-				{ /* TODO Add an arrow */ }
+				{text}
 			</span>
-		</React.Fragment>
+		</div>
 	);
-};
+}
 
-Tooltip.propTypes = {
-	children: PropTypes.node,
-	text: PropTypes.string,
-	placement: PropTypes.oneOf( [
-		Placement.top,
-		Placement.bottom,
-		Placement.right,
-		Placement.left,
-	] ),
-	mode: PropTypes.oneOf( [ Mode.light, Mode.dark ] ),
-	variant: PropTypes.oneOf( [
-		Variant.danger,
-		Variant.info,
-		Variant.success,
-		Variant.warn,
-	] ),
-};
-
-Tooltip.defaultProps = {
-	placement: Placement.top,
-	mode: Mode.dark,
-};
+// storybook use only
+// Tooltip.propTypes = {
+// 	children: PropTypes.node,
+// 	text: PropTypes.node,
+// 	placement: PropTypes.oneOf( [
+// 		'top-start',
+// 		'top-center',
+// 		'top-end',
+// 		'bottom-start',
+// 		'bottom-center',
+// 		'bottom-end',
+// 		'left-start',
+// 		'left-center',
+// 		'left-end',
+// 		'right-start',
+// 		'right-center',
+// 		'right-end',
+// 	] ),
+// 	mode: PropTypes.oneOf( [ 'light', 'dark' ] ),
+// 	variant: PropTypes.oneOf( [ 'danger', 'info', 'success', 'warn', 'neutral' ] ),
+// };
 
 export default Tooltip;
+
+/**
+ * @typedef {('top-start' | 'top-center' | 'top-end' | 'bottom-start' | 'bottom-center' | 'bottom-end' | 'left-start' | 'left-center' | 'left-end' | 'right-start' | 'right-center' | 'right-end')} TooltipPlacement
+ */
+
+/**
+ * @typedef {('light' | 'dark')} TooltipMode
+ */
+
+/**
+ * @typedef {('danger' | 'info' | 'success' | 'warn' | 'neutral')} TooltipVariant
+ */
+
+/**
+ * @typedef {Object} TooltipProps
+ * @property {React.ReactElement} [children] - Tooltip content.
+ * @property {React.ReactNode} [text] - Helper text for the tooltip.
+ * @property {string} [className] - Additional class name.
+ * @property {TooltipPlacement} [placement] - Position of the tooltip.
+ * @property {TooltipMode} [mode] - Color scheme.
+ * @property {TooltipVariant} [variant] - Tooltip variant.
+ */

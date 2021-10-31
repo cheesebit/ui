@@ -1,144 +1,313 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 $tooltip-size: 16px;
 $tooltip-max-width: 290px;
 $tooltip-arrow-size: 5px;
 
-.cb-tooltip {
-  position: fixed;
+.cb-tooltip-container {
+	position: relative;
+	display: inline-flex;
+	cursor: help;
 
-  display: block;
-  width: max-content;
+	> .cb-tooltip {
+		position: absolute;
+		display: block;
+		width: max-content;
+		max-width: $tooltip-max-width;
+		text-align: center;
+		text-transform: none;
+		opacity: 0%;
+		pointer-events: none;
+		@include font;
+		@include shadow;
+		@include bordered;
 
-  max-width: $tooltip-max-width;
+		@include var(font-size, font-size-sm);
+		@include var(font-weight, font-weight-default);
 
-  text-align: center;
-  text-transform: none;
+		@include transition(opacity transform, $duration: 250ms, $delay: 500ms);
 
-  pointer-events: none;
-  @include font;
-  @include shadow;
-  @include bordered;
+		@include px(spacing-4);
+		@include py(spacing-2);
 
-  @include var(font-size, font-size-sm);
-  @include var(font-weight, font-weight-default);
+		@include var(z-index, layer-3);
 
-  @include transition(opacity transform, $duration: 125ms);
+		&.-light {
+			@include var(background, color-white);
+			@include var(border-color, color-white);
+			@include var(color, color-gray-700);
+		}
 
-  @include px(spacing-4);
-  @include py(spacing-2);
+		&.-dark {
+			@include var(background, color-gray-700);
+			@include var(border-color, color-gray-700);
+			@include var(color, color-white);
+		}
 
-  @include var(z-index, layer-3);
+		&.-success {
+			&.-light {
+				@include var(background, color-white);
+				@include var(border-color, color-white);
+				@include var(color, color-success);
+			}
 
-  &.-light {
-    @include var(background, color-white);
-    @include var(border-color, color-white);
-    @include var(color, color-gray-700);
-  }
+			&.-dark {
+				@include var(background, color-success);
+				@include var(border-color, color-success);
+				@include var(color, color-white);
+			}
+		}
 
-  &.-dark {
-    @include var(background, color-gray-700);
-    @include var(border-color, color-gray-700);
-    @include var(color, color-white);
-  }
+		&.-danger {
+			&.-light {
+				@include var(background, color-white);
+				@include var(border-color, color-white);
+				@include var(color, color-danger);
+			}
 
-  &.-success {
-    &.-light {
-      @include var(background, color-white);
-      @include var(border-color, color-white);
-      @include var(color, color-success);
-    }
+			&.-dark {
+				@include var(background, color-danger);
+				@include var(border-color, color-danger);
+				@include var(color, color-white);
+			}
+		}
 
-    &.-dark {
-      @include var(background, color-success);
-      @include var(border-color, color-success);
-      @include var(color, color-white);
-    }
-  }
+		&.-warn {
+			&.-light {
+				@include var(background, color-white);
+				@include var(border-color, color-white);
+				@include var(color, color-warn);
+			}
 
-  &.-danger {
-    &.-light {
-      @include var(background, color-white);
-      @include var(border-color, color-white);
-      @include var(color, color-danger);
-    }
+			&.-dark {
+				@include var(background, color-warn);
+				@include var(border-color, color-warn);
+				@include var(color, color-white);
+			}
+		}
 
-    &.-dark {
-      @include var(background, color-danger);
-      @include var(border-color, color-danger);
-      @include var(color, color-white);
-    }
-  }
+		&.-info {
+			&.-light {
+				@include var(background, color-white);
+				@include var(border-color, color-white);
+				@include var(color, color-info);
+			}
 
-  &.-warn {
-    &.-light {
-      @include var(background, color-white);
-      @include var(border-color, color-white);
-      @include var(color, color-warn);
-    }
+			&.-dark {
+				@include var(background, color-info);
+				@include var(border-color, color-info);
+				@include var(color, color-white);
+			}
+		}
 
-    &.-dark {
-      @include var(background, color-warn);
-      @include var(border-color, color-warn);
-      @include var(color, color-white);
-    }
-  }
+		&.-top {
+			top: -0.5rem;
 
-  &.-info {
-    &.-light {
-      @include var(background, color-white);
-      @include var(border-color, color-white);
-      @include var(color, color-info);
-    }
+			&.-start {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: true,
+					$bottom-left: false,
+					$bottom-right: true
+				);
 
-    &.-dark {
-      @include var(background, color-info);
-      @include var(border-color, color-info);
-      @include var(color, color-white);
-    }
-  }
+				left: 0;
+				transform: translate(0%, calc(-100% + 1rem));
+			}
 
-  &.-top {
-    @include rounded(
-      $border-radius: 0.25rem,
-      $top-left: true,
-      $top-right: true,
-      $bottom-left: false,
-      $bottom-right: true
-    );
-  }
+			&.-center {
+				left: 50%;
+				transform: translate(-50%, calc(-100% + 1rem));
+			}
 
-  &.-bottom {
-    @include rounded(
-      $border-radius: 0.25rem,
-      $top-left: false,
-      $top-right: true,
-      $bottom-left: true,
-      $bottom-right: true
-    );
-  }
+			&.-end {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: true,
+					$bottom-left: true,
+					$bottom-right: false
+				);
 
-  &.-right {
-    @include rounded(
-      $border-radius: 0.25rem,
-      $top-left: true,
-      $top-right: true,
-      $bottom-left: false,
-      $bottom-right: true
-    );
-  }
+				left: 100%;
+				transform: translate(-100%, calc(-100% + 1rem));
+			}
+		}
 
-  &.-left {
-    @include rounded(
-      $border-radius: 0.25rem,
-      $top-left: true,
-      $top-right: true,
-      $bottom-left: true,
-      $bottom-right: false
-    );
-  }
-}
+		&.-bottom {
+			bottom: -0.5rem;
 
-*:hover + .cb-tooltip {
-  pointer-events: initial;
+			&.-start {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: false,
+					$top-right: true,
+					$bottom-left: true,
+					$bottom-right: true
+				);
+
+				left: 0%;
+				transform: translate(0%, calc(0% + 1rem));
+			}
+
+			&.-center {
+				left: 50%;
+				transform: translate(-50%, calc(0% + 1rem));
+			}
+
+			&.-end {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: false,
+					$bottom-left: true,
+					$bottom-right: true
+				);
+
+				left: 100%;
+				transform: translate(-100%, calc(0% + 1rem));
+			}
+		}
+
+		&.-left {
+			left: -0.5rem;
+
+			&.-start {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: true,
+					$bottom-left: true,
+					$bottom-right: false
+				);
+
+				top: 0%;
+				transform: translate(calc(-100% + 1rem), -100%);
+			}
+
+			&.-center {
+				top: 50%;
+				transform: translate(calc(-100% + 1rem), -50%);
+			}
+
+			&.-end {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: false,
+					$bottom-left: true,
+					$bottom-right: true
+				);
+
+				top: 100%;
+				transform: translate(calc(-100% + 1rem), 0%);
+			}
+		}
+
+		&.-right {
+			right: -0.5rem;
+
+			&.-start {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: true,
+					$top-right: true,
+					$bottom-left: false,
+					$bottom-right: true
+				);
+
+				top: 0%;
+				transform: translate(calc(100% - 1rem), -100%);
+			}
+
+			&.-center {
+				top: 50%;
+				transform: translate(calc(100% - 1rem), -50%);
+			}
+
+			&.-end {
+				@include rounded(
+					$border-radius: 0.25rem,
+					$top-left: false,
+					$top-right: true,
+					$bottom-left: true,
+					$bottom-right: true
+				);
+
+				top: 100%;
+				transform: translate(calc(100% - 1rem), 0%);
+			}
+		}
+
+		// &.-start {}
+
+		&.-center {
+			@include rounded($border-radius: 0.25rem);
+		}
+
+		// &.-end {}
+	}
+
+	&:hover > .cb-tooltip {
+		opacity: 100%;
+
+		&.-top {
+			&.-start {
+				transform: translate(0%, -100%);
+			}
+
+			&.-center {
+				transform: translate(-50%, -100%);
+			}
+
+			&.-end {
+				transform: translate(-100%, -100%);
+			}
+		}
+
+		&.-bottom {
+			&.-start {
+				transform: translate(0%, 100%);
+			}
+
+			&.-center {
+				transform: translate(-50%, 100%);
+			}
+
+			&.-end {
+				transform: translate(-100%, 100%);
+			}
+		}
+
+		&.-left {
+			&.-start {
+				transform: translate(-100%, -100%);
+			}
+
+			&.-center {
+				transform: translate(-100%, -50%);
+			}
+
+			&.-end {
+				transform: translate(-100%, 0%);
+			}
+		}
+
+		&.-right {
+			right: -0.5rem;
+
+			&.-start {
+				transform: translate(100%, -100%);
+			}
+
+			&.-center {
+				transform: translate(100%, -50%);
+			}
+
+			&.-end {
+				transform: translate(100%, 0%);
+			}
+		}
+	}
 }
