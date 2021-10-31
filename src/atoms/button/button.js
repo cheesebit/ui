@@ -5,56 +5,35 @@ import { useClassy } from '@cheesebit/classy';
 import { Box } from '../box';
 import { Icon } from '../icon';
 import { Overlay } from '../overlay';
-import { omit } from 'common/toolset';
 import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
 import { resolveProp } from 'common/props-toolset';
 
 import './button.scss';
 
-const OMITTED_PROPS = [];
-
-export const Emphasis = {
-	flat: 'flat',
-	ghost: 'ghost',
-	text: 'text',
-};
-
-export const Size = {
-	small: 'small',
-	medium: 'medium',
-	large: 'large',
-};
-
 /**
- * This component represents a button element.
+ * @param {ButtonProps} props
+ * @return {JSX.Element} Button component.
  */
-
-Button.defaultProps = {
-	emphasis: Emphasis.ghost,
-	size: Size.small,
-	type: 'button',
-	disabled: false,
-	busy: false,
-	borderless: false,
-	paddingless: 'vertical',
-};
-function Button( props ) {
-	const { prop, classy } = useClassy( props );
-	const {
-		paddingless = 'vertical',
-		type = 'button',
-		className,
-		icon,
-		leading,
-		children,
-		disabled,
-		busy,
-		...others
-	} = props;
+function Button({
+	borderless = false,
+	busy = false,
+	disabled = false,
+	emphasis = 'ghost',
+	paddingless = 'vertical',
+	size = 'small',
+	type = 'button',
+	children,
+	className,
+	icon,
+	leading,
+	trailing,
+	...others
+}) {
+	const { prop, classy } = useClassy({ emphasis, size });
 
 	function renderLeading() {
-		if ( icon ) {
-			return <Icon { ...resolveProp( icon, 'name' ) } />;
+		if (icon) {
+			return <Icon {...resolveProp(icon, 'name')} />;
 		}
 
 		return leading;
@@ -64,76 +43,86 @@ function Button( props ) {
 		<Box
 			as="button"
 			data-testid="cb-button"
-			paddingless={ paddingless }
-			{ ...omit( OMITTED_PROPS, others ) }
-			type={ type }
-			disabled={ disabled || busy }
-			leading={ renderLeading() }
-			className={ classy(
+			paddingless={paddingless}
+			borderless={borderless}
+			{...others}
+			// @ts-ignore
+			type={type}
+			disabled={disabled || busy}
+			leading={renderLeading()}
+			trailing={trailing}
+			className={classy(
 				'cb-button',
 				{
-					'-flat': prop( { emphasis: Emphasis.flat } ),
-					'-ghost': prop( { emphasis: Emphasis.ghost } ),
-					'-text': prop( { emphasis: Emphasis.text } ),
+					'-flat': prop({ emphasis: 'flat' }),
+					'-ghost': prop({ emphasis: 'ghost' }),
+					'-text': prop({ emphasis: 'text' }),
 				},
 				{
-					'-small': prop( { size: Size.small } ),
-					'-medium': prop( { size: Size.medium } ),
-					'-large': prop( { size: Size.large } ),
+					'-small': prop({ size: 'small' }),
+					'-medium': prop({ size: 'medium' }),
+					'-large': prop({ size: 'large' }),
 				},
-				className,
-			) }
+				className
+			)}
 		>
-			{ busy && (
+			{busy && (
 				<Overlay as="span" theme="light">
 					&middot;&middot;&middot;
 				</Overlay>
-			) }
-
-			{ children }
+			)}
+			{children}
 		</Box>
 	);
 }
 
+// storybook use only
 Button.propTypes = {
-	/**
-	 * Determine borders to be supressed.
-	 */
 	borderless: BorderlessPropType,
-	/**
-	 * Button is busy performing action.
-	 */
 	busy: PropTypes.bool,
-	/**
-	 * Should this button be disabled.
-	 */
 	disabled: PropTypes.bool,
-	/**
-	 * What emphasis you want to apply to this button.
-	 */
-	emphasis: PropTypes.oneOf( [ Emphasis.text, Emphasis.ghost, Emphasis.flat ] ),
-	/**
-	 * Set icon to be shown in the leading area of this button.
-	 */
-	icon: PropTypes.oneOfType( [
+	emphasis: PropTypes.oneOf(['text', 'ghost', 'flat']),
+	icon: PropTypes.oneOfType([
 		PropTypes.string,
-		PropTypes.shape( {
+		PropTypes.shape({
 			name: PropTypes.string.isRequired,
-			size: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
-		} ),
-	] ),
-	/**
-	 * Determine paddings to be supressed.
-	 */
+			size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+		}),
+	]),
 	paddingless: PaddinglessPropType,
-	/**
-	 * How large should the button be?
-	 */
-	size: PropTypes.oneOf( [ Size.small, Size.medium, Size.large ] ),
-	/**
-	 * Button type, as per HTML definition.
-	 */
-	type: PropTypes.oneOf( [ 'button', 'submit', 'reset' ] ),
+	size: PropTypes.oneOf(['small', 'medium', 'large']),
+	type: PropTypes.oneOf(['button', 'submit', 'reset']),
 };
 
 export default Button;
+
+/**
+ * @typedef {('text' | 'ghost' | 'flat')} ButtonEmphasisProp
+ * @typedef {('small' | 'medium' | 'large')} ButtonSizeProp
+ */
+
+/**
+ * @typedef {import('common/prop-types').BorderlessProp} BorderlessProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ * @typedef {import('common/prop-types').IconProp} IconProp
+ */
+
+/**
+ * @typedef {React.ButtonHTMLAttributes<HTMLButtonElement>} DefaultButtonProps
+ */
+
+/**
+ * @typedef {Object} CustomButtonProps
+ * @property {BorderlessProp} [borderless] - Determine borders to be supressed.
+ * @property {PaddinglessProp} [paddingless] - Determine paddings to be supressed.
+ * @property {boolean} [busy] - Button is busy performing action.
+ * @property {ButtonEmphasisProp} [emphasis] - What emphasis you want to apply to this button.
+ * @property {IconProp} [icon] - Set icon to be shown in the leading area of this button.
+ * @property {ButtonSizeProp} [size] - How large should the button be?
+ * @property {React.ReactNode} [leading] - Element to be rendered in the leading area of this button.
+ * @property {React.ReactNode} [trailing] - Element to be rendered in the trailing area of this button.
+ */
+
+/**
+ * @typedef {DefaultButtonProps & CustomButtonProps} ButtonProps
+ */

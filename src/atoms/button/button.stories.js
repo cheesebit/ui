@@ -2,8 +2,9 @@ import React from 'react';
 
 import { keys } from 'common/toolset';
 import { setupDefaultStory, setupDerivedStory } from 'common/stories-toolset';
-import Button, { Emphasis, Size } from './button';
+import Button from './button';
 import icons from '../icon/icon-mapping';
+import generator from 'test/data-generator';
 
 export default {
 	title: 'Components/Atoms/Button',
@@ -18,19 +19,35 @@ export default {
 		icon: {
 			control: {
 				type: 'select',
-				options: keys( icons ),
+				options: keys(icons),
 			},
+		},
+		leading: {
+			options: {
+				icon: <span>&clubs;</span>,
+				text: generator.word(),
+				nothing: null,
+			},
+			control: { type: 'select' },
+		},
+		trailing: {
+			options: {
+				icon: <span>&spades;</span>,
+				text: generator.word(),
+				nothing: null,
+			},
+			control: { type: 'select' },
 		},
 	},
 };
 
-export function Playground( args ) {
+export function Playground(args) {
 	return (
 		<div className="block">
 			<p className="mb-2">
 				This is me, a cool Button ready to be played around. Try me :)
 			</p>
-			<Button { ...args } />
+			<Button {...args} />
 		</div>
 	);
 }
@@ -39,18 +56,18 @@ Playground.args = {
 	children: 'Button',
 };
 
-export const Text = Playground.bind( {} );
-Text.args = { ...Playground.args, emphasis: Emphasis.text, size: Size.medium };
+export const Text = Playground.bind({});
+Text.args = { ...Playground.args, emphasis: 'text', size: 'medium' };
 
-export const Ghost = Playground.bind( {} );
+export const Ghost = Playground.bind({});
 Ghost.args = {
 	...Playground.args,
-	emphasis: Emphasis.ghost,
-	size: Size.medium,
+	emphasis: 'ghost',
+	size: 'medium',
 };
 
-export const Flat = Playground.bind( {} );
-Flat.args = { ...Playground.args, emphasis: Emphasis.flat, size: Size.medium };
+export const Flat = Playground.bind({});
+Flat.args = { ...Playground.args, emphasis: 'flat', size: 'medium' };
 
-setupDefaultStory( Playground );
-setupDerivedStory( [ Text, Ghost, Flat ] );
+setupDefaultStory(Playground);
+setupDerivedStory([Text, Ghost, Flat]);
