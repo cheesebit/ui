@@ -1,55 +1,52 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-link {
-  @include font;
-  @include interactable;
-  @include disableable;
+	@include font;
+	@include interactable;
+	@include disableable;
 
-  @include transition(background color);
-  margin: 0;
+	@include transition(background color);
 
-  padding: 0;
+	position: relative;
+	margin: 0;
+	padding: 0;
+	text-decoration: none;
 
-  text-decoration: none;
+	&,
+	&:visited {
+		@include var(color, color-primary-500);
+	}
 
-  &,
-  &:visited {
-    @include var(color, color-primary-500);
-  }
+	@include hoverable {
+		@include var(color, color-secondary-400);
+	}
 
-  @include hoverable {
-    @include var(color, color-secondary-400);
-  }
+	& + & {
+		@include my(spacing-0);
+		@include var(margin-left, spacing-4);
+		@include var(margin-right, spacing-0);
+	}
 
-  & + & {
-    @include my(spacing-0);
-    @include var(margin-left, spacing-4);
-    @include var(margin-right, spacing-0);
-  }
+	&.-animated {
+		&::after {
+			@include transition(transform, $duration: 0.25s);
+			@include var(background-color, color-secondary-100);
 
-  &.-animated {
-    &::after {
-      @include transition(transform, $duration: 0.25s);
-      @include var(background-color, color-secondary-100);
-      position: absolute;
-      bottom: 0;
-      left: 0;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			height: 2px;
+			transform: scaleX(0);
+			transform-origin: bottom right;
+			content: '';
+		}
 
-      width: 100%;
-      height: 2px;
-
-      transform: scaleX(0);
-
-      transform-origin: bottom right;
-
-      content: '';
-    }
-
-    @include hoverable {
-      &::after {
-        transform: scaleX(1);
-        transform-origin: bottom left;
-      }
-    }
-  }
+		@include hoverable {
+			&::after {
+				transform: scaleX(1);
+				transform-origin: bottom left;
+			}
+		}
+	}
 }
