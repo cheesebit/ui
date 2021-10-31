@@ -2,20 +2,14 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals, isNil } from '../../common/toolset';
-import { DEFAULT } from '../../common/constants';
-import { SVGAttributes } from '../../common/props-dom';
+import { equals, isNil, pick } from 'common/toolset';
+import { DEFAULT } from 'common/constants';
+import { SVGAttributes } from 'common/props-dom';
 import mapping from './icon-mapping';
 
 import './icon.scss';
 
-export const Variant = {
-	danger: 'danger',
-	info: 'info',
-	success: 'success',
-	warn: 'warn',
-};
-
+const SVGAttributesProps = Object.keys(SVGAttributes);
 class Icon extends React.PureComponent {
 	get classes() {
 		const { className, variant } = this.props;
@@ -23,12 +17,12 @@ class Icon extends React.PureComponent {
 		return clsx(
 			'cb-icon',
 			{
-				'-danger': equals( variant, Variant.danger ),
-				'-info': equals( variant, Variant.info ),
-				'-success': equals( variant, Variant.success ),
-				'-warn': equals( variant, Variant.warn ),
+				'-danger': equals(variant, 'danger'),
+				'-info': equals(variant, 'info'),
+				'-success': equals(variant, 'success'),
+				'-warn': equals(variant, 'warn'),
 			},
-			className,
+			className
 		);
 	}
 
@@ -41,20 +35,21 @@ class Icon extends React.PureComponent {
 	render() {
 		const { name } = this.props;
 
-		const IconSVG = mapping[ name ];
+		const IconSVG = mapping[name];
 
-		if ( isNil( IconSVG ) ) {
+		if (isNil(IconSVG)) {
 			return '?';
 		}
 
 		return (
 			<IconSVG
-				className={ this.classes }
-				aria-label={ name }
-				focusable="false"
-				aria-hidden="true"
-				style={ this.style }
+				{...pick(SVGAttributesProps, this.props)}
 				data-testid="cb-icon"
+				aria-label={name}
+				aria-hidden="true"
+				className={this.classes}
+				focusable="false"
+				style={this.style}
 			/>
 		);
 	}
@@ -62,14 +57,9 @@ class Icon extends React.PureComponent {
 
 Icon.propTypes = {
 	...SVGAttributes,
-	size: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
-	name: PropTypes.oneOf( Object.keys( mapping ) ).isRequired,
-	variant: PropTypes.oneOf( [
-		Variant.danger,
-		Variant.info,
-		Variant.success,
-		Variant.warn,
-	] ),
+	size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	name: PropTypes.oneOf(Object.keys(mapping)).isRequired,
+	variant: PropTypes.oneOf(['danger', 'info', 'success', 'warn']),
 };
 
 Icon.defaultProps = { size: '1em' };

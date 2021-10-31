@@ -6,6 +6,7 @@ import ArrowBack from './assets/ic_arrow_back_48px.svg';
 import ArrowForward from './assets/ic_arrow_forward_48px.svg';
 import Attachment from './assets/ic_attachment_48px.svg';
 import Block from './assets/ic_block_48px.svg';
+import Calendar from './assets/ic_calendar_today_48dp.svg';
 import Cancel from './assets/ic_cancel_48px.svg';
 import ChatBubbleOutline from './assets/ic_chat_bubble_outline_48px.svg';
 import Check from './assets/ic_check_48px.svg';
@@ -45,7 +46,7 @@ import TurnedInOutline from './assets/ic_turned_in_not_48px.svg';
 import UnfoldLess from './assets/ic_unfold_less_48px.svg';
 import UnfoldMore from './assets/ic_unfold_more_48px.svg';
 
-export default {
+const mapping = {
 	'account-box': AccountBox,
 	'account-circle': AccountCircle,
 	'arrow-back': ArrowBack,
@@ -65,6 +66,7 @@ export default {
 	'turned-in': TurnedIn,
 	add: Add,
 	block: Block,
+	calendar: Calendar,
 	cancel: Cancel,
 	check: Check,
 	circle: Circle,
@@ -93,3 +95,15 @@ export default {
 	'unfold-less': UnfoldLess,
 	'unfold-more': UnfoldMore,
 };
+
+export default mapping;
+
+/**
+ * @typedef {Object} IconIntrinsicProp
+ * @property {keyof mapping} name - Icon name
+ * @property {number} size - Icon size
+ */
+
+/**
+ * @typedef {(keyof mapping) | IconIntrinsicProp} IconProp
+ */
