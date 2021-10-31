@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "atoms/*": ["./src/atoms/*"],
+      "common/*": ["./src/common/*"],
+      "hocs/*": ["./src/hocs/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "molecules/*": ["./src/molecules/*"],
+      "organisms/*": ["./src/organisms/*"],
+      "test/*": ["./test/*"],
+    },
+    "target": "es5",
+		"jsx": "react",
+    "checkJs": true,
+    "moduleResolution": "node"
+  },
+
+  "exclude": ["node_modules", "dist", "src/**/*.test.js"],
+}
