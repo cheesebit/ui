@@ -1,63 +1,53 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-input-wrapper {
-  position: relative;
+	@include transition(all);
 
-  & > .leading,
-  & > .trailing {
-    position: absolute;
-  }
+	@include rounded;
 
-  & > .trailing {
-    position: absolute;
-    right: 8px;
-  }
+	@include focusable {
+		@include var(border-color, color-primary-400);
+	}
+
+	@include hoverable {
+		@include var(border-color, color-gray-500);
+	}
+
+	&.-success {
+		@include var(border-color, color-success);
+	}
+
+	&.-danger {
+		@include var(border-color, color-danger);
+	}
+
+	&.-warn {
+		@include var(border-color, color-warn);
+	}
+
+	&.-info {
+		@include var(border-color, color-info);
+	}
 }
 
 .cb-input {
-  @include transition(all);
+	@include transition(all);
 
-  @include font;
+	@include font;
 
-  @include disableable;
-  @include bordered;
-  @include rounded;
+	@include disableable;
 
-  @include var(background, color-white);
-  @include var(border-color, color-gray-400);
-  @include var(color, color-gray-600);
-  @include var(caret-color, color-primary-400);
+	// @include bordered;
+	@include rounded;
 
-  @include focusable {
-    @include var(border-color, color-primary-400);
-  }
+	@include var(background, color-white);
+	@include var(border-color, color-gray-400);
+	@include var(color, color-gray-600);
+	@include var(caret-color, color-primary-400);
 
-  @include hoverable {
-    @include var(border-color, color-gray-500);
-  }
+	@include px(spacing-0);
+	@include py(spacing-2);
 
-  @include px(spacing-4);
-  @include py(spacing-2);
-
-  &.has-trailing {
-    padding-right: 32px;
-  }
-
-  height: 40px;
-
-  &.-success {
-    @include var(border-color, color-success);
-  }
-
-  &.-danger {
-    @include var(border-color, color-danger);
-  }
-
-  &.-warn {
-    @include var(border-color, color-warn);
-  }
-
-  &.-info {
-    @include var(border-color, color-info);
-  }
+	height: 40px;
+	outline: none !important;
 }

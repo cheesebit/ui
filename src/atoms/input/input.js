@@ -1,107 +1,119 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { Box } from '../box';
-import { equals, omit, isNil } from 'common/toolset';
-import { InputHTMLAttributes } from 'common/props-dom';
-import { PaddinglessPropType, BorderlessPropType } from '../../common/prop-types';
+import { Box } from 'atoms/box';
+import { useFocusWithin } from 'hooks/focus-within';
 
 import './input.scss';
 
-const OMITTED_PROPS = [ 'variant', 'borderless', 'paddingless' ];
+/**
+ *
+ * @param {InputProps} props
+ * @param {React.ForwardedRef<HTMLInputElement>} ref
+ */
+function Input(props, ref) {
+	const {
+		type = 'text',
+		paddingless = 'vertical',
+		borderless = false,
+		className,
+		variant,
+		leading,
+		trailing,
+		...others
+	} = props;
+	const { prop, classy } = useClassy({ variant, leading, trailing });
+	const { ref: containerRef, focused } = useFocusWithin();
 
-export const Variant = {
-	danger: 'danger',
-	info: 'info',
-	success: 'success',
-	warn: 'warn',
-};
+	return (
+		<Box
+			aria-role="none"
+			ref={containerRef}
+			as="div"
+			className={classy(
+				'cb-input-wrapper',
+				{
+					'-danger': prop({ variant: 'danger' }),
+					'-info': prop({ variant: 'info' }),
+					'-success': prop({ variant: 'success' }),
+					'-warn': prop({ variant: 'warn' }),
+				},
+				{ 'is-focused': focused }
+			)}
+			trailing={trailing}
+			leading={leading}
+			paddingless={paddingless}
+			borderless={borderless}
+			data-testid="cb-input-wrapper"
+		>
+			<input
+				data-testid="cb-input"
+				{...others}
+				className={classy(
+					'cb-input',
 
-class Input extends React.PureComponent {
-	get classes() {
-		const { className, variant, leading, trailing } = this.props;
-
-		return clsx(
-			'cb-input',
-			{
-				'-danger': equals( variant, Variant.danger ),
-				'-info': equals( variant, Variant.info ),
-				'-success': equals( variant, Variant.success ),
-				'-warn': equals( variant, Variant.warn ),
-			},
-			{
-				'has-leading': ! isNil( leading ),
-				'has-trailing': ! isNil( trailing ),
-			},
-			className,
-		);
-	}
-
-	render() {
-		const {
-			forwardedRef,
-			type,
-			trailing,
-			leading,
-			...others
-		} = this.props;
-
-		return (
-			<Box
-				as="label"
-				trailing={ trailing }
-				leading={ leading }
-				paddingless
-				borderless
-				className="cb-input-wrapper"
-			>
-				<input
-					data-testid="cb-input"
-					{ ...omit( OMITTED_PROPS, others ) }
-					className={ this.classes }
-					ref={ forwardedRef }
-					type={ type }
-				/>
-			</Box>
-		);
-	}
+					className
+				)}
+				ref={ref}
+				type={type}
+			/>
+		</Box>
+	);
 }
 
-Input.propTypes = {
-	...InputHTMLAttributes,
-	borderless: BorderlessPropType,
-	className: PropTypes.string,
-	paddingless: PaddinglessPropType,
-	type: PropTypes.oneOf( [
-		'button',
-		'color',
-		'date',
-		'datetime-local',
-		'email',
-		'file',
-		'hidden',
-		'image',
-		'month',
-		'number',
-		'password',
-		'range',
-		'reset',
-		'search',
-		'submit',
-		'tel',
-		'text',
-		'time',
-		'url',
-		'week',
-	] ),
-};
+// storybook use only
+// Input.propTypes = {
+// 	...InputHTMLAttributes,
+// 	borderless: BorderlessPropType,
+// 	className: PropTypes.string,
+// 	paddingless: PaddinglessPropType,
+// 	type: PropTypes.oneOf( [
+// 		'button',
+// 		'color',
+// 		'date',
+// 		'datetime-local',
+// 		'email',
+// 		'file',
+// 		'hidden',
+// 		'image',
+// 		'month',
+// 		'number',
+// 		'password',
+// 		'range',
+// 		'reset',
+// 		'search',
+// 		'submit',
+// 		'tel',
+// 		'text',
+// 		'time',
+// 		'url',
+// 		'week',
+// 	] ),
+// 	variant: PropTypes.oneOf( [ 'danger', 'info', 'success', 'warn' ] ),
+// };
 
-Input.defaultProps = {
-	borderless: false,
-	className: null,
-	paddingless: false,
-	type: 'text',
-};
+// @ts-ignore
+export default React.forwardRef(Input);
 
-export default Input;
+/**
+ * @typedef {import('common/prop-types').BorderlessProp} BorderlessProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ * @typedef {import('common/prop-types').StatusVariant} InputVariant
+ */
+
+/**
+ * @typedef {React.InputHTMLAttributes<HTMLInputElement>} DefaultInputProps
+ */
+
+/**
+ * @typedef {Object} CustomInputProps
+ * @property {PaddinglessProp} [paddingless] - Determine paddings to be supressed.
+ * @property {BorderlessProp} [borderless] - Determine borders to be supressed.
+ * @property {React.ReactNode} [leading] - Element to be rendered in the leading area of this button.
+ * @property {React.ReactNode} [trailing] - Element to be rendered in the leading area of this button.
+ * @property {InputVariant} [variant] - Style variant to apply.
+ */
+
+/**
+ * @typedef {DefaultInputProps & CustomInputProps} InputProps
+ */
