@@ -1,33 +1,28 @@
 @import '../../styles/tools/tools.mixins';
 
 .cb-overlay {
-  @include transition(background);
-  @include font;
+	@include transition(background);
+	@include font;
 
-  position: absolute;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	background: inherit;
+	backdrop-filter: blur(10px);
+	@include var(margin, spacing-0);
+	@include var(padding, spacing-4);
 
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+	&.-light {
+		background: white;
+	}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  text-align: center;
-
-  background: inherit;
-
-  backdrop-filter: blur(10px);
-  @include var(margin, spacing-0);
-  @include var(padding, spacing-4);
-
-  &.-light {
-    background: white;
-  }
-
-  &.-dark {
-    background: rgba(rgb(160, 174, 192), 0.85);
-  }
+	&.-dark {
+		background: rgba(rgb(160, 174, 192), 0.85);
+	}
 }

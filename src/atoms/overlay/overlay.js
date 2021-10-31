@@ -1,43 +1,52 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
 import './overlay.scss';
 
-import { equals } from '../../common/toolset';
-
-export const Theme = {
-	light: 'light',
-	dark: 'dark',
-};
-
-const Overlay = ( { as = 'div', className, children, theme, ...others } ) => {
+/**
+ *
+ * @param {OverlayProps} props
+ * @return {JSX.Element} Overlay component
+ */
+function Overlay(props) {
+	const {
+		as = 'div',
+		theme = 'dark',
+		className,
+		children,
+		...others
+	} = props;
+	const { prop, classy } = useClassy({ theme });
 	const Tag = as;
 
 	return (
 		<Tag
-			className={ clsx(
+			className={classy(
 				'cb-overlay',
 				{
-					'-light': equals( theme )( Theme.light ),
-					'-dark': equals( theme )( Theme.dark ),
+					'-light': prop({ theme: 'light' }),
+					'-dark': prop({ theme: 'dark' }),
 				},
-				className,
-			) }
+				className
+			)}
 			data-testid="cb-overlay"
-			{ ...others }
+			{...others}
 		>
-			{ children }
+			{children}
 		</Tag>
 	);
-};
-
-Overlay.propTypes = {
-	theme: PropTypes.oneOf( [ Theme.light, Theme.dark ] ),
-};
-
-Overlay.defaultProps = {
-	theme: Theme.dark,
-};
+}
 
 export default Overlay;
+
+/**
+ * @typedef {('light' | 'dark')} OverlayTheme
+ */
+
+/**
+ * @typedef {Object} OverlayProps
+ * @property {(keyof JSX.IntrinsicElements)} [as] - Overlay tag to render, defaults to 'div'.
+ * @property {string} [className] - Additional class name.
+ * @property {OverlayTheme} [theme] - Overlay theme, defaults to 'dark'.
+ * @property {React.ReactNode} children - Overlay content.
+ */

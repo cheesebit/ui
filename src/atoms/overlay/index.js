@@ -1,1 +1,1 @@
-export { default as Overlay, Theme } from './overlay';
+export { default as Overlay } from './overlay';
