@@ -1,41 +1,34 @@
 @import '../../styles/index.scss';
 
 .cb-box {
-  @include font;
-  @include bordered;
+	@include font;
+	@include bordered;
 
-  display: inline-grid;
-  grid-auto-flow: column;
-  align-items: center;
+	display: inline-flex;
+	flex-flow: row nowrap;
+	align-items: center;
 
-  @include var(column-gap, spacing-2);
+	@include m(spacing-0);
+	@include px(spacing-4);
+	@include py(spacing-2);
 
-  @include m(spacing-0);
-  @include px(spacing-4);
-  @include py(spacing-2);
+	text-decoration: none;
 
-  text-decoration: none;
+	& > .leading,
+	& > .trailing {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 
-  & > .leading,
-  & > .trailing {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+		@include px(spacing-0);
+		@include py(spacing-0);
+		@include mx(spacing-0);
+		@include my(spacing-0);
+	}
 
-    @include px(spacing-0);
-    @include py(spacing-0);
-    @include mx(spacing-0);
-    @include my(spacing-0);
-  }
-
-  & > *:not(.leading):not(.trailing):only-child {
-    align-self: center;
-    justify-self: center;
-  }
-
-  // & > .leading,
-  // & > .trailing,
-  // & > .children {
-  //   pointer-events: none;
-  // }
+	& > .leading + .children:not(:empty),
+	& > .children:not(:empty) + .trailing,
+	& > .leading + .trailing {
+		@include var(margin-left, spacing-2);
+	}
 }
