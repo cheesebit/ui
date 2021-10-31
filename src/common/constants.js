@@ -49,3 +49,5 @@ export const Keys = {
 	Y: 'y',
 	Z: 'z',
 };
+
+export function noop() {}
