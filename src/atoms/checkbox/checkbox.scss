@@ -1,55 +1,58 @@
 @import '../../styles/tools/_tools.mixins';
 
 .cb-checkbox {
-  @include font;
-  @include disableable;
-  @include interactable;
+	@include font;
+	@include disableable;
+	@include interactable;
 
-  align-items: center;
-  justify-content: flex-start;
+	align-items: center;
+	justify-content: flex-start;
 
-  .check {
-    @include var(color, color-white);
-    position: absolute;
+	cursor: pointer;
 
-    fill: currentColor;
-  }
+	.check {
+		@include var(color, color-white);
+		position: absolute;
 
-  .selector:first-of-type {
-    @include focusable;
-    @include bordered;
-    @include rounded;
+		fill: currentColor;
+	}
 
-    @include transition(background color border-color);
+	.selector {
+		@include bordered;
+		@include focusable;
+		@include rounded;
+		@include disableable($opacity: inherit);
 
-    flex-shrink: 0;
+		@include transition(background color border-color);
 
-    outline: none;
+		flex-shrink: 0;
 
-    cursor: pointer !important;
+		outline: none;
 
-    appearance: none;
+		appearance: none;
 
-    @include var(border-color, color-gray-400);
-    @include var(background-color, color-white);
+		@include var(border-color, color-gray-400);
+		@include var(background-color, color-white);
 
-    @include var(height, spacing-4);
-    @include var(width, spacing-4);
+		@include var(height, spacing-4);
+		@include var(width, spacing-4);
 
-    &:checked {
-      @include var(border-color, color-primary-500);
-      @include var(background-color, color-primary-500);
-    }
-  }
+		&:checked {
+			@include var(border-color, color-primary-500);
+			@include var(background-color, color-primary-500);
+		}
+	}
 
-  @include hoverable {
-    .selector {
-      @include var(border-color, color-gray-500);
+	@include hoverable {
+		.selector {
+			@include var(border-color, color-gray-500);
 
-      &:checked {
-        @include var(border-color, color-primary-700);
-        @include var(background-color, color-primary-700);
-      }
-    }
-  }
+			cursor: pointer;
+
+			&:checked {
+				@include var(border-color, color-primary-700);
+				@include var(background-color, color-primary-700);
+			}
+		}
+	}
 }

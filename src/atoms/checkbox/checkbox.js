@@ -1,77 +1,98 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
+import { useID } from 'hooks/id';
+import { InputHTMLAttributes } from 'common/props-dom';
 import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
+import { pick } from 'common/toolset';
 
 import './checkbox.scss';
 
-function Checkbox( props ) {
+const InputHTMLAttributesProps = Object.keys(InputHTMLAttributes);
+
+/**
+ *
+ * @param {CheckboxProps} props
+ * @return {JSX.Element} Checkbox component.
+ */
+function Checkbox(props) {
 	const {
-		borderless,
+		block = false,
+		borderless = true,
+		paddingless = 'horizontal',
 		children,
 		className,
 		disabled,
-		paddingless,
-		block,
 		trailing,
 		...others
 	} = props;
+	const { classy } = useClassy(props);
+	const id = useID(props);
 
 	return (
 		<Box
-			as="label"
-			borderless={ borderless }
-			paddingless={ paddingless }
-			block={ block }
-			trailing={ trailing }
-			className={ clsx( 'cb-checkbox', { 'is-disabled': disabled }, className ) }
 			data-testid="cb-checkbox"
+			as="label"
+			className={classy(
+				'cb-checkbox',
+				{ 'is-disabled': disabled },
+				className
+			)}
+			borderless={borderless}
+			paddingless={paddingless}
+			block={block}
+			trailing={trailing}
+			// @ts-ignore
+			htmlFor={id}
 			leading={
 				<React.Fragment>
 					<input
-						{ ...others }
-						disabled={ disabled }
+						data-testid="selector"
+						{...pick(InputHTMLAttributesProps, others)}
 						type="checkbox"
 						className="selector"
-						data-testid="selector"
+						id={id}
+						disabled={disabled}
 					/>
-					<Icon name="check" className="check" size={ 14 } />
+					<Icon name="check" className="check" size={14} />
 				</React.Fragment>
 			}
 		>
-			{ children }
+			{children}
 		</Box>
 	);
 }
 
+// storybook use only
 Checkbox.propTypes = {
-	/**
-	 * Determine borders to be supressed.
-	 */
 	borderless: BorderlessPropType,
-	/**
-	 * Should this button be disabled.
-	 */
 	disabled: PropTypes.bool,
-	/**
-	 * Should take up the entire width of the container.
-	 */
 	block: PropTypes.bool,
-	/**
-	 * Determine paddings to be supressed.
-	 */
 	paddingless: PaddinglessPropType,
-
-};
-
-Checkbox.defaultProps = {
-	...Box.defaultProps,
-	borderless: true,
-	paddingless: 'horizontal',
-	block: false,
 };
 
 export default Checkbox;
+
+/**
+ * @typedef {import('common/prop-types').BorderlessProp} BorderlessProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ */
+
+/**
+ * @typedef {React.InputHTMLAttributes<HTMLInputElement>} DefaultInputProps
+ */
+
+/**
+ * @typedef {Object} CustomCheckboxProps
+ * @property {BorderlessProp} [borderless] - Determine borders to be supressed.
+ * @property {PaddinglessProp} [paddingless] - Determine paddings to be supressed.
+ * @property {boolean} [block] - Should take up the entire width of the container.
+ * @property {React.ReactNode} [trailing] - Element to be rendered in the trailing area of this radio.
+ */
+
+/**
+ * @typedef {DefaultInputProps & CustomCheckboxProps} CheckboxProps
+ */
