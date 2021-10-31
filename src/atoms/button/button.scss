@@ -1,21 +1,19 @@
-@import '../../styles/index.scss';
+@import '../../styles/index';
 
 .cb-button {
 	@include transition(all);
 
 	@include font;
+
 	@include interactable;
 	@include disableable;
 	@include rounded;
 
 	position: relative;
-
 	align-items: center;
 	justify-content: center;
 	overflow: hidden;
-
 	text-transform: uppercase;
-
 	text-decoration: none;
 
 	@include var(background, color-transparent);
@@ -31,7 +29,6 @@
 		@include truncate;
 
 		display: inline-block;
-
 		text-align: center;
 	}
 
@@ -97,6 +94,7 @@
 
 	&.-small {
 		@include var(font-size, font-size-sm);
+
 		min-width: 40px;
 		height: 40px;
 
@@ -105,12 +103,14 @@
 
 	&.-medium {
 		@include var(font-size, font-size-sm);
+
 		min-width: 56px;
 		height: 56px;
 	}
 
 	&.-large {
 		@include var(font-size, font-size-base);
+
 		min-width: 72px;
 		height: 72px;
 	}

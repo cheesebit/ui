@@ -1,4 +1,4 @@
-@import '../../styles/index.scss';
+@import '../../styles/index';
 
 .cb-box {
 	@include font;
@@ -27,8 +27,8 @@
 	}
 
 	& > .leading + .children:not(:empty),
-	& > .children:not(:empty) + .trailing,
-	& > .leading + .trailing {
+	& > .leading + .trailing,
+	& > .children:not(:empty) + .trailing {
 		@include var(margin-left, spacing-2);
 	}
 }

@@ -1,4 +1,4 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-checkbox {
 	@include font;
@@ -7,13 +7,12 @@
 
 	align-items: center;
 	justify-content: flex-start;
-
 	cursor: pointer;
 
 	.check {
 		@include var(color, color-white);
-		position: absolute;
 
+		position: absolute;
 		fill: currentColor;
 	}
 
@@ -26,9 +25,7 @@
 		@include transition(background color border-color);
 
 		flex-shrink: 0;
-
 		outline: none;
-
 		appearance: none;
 
 		@include var(border-color, color-gray-400);
