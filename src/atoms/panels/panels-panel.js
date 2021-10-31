@@ -1,24 +1,25 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-function Panel( { id, className, children, ...others } ) {
+/**
+ *
+ * @param {React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>} props
+ * @return {JSX.Element} Page footer component.
+ */
+function Panel(props) {
+	const { id, className, children, ...others } = props;
+	const { classy } = useClassy(props);
+
 	return (
-
 		<article
-			id={ id }
+			id={id}
 			data-testid="panel"
-			{ ...others }
-			className={ clsx( 'panel', className ) }
+			{...others}
+			className={classy('panel', className)}
 		>
-			{ children }
+			{children}
 		</article>
-
 	);
 }
-
-Panel.propTypes = {
-	id: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ).isRequired,
-};
 
 export default Panel;

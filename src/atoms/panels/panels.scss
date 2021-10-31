@@ -1,21 +1,20 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-panels {
-  width: 100%;
-  margin: 0;
-  padding: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 
-  & > .panel {
-    @include font;
+	& > .panel {
+		@include font;
 
-    position: relative;
+		position: relative;
+		display: none;
+		animation: cb-animation-enter normal 0.25s ease-out 1;
+	}
 
-    display: none;
-
-    animation: cb-animation-enter normal 0.25s ease-out 1;
-  }
-
-  & > .panel:target {
-    display: block;
-  }
+	& > .panel:target {
+		display: block;
+		height: 100px;
+	}
 }
