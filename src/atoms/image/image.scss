@@ -1,55 +1,51 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-image {
-  @include var(background, color-background);
+	@include var(background, color-background);
 
-  position: relative;
+	position: relative;
+	overflow: hidden;
 
-  overflow: hidden;
+	> img {
+		display: block;
+		width: 100%;
+		min-width: 2rem;
+		height: auto;
+		margin: 0 auto;
+	}
 
-  > img {
-    display: block;
-    width: 100%;
-    min-width: 2rem;
-    height: auto;
+	> .error {
+		position: absolute;
+		top: 0;
+		right: 0;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
 
-    margin: 0 auto;
-  }
+	&.-ar-1x1 {
+		padding-bottom: 100%; /* 1:1 Aspect Ratio */
+	}
 
-  > .error {
-    position: absolute;
+	&.-ar-16x9 {
+		padding-bottom: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+	}
 
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+	&.-ar-4x3 {
+		padding-bottom: 75%; /* 4:3 Aspect Ratio (divide 3 by 4 = 0.75) */
+	}
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+	&.-ar-3x2 {
+		padding-bottom: 66.66%; /* 3:2 Aspect Ratio (divide 2 by 3 = 0.6666)  */
+	}
 
-  &.-ar-1x1 {
-    padding-bottom: 100%; /* 1:1 Aspect Ratio */
-  }
+	&.-ar-8x5 {
+		padding-top: 62.5%; /* 8:5 Aspect Ratio (divide 5 by 8 = 0.625) */
+	}
 
-  &.-ar-16x9 {
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
-  }
-
-  &.-ar-4x3 {
-    padding-bottom: 75%; /* 4:3 Aspect Ratio (divide 3 by 4 = 0.75) */
-  }
-
-  &.-ar-3x2 {
-    padding-bottom: 66.66%; /* 3:2 Aspect Ratio (divide 2 by 3 = 0.6666)  */
-  }
-
-  &.-ar-8x5 {
-    padding-top: 62.5%; /* 8:5 Aspect Ratio (divide 5 by 8 = 0.625) */
-  }
-
-  &.has-failed > img {
-    visibility: hidden;
-  }
+	&.has-failed > img {
+		visibility: hidden;
+	}
 }
