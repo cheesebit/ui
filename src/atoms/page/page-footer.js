@@ -1,16 +1,24 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 
-const PageFooter = ( { className, children, ...others } ) => {
+/**
+ *
+ * @param {React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>} props
+ * @return {JSX.Element} Page footer component.
+ */
+function PageFooter(props) {
+	const { className, children, ...others } = props;
+	const { classy } = useClassy(props);
+
 	return (
 		<footer
-			{ ...others }
-			className={ clsx( 'footer', className ) }
+			{...others}
+			className={classy('footer', className)}
 			data-testid="page-footer"
 		>
-			{ children }
+			{children}
 		</footer>
 	);
-};
+}
 
 export default PageFooter;

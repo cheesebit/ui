@@ -1,22 +1,17 @@
-@import '../../../styles/tools/_tools.mixins';
+@import '../../../styles/tools/tools.mixins';
 
 .cb-block {
-  @include font;
+	@include font;
 
-  display: flex;
-  flex-direction: column;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
 
-  border-bottom: 1px solid;
-  @include var(border-bottom-color, color-gray-300);
+	&.-main {
+		@include var(border-bottom-color, color-gray-500);
+	}
 
-  @include px(spacing-4);
-  @include py(spacing-4);
-
-  &.-main {
-    @include var(border-bottom-color, color-gray-400);
-  }
-
-  &:last-child {
-    border-bottom: none;
-  }
+	&:last-child {
+		border-bottom: none;
+	}
 }

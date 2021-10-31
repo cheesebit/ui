@@ -1,5 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 
 import PageHeader from './page-header';
 import PageBody from './page-body';
@@ -7,18 +7,25 @@ import PageFooter from './page-footer';
 
 import './page.scss';
 
-const Page = ( { className, children } ) => {
+/**
+ *
+ * @param {React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>} props
+ * @return {JSX.Element} Page component.
+ */
+function Page(props) {
+	const { className, children, ...others } = props;
+	const { classy } = useClassy(props);
+
 	return (
 		<article
-			className={ clsx( 'cb-page', className ) }
 			data-testid="cb-page"
+			className={classy('cb-page', className)}
+			{...others}
 		>
-			{ children }
+			{children}
 		</article>
 	);
-};
-
-Page.propTypes = {};
+}
 
 Page.Header = PageHeader;
 Page.Body = PageBody;
