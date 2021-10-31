@@ -1,74 +1,90 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 import PropTypes from 'prop-types';
 
 import { Box } from '../box';
 import { Icon } from '../icon';
 import { PaddinglessPropType, BorderlessPropType } from 'common/prop-types';
+import { pick } from 'common/toolset';
 
 import './radio.scss';
 
-const Radio = ( {
-	borderless,
-	children,
-	className,
-	disabled,
-	paddingless,
-	block,
-	trailing,
-	...others
-} ) => {
+/**
+ *
+ * @param {RadioProps} props
+ * @return {JSX.Element} Radio component.
+ */
+function Radio(props) {
+	const {
+		block = false,
+		borderless = true,
+		paddingless = 'horizontal',
+		children,
+		className,
+		disabled,
+		trailing,
+		...others
+	} = props;
+	const { classy } = useClassy({ disabled });
+
 	return (
 		<Box
-			as="label"
-			borderless={ borderless }
-			paddingless={ paddingless }
-			block={ block }
-			trailing={ trailing }
-			className={ clsx( 'cb-radio', { 'is-disabled': disabled }, className ) }
 			data-testid="cb-radio"
+			as="label"
+			borderless={borderless}
+			paddingless={paddingless}
+			block={block}
+			trailing={trailing}
+			className={classy(
+				'cb-radio',
+				{ 'is-disabled': disabled },
+				className
+			)}
 			leading={
 				<React.Fragment>
 					<input
-						{ ...others }
-						type="radio"
-						disabled={ disabled }
-						className="selector"
 						data-testid="selector"
+						{...others}
+						type="radio"
+						disabled={disabled}
+						className="selector"
 					/>
-					<Icon name="circle" className="circle" size={ 16 } />
+					<Icon name="circle" className="circle" size={16} />
 				</React.Fragment>
 			}
 		>
-			{ children }
+			{children}
 		</Box>
 	);
-};
+}
 
+// storybook use only
 Radio.propTypes = {
-	/**
-	 * Determine borders to be supressed.
-	 */
 	borderless: BorderlessPropType,
-	/**
-	 * Should this button be disabled.
-	 */
 	disabled: PropTypes.bool,
-	/**
-	 * Should take up the entire width of the container.
-	 */
 	block: PropTypes.bool,
-	/**
-	 * Determine paddings to be supressed.
-	 */
 	paddingless: PaddinglessPropType,
-
-};
-
-Radio.defaultProps = {
-	borderless: true,
-	paddingless: 'horizontal',
-	block: false,
 };
 
 export default Radio;
+
+/**
+ * @typedef {import('common/prop-types').BorderlessProp} BorderlessProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ */
+
+/**
+ * @typedef {React.InputHTMLAttributes<HTMLInputElement>} DefaultInputProps
+ */
+
+/**
+ * @typedef {Object} CustomRadioProps
+ * @property {BorderlessProp} [borderless] - Determine borders to be supressed.
+ * @property {PaddinglessProp} [paddingless] - Determine paddings to be supressed.
+ * @property {boolean} [block] - Should take up the entire width of the container.
+ * @property {React.ReactNode} [trailing] - Element to be rendered in the trailing area of this radio.
+ */
+
+/**
+ * @typedef {DefaultInputProps & CustomRadioProps} RadioProps
+ */

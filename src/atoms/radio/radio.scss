@@ -1,61 +1,61 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-radio {
-  @include font;
-  @include disableable;
-  @include interactable;
+	@include font;
+	@include disableable;
+	@include interactable;
 
-  align-items: center;
-  justify-content: flex-start;
+	align-items: center;
+	justify-content: flex-start;
+	cursor: pointer;
 
-  .selector:first-of-type {
-    @include focusable;
-    @include bordered;
+	.circle {
+		@include var(color, color-white);
 
-    @include transition(color border-color);
-    flex-shrink: 0;
+		position: absolute;
+		fill: currentColor;
+	}
 
-    border-radius: 50%;
-    outline: none;
+	.selector {
+		@include bordered;
+		@include focusable;
+		@include disableable($opacity: inherit);
 
-    cursor: pointer !important;
+		@include transition(color border-color);
 
-    appearance: none;
+		flex-shrink: 0;
+		border-radius: 50%;
+		outline: none;
+		appearance: none;
 
-    @include var(border-color, color-gray-400);
-    @include var(background-color, color-white);
+		@include var(border-color, color-gray-400);
+		@include var(background-color, color-white);
 
-    @include var(height, spacing-4);
-    @include var(width, spacing-4);
+		@include var(height, spacing-4);
+		@include var(width, spacing-4);
 
-    ~ .circle {
-      @include transition(background color);
-      @include var(color, color-white);
-      position: absolute;
+		&:checked {
+			@include var(border-color, color-primary-500);
 
-      fill: currentColor;
-    }
+			~ .circle {
+				@include var(color, color-primary-500);
+			}
+		}
+	}
 
-    &:checked {
-      @include var(border-color, color-primary-500);
+	@include hoverable {
+		.selector {
+			@include var(border-color, color-gray-500);
 
-      ~ .circle {
-        @include var(color, color-primary-500);
-      }
-    }
-  }
+			cursor: pointer;
 
-  @include hoverable {
-    .selector {
-      @include var(border-color, color-gray-500);
+			&:checked {
+				@include var(border-color, color-primary-700);
 
-      &:checked {
-        @include var(border-color, color-primary-700);
-
-        ~ .circle {
-          @include var(color, color-primary-700);
-        }
-      }
-    }
-  }
+				~ .circle {
+					@include var(color, color-primary-700);
+				}
+			}
+		}
+	}
 }

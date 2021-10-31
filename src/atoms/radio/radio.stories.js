@@ -12,19 +12,24 @@ export default {
 				disable: true,
 			},
 		},
+		name: {
+			table: {
+				disable: true,
+			},
+		},
 	},
 };
 
-export function Playground( args ) {
+export function Playground(args) {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool Radio button ready to be played around. Try me :)
+				This is me, a cool Radio button ready to be played around. Try
+				me :)
 			</p>
 
 			<div className="flex flex-col space-y">
-				<Radio { ...args } />
-
+				<Radio {...args} />
 			</div>
 		</div>
 	);
@@ -32,25 +37,32 @@ export function Playground( args ) {
 
 Playground.args = {
 	name: generator.word(),
-	value: generator.natural( { min: 0, max: 100 } ),
-	children: generator.name(),
+	disabled: false,
 };
 
-export function Default( args ) {
+export function Group(args) {
 	return (
 		<div className="block">
-			<div className="flex flex-col space-y-2">
-				<Radio { ...args } name="radio-generic" value="0">
-					{ generator.name() }
+			<p className="mb-2">
+				This is me, a cool Radio button ready to be played around. Try
+				me :)
+			</p>
+
+			<div className="flex flex-col space-y">
+				<Radio {...args} value="0">
+					{generator.name()}
 				</Radio>
-				<Radio { ...args } name="radio-generic" value="1">
-					{ generator.name() }
+				<Radio {...args} value="1">
+					{generator.name()}
 				</Radio>
-				<Radio { ...args } name="radio-generic" value="2">
-					{ generator.name() }
+				<Radio {...args} value="2">
+					{generator.name()}
 				</Radio>
 			</div>
 		</div>
 	);
 }
 
+Group.args = {
+	disabled: false,
+};
