@@ -66,7 +66,7 @@ import pkg from '../../package.json';
     display: block;
     margin-bottom: 2px;
   }
-  
+
   .link-item img {
     height: 40px;
     width: 40px;
@@ -104,7 +104,7 @@ import pkg from '../../package.json';
     display: inline-block;
   }
 
-  
+
 `}</style>
 
 <p>
@@ -140,17 +140,23 @@ The last stable version is
 
 # Prerequisites
 
-- [Node.js](http://nodejs.org/) &gt;= 6 must be installed;
-- [React](https://reactjs.org/) &gt;= 16.13 must be installed.
+- [Node.js](http://nodejs.org/) &gt;= `12.13.0` must be installed;
+- [React](https://reactjs.org/) &gt;= `17.0.1` must be installed.
 
-# Checkout our custom React hooks:
+# Checkout some nice custom React hooks:
 
-- [@cheesebit/use-slice](https://www.npmjs.com/package/@cheesebit/use-slice) - A
-  custom hook that provides a React hook similar to the Redux Toolkit
-  [createSlice](https://redux-toolkit.js.org/usage/usage-with-typescript#createslice);
+
+
+- [@cheesebit/use-value](https://www.npmjs.com/package/@cheesebit/use-value) - A custom React hook that wraps the existing `useState` to be used similarly to jQuery's `val()`, where you can set/get a value using a single function.
+- [@cheesebit/classy](https://www.npmjs.com/package/@cheesebit/classy) - This library helps you to handle assigning style that relies on multiple combinations of props or conditionals; no more inline verbose conditionals.
 - [@cheesebit/use-automaton](https://www.npmjs.com/package/@cheesebit/use-automaton) -
   React hook that implements the basic mechanism of an automaton. It can be used
   to implement a more generic reducer-like logic.
+- [@cheesebit/use-slice](https://www.npmjs.com/package/@cheesebit/use-slice) - A
+  custom hook that provides a React hook similar to the Redux Toolkit
+  [createSlice](https://redux-toolkit.js.org/usage/usage-with-typescript#createslice);
+- [@cheesebit/logical](https://www.npmjs.com/package/@cheesebit/logical) - Execute, chain & compose logical operations.
+
 
 <div className="subheading">Configure</div>
 
