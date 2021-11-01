@@ -11,8 +11,8 @@ import {
 } from './constants';
 import { DEFAULT } from 'common/constants';
 import { Dropdown } from 'molecules/dropdown';
-import { getActiveTab, getActiveIndicator } from './dom-helper';
-import { isEmpty, isNil, omit } from 'common/toolset';
+import { getActiveTab, getActiveIndicator } from './tabs.helpers';
+import { isEmpty, isNil } from 'common/toolset';
 import { OverflowWatcher } from 'hocs/overflow-watcher';
 import { setElementStyle } from 'common/ui-toolset';
 import { useID } from 'hooks/id';
@@ -22,130 +22,139 @@ import Tab from './tabs-tab';
 
 import './tabs.scss';
 
-function hashed( id ) {
-	id = String( id || '' );
+function hashed(id) {
+	id = String(id || '');
 
-	if ( id.startsWith( '#' ) ) {
+	if (id.startsWith('#')) {
 		return id;
 	}
 
-	return `#${ id }`;
+	return `#${id}`;
 }
 
-// TODO This component needs major organization improvements
-function Tabs( props ) {
+/**
+ *
+ * @param {TabsProps} props
+ * @return {JSX.Element} Tabs component.
+ */
+function Tabs(props) {
 	const { className, items, ...others } = props;
 
-	const active = useValue();
-	const id = useID( others );
+	const active = useValue('');
+	const id = useID(others);
+
+	/** @type {React.MutableRefObject<HTMLDivElement>} */
 	const tabsRef = React.useRef();
 
 	function drawActiveTabIndicator() {
-		const activeTabElement = getActiveTab( tabsRef.current );
-		const activeIndicatorElement = getActiveIndicator( tabsRef.current );
+		const activeTabElement = getActiveTab(tabsRef.current);
+		const activeIndicatorElement = getActiveIndicator(tabsRef.current);
 
 		let left = '100%';
 		let width = '0px';
 
-		if ( activeTabElement && ! activeTabElement.matches( '.is-hidden' ) ) {
-			left = `${ activeTabElement.offsetLeft }px`;
-			width = `${ activeTabElement.offsetWidth / 2 }px`;
+		if (activeTabElement && !activeTabElement.matches('.is-hidden')) {
+			left = `${activeTabElement.offsetLeft}px`;
+			width = `${activeTabElement.offsetWidth / 2}px`;
 		}
 
-		setElementStyle( activeIndicatorElement, 'left', left );
-		setElementStyle( activeIndicatorElement, 'width', width );
+		setElementStyle(activeIndicatorElement, 'left', left);
+		setElementStyle(activeIndicatorElement, 'width', width);
 	}
 
-	const handleHashChange = React.useCallback( function handleHashChange() {
-		active( window.location.hash );
-	}, [] );
+	const handleHashChange = React.useCallback(function handleHashChange() {
+		active(window.location.hash);
+	}, []);
 
-	function renderTrigger( { disabled, expanded } ) {
+	function renderTrigger() {
 		return (
 			<Dropdown.Trigger
-				disabled={ disabled }
-				expanded={ expanded() }
-				onClick={ expanded( ( c ) => ! c ) }
 				icon="more-horizontal"
-				trailing={ null }
+				trailing={null}
 				borderless
 			/>
 		);
 	}
 
-	function renderTabs( { to } ) {
-		return ( items || DEFAULT.ARRAY ).map( ( item, index ) => renderTab( item, index <= to ) );
+	function renderTabs({ to }) {
+		return (items || DEFAULT.ARRAY).map((item, index) =>
+			renderTab(item, index <= to)
+		);
 	}
 
-	function renderDropdown( { to } ) {
-		const overflownItems = ( items || DEFAULT.ARRAY ).slice( to + 1 );
+	function renderDropdown({ from }) {
+		const overflownItems = (items || DEFAULT.ARRAY).slice(from);
 
-		if ( isNil( overflownItems ) || isEmpty( overflownItems ) ) {
+		if (isNil(overflownItems) || isEmpty(overflownItems)) {
 			return null;
 		}
 
 		return (
-			<Dropdown className="overflown-tabs" trigger={ renderTrigger } unroll="left">
-				<Dropdown.Items hoverable>{ overflownItems.map( renderDropdownItem ) }</Dropdown.Items>
+			<Dropdown className="overflown-tabs" unroll="left">
+				{renderTrigger()}
+				<Dropdown.Menu>
+					{overflownItems.map(renderDropdownItem)}
+				</Dropdown.Menu>
 			</Dropdown>
 		);
 	}
 
-	function renderTab( tab, visible = true ) {
+	function renderTab(tab, visible = true) {
 		const { id, ...others } = tab;
-		const href = hashed( id );
+		const href = hashed(id);
 
 		return (
 			<Tab
-				key={ `t-${ id }` }
-				{ ...others }
-				href={ href }
+				key={`t-${id}`}
+				{...others}
+				href={href}
 				target="_self"
-				active={ active() === href }
-				className={ clsx( others.className, {
-					'is-hidden': ! visible,
-				} ) }
-				onClick={ () => {
-					active( hashed( id ) );
-				} }
+				active={active() === href}
+				className={clsx(others.className, {
+					'is-hidden': !visible,
+				})}
+				onClick={() => {
+					active(hashed(id));
+				}}
 			/>
 		);
 	}
 
-	function renderDropdownItem( item ) {
-		const { id, props, ...others } = item;
+	function renderDropdownItem(item) {
+		const { id, label, ...others } = item;
 
-		// since all tabs are rendered, we deduplicate keys prepending t- to their keys
+		// since all tabs are rendered, we deduplicate keys prepending d- to their keys
 		return (
 			<Dropdown.Item
-				key={ `d-${ id }` }
-				{ ...props }
-				{ ...omit( [ 'for' ], others ) }
-				className={ clsx( props?.className, {
-					'is-highlighted': active() === hashed( id ),
-				} ) }
-				onClick={ () => {
-					window.history.replaceState( null, null, hashed( id ) );
-					active( hashed( id ) );
-				} }
-			/>
+				key={`d-${id}`}
+				{...others}
+				className={clsx(others?.className, {
+					'is-highlighted': active() === hashed(id),
+				})}
+				onClick={() => {
+					window.history.replaceState(null, null, hashed(id));
+					active(hashed(id));
+				}}
+			>
+				{label}
+			</Dropdown.Item>
 		);
 	}
 
-	function renderWatched( { from, to } ) {
+	function renderWatched({ from, to }) {
 		return (
 			<div
-				ref={ tabsRef }
-				className={ clsx( 'cb-tabs', className ) }
+				ref={tabsRef}
+				className={clsx('cb-tabs', className)}
 				data-testid="cb-tabs"
-				{ ...others }
-				id={ id }
+				{...others}
+				id={id}
 				role="tablist"
 			>
-				 <ActiveTabIndicator />
+				<ActiveTabIndicator />
 
-				{ renderTabs( { from, to } ) }
-				{ renderDropdown( { from, to } ) }
+				{renderTabs({ to })}
+				{renderDropdown({ from: to + 1 })}
 			</div>
 		);
 	}
@@ -153,51 +162,74 @@ function Tabs( props ) {
 	React.useEffect(
 		function subscribeToHashChange() {
 			const { ownerDocument } = tabsRef.current;
-			ownerDocument.addEventListener( 'hashchange', handleHashChange, false );
+			ownerDocument.addEventListener(
+				'hashchange',
+				handleHashChange,
+				false
+			);
 
 			return function unsubscribeToHashChange() {
-				ownerDocument.removeEventListener( 'hashchange', handleHashChange, false );
+				ownerDocument.removeEventListener(
+					'hashchange',
+					handleHashChange,
+					false
+				);
 			};
 		},
-		[ handleHashChange ],
+		[handleHashChange]
 	);
 
-	React.useEffect( () => {
+	React.useEffect(() => {
 		drawActiveTabIndicator();
-	}, [ active ] );
+	}, [active]);
 
-	React.useEffect( () => {
-		const initialActive = hashed( selectors.getActive( props ) );
-		active( initialActive );
+	React.useEffect(() => {
+		const initialActive = hashed(selectors.getActive(props));
+		active(initialActive);
 
-		window.history.replaceState( null, null, initialActive );
-	}, [] );
+		window.history.replaceState(null, null, initialActive);
+	}, []);
 
 	return (
 		<OverflowWatcher
-			containerRef={ tabsRef }
-			options={ OVERFLOW_OPTIONS }
-			offset={ DEFAULT_DROPDOWN_WIDTH }
-			selector={ OVERFLOW_WATCHER_SELECTOR }
-			wait={ OVERFLOW_WAIT }
-			onUpdate={ drawActiveTabIndicator }
+			containerRef={tabsRef}
+			options={OVERFLOW_OPTIONS}
+			offset={DEFAULT_DROPDOWN_WIDTH}
+			selector={OVERFLOW_WATCHER_SELECTOR}
+			wait={OVERFLOW_WAIT}
+			onUpdate={drawActiveTabIndicator}
 		>
-			{ renderWatched }
+			{renderWatched}
 		</OverflowWatcher>
 	);
 }
 
+// storybook use only
 Tabs.propTypes = {
 	className: PropTypes.string,
 	items: PropTypes.arrayOf(
-		PropTypes.shape( {
+		PropTypes.shape({
 			active: PropTypes.bool,
 			disabled: PropTypes.bool,
-			id: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
-			label: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ).isRequired,
+			id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+			label: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+				.isRequired,
 			onClick: PropTypes.func,
-		} ),
+		})
 	).isRequired,
 };
 
 export default Tabs;
+
+/**
+ * @typedef {import('./tabs-tab').TabProps} TabProps
+ */
+
+/**
+ * @typedef {Object} GenericTabProps
+ * @property {TabsProps[]} [items] - d
+ */
+
+/**
+ * @typedef {React.HTMLAttributes<HTMLDivElement> & GenericTabProps} TabsProps
+ */

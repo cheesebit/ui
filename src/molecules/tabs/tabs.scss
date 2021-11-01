@@ -1,94 +1,90 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 $active-indicator-height: spacing(1);
 
 .cb-tabs {
-  @include m(spacing-0);
+	@include m(spacing-0);
 
-  @include px(spacing-0);
-  @include var(padding-top, spacing-0);
-  @include var(padding-bottom, spacing-1);
+	@include px(spacing-0);
+	@include var(padding-top, spacing-0);
+	@include var(padding-bottom, spacing-1);
 
-  position: relative;
+	position: relative;
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+	justify-content: flex-start;
 
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: flex-start;
+	& > input[type='radio'] {
+		@include hidden;
+	}
 
-  & > input[type='radio'] {
-    @include hidden;
-  }
+	& > .tab {
+		@include font;
+		@include transition(background color border opacity, $duration: 0.25s);
+		@include interactable;
+		@include disableable;
 
-  & > .tab {
-    @include font;
-    @include transition(background color border opacity, $duration: 0.25s);
-    @include interactable;
-    @include disableable;
+		@include var(z-index, layer-1);
 
-    @include var(z-index, layer-1);
+		@include var(color, color-gray-400);
+		@include px(spacing-0);
+		@include py(spacing-2);
+		@include m(spacing-0);
 
-    @include var(color, color-gray-400);
-    @include px(spacing-0);
-    @include py(spacing-2);
-    @include m(spacing-0);
+		@include var(background, color-transparent);
+		@include var(font-size, font-size-sm);
+		@include var(font-weight, font-weight-default);
 
-    @include var(background, color-transparent);
-    @include var(font-size, font-size-sm);
-    @include var(font-weight, font-weight-default);
+		position: relative;
+		display: inline-flex;
+		flex-direction: column;
+		cursor: pointer;
+		user-select: none;
 
-    position: relative;
+		// text-transform: uppercase;
 
-    display: inline-flex;
-    flex-direction: column;
+		&:not(:last-child) {
+			@include my(spacing-0);
+			@include var(margin-right, spacing-8);
+			@include var(margin-left, spacing-0);
+		}
 
-    cursor: pointer;
+		&:hover:not(.is-active) {
+			@include var(color, color-gray-500);
+		}
 
-    user-select: none;
+		&.is-active {
+			@include var(color, color-primary-600);
+			@include var(font-weight, font-weight-medium);
+		}
 
-    // text-transform: uppercase;
+		&.is-hidden {
+			@include var(z-index, layer-0);
 
-    &:not(:last-child) {
-      @include my(spacing-0);
-      @include var(margin-right, spacing-8);
-      @include var(margin-left, spacing-0);
-    }
+			position: absolute;
+			right: 0;
+			visibility: hidden;
+		}
+	}
 
-    &:hover:not(.is-active) {
-      @include var(color, color-gray-500);
-    }
+	& > .active-indicator {
+		@include transition(
+			left width,
+			$duration: 0.45s,
+			$easing: cubic-bezier(0.38, 0.8, 0.32, 1.07)
+		);
+		@include var(background, color-primary-500);
 
-    &.is-active {
-      @include var(color, color-primary-600);
-      @include var(font-weight, font-weight-medium);
-    }
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		display: inline-block;
+		width: 0;
+		height: $active-indicator-height;
+	}
 
-    &.is-hidden {
-      @include var(z-index, layer-0);
-      position: absolute;
-      right: 0;
-
-      visibility: hidden;
-    }
-  }
-
-  & > .active-indicator {
-    @include transition(
-      left width,
-      $duration: 0.45s,
-      $easing: cubic-bezier(0.38, 0.8, 0.32, 1.07)
-    );
-    @include var(background, color-primary-500);
-    position: absolute;
-    bottom: 0;
-    left: 0;
-
-    display: inline-block;
-    width: 0;
-    height: $active-indicator-height;
-  }
-
-  & > .overflown-tabs {
-    margin: 0 0 0 auto;
-  }
+	& > .overflown-tabs {
+		margin: 0 0 0 auto;
+	}
 }
