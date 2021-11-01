@@ -2,40 +2,51 @@ import React from 'react';
 import clsx from 'clsx';
 import { useClassy } from '@cheesebit/classy';
 
-import { Button, Emphasis } from 'atoms/button';
+import { Button } from 'atoms/button';
 import { Icon } from 'atoms/icon';
 import { isNil } from 'common/toolset';
 
-function DropdownTrigger( props ) {
-	const { classy } = useClassy( props );
-	const { className, expanded, trailing, onClick, children, ...others } = props;
+import DropdownContext from './dropdown.context';
 
-	function renderArrow() {
-		if ( ! isNil( trailing ) ) {
-			return trailing;
-		}
+/**
+ *
+ * @param {DropdownTriggerProps} props
+ * @return {JSX.Element} Dropdown Trigger component.
+ */
+function DropdownTrigger(props) {
+	const context = React.useContext(DropdownContext);
+	const { classy } = useClassy(props);
+	const { className, ...others } = props;
+	const { disabled, expanded, toggle } = context;
 
-		return <Icon className={ clsx( { 'cb-u-rotate-180': expanded } ) } name="expand-more" size={ 16 } />;
+	function renderCaret() {
+		return (
+			<Icon
+				className={clsx({ 'cb-u-rotate-180': expanded })}
+				name="expand-more"
+				size={16}
+			/>
+		);
 	}
 
 	return (
 		<Button
-			block
-			trailing={ renderArrow() }
-			emphasis={ Emphasis.ghost }
 			data-testid="trigger"
-			{ ...others }
+			trailing={renderCaret()}
+			emphasis="ghost"
+			{...others}
 			aria-haspopup="true"
-			aria-expanded={ expanded }
-			className={ classy(
-				'trigger',
-				className,
-			) }
-			onClick={ onClick }
-		>
-			{ children }
-		</Button>
+			aria-expanded={expanded}
+			aria-disabled={disabled}
+			disabled={disabled}
+			onClick={toggle}
+			className={classy('trigger', className)}
+		/>
 	);
 }
 
 export default DropdownTrigger;
+
+/**
+ * @typedef {import('atoms/button/button').ButtonProps} DropdownTriggerProps
+ */

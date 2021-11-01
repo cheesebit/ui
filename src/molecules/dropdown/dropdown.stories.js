@@ -10,7 +10,7 @@ export default {
 		unroll: {
 			control: {
 				type: 'select',
-				options: [ 'right', 'left', 'block' ],
+				options: ['right', 'left', 'block'],
 			},
 		},
 		className: {
@@ -23,8 +23,19 @@ export default {
 
 const ITEMS = generateDropdownOptions();
 
-export function Playground( args ) {
-	return <Dropdown { ...args } />;
+export function Playground(args) {
+	return (
+		<Dropdown {...args}>
+			<Dropdown.Trigger>Actions</Dropdown.Trigger>
+			<Dropdown.Menu>
+				{ITEMS.map(({ label, onClick }) => (
+					<Dropdown.Item key={label} onClick={onClick}>
+						{label}
+					</Dropdown.Item>
+				))}
+			</Dropdown.Menu>
+		</Dropdown>
+	);
 }
 
 Playground.args = {

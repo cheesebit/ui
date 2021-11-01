@@ -1,81 +1,77 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-dropdown {
-  @include font;
+	@include font;
 
-  position: relative;
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
 
-  display: inline-flex;
-  flex-direction: column;
+	& > .trigger {
+		@include var(font-size, font-size-base);
 
-  & > .trigger {
-    @include var(font-size, font-size-base);
+		text-transform: initial;
+	}
 
-    text-transform: initial;
-  }
+	& > .menu {
+		position: absolute;
+		top: calc(100% - 1px);
+		min-width: 10rem;
+		max-height: 0;
+		overflow-y: auto;
 
-  & > .menu {
-    position: absolute;
+		@include mx(spacing-0);
+		@include var(margin-bottom, spacing-0);
+		@include var(margin-top, spacing-2);
+	}
 
-    top: calc(100% - 1px);
+	& > .menu > .item {
+		@include interactable;
+		@include disableable;
 
-    min-width: 10rem;
-    max-height: 0;
-    overflow-y: auto;
+		@include focusable($color: transparent) {
+			@include var(z-index, layer-1);
 
-    @include mx(spacing-0);
-    @include var(margin-bottom, spacing-0);
-    @include var(margin-top, spacing-2);
-  }
+			// TODO: parameterize the background color
+			@include var(background, color-gray-300);
+		}
 
-  & > .menu > .item {
-    @include interactable;
-    @include disableable;
+		& > .children {
+			@include truncate;
 
-    @include focusable($color: transparent) {
-      @include var(z-index, layer-1);
+			display: inline-block;
 
-      // TODO: parameterize the background color
-      @include var(background, color-gray-300);
-    }
+			// TODO: for God's sake get rid of this override
+			justify-self: start;
+			line-height: 2rem;
+			text-align: left;
+		}
+	}
 
-    & > .children {
-      @include truncate;
+	&.-unroll-block {
+		& > .menu {
+			right: 0 !important;
+			left: 0 !important;
+		}
+	}
 
-      display: inline-block;
+	&.-unroll-right {
+		& > .menu {
+			right: auto;
+			left: 0;
+		}
+	}
 
-      // TODO: for God's sake get rid of this override
-      justify-self: start;
+	&.-unroll-left {
+		& > .menu {
+			right: 0;
+			left: auto;
+		}
+	}
 
-      line-height: 2rem;
-      text-align: left;
-    }
-  }
-
-  &.-unroll-block {
-    & > .menu {
-      right: 0 !important;
-      left: 0 !important;
-    }
-  }
-
-  &.-unroll-right {
-    & > .menu {
-      right: auto;
-      left: 0;
-    }
-  }
-
-  &.-unroll-left {
-    & > .menu {
-      right: 0;
-      left: auto;
-    }
-  }
-
-  &.is-expanded {
-    & > .menu {
-      max-height: 240px;
-    }
-  }
+	&.is-expanded {
+		& > .menu {
+			max-height: 240px;
+		}
+	}
 }
