@@ -1,9 +1,4 @@
-import {
-	useCallback,
-	useEffect,
-	useRef,
-	useState,
-} from 'react';
+import React from 'react';
 
 import { isEmpty, isObject } from 'common/toolset';
 
@@ -20,115 +15,119 @@ const META_CHARS = '^.[]$()*+';
  *  W Any non-alphanumeric character, including the underscore
  */
 
-function getRegexes( { mask } ) {
-	if ( ! mask ) {
+function getRegexes({ mask }) {
+	if (!mask) {
 		return [];
 	}
 
-	function handleString( token ) {
-		if ( token.length > 1 ) {
-			throw new Error( `[useMask] token ${ token } has length > 1` );
+	function handleString(token) {
+		if (token.length > 1) {
+			throw new Error(`[useMask] token ${token} has length > 1`);
 		}
 
-		if ( REGEX_TOKENS.test( token ) ) {
-			return { token, regex: new RegExp( `^\\${ token }$`, 'i' ), literal: false };
+		if (REGEX_TOKENS.test(token)) {
+			return {
+				token,
+				regex: new RegExp(`^\\${token}$`, 'i'),
+				literal: false,
+			};
 		}
 
 		return {
 			token,
 			literal: true,
 			regex: new RegExp(
-				`^${ Array.from( token )
-					.map( ( char ) => {
-						if ( META_CHARS.includes( char ) ) {
-							return `\\${ char }`;
+				`^${Array.from(token)
+					.map((char) => {
+						if (META_CHARS.includes(char)) {
+							return `\\${char}`;
 						}
 
 						return char;
-					} )
-					.join( '' ) }$`,
-				'i',
+					})
+					.join('')}$`,
+				'i'
 			),
 		};
 	}
 
-	function handleObject( options ) {
+	function handleObject(options) {
 		const { token } = options;
 
 		return {
 			literal: true,
-			...handleString( token ),
+			...handleString(token),
 			...options,
 		};
 	}
 
 	return [
-		...Array.from( mask ).map( ( expected ) => {
-			if ( isObject( expected ) ) {
-				return handleObject( expected );
+		...Array.from(mask).map((expected) => {
+			if (isObject(expected)) {
+				return handleObject(expected);
 			}
 
-			return handleString( expected );
-		} ),
+			return handleString(expected);
+		}),
 		FORBID_REGEX,
 	];
 }
 
-function useMask( props ) {
+function useMask(props) {
 	const {
 		value: valueProp,
 		onChange: onChangeProp,
 		onKeyUp: onKeyUpProp,
 		onKeyDown: onKeyDownProp,
 	} = props;
-	const optionsRef = useRef( getRegexes( props ) );
-	const [ value, setValue ] = useState( () =>
-		appendExtraChars( String( valueProp || '' ) ),
+	const options = React.useMemo(() => getRegexes(props), []);
+	const [value, setValue] = React.useState(() =>
+		appendExtraChars(String(valueProp || ''))
 	);
-	const changeModeRef = useRef( 'deny' ); // <'allow' | 'deny' | 'bypass'>
+	const changeModeRef = React.useRef('deny'); // <'allow' | 'deny' | 'bypass'>
 
-	useEffect(
+	React.useEffect(
 		function updateInnerValue() {
-			setValue( appendExtraChars( String( valueProp || '' ) ) );
+			setValue(appendExtraChars(String(valueProp || '')));
 		},
-		[ valueProp ],
+		[valueProp]
 	);
 
 	// console.log(optionsRef.current)
-	function appendExtraChars( value ) {
-		let option = optionsRef.current[ value.length ];
+	function appendExtraChars(value) {
+		let option = options[value.length];
 
-		while ( option?.literal ) {
-			value = `${ value }${ option.token }`;
-			option = optionsRef.current[ value.length ];
+		while (option?.literal) {
+			value = `${value}${option.token}`;
+			option = options[value.length];
 		}
 
 		return value;
 	}
 
-	const onKeyDown = useCallback(
-		function handleKeyDown( e ) {
-			if ( [ 'Delete', 'Backspace' ].includes( e.key ) ) {
+	const onKeyDown = React.useCallback(
+		function handleKeyDown(e) {
+			if (['Delete', 'Backspace'].includes(e.key)) {
 				changeModeRef.current = 'bypass';
 				return;
 			}
 
-			const option = optionsRef.current[ String( value ).length ];
+			const option = options[String(value).length];
 
-			if ( ! option ) {
+			if (!option) {
 				changeModeRef.current = 'deny';
 				return;
 			}
 
-			changeModeRef.current = option.regex.test( e.key ) ? 'allow' : 'deny';
-			onKeyDownProp?.( e );
+			changeModeRef.current = option.regex.test(e.key) ? 'allow' : 'deny';
+			onKeyDownProp?.(e);
 		},
-		[ value, onKeyDownProp ],
+		[value, onKeyDownProp]
 	);
 
-	const onChange = useCallback(
-		function handleChange( e ) {
-			if ( changeModeRef.current === 'deny' ) {
+	const onChange = React.useCallback(
+		function handleChange(e) {
+			if (changeModeRef.current === 'deny') {
 				return;
 			}
 
@@ -136,22 +135,22 @@ function useMask( props ) {
 				target: { value },
 			} = e;
 
-			if ( changeModeRef.current === 'allow' || isEmpty( value ) ) {
-				value = appendExtraChars( value );
+			if (changeModeRef.current === 'allow' || isEmpty(value)) {
+				value = appendExtraChars(value);
 			}
 
-			setValue( value );
-			onChangeProp?.( e );
+			setValue(value);
+			onChangeProp?.(e);
 		},
-		[ onChangeProp ],
+		[onChangeProp]
 	);
 
-	const onKeyUp = useCallback(
-		function handleKeyUp( e ) {
+	const onKeyUp = React.useCallback(
+		function handleKeyUp(e) {
 			changeModeRef.current = 'deny';
-			onKeyUpProp?.( e );
+			onKeyUpProp?.(e);
 		},
-		[ onKeyUpProp ],
+		[onKeyUpProp]
 	);
 
 	return {
@@ -159,7 +158,7 @@ function useMask( props ) {
 		onChange,
 		onKeyDown,
 		onKeyUp,
-		placeholder: optionsRef.current.map( ( option ) => option.token ).join( '' ),
+		placeholder: options.map((option) => option.token).join(''),
 	};
 }
 
