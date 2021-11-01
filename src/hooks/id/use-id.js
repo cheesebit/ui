@@ -1,18 +1,25 @@
 import React from 'react';
 
-import { getID } from '../../common/toolset';
+import { getID } from 'common/toolset';
 
-function useID( { id: propId } ) {
-	const [ id, setID ] = React.useState( getID( propId ) );
+/**
+ *
+ * @param {Object} props
+ * @param {string | number} [props.id]
+ * @return {string} Provided or generated ID, converted to a string.
+ */
+function useID(props) {
+	const { id: propId } = props;
+	const [id, setID] = React.useState(getID(propId));
 
 	React.useEffect(
 		function updateID() {
-			setID( getID( propId ) );
+			setID(getID(propId));
 		},
-		[ propId ],
+		[propId]
 	);
 
-	return id;
+	return String(id);
 }
 
 export default useID;
