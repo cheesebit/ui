@@ -2,268 +2,269 @@
 @import './tools.functions';
 
 @mixin var($property, $name, $important: false) {
-  @if ($important == 'important') {
-    $important: unquote('!important');
-  } @else {
-    $important: null;
-  }
+	@if $important == 'important' {
+		/* stylelint-disable */
+		$important: unquote('!important');
+		/* stylelint-enable */
+	} @else {
+		$important: null;
+	}
 
-  #{$property}: get-var($name) $important;
-  #{$property}: var(get-var-name($name), get-var($name)) $important;
+	#{$property}: get-var($name) $important;
+	#{$property}: var(get-var-name($name), get-var($name)) $important;
 }
 
 @mixin font() {
-  @include var(font-family, font-family-default);
-  @include var(font-weight, font-weight-default);
-  @include var(font-size, font-size-base);
-  @include var(line-height, line-height-default);
-  @include var(color, color-gray-700);
+	@include var(font-family, font-family-default);
+	@include var(font-weight, font-weight-default);
+	@include var(font-size, font-size-base);
+	@include var(line-height, line-height-default);
+	@include var(color, color-gray-700);
 
-  font-style: normal;
-  font-stretch: normal;
-  letter-spacing: normal;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-style: normal;
+	font-stretch: normal;
+	letter-spacing: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 @mixin gradient($start, $end) {
-  background-image: linear-gradient(to right, $start 0%, $end 51%, $start 100%);
+	background-image: linear-gradient(
+		to right,
+		$start 0%,
+		$end 51%,
+		$start 100%
+	);
 }
 
 @mixin shadow($opacity: 0.25) {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, $opacity);
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, $opacity);
 }
 
 @mixin animation(
-  $name,
-  $duration: 0.125s,
-  $timing: ease-in-out,
-  $delay: 0s,
-  $iteration: 1,
-  $direction: normal
+	$name,
+	$duration: 0.125s,
+	$timing: ease-in-out,
+	$delay: 0s,
+	$iteration: 1,
+	$direction: normal
 ) {
-  animation-name: cb-animation-#{$name};
-  animation-duration: $duration;
-  animation-timing-function: $timing;
-  animation-delay: $delay;
-  animation-iteration-count: $iteration;
-  animation-direction: $direction;
+	animation-name: cb-animation-#{$name};
+	animation-duration: $duration;
+	animation-timing-function: $timing;
+	animation-delay: $delay;
+	animation-iteration-count: $iteration;
+	animation-direction: $direction;
 }
 
 @mixin transition(
-  $properties: (
-    all,
-  ),
-  $duration: 0.35s,
-  $delay: null,
-  $easing: ease-in-out
+	$properties: (
+		all,
+	),
+	$duration: 0.35s,
+	$delay: null,
+	$easing: ease-in-out
 ) {
-  $value: null;
+	$value: null;
 
-  @each $prop in $properties {
-    $prop-value: append((), $prop, space);
-    $prop-value: append($prop-value, $duration, space);
+	/* stylelint-disable */
+	@each $prop in $properties {
+		$prop-value: append((), $prop, space);
+		$prop-value: append($prop-value, $duration, space);
 
-    @if $delay != null {
-      $prop-value: append($prop-value, $delay, space);
-    }
+		@if $delay != null {
+			$prop-value: append($prop-value, $delay, space);
+		}
 
-    $prop-value: append($prop-value, $easing, space);
+		$prop-value: append($prop-value, $easing, space);
+		$value: append($value, $prop-value, comma);
+	}
+	/* stylelint-enable */
 
-    $value: append($value, $prop-value, comma);
-  }
-
-  transition: $value;
+	transition: $value;
 }
 
 @mixin interactable {
-  position: relative;
+	// position: relative;
+	// overflow: visible;
 
-  overflow: visible;
-
-  outline: none !important;
-
-  cursor: pointer;
-  opacity: 1;
+	outline: none !important;
+	cursor: pointer;
+	opacity: 100%;
 }
 
 @mixin focusable($color: rgba(color(primary-200), 0.25)) {
-  outline: none;
+	outline: none;
 
-  &:enabled:not(.is-disabled) {
-    &:focus,
-    &.is-focused {
-      // box-shadow: 0 0 0.45rem $color;
-      box-shadow: 0 0 0 0.2rem $color;
+	&:not(.is-disabled),
+	&:enabled {
+		&:focus,
+		&.is-focused {
+			// box-shadow: 0 0 0.45rem $color;
+			box-shadow: 0 0 0 0.2rem $color;
 
-      @content;
-    }
-  }
+			@content;
+		}
+	}
 }
 
 @mixin hoverable {
-  &:enabled:not(.is-disabled) {
-    &:hover {
-      @content;
-    }
-  }
+	&:not(.is-disabled),
+	&:enabled {
+		&:hover {
+			@content;
+		}
+	}
 }
 
 @mixin activable {
-  &:enabled:not(.is-disabled) {
-    &:active {
-      @content;
-    }
-  }
+	&:not(.is-disabled),
+	&:enabled {
+		&:active {
+			@content;
+		}
+	}
 }
 
-@mixin disableable($opacity: .25) {
-  &.is-disabled,
-  &:disabled {
-    cursor: not-allowed;
-    opacity: $opacity;
+@mixin disableable($opacity: 0.25) {
+	&.is-disabled,
+	&:disabled {
+		cursor: not-allowed;
+		opacity: $opacity;
+		user-select: none;
 
-    user-select: none;
-
-    &:active {
-      pointer-events: none;
-    }
-  }
+		&:active {
+			pointer-events: none;
+		}
+	}
 }
 
 @mixin rounded(
-  $border-radius: 0.1875rem,
-  $top-left: true,
-  $top-right: true,
-  $bottom-left: true,
-  $bottom-right: true
+	$border-radius: 0.1875rem,
+	$top-left: true,
+	$top-right: true,
+	$bottom-left: true,
+	$bottom-right: true
 ) {
-  @if $top-left {
-    border-top-left-radius: $border-radius;
-  } @else {
-    border-top-left-radius: 0;
-  }
+	@if $top-left {
+		border-top-left-radius: $border-radius;
+	} @else {
+		border-top-left-radius: 0;
+	}
 
-  @if $top-right {
-    border-top-right-radius: $border-radius;
-  } @else {
-    border-top-right-radius: 0;
-  }
+	@if $top-right {
+		border-top-right-radius: $border-radius;
+	} @else {
+		border-top-right-radius: 0;
+	}
 
-  @if $bottom-left {
-    border-bottom-left-radius: $border-radius;
-  } @else {
-    border-bottom-left-radius: 0;
-  }
+	@if $bottom-left {
+		border-bottom-left-radius: $border-radius;
+	} @else {
+		border-bottom-left-radius: 0;
+	}
 
-  @if $bottom-right {
-    border-bottom-right-radius: $border-radius;
-  } @else {
-    border-bottom-right-radius: 0;
-  }
+	@if $bottom-right {
+		border-bottom-right-radius: $border-radius;
+	} @else {
+		border-bottom-right-radius: 0;
+	}
 }
 
 @mixin bordered(
-  $top: true,
-  $right: true,
-  $bottom: true,
-  $left: true,
-  $color: color(gray-400),
-  $style: solid
+	$top: true,
+	$right: true,
+	$bottom: true,
+	$left: true,
+	$color: color(gray-400),
+	$style: solid
 ) {
-  @if $top {
-    border-top: 1px $style $color;
-  } @else {
-    border-top: none;
-  }
+	@if $top {
+		border-top: 1px $style $color;
+	} @else {
+		border-top: none;
+	}
 
-  @if $right {
-    border-right: 1px $style $color;
-  } @else {
-    border-right: none;
-  }
+	@if $right {
+		border-right: 1px $style $color;
+	} @else {
+		border-right: none;
+	}
 
-  @if $bottom {
-    border-bottom: 1px $style $color;
-  } @else {
-    border-bottom: none;
-  }
+	@if $bottom {
+		border-bottom: 1px $style $color;
+	} @else {
+		border-bottom: none;
+	}
 
-  @if $left {
-    border-left: 1px $style $color;
-  } @else {
-    border-left: none;
-  }
+	@if $left {
+		border-left: 1px $style $color;
+	} @else {
+		border-left: none;
+	}
 }
 
 @mixin p($value: spacing-4) {
-  @include px($value);
-  @include py($value);
+	@include px($value);
+	@include py($value);
 }
 
 @mixin px($value: spacing-4) {
-  @include var(padding-right, $value);
-  @include var(padding-left, $value);
+	@include var(padding-right, $value);
+	@include var(padding-left, $value);
 }
 
 @mixin py($value: spacing-4) {
-  @include var(padding-top, $value);
-  @include var(padding-bottom, $value);
+	@include var(padding-top, $value);
+	@include var(padding-bottom, $value);
 }
 
 @mixin m($value: spacing-4) {
-  @include mx($value);
-  @include my($value);
+	@include mx($value);
+	@include my($value);
 }
 
 @mixin mx($value: spacing-4) {
-  @include var(margin-right, $value);
-  @include var(margin-left, $value);
+	@include var(margin-right, $value);
+	@include var(margin-left, $value);
 }
 
 @mixin my($value: spacing-4) {
-  @include var(margin-top, $value);
-  @include var(margin-bottom, $value);
+	@include var(margin-top, $value);
+	@include var(margin-bottom, $value);
 }
 
 @mixin truncate($limit: 100%, $important: false) {
-  @if ($important == 'important') {
-    $important: unquote('!important');
-  } @else {
-    $important: null;
-  }
+	@if $important == 'important' {
+		/* stylelint-disable */
+		$important: unquote('!important');
+		/* stylelint-enable */
+	} @else {
+		$important: null;
+	}
 
-  max-width: $limit $important;
-  overflow: hidden $important;
-
-  white-space: nowrap $important;
-  text-overflow: ellipsis $important;
+	max-width: $limit $important;
+	overflow: hidden $important;
+	white-space: nowrap $important;
+	text-overflow: ellipsis $important;
 }
 
 // Mixin to quickly apply accessible hiding to elements.
 @mixin hidden($accessible: false) {
-  @if $accessible != false {
-    display: none !important;
-
-    opacity: 0 !important;
-  } @else {
-    border: 0 !important;
-
-    clip: rect(0 0 0 0) !important;
-    clip-path: inset(50%) !important;
-
-    height: 1px !important;
-    margin: -1px !important;
-    overflow: hidden !important;
-    padding: 0 !important;
-
-    position: absolute !important;
-
-    white-space: nowrap !important;
-
-    width: 1px !important;
-
-    pointer-events: none;
-  }
+	@if $accessible != false {
+		display: none !important;
+		opacity: 0% !important;
+	} @else {
+		position: absolute !important;
+		width: 1px !important;
+		height: 1px !important;
+		margin: -1px !important;
+		padding: 0 !important;
+		overflow: hidden !important;
+		white-space: nowrap !important;
+		border: 0 !important;
+		clip: rect(0 0 0 0) !important;
+		clip-path: inset(50%) !important;
+		pointer-events: none;
+	}
 }

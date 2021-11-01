@@ -4,23 +4,25 @@
 @import './settings.typography';
 
 @function merge($maps...) {
-  $collection: ();
+	$collection: ();
 
-  @each $map in $maps {
-    @each $key, $value in $map {
-      $collection: map-merge($collection, (#{$key}: $value));
-    }
-  }
+	@each $map in $maps {
+		@each $key, $value in $map {
+			/* stylelint-disable */
+			$collection: map-merge($collection, (#{$key}: $value));
+			/* stylelint-enable */
+		}
+	}
 
-  @return $collection;
+	@return $collection;
 }
 
 $vars: merge(
-  $colors,
-  $layers,
-  $spacings,
-  $font-families,
-  $font-sizes,
-  $font-weights,
-  $line-heights
+	$colors,
+	$layers,
+	$spacings,
+	$font-families,
+	$font-sizes,
+	$font-weights,
+	$line-heights
 );

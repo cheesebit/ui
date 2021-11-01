@@ -1,67 +1,67 @@
 .cb-animation-pulse {
-  @include animation(pulse);
+	@include animation(pulse);
 }
 
 .cb-animation-fade-in {
-  @include animation(fade-in);
+	@include animation(fade-in);
 }
 
 .cb-animation-enter {
-  @include animation(enter);
+	@include animation(enter);
 }
 
 .cb-animation-enter-upward {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateY(5px);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 0;
+	transform: translateY(5px);
+	opacity: 0%;
 }
 
 .cb-animation-exit-downard {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateY(0%);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 1;
+	transform: translateY(0%);
+	opacity: 100%;
 }
 
 .cb-animation-enter-right {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateX(-5px);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 0;
+	transform: translateX(-5px);
+	opacity: 0%;
 }
 
 .cb-animation-exit-left {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateX(0%);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 1;
+	transform: translateX(0%);
+	opacity: 100%;
 }
 
 .cb-animation-enter-downard {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateY(-5px);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 0;
+	transform: translateY(-5px);
+	opacity: 0%;
 }
 
 .cb-animation-exit-upward {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateY(0%);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 1;
+	transform: translateY(0%);
+	opacity: 100%;
 }
 
 .cb-animation-enter-left {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateX(5px);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 0;
+	transform: translateX(5px);
+	opacity: 0%;
 }
 
 .cb-animation-exit-right {
-  @include transition(opacity transform, $duration: 0.25s);
-  transform: translateX(0%);
+	@include transition(opacity transform, $duration: 0.25s);
 
-  opacity: 1;
+	transform: translateX(0%);
+	opacity: 100%;
 }

@@ -1,19 +1,19 @@
 .cb-is-hidden {
-  @include hidden;
+	@include hidden;
 }
 
 .cb-is-invisible {
-  visibility: hidden !important;
+	visibility: hidden !important;
 }
 
 .cb-is-visually-hidden {
-  @include hidden(true);
+	@include hidden(true);
 }
 
 .cb-opacity-0 {
-  opacity: 0 !important;
+	opacity: 0% !important;
 }
 
 .cb-opacity-1 {
-  opacity: 1 !important;
+	opacity: 100% !important;
 }
