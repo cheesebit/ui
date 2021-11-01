@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { DEFAULT } from 'common/constants';
-import { set } from 'common/toolset';
+import { isBlank, set } from 'common/toolset';
 import { useValidation } from '../validation';
 import logger from 'common/logger';
 
@@ -12,21 +12,29 @@ import logger from 'common/logger';
  * @param {Object} valuesProp - values to be managed by the form hook.
  * @param {Object} schema - Validation schema for the given values.
  */
-export function useForm( valuesProp, schema ) {
-	const { status, dispatch: dispatchValidate } = useValidation( schema );
+export function useForm(valuesProp, schema) {
+	const { status, dispatch: dispatchValidate } = useValidation(schema);
 
-	const [ values, dispatch ] = React.useReducer( function reducer( state, action ) {
+	/**
+	 *
+	 * @param {FormState} state
+	 * @param {FormAction} action
+	 * @return {FormState} new state
+	 */
+	function reducer(state, action) {
+		// TODO: investigate why it is not identifying the payload
+		// @ts-ignore
 		const { type, payload } = action;
 		const safePayload = payload || DEFAULT.OBJECT;
 
-		switch ( type ) {
+		switch (type) {
 			case 'reset':
 				return state;
 			case 'validate':
 			case 'field.validate': {
-				dispatchValidate( 'validate', {
+				dispatchValidate('validate', {
 					values: state,
-				} );
+				});
 
 				return state;
 			}
@@ -34,20 +42,25 @@ export function useForm( valuesProp, schema ) {
 				const { id, name, value, validate = false } = safePayload;
 				const safeID = name || id;
 
-				logger.debug( 'field.set', safeID, ' = ', value );
+				if (isBlank(safeID)) {
+					// TODO: throw error
+					return state;
+				}
+
+				logger.debug('field.set', safeID, ' = ', value);
 				const newState = set(
 					{
 						...state,
 					},
 					safeID,
-					value,
+					value
 				);
 
-				if ( validate ) {
-					dispatchValidate( 'validate', {
+				if (validate) {
+					dispatchValidate('validate', {
 						id: safeID,
 						values: newState,
-					} );
+					});
 				}
 
 				return newState;
@@ -55,16 +68,11 @@ export function useForm( valuesProp, schema ) {
 			default:
 				return state;
 		}
-	}, valuesProp || {} );
+	}
 
-	const dispatcher = React.useRef( function( type, payload ) {
-		dispatch( {
-			type,
-			payload,
-		} );
-	} );
+	const [values, dispatch] = React.useReducer(reducer, valuesProp || {});
 
-	return { values, status, dispatch: dispatcher.current };
+	return { values, status, dispatch };
 }
 
 // export function useField( fieldName ) {
@@ -83,3 +91,23 @@ export function useForm( valuesProp, schema ) {
 
 // 	return [ values[ fieldName ], dispatch.current ];
 // }
+
+/**
+ * @typedef {Record<string, any>} FormState
+ */
+
+/**
+ * @typedef {Object} SetFieldPayload
+ * @property {string} [id] -
+ * @property {string} [name] -
+ * @property {any} value -
+ * @property {boolean} validate -
+ */
+
+/**
+ * @typedef {{ type: 'field.set'; payload: SetFieldPayload } | { type: 'reset'; payload: FormState } | { type: 'validate'; payload: never } | { type: 'field.validate'; payload: never}} FormAction
+ */
+
+/**
+ * @typedef {React.Dispatch<FormAction>} FormDispatcher
+ */
