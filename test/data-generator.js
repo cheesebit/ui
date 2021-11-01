@@ -49,33 +49,42 @@ const generatePick = ( array, options ) => {
 	return picked;
 };
 
-function generateElement( {
-	top,
-	right,
-	bottom,
-	left,
-	offsetHeight,
-	offsetWidth,
-} = {} ) {
+/**
+ *
+ * @param {Object} params
+ * @param {number} [params.x] - x coordinate for the generated element
+ * @param {number} [params.y] - y coordinate for the generated element
+ * @param {number} [params.width] - width for the generated element
+ * @param {number} [params.height] - height for the generated
+ * @param {number} [params.offsetHeight] - offset height for the generated element
+ * @param {number} [params.offsetWidth] - offset width for the generated
+ * @return {HTMLElement} Fake HTMLElement.
+ */
+function generateElement( params = {} ) {
+	const {
+		x,
+		y,
+		width, height,
+		offsetHeight,
+		offsetWidth,
+	} = params;
+
+	// ignoring error because we don't use the whole object in our tests
+	// @ts-ignore
 	return {
 		getBoundingClientRect() {
-			return {
-				top: top || chance.natural( { min: 100, max: 500 } ),
-				right: right || chance.natural( { min: 100, max: 500 } ),
-				bottom: bottom || chance.natural( { min: 100, max: 500 } ),
-				left: left || chance.natural( { min: 100, max: 500 } ),
-			};
+			// based on https://developer.mozilla.org/en-US/docs/Web/API/DOMRect/DOMRect
+
+			return new DOMRect(
+				x ?? chance.natural( { min: 0, max: 100 } ),
+				y ?? chance.natural( { min: 0, max: 100 } ),
+				width ?? chance.natural( { min: 100, max: 500 } ),
+				height ?? chance.natural( { min: 100, max: 500 } ),
+			);
 		},
 		offsetHeight: offsetHeight || chance.natural( { min: 100, max: 500 } ),
 		offsetWidth: offsetWidth || chance.natural( { min: 100, max: 500 } ),
 		style: {},
-	};
-}
-
-function generateTarget( { offsetHeight, offsetWidth } = {} ) {
-	return {
-		offsetHeight: offsetHeight || chance.natural( { min: 100, max: 500 } ),
-		offsetWidth: offsetWidth || chance.natural( { min: 100, max: 500 } ),
 	};
 }
 
@@ -99,7 +108,6 @@ export default {
 	sentence: asGenerator( chance.sentence ),
 	shuffle: asGenerator( chance.shuffle ),
 	syllable: asGenerator( chance.syllable ),
-	target: generateTarget,
 	url: asGenerator( chance.url ),
 	word: asGenerator( chance.word ),
 };

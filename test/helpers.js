@@ -11,7 +11,7 @@ import * as Enzime from 'enzyme';
  *
  * @function
  * @param {string} value - Data test value.
- * @return {EnzymeSelector}
+ * @return {Enzime.EnzymeSelector}
  */
 export function asTestAttr( value ) {
 	return `[data-testid="${ value }"]`;
