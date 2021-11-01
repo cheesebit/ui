@@ -1,72 +1,106 @@
 import React from 'react';
 import clsx from 'clsx';
 
-import { Button, Emphasis } from '../../atoms/button';
-import { check } from './dom-helper';
-import { isNil, getID } from '../../common/toolset';
-import { Panels } from '../../atoms/panels';
-import { resolveProp } from '../../common/props-toolset';
+import { Button } from 'atoms/button';
+import { Icon } from 'atoms/icon';
+import { isNil, getID } from 'common/toolset';
+import { Panels } from 'atoms/panels';
+import { resolveProp } from 'common/props-toolset';
+import logger from 'common/logger';
+import selectors from './selectors';
 import Step from './wizard-step';
 import useWizard from './use-wizard';
-import WizardContext from './wizard-context';
+import WizardContext from './wizard.context';
 
 import './wizard.scss';
-import { Icon } from '../../atoms/icon';
 
-const PREVIOUS_ICON = { name: 'arrow-back', size: 24 };
-const PREVIOUS_PADDINGLESS = [ 'vertical' ];
+function hashed(id) {
+	id = String(id || '');
 
-const NEXT_ICON = { name: 'arrow-forward', size: 24 };
-const NEXT_PADDINGLESS = [ 'vertical' ];
+	if (id.startsWith('#')) {
+		return id;
+	}
 
-const Wizard = ( { id, className, children, title, flow, ...others } ) => {
-	const { transition, states, current, contextValue } = useWizard( {
-		...others,
+	return `#${id}`;
+}
+
+function unhashed(id) {
+	id = String(id || '');
+
+	if (id.startsWith('#')) {
+		return id.slice(1);
+	}
+
+	return id;
+}
+
+/**
+ *
+ * @template T
+ * @param {WizardProps<T>} props
+ * @returns
+ */
+function Wizard(props) {
+	const { id, className, children, title, flow, ...others } = props;
+	const { transition, states, current, contextValue } = useWizard({
+		current: unhashed(selectors.getActive(props)),
 		id,
 		flow,
-	} );
+	});
+	/** @type {React.MutableRefObject<HTMLElement>}*/
+	const selfRef = React.useRef();
 
-	const transitionToPrevious = React.useCallback( () => {
-		transition( 'previous' );
-	}, [ transition ] );
+	const transitionToPrevious = React.useCallback(() => {
+		transition('previous');
+	}, [transition]);
 
-	const transitionToNext = React.useCallback( () => {
-		transition( 'next' );
-	}, [ transition ] );
+	const transitionToNext = React.useCallback(() => {
+		transition('next');
+	}, [transition]);
 
-	console.log( 'wizard', states, current, contextValue );
+	React.useEffect(() => {
+		logger.debug('wizard', 'navivating to', hashed(current));
+		location.href = `${location.origin}${location.pathname}${
+			location.search
+		}${hashed(current)}`;
+	}, [current]);
 
 	return (
-		<article id={ id } className={ clsx( 'cc-wizard', className ) } { ...others }>
+		<article
+			ref={selfRef}
+			id={id}
+			className={clsx('cc-wizard', className)}
+			{...others}
+		>
 			<header className="header">
 				<Button
-					emphasis={ Emphasis.text }
-					onClick={ transitionToPrevious }
-					paddingless={ PREVIOUS_PADDINGLESS }
-					className={ clsx( {
-						'cb-is-invisible': isNil( states?.previous ),
-					} ) }
+					emphasis="text"
+					onClick={transitionToPrevious}
+					paddingless={['vertical']}
+					className={clsx({
+						'cb-is-invisible': isNil(states?.previous),
+					})}
 				>
-					<Icon { ...PREVIOUS_ICON } />
+					<Icon name="arrow-back" />
 				</Button>
-				<span className="title" { ...resolveProp( title, 'children' ) } />
+				<span className="title" {...resolveProp(title, 'children')} />
 				<Button
-					emphasis={ Emphasis.text }
-					onClick={ transitionToNext }
-					paddingless={ NEXT_PADDINGLESS }
-					className={ clsx( {
-						'cb-is-invisible': isNil( states?.next ),
-					} ) }
+					emphasis="text"
+					onClick={transitionToNext}
+					paddingless={['vertical']}
+					className={clsx({
+						'cb-is-invisible': isNil(states?.next),
+					})}
 				>
-					<Icon { ...NEXT_ICON } />
+					<Icon name="arrow-forward" />
 				</Button>
 			</header>
-			<WizardContext.Provider value={ contextValue }>
-				<Panels>{ children }</Panels>
+			<WizardContext.Provider value={contextValue}>
+				<Panels>{children}</Panels>
 			</WizardContext.Provider>
 		</article>
 	);
-};
+}
 
 Wizard.defaultProps = {
 	id: getID(),
@@ -75,3 +109,25 @@ Wizard.defaultProps = {
 Wizard.Step = Step;
 
 export default Wizard;
+
+/**
+ * @typedef {import('common/prop-types').IconProp} IconProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ */
+
+/**
+ * @typedef {React.HTMLAttributes<HTMLElement>} DefaultElementProps
+ */
+
+/**
+ * @template T
+ * @typedef {Object} CustomWizardProps
+ * @property {string} [title] - Wizard title
+ * @property {keyof T} [current] - Initial step
+ * @property {import('@cheesebit/use-automaton').AutomatonStates<T>} flow - Wizard steps configuration
+ */
+
+/**
+ * @template T
+ * @typedef {DefaultElementProps & CustomWizardProps<T>} WizardProps
+ */
