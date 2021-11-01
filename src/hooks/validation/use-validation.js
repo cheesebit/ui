@@ -6,6 +6,9 @@ import { useAsyncReducer } from 'hooks/async-reducer';
 import { validate } from './validator';
 import logger from 'common/logger';
 
+/** @type {ValidationStatus} */
+const INITIAL_STATUS = {};
+
 /**
  * useValidation hook
  *
@@ -16,16 +19,16 @@ import logger from 'common/logger';
  * @param {Object} schema - Validation schema
  * @return {ValidationSetup} Object with validation status and validation dispatcher.
  */
-function useValidation( schema ) {
-	const taskRef = React.useRef( null );
+function useValidation(schema) {
+	const taskRef = React.useRef(null);
 	const safeSchema = schema || DEFAULT.OBJECT;
 
-	const [ status, dispatch ] = useAsyncReducer( function reducer( state, action ) {
+	const [status, dispatch] = useAsyncReducer(function reducer(state, action) {
 		const { type, payload } = action;
 
 		const safePayload = payload || DEFAULT.OBJECT;
 
-		switch ( type ) {
+		switch (type) {
 			case 'validate':
 			case 'field.validate': {
 				const { status } = safePayload;
@@ -39,59 +42,65 @@ function useValidation( schema ) {
 			default:
 				return state;
 		}
-	}, {} );
+	}, INITIAL_STATUS);
 
 	/** @type {DispatchValidation} */
-	const dispatcher = React.useCallback( debounce( async function( type, payload ) {
-		const safePayload = payload || DEFAULT.OBJECT;
-		const { values } = safePayload;
+	const dispatcher = React.useCallback(
+		debounce(async function (type, payload) {
+			const safePayload = payload || DEFAULT.OBJECT;
+			const { values } = safePayload;
 
-		function abortRunningValidation() {
-			if ( taskRef.current ) {
-				logger.debug( 'use-validation', 'aborting previous validation' );
-				taskRef.current.abort();
-			}
-		}
-
-		function startValidation() {
-			abortRunningValidation();
-
-			taskRef.current = validate( values, safeSchema );
-		}
-
-		function getValidationTask() {
-			return taskRef.current;
-		}
-
-		function clearValidationTask() {
-			taskRef.current = null;
-		}
-
-		dispatch( async ( innerDispatch ) => {
-			switch ( type ) {
-				case 'validate':
-				case 'field.validate': {
-					startValidation();
-
-					try {
-						const newStatus = await getValidationTask();
-						clearValidationTask();
-
-						logger.debug( 'use-validation', status );
-
-						innerDispatch( {
-							type,
-							payload: { status: newStatus },
-						} );
-					} catch ( err ) {
-						logger.error( 'use-validation', 'error', err );
-					}
-
-					break;
+			function abortRunningValidation() {
+				if (taskRef.current) {
+					logger.debug(
+						'use-validation',
+						'aborting previous validation'
+					);
+					taskRef.current.abort();
 				}
 			}
-		} );
-	}, 750 ), [ dispatch ] );
+
+			function startValidation() {
+				abortRunningValidation();
+
+				taskRef.current = validate(values, safeSchema);
+			}
+
+			function getValidationTask() {
+				return taskRef.current;
+			}
+
+			function clearValidationTask() {
+				taskRef.current = null;
+			}
+
+			dispatch(async (innerDispatch) => {
+				switch (type) {
+					case 'validate':
+					case 'field.validate': {
+						startValidation();
+
+						try {
+							const newStatus = await getValidationTask();
+							clearValidationTask();
+
+							logger.debug('use-validation', status);
+
+							innerDispatch({
+								type,
+								payload: { status: newStatus },
+							});
+						} catch (err) {
+							logger.error('use-validation', 'error', err);
+						}
+
+						break;
+					}
+				}
+			});
+		}, 750),
+		[dispatch]
+	);
 
 	return { status, dispatch: dispatcher };
 }
@@ -105,7 +114,11 @@ export default useValidation;
  */
 
 /**
+ * @typedef {Record<string, boolean | string[]>} ValidationStatus
+ */
+
+/**
  * @typedef {Object} ValidationSetup
- * @property {Object} status - Object containing validation status.
+ * @property {ValidationStatus} status - Object containing validation status.
  * @property {DispatchValidation} dispatch - Validation dispatcher.
  */
