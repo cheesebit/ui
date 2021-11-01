@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useSyncFruits, useAsyncUsers } from './select.fixtures';
+import { useSyncFruits, useAsyncUsers, FRUITS, USERS } from './select.fixtures';
 import Select from './select';
 
 export default {
@@ -10,7 +10,7 @@ export default {
 		unroll: {
 			control: {
 				type: 'select',
-				options: [ 'right', 'left', 'block' ],
+				options: ['right', 'left', 'block'],
 			},
 		},
 		className: {
@@ -47,36 +47,29 @@ export default {
 	},
 };
 
-export function Playground( ) {
+export function Playground(args) {
 	return (
-		<div className="block">
-			<p className="mb-2">This is me, a cool Select.</p>
-			<p className="mb-2">
-				As I&apos;m <b>still a work in progress</b>, there&apos;s some maintenance going on, but
-				soon enough you will be able to try me :)
-			</p>
+		<div className="flex flex-col">
+			<div className="block">
+				<p className="mb-2">This is me, a cool Select.</p>
+				<p className="mb-2">
+					As I&apos;m <b>still a work in progress</b>, there&apos;s
+					some maintenance going on, but soon enough you will be able
+					to try me :)
+				</p>
 
-			<Select datasources={ [ useSyncFruits, useAsyncUsers ] } />
+				<Select {...args} />
+			</div>
+			<strong className="mt-2">Available options:</strong>
+			<p className="mt-2">
+				{FRUITS.map((fruit) => fruit.name).join(', ')}
+			</p>
+			<p className="mt-2">{USERS.map((user) => user.name).join(', ')}</p>
 		</div>
 	);
 }
 
-// export function Playground( args ) {
-// 	return (
-// 		<div className="block">
-// 			<p className="mb-2">This is me, a cool Select.</p>
-// 			<p className="mb-2">
-// 				As I&apos;m <b>still a work in progress</b>, there&apos;s some maintenance going on, but
-// 				soon enough you will be able to try me :)
-// 			</p>
-
-// 			<Select { ...args } />
-// 		</div>
-// 	);
-// }
-
-// Playground.args = {
-// 	options: generateSelectOptions(),
-// 	placeholder: 'Select or Search',
-// };
-
+Playground.args = {
+	placeholder: 'Search or select',
+	datasources: [useSyncFruits, useAsyncUsers],
+};

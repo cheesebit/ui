@@ -1,60 +1,48 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useValue } from '@cheesebit/use-value';
 import { useClassy } from '@cheesebit/classy';
 
 import { Button } from 'atoms/button';
-import { GenericDropdown } from '../dropdown/dropdown';
-import { getValueFromEvent } from 'common/ui-toolset';
+import { Dropdown, GenericDropdown } from '../dropdown';
+import { Empty } from 'atoms/empty';
 import { Icon } from 'atoms/icon';
 import { Input } from 'atoms/input';
-import { Empty } from 'atoms/empty';
+import { isEmpty, omit } from 'common/toolset';
 import { Spinner } from 'atoms/spinner';
-import { isEmpty, omit, getID } from 'common/toolset';
-import Option from './select-option';
-import useSelect from './use-select';
+import SelectOption from './select-option';
+import useSelect, { SelectionContext } from './use-select';
 
-const OMITTED_PROPS = [ 'adapter', 'options', 'placeholder' ];
+const OMITTED_PROPS = ['adapter', 'options', 'placeholder'];
 
 /**
  * Select component.
  *
- * @param {Object} props
- * @param {SuggestionDatasource[]} props.datasources
+ * @param {SelectProps} props
  * @return {JSX.Element} Select element
  */
-function Select( props ) {
-	const { disabled } = props;
-	const { classy } = useClassy( props );
+function Select(props) {
+	const { placeholder, ...others } = props;
 
-	// useOptions();
-	const {
-		expanded,
-		fetch,
-		options,
-		query,
-		select,
-		status,
-		toggle,
-	} = useSelect( props );
+	const select = useSelect(props);
+	const { classy } = useClassy(props);
+	const { dropdown } = select;
 
 	function renderTrigger() {
 		return (
 			<Input
+				{...select.getTriggerProps()}
+				autoComplete="off"
 				data-testid="trigger"
-				disabled={ disabled }
-				placeholder={ props.placeholder }
-				value={ query() }
+				placeholder={placeholder}
+				paddingless={['vertical', 'right']}
 				trailing={
 					<>
-						{ query() ? (
+						{select.query ? (
 							<Button
 								aria-hidden="true"
+								{...select.getClearProps()}
 								size="small"
 								emphasis="text"
-								tabIndex="-1"
-								onClick={ () => {} }
-								busy={ status === 'querying' }
+								busy={status === 'querying'}
 							>
 								<Icon name="close" />
 							</Button>
@@ -63,192 +51,76 @@ function Select( props ) {
 								aria-hidden="true"
 								size="small"
 								emphasis="text"
-								tabIndex="-1"
-								onClick={ () => {} }
-								busy={ status === 'querying' }
+								tabIndex={-1}
+								onClick={dropdown.toggle}
+								busy={status === 'querying'}
 							>
-								<Icon className={ classy( { 'cb-u-rotate-180': expanded() } ) } name="expand-more" />
+								<Icon
+									className={classy({
+										'cb-u-rotate-180': dropdown.expanded,
+									})}
+									name="expand-more"
+								/>
 							</Button>
-						) }
+						)}
 					</>
 				}
-				onChange={ function handleChange( e ) {
-					const newValue = getValueFromEvent( e );
-
-					query( newValue );
-					fetch( { query: newValue } );
-					// const regex = new RegExp( newValue, 'i' );
-					// options( toArray( props.options ).filter( ( option ) => regex.test( adapter.getLabel( option ) ) ) );
-				} }
-				onClick={ () => {
-					console.log( 'user clicked toggle' );
-					expanded( true );
-				} }
-				onFocus={ () => {
-					console.log( 'user focused toggle' );
-					// if ( ! isEmpty( options ) ) {
-					// expanded( false );
-					// }
-					// getInput().select();
-					// e.target.select(); // ????
-				} }
 			/>
 		);
 	}
 
 	function renderOptions() {
-		if ( isEmpty( options ) ) {
-			return <Empty>{ status !== 'querying' ? 'No options available.' : 'Searching...' }</Empty>;
+		if (isEmpty(select.options)) {
+			return (
+				<Empty>
+					{status !== 'querying'
+						? 'No options available.'
+						: 'Searching...'}
+				</Empty>
+			);
 		}
 
-		return options.map( function renderOption( option ) {
-			const { value, label } = option;
+		return select.options.map(function renderOption(option) {
+			const { label, value, checked } = select.getOption(option);
 
 			return (
-				<Option
-					key={ value }
-					className={ classy( {
-						'is-highlighted': false,
-					} ) }
-					{ ...option }
-					onClick={ function handleSelect() {
-						select( option );
-					} }
-					value={ value }
+				<SelectOption
+					key={value}
+					className={classy({
+						'is-highlighted': checked,
+					})}
+					{...select.getOptionProps(option)}
 				>
-					{ label }
-				</Option>
+					{label}
+				</SelectOption>
 			);
-		} );
+		});
 	}
 
 	return (
 		<GenericDropdown
+			{...omit(OMITTED_PROPS, others)}
+			{...select.getDropdownProps()}
+			className={classy('cb-select', props.className)}
 			data-testid="cb-select"
-			{ ...omit( OMITTED_PROPS, props ) }
-			className={ classy( 'cb-select', props.className ) }
-			expanded={ expanded }
-			toggle={ toggle }
-			trigger={ renderTrigger }
 		>
-			<GenericDropdown.Items hoverable data-testid="options">
-				<Spinner appear={ status === 'querying' } />
-				{ renderOptions() }
-			</GenericDropdown.Items>
+			<SelectionContext.Provider value={select.selection}>
+				{renderTrigger()}
+				<Dropdown.Menu
+					{...select.getMenuProps()}
+					hoverable
+					data-testid="options"
+				>
+					<Spinner appear={select.status === 'querying'} />
+					{renderOptions()}
+				</Dropdown.Menu>
+			</SelectionContext.Provider>
 		</GenericDropdown>
 	);
 }
 
-Select.propTypes = {
-	// options: PropTypes.arrayOf(
-	// 	PropTypes.shape( {
-	// 		label: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	// 		value: PropTypes.oneOfType( [ PropTypes.string, PropTypes.number ] ).isRequired,
-	// 	} ),
-	// ),
-	// placeholder: PropTypes.string,
-};
-
-Select.defaultProps = {
-	id: getID(),
-	value: null,
-	placeholder: 'Search or select',
-	unroll: 'block',
-};
-
 export default Select;
 
 /**
- * @typedef {import("./use-select").SuggestionDatasource} SuggestionDatasource
+ * @typedef {import("./use-select").SelectProps} SelectProps
  */
-
-//  function Select( props ) {
-// 	const query = useValue( props.query || '' );
-// 	const {} = useSelect( props );
-
-// 	function renderToggle( { disabled, expanded } ) {
-// 		return (
-// 			<Input
-// 				data-testid="toggle"
-// 				disabled={ disabled }
-// 				placeholder={ props.placeholder }
-// 				value={ query() || '' }
-// 				trailing={
-// 					<>
-// 						{ query() ? <Button size="small" emphasis="text" onClick={ ( ) => {
-// 							manager.reset( SELECTED );
-
-// 							query( '' );
-// 							value( getSelected() );
-// 						} }>
-// 							<Icon name="close" />
-// 						</Button>
-// 							: <Button size="small" emphasis="text" tabIndex="-1" onClick={ ( ) => {
-// 								expanded( ( c ) => ! c );
-// 							} }>
-// 								<Icon className={ clsx( { 'cb-u-rotate-180': ! expanded() } ) } name="expand-more" />
-// 							</Button> }
-// 					</> }
-// 				onChange={ function handleChange( e ) {
-// 					const newValue = getValueFromEvent( e );
-
-// 					query( newValue );
-// 					const regex = new RegExp( newValue, 'i' );
-// 					options( toArray( props.options ).filter( ( option ) => regex.test( adapter.getLabel( option ) ) ) );
-// 				} }
-// 				onFocus={ () => {
-// 					expanded( false );
-// 					// getInput().select();
-// 					// e.target.select(); // ????
-// 				} }
-
-// 			/>
-// 		);
-// 	}
-
-// 	function renderOptions() {
-// 		return options().map( function renderOption( option ) {
-// 			const id = adapter.getID( option );
-
-// 			return (
-// 				<Option
-// 					key={ id }
-// 					className={ clsx( {
-// 						'is-highlighted': Boolean( manager.getAttributeByNodeID( SELECTED, id ) ),
-// 					} ) }
-// 					{ ...option }
-// 					onClick={ function handleSelect( option ) {
-// 						manager.set( SELECTED, option.value, true );
-
-// 						query( toValue( getSelected(), adapter ) );
-// 						value( getSelected() );
-// 						options( toArray( props.options ) ); // reset any filter that may have been set
-// 					} }
-// 					value={ id }
-// 				>
-// 					{ adapter.getLabel( option ) }
-// 				</Option>
-// 			);
-// 		} );
-// 	}
-
-// 	return (
-// 		<Dropdown
-// 			data-testid="cb-select"
-// 			{ ...omit( OMITTED_PROPS, props ) }
-// 			className={ clsx( 'cb-select', props.className ) }
-// 			toggle={ renderToggle }
-// 			onBlur={ function handleBlur( ) {
-// 				/**
-// 				 * TODO: Know issue: If have a value selected, you clear the search input and
-// 				 * tab to the first option, the value is reloaded to the input.
-// 				 */
-// 				query( toValue( getSelected(), adapter ) );
-// 			} }
-// 		>
-// 			<Dropdown.Items hoverable data-testid="options">
-// 				  { renderOptions() }
-// 			</Dropdown.Items>
-// 		</Dropdown>
-// 	);
-// }

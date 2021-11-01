@@ -1,160 +1,291 @@
 import React from 'react';
-import { useValue } from '@cheesebit/use-value';
 
-import { Button } from 'atoms/button';
-import { DataManager } from 'common/data-manager/';
-import { DEFAULT } from 'common/constants';
-import { useDropdown } from '../dropdown/dropdown';
-import { equals, isFunction, omit, getID, isEmpty, keys, toArray, to, debounce } from 'common/toolset';
-import { getUpdateID, toValue } from './select.helpers';
-import { getValueFromEvent } from 'common/ui-toolset';
-import { Icon } from 'atoms/icon';
-import { Input } from 'atoms/input';
-import { Mode } from 'common/attribute-manager';
-import { useUnmounted } from 'hooks/unmounted';
-import Option from './select-option';
-import Selectors from './selectors';
-import adapter from './adapter';
+import { createSelectionBoundary } from './use-selection';
+import {
+	getDatasources,
+	extractAdapters,
+	getValue,
+	getDisplayValue,
+} from './use-select.helpers';
+import { toArray } from 'common/toolset';
+import { useDropdown } from '../dropdown';
+import { useFocusTrap } from 'hooks/focus-trap';
+import GenericAdapter from './generic-adapter';
+import useOptions from './use-options';
 
-export const [ SELECTED, VISIBLE ] = [ 'selected', 'visible' ];
-export const MIN_QUERY_LENGTH = 3;
+export const { SelectionContext, useSelection } = createSelectionBoundary();
 
 /**
- * getData
  *
- * @param {SuggestionDatasource[]} datasources
- * @param {string} query
+ * @param {React.FocusEvent<HTMLInputElement>} e
  */
-async function* getData( datasources, query ) {
-	const regex = new RegExp( query, 'i' );
-
-	console.log( 'wms', 'datasources', datasources );
-	for ( const ds of datasources ) {
-		const [ error, data ] = await to( Promise.resolve( ds.fetch( { query, regex } ) ) );
-
-		if ( ! error ) {
-			const items = ( data || [] ).map( ( item ) => ( {
-				value: ds.adapter.getID( item ),
-				label: ds.adapter.getLabel( item ),
-			} ) );
-
-			yield items;
-		}
-	}
+function TriggerOnFocusHandler(e) {
+	e.target.select();
 }
-
-/**
- * @constant
- * @type {QueryStatus}
- */
-const INITIAL_QUERY_STATUS = 'idle';
 
 /**
  * useSelect
  *
- * @param {Object} props
- * @param {number} props.delay - milliseconds to wait before triggering datasources' fetches.
- * @param {SuggestionDatasource[]} props.datasources - array of datasources
+ * @param {SelectProps} props
+ * @return {useSelectReturn} select data and components configurations.
  */
-function useSelect( props ) {
-	const { delay = 450 } = props;
-	const { expanded, toggle } = useDropdown( props );
+function useSelect(props) {
+	const { multiple, onChange, name, disabled = false } = props;
+	const dropdown = useDropdown(props);
 
-	const datasources = React.useRef( props.datasources.map( ( ds ) => ds() ) );
-	const manager = React.useMemo(
-		() =>
-			new DataManager( {
-				adapter,
-				attributes: {
-					selected: Selectors.getMode( props ),
-					visible: Mode.path,
-				},
-				data: [],
-			} ),
-		[],
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	const datasources = React.useMemo(
+		() => getDatasources(props),
+		[props.datasources, props.options]
+	);
+	const adapters = React.useMemo(
+		() => extractAdapters(datasources),
+		[datasources]
 	);
 
-	const query = useValue( props.query || '' );
-	const status = useValue( INITIAL_QUERY_STATUS );
-	const options = useValue( [] );
-	const value = useValue( [] );
+	const selection = useSelection({
+		selected: toArray(props.value || []),
+		type: multiple ? 'multiple' : 'single',
+		adapters,
+		onChange: React.useCallback(
+			function handleSelectionChange(selected) {
+				onChange?.({
+					target: { name, value: getValue(selected, multiple) },
+				});
+			},
+			[multiple, name, onChange]
+		),
+	});
 
-	function getDatasources() {
-		return datasources.current;
-	}
+	/** @type {React.MutableRefObject<HTMLInputElement>} */
+	const triggerRef = React.useRef();
+	const focusTrap = useFocusTrap({
+		keys: ['ARROW_UP', 'ARROW_DOWN'],
+		onDeactivate() {
+			triggerRef.current?.focus();
+		},
+	});
 
-	function getSelected() {
-		const getNode = ( id ) => manager.getNode( id )?.node;
+	const [query, setQuery] = React.useState(
+		getDisplayValue(adapters, selection.selected, multiple)
+	);
 
-		const ids = keys( manager.getAttribute( SELECTED ) );
-		const nodes = ids.map( getNode );
+	const options = useOptions({ datasources });
 
-		return nodes;
-	}
+	/** @type {useSelectReturn['getOption']} */
+	const getOption = React.useCallback(
+		/**
+		 *
+		 * @param {Option} option
+		 * @return {{ label: any; value: any; checked: boolean; }} option label, value and checked state.
+		 */
+		function getOption(option) {
+			const adapter = adapters[option._type || ''] || GenericAdapter;
 
-	function select( option ) {
-		manager.set( SELECTED, option.value, true );
+			const value = adapter.getID(option);
+			const label = adapter.getLabel(option);
+			const checked = selection.selected.has(value);
 
-		const selected = getSelected();
-		query( toValue( selected, adapter ) );
-		value( selected );
-		// options( toArray( props.options ) );
-	}
+			return { label, value, checked };
+		},
+		[adapters, selection.selected]
+	);
 
-	function clear( ) {
-		status( 'idle' );
-		options( DEFAULT.ARRAY );
-	}
+	const toggleOption = React.useCallback(
+		/**
+		 *
+		 * @param {Option} option
+		 * @return {void}
+		 */
+		function toggleOption(option) {
+			selection.toggle(option);
+		},
+		[selection]
+	);
 
-	const fetch = React.useRef(
-		debounce( async function fetch( { query } ) {
-			if ( query.length < MIN_QUERY_LENGTH ) {
-				return;
+	/** @type {useSelectReturn['getDropdownProps']} */
+	const getDropdownProps = React.useCallback(
+		function getDropdownProps() {
+			return {
+				disabled,
+				toggle: dropdown.toggle,
+				expanded: dropdown.expanded,
+				onBlur() {
+					setQuery(
+						getDisplayValue(adapters, selection.selected, multiple)
+					);
+					options.fetch('');
+				},
+			};
+		},
+		[
+			adapters,
+			dropdown.expanded,
+			dropdown.toggle,
+			multiple,
+			options,
+			selection.selected,
+		]
+	);
+
+	/** @type {useSelectReturn['getTriggerProps']} */
+	const getTriggerProps = React.useCallback(
+		function getTriggerProps() {
+			return {
+				disabled,
+				ref(node) {
+					if (node != null) {
+						triggerRef.current = node;
+					}
+				},
+				value: query,
+				onClick() {
+					if (!dropdown.expanded) {
+						dropdown.expand();
+					}
+				},
+				onChange(e) {
+					const newQuery = e.target.value;
+					setQuery(newQuery);
+					dropdown.expand();
+					options.fetch(newQuery);
+				},
+				onFocus: TriggerOnFocusHandler,
+			};
+		},
+		[query, dropdown, options]
+	);
+
+	/** @type {useSelectReturn['getClearProps']} */
+	const getClearProps = React.useCallback(
+		function getClearProps() {
+			return {
+				async onClick() {
+					setQuery('');
+					selection.clear();
+					options.clear();
+
+					triggerRef.current?.focus();
+
+					await options.fetch('');
+				},
+			};
+		},
+		[options, selection]
+	);
+
+	/** @type {useSelectReturn['getMenuProps']} */
+	const getMenuProps = React.useCallback(
+		function getMenuProps() {
+			return {
+				ref: focusTrap.containerRef,
+				role: 'listbox',
+			};
+		},
+		[focusTrap.containerRef]
+	);
+
+	/** @type {useSelectReturn['getOptionProps']} */
+	const getOptionProps = React.useCallback(
+		function getOptionProps(option) {
+			const { value, checked } = getOption(option);
+
+			return {
+				role: 'option',
+				'aria-selected': checked,
+				id: value,
+				onClick() {
+					const { label, checked } = getOption(option);
+					setQuery(checked ? '' : label);
+					toggleOption(option);
+				},
+				tabIndex: -1,
+			};
+		},
+		[getOption, toggleOption]
+	);
+
+	React.useEffect(
+		function onInit() {
+			void options.fetch('');
+		},
+		// we just want to load any initial options that a datasource may have available
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[]
+	);
+
+	React.useEffect(
+		function onDropdownToggle() {
+			if (dropdown.expanded) {
+				focusTrap.activate();
+			} else {
+				focusTrap.deactivate();
 			}
+		},
+		/**
+		 * We are interested in activating/deactivating our
+		 * focus trap when the dropdown changes its expanded state.
+		 */
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+		[dropdown.expanded]
+	);
 
-			clear();
-			status( 'querying' );
-			expanded( true );
-
-			for await ( const items of getData( getDatasources(), query ) ) {
-				options( ( currentOptions ) => [ ...currentOptions, ...( items || [] ) ] );
-			}
-
-			status( 'idle' );
-		}, delay ),
+	React.useEffect(
+		function updateOnSelectedChange() {
+			setQuery(getDisplayValue(adapters, selection.selected, multiple));
+		},
+		[adapters, multiple, selection.selected]
 	);
 
 	return {
-		expanded,
-		toggle,
-		fetch: fetch.current,
-		query,
-		value,
-		select,
-		options: options(),
-		/** @type {QueryStatus} */
-		status: status(),
+		status: options.status,
+		options: options.get(),
+		query: query ?? '',
+		value: getValue(selection.selected, multiple),
+
+		dropdown,
+		selection,
+
+		getMenuProps,
+		getOption,
+		getOptionProps,
+		getTriggerProps,
+		getClearProps,
+		getDropdownProps,
 	};
 }
 
 export default useSelect;
 
 /**
- * @typedef {import('./adapter').SelectAdapter} SelectAdapter
+ * @typedef {import('./selection-strategy').Selectable} Selectable
+ * @typedef {import('./selection-strategy').Selectable} Option
+ * @typedef {import('./selection-strategy').SelectionState} SelectionState
+ * @typedef {import('./selection-strategy').SelectionAdapter} SelectionAdapter
+ * @typedef {import('./selection-strategy').SelectionStrategy} SelectionStrategy
  */
 
 /**
- * @typedef {('idle' | 'querying')} QueryStatus
+ * @typedef {import('./select.types').GenericOption} GenericOption
+ * @typedef {import('./select.types').QueryStatus} QueryStatus
+ * @typedef {import('./select.types').SelectDatasourceAdapter} SelectDatasourceAdapter
+ * @typedef {import('./select.types').SelectDatasource} SelectDatasource
+ * @typedef {import('./select.types').SelectDatasourceFunction} SelectDatasourceFunction
+ * @typedef {import('./select.types').SelectProps} SelectProps
  */
 
 /**
- * @typedef {Object} SuggestionDatasource
- * @property {SelectAdapter} adapter - Item adapter for this datasource
- * @property {Function} fetch - Get item label
- */
-
-/**
- * @typedef {Object} SuggestionOption
- * @property {string} label - Option label
- * @property {string | number} value - Option unique value
+ * @typedef {Object} useSelectReturn
+ * @property {QueryStatus} status -
+ * @property {Option[]} options -
+ * @property {string} query -
+ * @property {Option | Option[] | null} value -
+ * @property {import('./use-selection').useSelectionReturn} selection -
+ * @property {import('../dropdown/use-dropdown').useDropdownReturn} dropdown -
+ * @property {(() => { ref: React.Ref<HTMLElement>; role: string })} getMenuProps -
+ * @property {((option: Option) => { label: string; value: string; checked: boolean })} getOption -
+ * @property {((option: Option) => { role: string; 'aria-selected': boolean; id: string; onClick: () => void; tabIndex: number })} getOptionProps -
+ * @property {(() => { ref: (node: HTMLInputElement | null) => void; value: string; disabled: boolean; onClick: () => void; onChange: (e: React.ChangeEvent<HTMLInputElement>) => void; onFocus: (e: React.FocusEvent<HTMLInputElement>) => void })} getTriggerProps -
+ * @property {(() => { onClick: () => void })} getClearProps -
+ * @property {(() => { toggle: () => void; disabled: boolean; expanded: boolean; onBlur: () => void })} getDropdownProps -
  */
