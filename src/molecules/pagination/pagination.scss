@@ -1,15 +1,13 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-pagination {
-  @include font;
-  @include p(spacing-2);
+	@include font;
+	@include p(spacing-2);
 
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-  justify-content: center;
-
-  width: 100%;
-
-  list-style-type: none;
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	list-style-type: none;
 }
