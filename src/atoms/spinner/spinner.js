@@ -1,51 +1,82 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 import PropTypes from 'prop-types';
 
-import { equals } from '../../common/toolset';
+import { isNil } from 'common/toolset';
 
 import './spinner.scss';
 
-export const Variant = {
-  primary: 'primary',
-  secondary: 'secondary',
-  terciary: 'terciary',
-};
+/**
+ *
+ * @param {SpinnerProps} props
+ * @return {JSX.Element} Spinner component.
+ */
+function Spinner(props) {
+	const { children, className, appear = false, ...others } = props;
+	const { classy } = useClassy(props);
+
+	return (
+		<div
+			className={classy('cb-spinner', className)}
+			{...others}
+			data-testid="cb-spinner"
+		>
+			{appear && <div className="bar" />}
+
+			{appear && !isNil(children) && (
+				<span className="message">{children}</span>
+			)}
+		</div>
+	);
+}
 
 /**
- * This component represents our loading spinner.
+ *
+ * @param {SpinnerProps} props
+ * @return {JSX.Element} Spinner component.
  */
-const Spinner = ({ children, className, variant, size, ...others }) => {
-  const classes = clsx(
-    'cb-spinner',
-    {
-      '-primary': equals(variant, Variant.primary),
-      '-secondary': equals(variant, Variant.secondary),
-      '-terciary': equals(variant, Variant.terciary),
-    },
-    className,
-  );
+export function CircularSpinner(props) {
+	const { children, className, variant = 'neutral', size, ...others } = props;
+	const { prop, classy } = useClassy({ variant });
+	const classes = classy(
+		'cb-circular-spinner',
+		{
+			'-primary': prop({ variant: 'primary' }),
+			'-secondary': prop({ variant: 'secondary' }),
+			'-terciary': prop({ variant: 'terciary' }),
+		},
+		className
+	);
 
-  return (
-    <div className={classes} {...others} data-testid="cb-spinner">
-      <span className="circle" style={{ fontSize: size }} />
-      {children}
-    </div>
-  );
-};
+	return (
+		<div
+			className={classes}
+			{...others}
+			style={{ fontSize: size }}
+			data-testid="cb-circular-spinner"
+		>
+			<span className="circle" />
+			<span>{children}</span>
+		</div>
+	);
+}
 
+// storybook use only
 Spinner.propTypes = {
-  variant: PropTypes.oneOf([
-    Variant.primary,
-    Variant.secondary,
-    Variant.terciary,
-  ]),
-  size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-};
-
-Spinner.defaultProps = {
-  variant: null,
-  size: '.25rem',
+	appear: PropTypes.bool,
 };
 
 export default React.memo(Spinner);
+
+/**
+ * @typedef {('neutral' | 'primary' | 'secondary' | 'terciary')} SpinnerVariant
+ */
+
+/**
+ * @typedef {Object} SpinnerProps
+ * @property {React.ReactNode} [children] - Spinner content.
+ * @property {string} [className] - Additional class name.
+ * @property {boolean} [appear] - Should show spinner content.
+ * @property {SpinnerVariant} [variant] - Spiner variant, valid for circular spinner, default to 'neutral'.
+ * @property {number | string} [size] - Size of spinner, valid for circular spinner, default to '1em'.
+ */

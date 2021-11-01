@@ -1,30 +1,28 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-icon {
-  @include transition(opacity transform);
-  pointer-events: none;
+	@include transition(color fill opacity transform);
 
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	transform-origin: 50% 50%;
+	pointer-events: none;
+	fill: currentColor;
 
-  fill: currentColor;
+	&.-success {
+		@include var(fill, color-success);
+	}
 
-  transform-origin: 50% 50%;
+	&.-danger {
+		@include var(fill, color-danger);
+	}
 
-  &.-success {
-    @include var(fill, color-success);
-  }
+	&.-warn {
+		@include var(fill, color-warn);
+	}
 
-  &.-danger {
-    @include var(fill, color-danger);
-  }
-
-  &.-warn {
-    @include var(fill, color-warn);
-  }
-
-  &.-info {
-    @include var(fill, color-info);
-  }
+	&.-info {
+		@include var(fill, color-info);
+	}
 }

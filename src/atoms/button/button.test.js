@@ -1,176 +1,171 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Button } from './index';
-import { Emphasis, Size } from './button';
-import { render, fireEvent } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { fireEvent, render, screen } from 'test/helpers';
+import * as stories from './button.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories(stories);
 
 describe('<Button />', () => {
-  it('renders correctly', () => {
-    const props = { children: generator.word() };
+	it('renders correctly', () => {
+		const props = { children: generator.word() };
+		render(<Playground {...props} />);
 
-    const { getByTestId } = render(<Button {...props} />);
+		const component = screen.getByTestId('cb-button');
 
-    const component = getByTestId('cb-button');
+		expect(component).toHaveAttribute('type', 'button');
+		expect(component).toHaveTextContent(props.children);
+		expect(component).toHaveClass('-ghost');
+		expect(component).toHaveClass('cb-no-vertical-padding');
+		expect(component).toHaveClass('-small');
+	});
 
-    expect(component).toHaveAttribute('type', 'button');
-    expect(component).toHaveTextContent(props.children);
-    expect(component).toHaveClass('-small');
-  });
+	it('renders with correct type', () => {
+		const props = {
+			type: generator.pick(['button', 'submit', 'reset']),
+			children: generator.word(),
+		};
 
-  it('renders with correct type', () => {
-    const props = {
-      type: generator.pick(['button', 'submit', 'reset']),
-      children: generator.word(),
-    };
+		render(<Playground {...props} />);
 
-    const { getByTestId } = render(<Button {...props} />);
+		const component = screen.getByTestId('cb-button');
+		expect(component).toHaveAttribute('type', props.type);
+		expect(component).toHaveTextContent(props.children);
+	});
 
-    const component = getByTestId('cb-button');
+	describe('emphasis', () => {
+		it('renders text emphasis correctly', () => {
+			const props = {
+				children: generator.word(),
+				emphasis: 'text',
+			};
 
-    expect(component).toHaveAttribute('type', props.type);
-    expect(component).toHaveTextContent(props.children);
-  });
+			render(<Playground {...props} />);
 
-  describe('emphasis', () => {
-    it('renders text emphasis correctly', () => {
-      const props = {
-        children: generator.word(),
-        emphasis: Emphasis.text,
-      };
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-text');
+		});
 
-      const { getByTestId } = render(<Button {...props} />);
+		it('renders ghost emphasis correctly', () => {
+			const props = {
+				children: generator.word(),
+				emphasis: 'ghost',
+			};
 
-      const component = getByTestId('cb-button');
+			render(<Playground {...props} />);
 
-      expect(component).toHaveClass('-text');
-    });
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-ghost');
+		});
 
-    it('renders ghost emphasis correctly', () => {
-      const props = {
-        children: generator.word(),
-        emphasis: Emphasis.ghost,
-      };
+		it('renders flat emphasis correctly', () => {
+			const props = {
+				children: generator.word(),
+				emphasis: 'flat',
+			};
 
-      const { getByTestId } = render(<Button {...props} />);
+			render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-flat');
+		});
+	});
 
-      expect(component).toHaveClass('-ghost');
-    });
+	describe('size', () => {
+		it('renders the proper small class', () => {
+			const props = {
+				children: generator.word(),
+				size: 'small',
+			};
 
-    it('renders flat emphasis correctly', () => {
-      const props = {
-        children: generator.word(),
-        emphasis: Emphasis.flat,
-      };
+			render(<Playground {...props} />);
 
-      const { getByTestId } = render(<Button {...props} />);
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-small');
+		});
 
-      const component = getByTestId('cb-button');
+		it('renders the proper medium class', () => {
+			const props = {
+				children: generator.word(),
+				size: 'medium',
+			};
 
-      expect(component).toHaveClass('-flat');
-    });
-  });
+			render(<Playground {...props} />);
 
-  describe('size', () => {
-    it('renders the proper small class', () => {
-      const props = {
-        children: generator.word(),
-        size: Size.small,
-      };
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-medium');
+		});
 
-      const { getByTestId } = render(<Button {...props} />);
+		it('renders the proper large class', () => {
+			const props = {
+				children: generator.word(),
+				size: 'large',
+			};
 
-      const component = getByTestId('cb-button');
+			render(<Playground {...props} />);
 
-      expect(component).toHaveClass('-small');
-    });
+			const component = screen.getByTestId('cb-button');
+			expect(component).toHaveClass('-large');
+		});
+	});
 
-    it('renders the proper medium class', () => {
-      const props = {
-        children: generator.word(),
-        size: Size.medium,
-      };
+	describe('icon', () => {
+		it('with icon only', () => {
+			const props = {
+				icon: 'search',
+			};
 
-      const { getByTestId } = render(<Button {...props} />);
+			render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
+			const component = screen.getByTestId('cb-button');
+			const icon = screen.getByTestId('cb-icon');
+			expect(component).toContainElement(icon);
+		});
 
-      expect(component).toHaveClass('-medium');
-    });
+		it('with icon and label as children', () => {
+			const label = generator.word();
 
-    it('renders the proper large class', () => {
-      const props = {
-        children: generator.word(),
-        size: Size.large,
-      };
+			const props = {
+				icon: 'search',
+				children: label,
+			};
 
-      const { getByTestId } = render(<Button {...props} />);
+			render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
+			const component = screen.getByTestId('cb-button');
+			const icon = screen.getByTestId('cb-icon');
 
-      expect(component).toHaveClass('-large');
-    });
-  });
+			expect(component).toHaveTextContent(props.children);
+			expect(component).toContainElement(icon);
+		});
+	});
 
-  describe('icon', () => {
-    it('with icon only', () => {
-      const props = {
-        icon: 'search',
-      };
+	it('reacts correctly when onClick is called', () => {
+		const props = {
+			children: generator.word(),
+			onClick: jest.fn(),
+		};
 
-      const { getByTestId } = render(<Button {...props} />);
+		render(<Playground {...props} />);
 
-      const component = getByTestId('cb-button');
-      const icon = getByTestId('cb-icon');
+		const component = screen.getByTestId('cb-button');
+		fireEvent.click(component);
+		expect(props.onClick).toHaveBeenCalled();
+	});
 
-      expect(component).toContainElement(icon);
-    });
+	it('does not react when disabled', () => {
+		const props = {
+			children: generator.word(),
+			disabled: true,
+			onClick: jest.fn(),
+		};
 
-    it('with icon and label as children', () => {
-      const label = generator.word();
-      const props = {
-        icon: 'search',
-        children: label,
-      };
+		render(<Playground {...props} />);
 
-      const { getByTestId } = render(<Button {...props} />);
-
-      const component = getByTestId('cb-button');
-      const icon = getByTestId('cb-icon');
-
-      expect(component).toHaveTextContent(props.children);
-      expect(component).toContainElement(icon);
-    });
-  });
-
-  it('reacts correctly when onClick is called', () => {
-    const props = {
-      children: generator.word(),
-      onClick: jest.fn(),
-    };
-
-    const { getByTestId } = render(<Button {...props} />);
-
-    const component = getByTestId('cb-button');
-    fireEvent.click(component);
-    expect(props.onClick).toHaveBeenCalled();
-  });
-
-  it('does not react when disabled', () => {
-    const props = {
-      children: generator.word(),
-      disabled: true,
-      onClick: jest.fn(),
-    };
-
-    const { getByTestId } = render(<Button {...props} />);
-
-    const component = getByTestId('cb-button');
-
-    expect(component).toHaveAttribute('disabled');
-    fireEvent.click(component);
-    expect(props.onClick).not.toHaveBeenCalled();
-  });
+		const component = screen.getByTestId('cb-button');
+		expect(component).toHaveAttribute('disabled');
+		fireEvent.click(component);
+		expect(props.onClick).not.toHaveBeenCalled();
+	});
 });

@@ -1,21 +1,21 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-copy {
-  @include transition(all);
+	@include transition(all);
 
-  @include disableable;
-  @include font;
+	@include disableable;
+	@include font;
 
-  @include px(spacing-4);
-  @include py(spacing-4);
+	@include px(spacing-4);
+	@include py(spacing-4);
 
-  display: inline-flex;
-  flex-direction: row;
+	display: inline-flex;
+	flex-direction: row;
 
-  // box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-  //   0 2px 4px -1px rgba(0, 0, 0, 0.06);
+	// box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+	//   0 2px 4px -1px rgba(0, 0, 0, 0.06);
 
-  // @include hoverable {
-  //   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  // }
+	// @include hoverable {
+	//   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	// }
 }

@@ -1,159 +1,96 @@
 import React from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { CURRENT_PAGE, PAGE_SIZE, MAX_PAGES } from './constants';
-import { getID, omit, isNil } from '../../common/toolset';
-import { compareProps } from '../../common/props-toolset';
-import PaginationModel from './pagination-model';
-
-import { keys } from '../../common/toolset';
-import { Emphasis } from '../../atoms/button';
+import { useID } from 'hooks/id';
 import Page from './pagination-page';
+import usePagination from './use-pagination';
 
+/** @type {IconProp}  */
 const ICON_PREVIOUS = {
-  name: 'chevron-left',
-  size: 16,
+	name: 'chevron-left',
+	size: 16,
 };
 
+/** @type {IconProp}  */
 const ICON_NEXT = {
-  name: 'chevron-right',
-  size: 16,
+	name: 'chevron-right',
+	size: 16,
 };
 
 import './pagination.scss';
 
-const OMITTED_PROPS = ['pages'];
+// TODO: call onChange
+function Pagination(props) {
+	const { className } = props;
+	const id = useID(props);
+	const pagination = usePagination(props);
+	const { classy } = useClassy(props);
 
-class Pagination extends React.Component {
-  constructor(props) {
-    super(props);
+	return (
+		<ul
+			role="tablist"
+			className={classy('cb-pagination', className)}
+			id={id}
+		>
+			<li key="previous" role="presentation" className="item">
+				<span id={`previous-${id}`} className="cb-is-visually-hidden">
+					go to previous page
+				</span>
+				<Page
+					aria-labelledby={`previous-${id}`}
+					disabled={!pagination.canPreviousPage()}
+					emphasis="text"
+					icon={ICON_PREVIOUS}
+					onClick={pagination.goToPreviousPage}
+				/>
+			</li>
+			{pagination.pages.map((page) => {
+				const { value, label } = page;
+				const isCurrent = pagination.currentPage == value;
+				const emphasis = isCurrent ? 'flat' : 'text';
 
-    this.model = new PaginationModel({
-      ...props,
-    });
+				return (
+					<li key={value} role="presentation" className="item">
+						<Page
+							role="tab"
+							aria-selected={isCurrent}
+							emphasis={emphasis}
+							onClick={() => pagination.goToPage(value)}
+						>
+							{label}
+						</Page>
+					</li>
+				);
+			})}
 
-    this.state = {
-      ...this.model.get(),
-    };
-
-    const { id } = props;
-    this.id = getID(id);
-  }
-
-  componentDidUpdate(prevProps) {
-    const { props } = this;
-    const areEqual = compareProps(['totalItems', 'currentPage', 'pageSize']);
-
-    if (!areEqual(prevProps, props)) {
-      this.model = new PaginationModel({
-        ...props,
-      });
-
-      this.setState({
-        ...this.model.get(),
-      });
-    }
-  }
-
-  get classes() {
-    const { className } = this.props;
-
-    return clsx('cb-pagination', className);
-  }
-
-  publish = () => {
-    const { onChange } = this.props;
-
-    if (!onChange) {
-      return;
-    }
-
-    const paginationParams = this.model.get();
-    onChange({ ...omit(OMITTED_PROPS, paginationParams) });
-  };
-
-  handleGoToPage = ({ page }) => {
-    if (isNil(page)) {
-      return;
-    }
-
-    this.model.setCurrentPage(page);
-
-    const paginationParams = this.model.get();
-    this.setState(
-      {
-        ...paginationParams,
-      },
-      this.publish,
-    );
-  };
-
-  render() {
-    const { label } = this.props;
-    const { pageSize, totalPages = 0, pages } = this.state;
-    let { currentPage = 0 } = this.state;
-
-    currentPage = parseInt(currentPage, 10);
-
-    return (
-      <ul className={this.classes}>
-        <li className="item">
-          <Page
-            disabled={currentPage === 0}
-            emphasis={Emphasis.text}
-            icon={ICON_PREVIOUS}
-            onClick={this.handleGoToPage}
-            page={currentPage - 1}
-          />
-        </li>
-        {keys(pages).map(key => {
-          const { value, label } = pages[key];
-          const isCurrent = currentPage == value;
-          const emphasis = isCurrent ? Emphasis.flat : Emphasis.text;
-
-          return (
-            <li key={key} className="item">
-              <Page
-                className={clsx({
-                  'is-current': isCurrent,
-                })}
-                emphasis={emphasis}
-                onClick={this.handleGoToPage}
-                page={value}
-              >
-                {label}
-              </Page>
-            </li>
-          );
-        })}
-        <li className="item">
-          <Page
-            disabled={currentPage === totalPages - 1}
-            emphasis={Emphasis.text}
-            icon={ICON_NEXT}
-            onClick={this.handleGoToPage}
-            page={currentPage + 1}
-          />
-        </li>
-      </ul>
-    );
-  }
+			<li key="next" role="presentation" className="item">
+				<span id={`next-${id}`} className="cb-is-visually-hidden">
+					go to next page
+				</span>
+				<Page
+					aria-labelledby={`next-${id}`}
+					disabled={!pagination.canNextPage()}
+					emphasis="text"
+					icon={ICON_NEXT}
+					onClick={pagination.goToNextPage}
+				/>
+			</li>
+		</ul>
+	);
 }
 
+// storybook use only
 Pagination.propTypes = {
-  currentPage: PropTypes.number,
-  maxPages: PropTypes.number,
-  pageSize: PropTypes.number,
-  totalItems: PropTypes.number.isRequired,
-  onChange: PropTypes.func,
-};
-
-Pagination.defaultProps = {
-  currentPage: CURRENT_PAGE,
-  maxPages: MAX_PAGES,
-  pageSize: PAGE_SIZE,
-  label: 'Registros por página',
+	currentPage: PropTypes.number,
+	maxPages: PropTypes.number,
+	pageSize: PropTypes.number,
+	itemCount: PropTypes.number.isRequired,
+	onChange: PropTypes.func,
 };
 
 export default Pagination;
+
+/**
+ * @typedef {import('common/prop-types').IconProp} IconProp
+ */

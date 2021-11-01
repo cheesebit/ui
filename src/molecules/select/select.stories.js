@@ -1,43 +1,75 @@
 import React from 'react';
-import { action } from '@storybook/addon-actions';
 
-import generator from '../../../test/data-generator';
-import icons from '../../atoms/icon/icon-mapping';
-
+import { useSyncFruits, useAsyncUsers, FRUITS, USERS } from './select.fixtures';
 import Select from './select';
 
-const generateSelectOptions = () =>
-  generator.array(() => {
-    const label = generator.name();
-
-    return {
-      value: generator.id(),
-      label,
-      icon: generator.pick(icons),
-    };
-  }, generator.natural({ min: 5, max: 10 }));
-
 export default {
-  title: 'Molecules/Select',
-  component: Select,
+	title: 'Components/Molecules/Select',
+	component: Select,
+	argTypes: {
+		unroll: {
+			control: {
+				type: 'select',
+				options: ['right', 'left', 'block'],
+			},
+		},
+		className: {
+			table: {
+				disable: true,
+			},
+		},
+		multiple: {
+			control: {
+				type: 'boolean',
+			},
+		},
+		id: {
+			table: {
+				disable: true,
+			},
+		},
+		value: {
+			table: {
+				disable: true,
+			},
+		},
+		options: {
+			table: {
+				disable: true,
+			},
+		},
+		onChange: {
+			action: 'changed',
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
-const Template = args => {
-  return (
-    <div className="block">
-      <p className="mb-2">This is me, a cool Select.</p>
-      <p className="mb-2">
-        As I'm <b>still a work in progress</b>, there's some maintenance going
-        on, but soon enough you will be able to try me :)
-      </p>
+export function Playground(args) {
+	return (
+		<div className="flex flex-col">
+			<div className="block">
+				<p className="mb-2">This is me, a cool Select.</p>
+				<p className="mb-2">
+					As I&apos;m <b>still a work in progress</b>, there&apos;s
+					some maintenance going on, but soon enough you will be able
+					to try me :)
+				</p>
 
-      <Select
-        {...args}
-        options={generateSelectOptions()}
-        onChange={action('select')}
-      />
-    </div>
-  );
+				<Select {...args} />
+			</div>
+			<strong className="mt-2">Available options:</strong>
+			<p className="mt-2">
+				{FRUITS.map((fruit) => fruit.name).join(', ')}
+			</p>
+			<p className="mt-2">{USERS.map((user) => user.name).join(', ')}</p>
+		</div>
+	);
+}
+
+Playground.args = {
+	placeholder: 'Search or select',
+	datasources: [useSyncFruits, useAsyncUsers],
 };
-
-export const Playground = Template.bind({});

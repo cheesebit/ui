@@ -1,138 +1,138 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-calendar {
-  @include transition(all);
+	@include transition(all);
 
-  @include font;
-  @include disableable;
+	@include font;
+	@include disableable;
 
-  position: relative;
-  display: inline-flex;
-  flex-direction: column;
+	position: relative;
+	display: inline-flex;
+	flex-direction: column;
 
-  @include px(spacing-4);
-  @include py(spacing-4);
+	@include px(spacing-4);
+	@include py(spacing-4);
 
-  & > .header {
-    display: grid;
-    grid-template-columns: 40px 40px 1fr 40px 40px;
-    grid-template-rows: 40px;
-    align-items: center;
+	& > .header {
+		display: grid;
+		grid-template-rows: 40px;
+		grid-template-columns: 40px 40px 1fr 40px 40px;
+		align-items: center;
 
-    @include var(column-gap, spacing-2);
-    @include p(spacing-0);
+		@include var(column-gap, spacing-2);
+		@include p(spacing-0);
 
-    & > .previous-year,
-    & > .previous-month,
-    & > .next-year,
-    & > .next-month {
-      @include rounded(50%);
+		& > .previous-year,
+		& > .previous-month,
+		& > .next-year,
+		& > .next-month {
+			@include rounded(50%);
 
-      @include var(background, color-gray-100);
-      @include var(font-size, font-size-2xl);
-      @include m(spacing-0);
+			@include var(background, color-gray-100);
+			@include var(font-size, font-size-2xl);
+			@include m(spacing-0);
 
-      @include hoverable {
-        @include var(background, color-gray-300);
-        @include var(color, color-primary-500);
-      }
+			@include hoverable {
+				@include var(background, color-gray-300);
+				@include var(color, color-primary-500);
+			}
 
-      > .cb-icon {
-        justify-self: center;
-      }
-    }
+			> .cb-icon {
+				justify-self: center;
+			}
+		}
 
-    & > .date-display {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 28px 12px;
-      align-items: center;
+		& > .date-display {
+			display: grid;
+			grid-template-rows: 28px 12px;
+			grid-template-columns: 1fr;
+			align-items: center;
 
-      & > .year,
-      & > .month {
-        text-align: center;
-      }
+			& > .year,
+			& > .month {
+				text-align: center;
+			}
 
-      & > .year {
-        @include var(font-size, font-size-2xl);
-      }
+			& > .year {
+				@include var(font-size, font-size-2xl);
+			}
 
-      & > .month {
-        @include var(font-size, font-size-xs);
-      }
-    }
-  }
+			& > .month {
+				@include var(font-size, font-size-xs);
+			}
+		}
+	}
 
-  .days {
-    display: grid;
-    grid-template-columns: repeat(7, 40px);
+	.days {
+		display: grid;
+		grid-template-columns: repeat(7, 40px);
 
-    @include px(spacing-0);
-    @include var(padding-top, spacing-4);
-    @include var(padding-bottom, spacing-0);
+		@include px(spacing-0);
+		@include var(padding-top, spacing-4);
+		@include var(padding-bottom, spacing-0);
 
-    & > .day {
-      @include rounded(0);
-      @include var(font-size, font-size-xs);
+		& > .day {
+			@include rounded(0);
+			@include var(font-size, font-size-xs);
 
-      position: relative;
-      display: inline-flex;
-      justify-content: center;
-      align-items: center;
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
 
-      &.is-today {
-        @include var(color, color-blue-300);
-      }
+			&.is-today {
+				@include var(color, color-blue-300);
+			}
 
-      &.is-selected {
-        @include var(background, color-gray-200);
+			&.is-selected {
+				@include var(background, color-gray-200);
 
-        @include hoverable {
-          @include var(background, color-gray-300);
-          @include var(border-color, color-gray-300);
-        }
-      }
-    }
+				@include hoverable {
+					@include var(background, color-gray-300);
+					@include var(border-color, color-gray-300);
+				}
+			}
+		}
 
-    // .day.is-selected:after,
-    // .day.is-selected + .day.is-selected:before,
-    // .day.is-selected + .day:not(.is-selected):before {
-    //   position: absolute;
-    //   content: '';
-    //   display: block;
-    //   top: -1px;
-    //   bottom: -1px;
-    //   width: calc(40px + 0.25rem);
+		// .day.is-selected:after,
+		// .day.is-selected + .day.is-selected:before,
+		// .day.is-selected + .day:not(.is-selected):before {
+		//   position: absolute;
+		//   content: '';
+		//   display: block;
+		//   top: -1px;
+		//   bottom: -1px;
+		//   width: calc(40px + 0.25rem);
 
-    //   z-index: -1;
-    // }
+		//   z-index: -1;
+		// }
 
-    // .day.is-selected:after {
-    //   @include bordered($color: color(gray-200));
-    //   @include var(background, color-gray-200);
-    //   left: 20px;
-    // }
+		// .day.is-selected:after {
+		//   @include bordered($color: color(gray-200));
+		//   @include var(background, color-gray-200);
+		//   left: 20px;
+		// }
 
-    // .day.is-selected + .day.is-selected:before {
-    //   @include bordered($color: color(gray-200));
-    //   @include var(background, color-gray-200);
-    //   left: calc(-20px - 0.25rem);
-    // }
+		// .day.is-selected + .day.is-selected:before {
+		//   @include bordered($color: color(gray-200));
+		//   @include var(background, color-gray-200);
+		//   left: calc(-20px - 0.25rem);
+		// }
 
-    // .day.is-selected + .day:not(.is-selected):before {
-    //   @include bordered($color: color(white));
-    //   @include var(background, color-white);
-    //   left: calc(-20px - 0.25rem);
-    // }
+		// .day.is-selected + .day:not(.is-selected):before {
+		//   @include bordered($color: color(white));
+		//   @include var(background, color-white);
+		//   left: calc(-20px - 0.25rem);
+		// }
 
-    & > .week-day {
-      @include var(font-weight, font-weight-bold);
+		& > .week-day {
+			@include var(font-weight, font-weight-bold);
 
-      text-decoration: none;
-    }
-  }
+			text-decoration: none;
+		}
+	}
 
-  .quick-actions {
-    @include var(margin-top, spacing-4);
-  }
+	.quick-actions {
+		@include var(margin-top, spacing-4);
+	}
 }

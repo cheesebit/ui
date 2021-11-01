@@ -6,6 +6,7 @@ import ArrowBack from './assets/ic_arrow_back_48px.svg';
 import ArrowForward from './assets/ic_arrow_forward_48px.svg';
 import Attachment from './assets/ic_attachment_48px.svg';
 import Block from './assets/ic_block_48px.svg';
+import Calendar from './assets/ic_calendar_today_48dp.svg';
 import Cancel from './assets/ic_cancel_48px.svg';
 import ChatBubbleOutline from './assets/ic_chat_bubble_outline_48px.svg';
 import Check from './assets/ic_check_48px.svg';
@@ -18,7 +19,7 @@ import CloseFullscreen from './assets/ic_close_fullscreen_48px.svg';
 import Cloud from './assets/ic_cloud_48px.svg';
 import CloudDone from './assets/ic_cloud_done_48px.svg';
 import CloudQueue from './assets/ic_cloud_queue_48px.svg';
-import ContentCopy from './assets/ic_content_copy_48px.svg'
+import ContentCopy from './assets/ic_content_copy_48px.svg';
 import Create from './assets/ic_create_48px.svg';
 import DoubleChevronLeft from './assets/ic_double_chevron_left_48px.svg';
 import DoubleChevronRight from './assets/ic_double_chevron_right_48px.svg';
@@ -45,51 +46,64 @@ import TurnedInOutline from './assets/ic_turned_in_not_48px.svg';
 import UnfoldLess from './assets/ic_unfold_less_48px.svg';
 import UnfoldMore from './assets/ic_unfold_more_48px.svg';
 
-export default {
-  'account-box': AccountBox,
-  'account-circle': AccountCircle,
-  'arrow-back': ArrowBack,
-  'arrow-forward': ArrowForward,
-  'check-circle': CheckCircle,
-  'chevron-left': ChevronLeft,
-  'chevron-right': ChevronRight,
-  'content-copy': ContentCopy,
-  'double-chevron-left': DoubleChevronLeft,
-  'double-chevron-right': DoubleChevronRight,
-  'expand-less': ExpandLess,
-  'expand-more': ExpandMore,
-  'favorite-outline': FavoriteOutline,
-  'more-horizontal': MoreHorizontal,
-  'more-vertical': MoreVertical,
-  'turned-in-outline': TurnedInOutline,
-  'turned-in': TurnedIn,
-  add: Add,
-  block: Block,
-  cancel: Cancel,
-  check: Check,
-  circle: Circle,
-  close: Close,
-  create: Create,
-  favorite: Favorite,
-  help: Help,
-  info: Info,
-  refresh: Refresh,
-  remove: Remove,
-  search: Search,
-  'access-alarms': AccessAlarms,
-  attachment: Attachment,
-  'chat-bubble-outline': ChatBubbleOutline,
-  'close-fullscreen': CloseFullscreen,
-  'cloud-done': CloudDone,
-  'cloud-queue': CloudQueue,
-  cloud: Cloud,
-  email: Email,
-  'open-in-full': OpenInFull,
-  'open-in-new': OpenInNew,
-  'page-first': PageFirst,
-  'page-last': PageLast,
-  'star-border': StarBorder,
-  star: Star,
-  'unfold-less': UnfoldLess,
-  'unfold-more': UnfoldMore,
+const mapping = {
+	'account-box': AccountBox,
+	'account-circle': AccountCircle,
+	'arrow-back': ArrowBack,
+	'arrow-forward': ArrowForward,
+	'check-circle': CheckCircle,
+	'chevron-left': ChevronLeft,
+	'chevron-right': ChevronRight,
+	'content-copy': ContentCopy,
+	'double-chevron-left': DoubleChevronLeft,
+	'double-chevron-right': DoubleChevronRight,
+	'expand-less': ExpandLess,
+	'expand-more': ExpandMore,
+	'favorite-outline': FavoriteOutline,
+	'more-horizontal': MoreHorizontal,
+	'more-vertical': MoreVertical,
+	'turned-in-outline': TurnedInOutline,
+	'turned-in': TurnedIn,
+	add: Add,
+	block: Block,
+	calendar: Calendar,
+	cancel: Cancel,
+	check: Check,
+	circle: Circle,
+	close: Close,
+	create: Create,
+	favorite: Favorite,
+	help: Help,
+	info: Info,
+	refresh: Refresh,
+	remove: Remove,
+	search: Search,
+	'access-alarms': AccessAlarms,
+	attachment: Attachment,
+	'chat-bubble-outline': ChatBubbleOutline,
+	'close-fullscreen': CloseFullscreen,
+	'cloud-done': CloudDone,
+	'cloud-queue': CloudQueue,
+	cloud: Cloud,
+	email: Email,
+	'open-in-full': OpenInFull,
+	'open-in-new': OpenInNew,
+	'page-first': PageFirst,
+	'page-last': PageLast,
+	'star-border': StarBorder,
+	star: Star,
+	'unfold-less': UnfoldLess,
+	'unfold-more': UnfoldMore,
 };
+
+export default mapping;
+
+/**
+ * @typedef {Object} IconIntrinsicProp
+ * @property {keyof mapping} name - Icon name
+ * @property {number} size - Icon size
+ */
+
+/**
+ * @typedef {(keyof mapping) | IconIntrinsicProp} IconProp
+ */

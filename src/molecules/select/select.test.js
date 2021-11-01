@@ -1,40 +1,26 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Select } from './index';
-import { render, screen, userEvent } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './select.stories';
+import generator from 'test/data-generator';
 
+const { Playground } = composeStories(stories);
+
+// TODO: this definitely should be properly tested
 describe('Select', () => {
-  it('renders correctly', () => {
-    const props = {
-      options: generator.array(() => ({
-        label: generator.name(),
-        value: generator.id(),
-      })),
-    };
+	it('renders correctly', () => {
+		const props = {
+			options: generator.array(
+				() => ({
+					label: generator.name(),
+					value: generator.id(),
+				}),
+				4
+			),
+		};
 
-    render(<Select {...props} />);
-    const component = screen.getByTestId('cb-select');
-
-    const options = screen.getAllByTestId('option');
-    expect(component).toBeTruthy();
-    expect(options).toHaveLength(props.options.length);
-  });
-
-  it('sets as selected when an option is clicked', () => {
-    const props = {
-      options: generator.array(() => ({
-        label: generator.name(),
-        value: generator.id(),
-      })),
-    };
-
-    render(<Select {...props} />);
-
-    const option = generator.pick(props.options);
-
-    userEvent.click(screen.getByText(option.label));
-
-    expect(screen.getByTestId('toggle')).toHaveTextContent(option.label);
-  });
+		render(<Playground {...props} />);
+		const component = screen.getByTestId('cb-select');
+	});
 });

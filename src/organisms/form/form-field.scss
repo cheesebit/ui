@@ -1,0 +1,67 @@
+@import '../../styles/tools/tools.mixins';
+
+.cb-form-field {
+	@include font;
+	@include disableable;
+
+	display: flex;
+	flex-flow: column;
+	justify-content: stretch;
+	margin: 0;
+
+	& > .label {
+		display: flex;
+	}
+
+	&.is-required > .label::before {
+		@include var(color, color-danger);
+
+		content: '*';
+	}
+
+	& > .prompt {
+		@include var(font-size, font-size-sm);
+		@include var(margin-top, spacing-1);
+
+		display: inline-flex;
+	}
+
+	& > .content {
+		@include var(margin-top, spacing-1);
+
+		display: flex;
+		width: 100%;
+	}
+
+	&.-success {
+		& > .prompt {
+			@include var(color, color-success);
+		}
+	}
+
+	&.-danger {
+		& > .prompt {
+			@include var(color, color-danger);
+		}
+	}
+
+	&.-warn {
+		& > .prompt {
+			@include var(color, color-warn);
+		}
+	}
+
+	&.-info {
+		& > .prompt {
+			@include var(color, color-info);
+		}
+	}
+
+	& + & {
+		@include var(margin-top, spacing-4);
+	}
+
+	&:last-of-type {
+		@include var(margin-bottom, spacing-4);
+	}
+}

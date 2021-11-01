@@ -1,175 +1,130 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { ClickOutside } from '../../hocs/click-outside';
-import { DEFAULT } from '../../common/constants';
-import { isFunction, isNil, getID, omit, equals } from '../../common/toolset';
-import DropdownItems from './dropdown-items';
-import DropdownItem from './dropdown-item';
-import DropdownToggle from './dropdown-toggle';
-import DropdownContext from './dropdown-context';
-
-import { useID } from '../../hooks/id';
+import { DropdownMenu, DropdownMenuItem } from './dropdown-menu';
+import { omit } from 'common/toolset';
+import { useClickOutside } from 'hooks/click-outside';
+import { useID } from 'hooks/id';
+import DropdownContext from './dropdown.context';
+import DropdownTrigger from './dropdown-trigger';
+import useDropdown from './use-dropdown';
 
 import './dropdown.scss';
 
-const OMITTED_PROPS = ['toggle', 'collapsed', 'items', 'unroll'];
+const OMITTED_PROPS = [
+	'trigger',
+	'expanded',
+	'expand',
+	'collapse',
+	'items',
+	'unroll',
+	'hoverable',
+];
 
-function DropdownB(props) {
-  // const { collapsed } = props;
-  const id = useID(props);
-  const [collapsed, setCollapsed] = useState(props.collapsed || true);
+// TODO: throw error if props.toggle is undefined for GenericDropdown
+
+/**
+ *
+ * @param {GenericDropdownProps} props
+ * @return {JSX.Element} Generic dropdown component that can have its `disabled`, `expanded`, and `toggle` customized.
+ */
+export function GenericDropdown(props) {
+	const ref = useRef();
+	const id = useID(props);
+	const { prop, classy } = useClassy(props);
+
+	const {
+		children,
+		className,
+		disabled,
+		expanded,
+		onBlur,
+		toggle,
+		...others
+	} = props;
+
+	/** @type {DropdownContextValue} */
+	const contextValue = { disabled, expanded, toggle };
+
+	useClickOutside(ref, function handleClickOutside() {
+		if (!expanded) {
+			return;
+		}
+
+		toggle();
+		onBlur?.();
+	});
+
+	return (
+		<DropdownContext.Provider value={contextValue}>
+			<div
+				data-testid="cb-dropdown"
+				{...omit(OMITTED_PROPS, others)}
+				ref={ref}
+				className={classy(
+					'cb-dropdown',
+					{
+						'-unroll-right': prop({ unroll: 'right' }),
+						'-unroll-left': prop({ unroll: 'left' }),
+						'-unroll-block': prop({ unroll: 'block' }),
+					},
+					{
+						'is-expanded': expanded,
+					},
+					className
+				)}
+				id={id}
+			>
+				{children}
+			</div>
+		</DropdownContext.Provider>
+	);
 }
-class Dropdown extends React.PureComponent {
-  constructor(props) {
-    super(props);
 
-    const { collapsed } = props;
-    this.state = {
-      collapsed,
-    };
+/**
+ *
+ * @param {DropdownProps} props
+ * @return {JSX.Element} Dropdown component.
+ */
+function Dropdown(props) {
+	const { unroll = 'right' } = props;
+	const dropdownProps = useDropdown(props);
 
-    this.handleToggle = this.handleToggle.bind(this);
-
-    const { id } = props;
-    this.id = getID(id);
-    this.value = {
-      collapsed,
-      toggle: this.handleToggle,
-    };
-  }
-
-  static getDerivedStateFromProps(props, state) {
-    if (props.collapsed !== state.collapsed) {
-      return {
-        collapsed: props.collapsed,
-      };
-    }
-
-    return null;
-  }
-
-  get classes() {
-    const { className, unroll } = this.props;
-    const { collapsed } = this.state;
-
-    return clsx(
-      'cb-dropdown',
-      {
-        '-unroll-right': equals(unroll, 'right'),
-        '-unroll-left': equals(unroll, 'left'),
-        '-unroll-block': equals(unroll, 'block'),
-      },
-      {
-        'is-collapsed': collapsed,
-      },
-      className,
-    );
-  }
-
-  get items() {
-    const { items } = this.props;
-
-    return items || DEFAULT.ARRAY;
-  }
-
-  handleToggle() {
-    this.setState(({ collapsed }) => {
-      const newCollapsed = !collapsed;
-
-      this.value = {
-        ...this.value,
-        collapsed: newCollapsed,
-      };
-
-      return {
-        collapsed: newCollapsed,
-      };
-    });
-  }
-
-  handleClickOutside = () => {
-    const { collapsed } = this.state;
-
-    if (collapsed) {
-      return;
-    }
-
-    this.handleToggle();
-  };
-
-  renderToggle() {
-    const { collapsed } = this.state;
-    const { disabled, toggle } = this.props;
-
-    if (isFunction(toggle)) {
-      return toggle({ disabled, onClick: this.handleToggle, collapsed });
-    }
-
-    return (
-      <DropdownToggle
-        disabled={disabled}
-        collapsed={collapsed}
-        onClick={this.handleToggle}
-      >
-        {toggle}
-      </DropdownToggle>
-    );
-  }
-
-  renderItems() {
-    const { children } = this.props;
-    const items = this.items;
-
-    if (!isNil(children)) {
-      return children;
-    }
-
-    return <DropdownItems items={items} />;
-  }
-
-  renderDropdown = ({ ref }) => {
-    const { classes, className, header, footer, style, ...others } = this.props;
-
-    return (
-      <DropdownContext.Provider value={this.value}>
-        <div
-          data-testid="cb-dropdown"
-          {...omit(OMITTED_PROPS, others)}
-          ref={ref}
-          className={clsx(this.classes)}
-          id={this.id}
-          style={style}
-        >
-          {this.renderToggle()}
-          {this.renderItems()}
-        </div>
-      </DropdownContext.Provider>
-    );
-  };
-
-  render() {
-    return (
-      <ClickOutside onClickOutside={this.handleClickOutside}>
-        {this.renderDropdown}
-      </ClickOutside>
-    );
-  }
+	return <GenericDropdown {...props} {...dropdownProps} unroll={unroll} />;
 }
 
 Dropdown.propTypes = {
-  collapsed: PropTypes.bool,
-  unroll: PropTypes.oneOf(['right', 'left', 'block']),
+	unroll: PropTypes.oneOf(['right', 'left', 'block']),
 };
 
-Dropdown.defaultProps = {
-  collapsed: true,
-  unroll: 'right',
-};
-
-Dropdown.Items = DropdownItems;
-Dropdown.Item = DropdownItem;
-Dropdown.Toggle = DropdownToggle;
+Dropdown.Menu = DropdownMenu;
+Dropdown.Item = DropdownMenuItem;
+Dropdown.Trigger = DropdownTrigger;
 
 export default Dropdown;
+
+/**
+ * @typedef {import('./dropdown.context').DropdownContextValue} DropdownContextValue
+ */
+
+/**
+ * @typedef {('right' | 'left' | 'block')} DropdownUnrolMode
+ */
+
+/**
+ * @typedef {Object} GenericDropdownProps
+ * @property {string} [id] - dropdown ID
+ * @property {string} [className] - additional class name to apply to the dropdown.
+ * @property {Function} [onBlur] - event handler for when the dropdown loses focus.
+ * @property {DropdownContextValue['disabled']} [disabled] - is the dropdown disabled?
+ * @property {DropdownContextValue['expanded']} [expanded] - is the dropdown expanded? currently we use the `@cheesebit/use-value` for this property.
+ * @property {DropdownContextValue['toggle']} [toggle] - toggle the dropdown collapsed state.
+ * @property {React.ReactNode} [children] - dropdown content.
+ * @property {DropdownUnrolMode} [unroll] - how to unroll the dropdown.
+ *
+ */
+
+/**
+ * @typedef {GenericDropdownProps & { unroll?: DropdownUnrolMode }} DropdownProps
+ */

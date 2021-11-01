@@ -1,148 +1,113 @@
 import React from 'react';
-import clsx from 'clsx';
-import PropTypes from 'prop-types';
+import { useClassy } from '@cheesebit/classy';
 
-import { omit, isNil } from '../../common/toolset';
-import {
-  resolveProp,
-  evaluateBorderless,
-  evaluatePaddingless,
-} from '../../common/props-toolset';
+import { omit, isNil } from 'common/toolset';
+import { evaluateBorderless, evaluatePaddingless } from 'common/props-toolset';
 
 import './box.scss';
 
 const OMITTED_PROPS = [
-  'as',
-  'borderless',
-  'children',
-  'leading',
-  'paddingless',
-  'block',
-  'trailing',
+	'as',
+	'block',
+	'borderless',
+	'children',
+	'leading',
+	'paddingless',
+	'trailing',
 ];
 
-class Box extends React.PureComponent {
-  get classes() {
-    const { borderless, paddingless, block, className } = this.props;
+const Box = React.forwardRef(
+	/**
+	 * Box component.
+	 *
+	 * @param {BoxProps} props
+	 * @param {React.ForwardedRef<any>} ref
+	 * @return {JSX.Element} Box component.
+	 */
+	function Box(props, ref) {
+		const {
+			as: Tag = 'div',
+			block = false,
+			borderless = false,
+			children,
+			className,
+			leading,
+			paddingless,
+			trailing,
+			...others
+		} = props;
+		const { prop, classy } = useClassy({ block });
 
-    return clsx(
-      'cb-box',
-      { '-block': block },
-      evaluateBorderless(borderless),
-      evaluatePaddingless(paddingless),
-      className,
-    );
-  }
+		function renderLeading() {
+			return (
+				!isNil(leading) && (
+					<span aria-hidden="true" className="leading">
+						{leading}
+					</span>
+				)
+			);
+		}
 
-  renderLeading() {
-    const { leading } = this.props;
+		function renderChildren() {
+			return (
+				!isNil(children) && <span className="children">{children}</span>
+			);
+		}
 
-    return (
-      !isNil(leading) && (
-        <span className="leading" {...resolveProp(leading, 'children')} />
-      )
-    );
-  }
+		function renderTrailing() {
+			return (
+				!isNil(trailing) && (
+					<span aria-hidden="true" className="trailing">
+						{trailing}
+					</span>
+				)
+			);
+		}
 
-  renderChildren() {
-    const { children } = this.props;
-
-    // return (
-    //   !isNil(children) && (
-    //     <span className="children" {...resolveProp(children, 'children')} />
-    //   )
-    // );
-    return children;
-  }
-
-  renderTrailing() {
-    const { trailing } = this.props;
-
-    return (
-      !isNil(trailing) && (
-        <span className="trailing" {...resolveProp(trailing, 'children')} />
-      )
-    );
-  }
-
-  render() {
-    const { as: Tag = 'div', forwardedRef, ...others } = this.props;
-
-    return (
-      <Tag
-        data-testid="cb-box"
-        ref={forwardedRef}
-        {...omit(OMITTED_PROPS, others)}
-        className={this.classes}
-      >
-        {this.renderLeading()}
-        {this.renderChildren()}
-        {this.renderTrailing()}
-      </Tag>
-    );
-  }
-}
-
-Box.propTypes = {
-  children: PropTypes.node,
-  leading: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.func,
-  ]),
-  borderless: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf([
-      'top',
-      'right',
-      'bottom',
-      'left',
-      'horizontal',
-      'vertical',
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOf([
-        'top',
-        'right',
-        'bottom',
-        'left',
-        'horizontal',
-        'vertical',
-      ]),
-    ),
-  ]),
-  trailing: PropTypes.oneOfType([
-    PropTypes.node,
-    PropTypes.element,
-    PropTypes.func,
-  ]),
-  paddingless: PropTypes.oneOfType([
-    PropTypes.bool,
-    PropTypes.oneOf([
-      'top',
-      'right',
-      'bottom',
-      'left',
-      'horizontal',
-      'vertical',
-    ]),
-    PropTypes.arrayOf(
-      PropTypes.oneOf([
-        'top',
-        'right',
-        'bottom',
-        'left',
-        'horizontal',
-        'vertical',
-      ]),
-    ),
-  ]),
-  block: PropTypes.bool,
-};
-
-Box.defaultProps = {
-  block: false,
-  borderless: false,
-};
+		return (
+			<Tag
+				data-testid="cb-box"
+				{...omit(OMITTED_PROPS, others)}
+				ref={ref}
+				className={classy(
+					'cb-box',
+					{ '-block': prop({ block: true }) },
+					evaluateBorderless(borderless),
+					evaluatePaddingless(paddingless),
+					className
+				)}
+			>
+				{renderLeading()}
+				{renderChildren()}
+				{renderTrailing()}
+			</Tag>
+		);
+	}
+);
 
 export default Box;
+
+/**
+ * @typedef {import('common/prop-types').BorderlessProp} BorderlessProp
+ * @typedef {import('common/prop-types').PaddinglessProp} PaddinglessProp
+ * @typedef {import('common/prop-types').IconProp} IconProp
+ */
+
+/**
+ * @typedef {React.HTMLAttributes<HTMLElement>} DefaultElementProps
+ */
+
+/**
+ * @typedef {Object} CustomBoxProps
+ * @property {React.ReactNode} [leading] - Element to be rendered in the leading area of this button.
+ * @property {React.ReactNode} [trailing] - Element to be rendered in the leading area of this button.
+ * @property {boolean} [disabled] - Should this button be disabled.
+ * @property {React.ElementType | string} [as] - Tag to render.
+ * @property {PaddinglessProp} [paddingless] - Determine paddings to be supressed.
+ * @property {BorderlessProp} [borderless] - Determine borders to be supressed.
+ * @property {boolean} [block] - Box should be rendered as a block.
+ */
+
+/**
+ * @typedef {DefaultElementProps & CustomBoxProps} BoxProps
+ */

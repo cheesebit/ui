@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { DEFAULT } from '../../common/constants';
+import { DEFAULT } from 'common/constants';
 import { DEFAULT_WIDTH_GAP, DEFAULT_WAIT } from './constants';
-import { getWidth } from '../../common/ui-toolset';
+import { getWidth } from 'common/ui-toolset';
 import { ResizeWatcher } from '../resize-watcher';
 
 /**
@@ -11,128 +11,131 @@ import { ResizeWatcher } from '../resize-watcher';
  * of its children it can fit.
  */
 class OverflowWatcher extends React.Component {
-  constructor(props) {
-    super(props);
+	constructor(props) {
+		super(props);
 
-    const { from = 0, to = 0 } = props;
-    this.state = {
-      from,
-      to,
-    };
-  }
+		const { from = 0, to = 0 } = props;
+		this.state = {
+			from,
+			to,
+		};
+	}
 
-  componentDidMount() {
-    this.publish();
-  }
+	componentDidMount() {
+		this.publish();
+	}
 
-  get options() {
-    const { options } = this.props;
+	get options() {
+		const { options } = this.props;
 
-    return options || DEFAULT.OBJECT;
-  }
+		return options || DEFAULT.OBJECT;
+	}
 
-  getChildren = ({ ref }) => {
-    const hostElement = ref.current;
+	getChildren = ({ ref }) => {
+		const hostElement = ref.current;
 
-    if (!hostElement) {
-      return DEFAULT.ARRAY;
-    }
+		if (!hostElement) {
+			return DEFAULT.ARRAY;
+		}
 
-    const { selector } = this.props;
-    const matchingChildren = Array.from(hostElement.querySelectorAll(selector));
+		const { selector } = this.props;
+		const matchingChildren = Array.from(
+			hostElement.querySelectorAll(selector)
+		);
 
-    return matchingChildren;
-  };
+		return matchingChildren;
+	};
 
-  calculateOverflow = ({ width, ref }) => {
-    const { offset = 0, options } = this.props;
+	calculateOverflow = ({ width, ref }) => {
+		const { offset = 0, options } = this.props;
 
-    const matchingChildren = this.getChildren({ ref });
-    const totalChildren = matchingChildren.length;
+		const matchingChildren = this.getChildren({ ref });
+		const totalChildren = matchingChildren.length;
 
-    const from = 0;
-    let to = from;
+		const from = 0;
+		let to = from;
 
-    if (totalChildren > 0) {
-      let occupiedWidth = offset;
-      const availableWidth = width - DEFAULT_WIDTH_GAP;
+		if (totalChildren > 0) {
+			let occupiedWidth = offset;
+			const availableWidth = width - DEFAULT_WIDTH_GAP;
 
-      while (to < totalChildren) {
-        const childElement = matchingChildren[to];
-        const childWidth = getWidth(childElement, options);
-        const nextOccupiedWidth = occupiedWidth + childWidth;
+			while (to < totalChildren) {
+				const childElement = matchingChildren[to];
+				const childWidth = getWidth(childElement, options);
+				const nextOccupiedWidth = occupiedWidth + childWidth;
 
-        if (nextOccupiedWidth > availableWidth) {
-          to--;
-          break;
-        }
+				if (nextOccupiedWidth > availableWidth) {
+					to--;
+					break;
+				}
 
-        occupiedWidth += childWidth;
+				occupiedWidth += childWidth;
 
-        to++;
-      }
-    }
+				to++;
+			}
+		}
 
-    this.setState(
-      {
-        from,
-        to,
-      },
-      this.publish,
-    );
-  };
+		this.setState(
+			{
+				from,
+				to,
+			},
+			this.publish
+		);
+	};
 
-  publish = () => {
-    const { from, to } = this.state;
-    const { onUpdate } = this.props;
+	publish = () => {
+		const { from, to } = this.state;
+		const { onUpdate } = this.props;
 
-    onUpdate && onUpdate({ from, to });
-  };
+		onUpdate && onUpdate({ from, to });
+	};
 
-  renderChildren = ({ width, ref }) => {
-    const { children } = this.props;
-    const { from, to } = this.state;
+	renderChildren = ({ width, ref }) => {
+		const { children } = this.props;
+		const { from, to } = this.state;
 
-    return children({
-      ref,
-      from,
-      to,
-      width,
-    });
-  };
+		// @ts-ignore
+		return children({
+			ref,
+			from,
+			to,
+			width,
+		});
+	};
 
-  render() {
-    const { wait, containerRef } = this.props;
+	render() {
+		const { wait, containerRef } = this.props;
 
-    return (
-      <ResizeWatcher
-        forwardedRef={containerRef}
-        onResize={this.calculateOverflow}
-        wait={wait}
-      >
-        {this.renderChildren}
-      </ResizeWatcher>
-    );
-  }
+		return (
+			<ResizeWatcher
+				forwardedRef={containerRef}
+				onResize={this.calculateOverflow}
+				wait={wait}
+			>
+				{this.renderChildren}
+			</ResizeWatcher>
+		);
+	}
 }
 
 OverflowWatcher.propTypes = {
-  children: PropTypes.func.isRequired,
-  containerRef: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-  ]),
-  offset: PropTypes.number,
-  onUpdate: PropTypes.func.isRequired,
-  options: PropTypes.shape({
-    add: PropTypes.func,
-  }),
-  selector: PropTypes.string.isRequired,
-  wait: PropTypes.number,
+	children: PropTypes.func.isRequired,
+	containerRef: PropTypes.oneOfType([
+		PropTypes.func,
+		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+	]),
+	offset: PropTypes.number,
+	onUpdate: PropTypes.func.isRequired,
+	options: PropTypes.shape({
+		add: PropTypes.func,
+	}),
+	selector: PropTypes.string.isRequired,
+	wait: PropTypes.number,
 };
 
 OverflowWatcher.defaultProps = {
-  wait: DEFAULT_WAIT,
+	wait: DEFAULT_WAIT,
 };
 
 export default OverflowWatcher;

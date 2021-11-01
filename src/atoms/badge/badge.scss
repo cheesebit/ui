@@ -1,35 +1,36 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
+
 .cb-badge {
-  display: inline-flex;
+	display: inline-flex;
 
-  @include var(height, spacing-6);
-  @include var(line-height, spacing-6);
-  @include var(border-radius, spacing-3);
-  @include var(font-size, font-size-sm);
+	@include var(height, spacing-6);
+	@include var(line-height, spacing-6);
+	@include var(border-radius, spacing-3);
+	@include var(font-size, font-size-sm);
 
-  align-items: center;
+	align-items: center;
 
-  @include px(spacing-4);
-  @include py(spacing-1);
-  @include var(background, color-gray-600);
-  @include var(color, color-white);
+	@include px(spacing-4);
+	@include py(spacing-1);
+	@include var(background, color-gray-600);
+	@include var(color, color-white);
 
-  &.-primary {
-    @include var(background, color-primary-100);
-  }
+	&.-primary {
+		@include var(background, color-primary-100);
+	}
 
-  &.-secondary {
-    @include var(background, color-secondary-500);
-  }
+	&.-secondary {
+		@include var(background, color-secondary-500);
+	}
 
-  &.-terciary {
-    @include var(background, color-terciary-500);
-    @include var(color, color-black);
-  }
+	&.-terciary {
+		@include var(background, color-terciary-500);
+		@include var(color, color-black);
+	}
 
-  & + & {
-    @include my(spacing-0);
-    @include var(margin-left, spacing-1);
-    @include var(margin-right, spacing-0);
-  }
+	& + & {
+		@include my(spacing-0);
+		@include var(margin-left, spacing-1);
+		@include var(margin-right, spacing-0);
+	}
 }

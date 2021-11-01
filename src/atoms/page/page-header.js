@@ -1,16 +1,24 @@
 import React from 'react';
-import clsx from 'clsx';
+import { useClassy } from '@cheesebit/classy';
 
-const PageHeader = ({ className, children, ...others }) => {
-  return (
-    <header
-      {...others}
-      className={clsx('header', className)}
-      data-testid="page-header"
-    >
-      {children}
-    </header>
-  );
-};
+/**
+ *
+ * @param {React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>} props
+ * @return {JSX.Element} Page header component.
+ */
+function PageHeader(props) {
+	const { className, children, ...others } = props;
+	const { classy } = useClassy(props);
+
+	return (
+		<header
+			{...others}
+			className={classy('header', className)}
+			data-testid="page-header"
+		>
+			{children}
+		</header>
+	);
+}
 
 export default PageHeader;

@@ -1,1 +1,1 @@
-export { default as useMask } from './use-mask'
+export { default as useMask } from './use-mask';

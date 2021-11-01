@@ -1,79 +1,83 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, screen } from '../../../test/helpers';
-import { List } from './index';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import * as stories from './list.stories';
+import generator from 'test/data-generator';
+import List from './list';
 
-describe('List', () => {
-  it('renders correctly', () => {
-    const props = {
-      children: generator.word(),
-    };
+const { Playground } = composeStories( stories );
 
-    render(<List {...props} />);
-    const component = screen.getByTestId('cb-list');
+describe( 'List', () => {
+	it( 'renders correctly', () => {
+		const props = {
+			children: generator.word(),
+		};
 
-    expect(component).toBeTruthy();
-    expect(component).toHaveTextContent(props.children);
-  });
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-list' );
 
-  it('renders bordered correctly', () => {
-    const props = {
-      children: generator.word(),
-      bordered: true,
-    };
+		expect( component ).toBeTruthy();
+		expect( component ).toHaveTextContent( props.children );
+	} );
 
-    render(<List {...props} />);
-    const component = screen.getByTestId('cb-list');
+	it( 'renders bordered correctly', () => {
+		const props = {
+			children: generator.word(),
+			bordered: true,
+		};
 
-    expect(component).toHaveClass('-bordered');
-  });
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-list' );
 
-  it('renders hoverable correctly', () => {
-    const props = {
-      children: generator.word(),
-      hoverable: true,
-    };
+		expect( component ).toHaveClass( '-bordered' );
+	} );
 
-    render(<List {...props} />);
-    const component = screen.getByTestId('cb-list');
+	it( 'renders hoverable correctly', () => {
+		const props = {
+			children: generator.word(),
+			hoverable: true,
+		};
 
-    expect(component).toHaveClass('-hoverable');
-  });
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-list' );
 
-  it('renders striped correctly', () => {
-    const props = {
-      children: generator.word(),
-      striped: true,
-    };
+		expect( component ).toHaveClass( '-hoverable' );
+	} );
 
-    render(<List {...props} />);
-    const component = screen.getByTestId('cb-list');
+	it( 'renders striped correctly', () => {
+		const props = {
+			children: generator.word(),
+			striped: true,
+		};
 
-    expect(component).toHaveClass('-striped');
-  });
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-list' );
 
-  it('render list item correctly', () => {
-    const props = {
-      children: generator.sentence(),
-    };
+		expect( component ).toHaveClass( '-striped' );
+	} );
 
-    render(<List.Item {...props} />);
-    const component = screen.getByTestId('list-item');
+	it( 'render list item correctly', () => {
+		const props = {
+			children: generator.sentence(),
+		};
 
-    expect(component).toBeTruthy();
-  });
+		render( <List.Item { ...props } /> );
+		const component = screen.getByTestId( 'list-item' );
 
-  it('render disabled list item correctly', () => {
-    const props = {
-      children: generator.sentence(),
-      disabled: true,
-    };
+		expect( component ).toBeTruthy();
+	} );
 
-    render(<List.Item {...props} />);
-    const component = screen.getByTestId('list-item');
+	it( 'render disabled list item correctly', () => {
+		const props = {
+			children: generator.sentence(),
+			disabled: true,
+		};
 
-    expect(component).toBeTruthy();
-    expect(component).toHaveClass('is-disabled');
-  });
-});
+		render( <List.Item { ...props } /> );
+		const component = screen.getByTestId( 'list-item' );
+
+		expect( component ).toBeTruthy();
+		expect( component ).toHaveClass( 'is-disabled' );
+	} );
+} );

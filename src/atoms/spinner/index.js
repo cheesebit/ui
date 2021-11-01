@@ -1,1 +1,1 @@
-export { default as Spinner, Variant } from './spinner';
+export { default as Spinner } from './spinner';

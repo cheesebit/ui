@@ -1,46 +1,115 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
-$background: 0px 0px 0px 1px rgba(0, 0, 0, 0.1);
+$background: 0 0 0 1px rgba(0, 0, 0, 10%);
+$spinner-height: 0.25rem;
 
 .cb-spinner {
-  position: relative;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	min-height: $spinner-height;
+	margin: 0 auto;
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+	@include px(spacing-2);
 
-  > .circle {
-    font-size: 0.25rem;
+	> .bar {
+		@include rounded;
 
-    width: 10em;
-    height: 10em;
-    border-radius: 50%;
-    box-shadow: $background, 2px 1px 0px color(gray-600);
+		position: absolute;
+		top: 0;
+		right: 100%;
+		bottom: 0;
+		left: 0;
+		width: 0;
+		height: $spinner-height;
+		background: #3a7fbb;
+		background: linear-gradient(90deg, #3a7fbb 0%, #f58ea6 100%);
+		background-size: 400% 400%;
+		filter: progid:dximagetransform.microsoft.gradient(startColorstr="#3a7fbb",endColorstr="#f58ea6",GradientType=1);
+		animation: borealis-bar 2s ease infinite;
+	}
 
-    animation: cb-spinner-animation 0.7s linear infinite;
-  }
+	> .message {
+		@include var(margin-top, spacing-1);
 
-  &.-primary > .circle {
-    box-shadow: $background, 2px 1px 0px color(primary-100);
-  }
+		@include px(spacing-0);
+		@include py(spacing-2);
+	}
+}
 
-  &.-secondary > .circle {
-    box-shadow: $background, 2px 1px 0px color(secondary-500);
-  }
+@keyframes borealis-bar {
+	0% {
+		width: 0%;
+		background-position: 0% 50%;
+	}
 
-  &.-terciary > .circle {
-    box-shadow: $background, 2px 1px 0px color(terciary-500);
-  }
+	30% {
+		right: 0%;
+		left: 0%;
+		width: 100%;
+	}
+
+	50% {
+		background-position: 100% 50%;
+	}
+
+	60% {
+		right: 0%;
+		left: 100%;
+		width: 0%;
+	}
+
+	100% {
+		right: 100%;
+		left: 0%;
+		width: 0%;
+		background-position: 0% 50;
+	}
+}
+
+.cb-circular-spinner {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+
+	@include px(spacing-2);
+	@include py(spacing-2);
+
+	> .circle {
+		width: 2.5em;
+		height: 2.5em;
+		border-radius: 50%;
+		box-shadow: $background, 2px 1px 0 color(gray-600);
+		animation: cb-spinner-animation 0.7s linear infinite;
+
+		@include px(spacing-2);
+		@include py(spacing-2);
+	}
+
+	&.-primary > .circle {
+		box-shadow: $background, 2px 1px 0 color(primary-100);
+	}
+
+	&.-secondary > .circle {
+		box-shadow: $background, 2px 1px 0 color(secondary-500);
+	}
+
+	&.-terciary > .circle {
+		box-shadow: $background, 2px 1px 0 color(terciary-500);
+	}
 }
 
 @keyframes cb-spinner-animation {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(360deg);
-    transform: rotate(360deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
+
+	100% {
+		transform: rotate(360deg);
+	}
 }

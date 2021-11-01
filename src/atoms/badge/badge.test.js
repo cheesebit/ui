@@ -1,50 +1,51 @@
+// @ts-nocheck
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Badge, Variant } from './index';
-import { render, screen } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import * as stories from './badge.stories';
+import generator from 'test/data-generator';
+
+const { Default, Primary, Secondary, Terciary } = composeStories(stories);
 
 describe('<Badge />', () => {
-  it('renders correctly', () => {
-    const props = { children: generator.word() };
-    const { getByTestId } = render(<Badge {...props} />);
+	it('renders correctly', () => {
+		const props = { children: generator.word() };
+		render(<Default {...props} />);
 
-    const component = getByTestId('cb-badge');
-    expect(component).toHaveTextContent(props.children);
-  });
+		const component = screen.getByTestId('cb-badge');
+		expect(component).toHaveTextContent(props.children);
+	});
 
-  describe('with variant', () => {
-    it(`renders correctly with variant ${Variant.primary}`, () => {
-      const props = { children: generator.word(), variant: Variant.primary };
+	describe('with variant', () => {
+		it(`renders correctly with variant primary`, () => {
+			const props = { children: generator.word() };
 
-      const { getByTestId } = render(<Badge {...props} />);
+			render(<Primary {...props} />);
 
-      const component = getByTestId('cb-badge');
+			const component = screen.getByTestId('cb-badge');
+			expect(component).toHaveTextContent(props.children);
+			expect(component).toHaveClass('-primary');
+		});
 
-      expect(component).toHaveTextContent(props.children);
-      expect(component).toHaveClass('-primary');
-    });
+		it(`renders correctly with variant secondary`, () => {
+			const props = { children: generator.word() };
 
-    it(`renders correctly with variant ${Variant.secondary}`, () => {
-      const props = { children: generator.word(), variant: Variant.secondary };
+			render(<Secondary {...props} />);
 
-      const { getByTestId } = render(<Badge {...props} />);
+			const component = screen.getByTestId('cb-badge');
+			expect(component).toHaveTextContent(props.children);
+			expect(component).toHaveClass('-secondary');
+		});
 
-      const component = getByTestId('cb-badge');
+		it(`renders correctly with variant terciary`, () => {
+			const props = { children: generator.word() };
 
-      expect(component).toHaveTextContent(props.children);
-      expect(component).toHaveClass('-secondary');
-    });
+			render(<Terciary {...props} />);
 
-    it(`renders correctly with variant ${Variant.terciary}`, () => {
-      const props = { children: generator.word(), variant: Variant.terciary };
-
-      const { getByTestId } = render(<Badge {...props} />);
-
-      const component = getByTestId('cb-badge');
-
-      expect(component).toHaveTextContent(props.children);
-      expect(component).toHaveClass('-terciary');
-    });
-  });
+			const component = screen.getByTestId('cb-badge');
+			expect(component).toHaveTextContent(props.children);
+			expect(component).toHaveClass('-terciary');
+		});
+	});
 });

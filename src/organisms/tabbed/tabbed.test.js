@@ -1,101 +1,105 @@
 import React from 'react';
 
-import { render, userEvent } from '../../../test/helpers';
-import { Tabbed } from './index';
-import generator from '../../../test/data-generator';
+import { composeStories } from '@storybook/testing-react';
 
-describe('Tabbed', () => {
-  const amount = generator.natural({ min: 2, max: 10 });
-  const tabs = generator.array(() => {
-    const id = generator.id();
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './tabbed.stories';
+import generator from 'test/data-generator';
+import Tabbed from './tabbed';
 
-    return {
-      id: `tab-${id}`,
-      for: `panel-${id}`,
-      label: generator.word({ length: 10 }),
-    };
-  }, amount);
+const { Playground } = composeStories( stories );
 
-  it('renders correctly', () => {
-    const props = {
-      tabs,
-      children: tabs.map(tab => (
-        <Tabbed.Panel key={tab.for} id={tab.for}>
-          <h1>{tab.label}</h1>
-          <p>{generator.paragraph()}</p>
-        </Tabbed.Panel>
-      )),
-    };
+describe( 'Tabbed', () => {
+	const amount = generator.natural( { min: 2, max: 10 } );
+	const tabs = generator.array( () => {
+		const id = generator.id();
 
-    const { getByTestId } = render(<Tabbed {...props} />);
+		return {
+			id: `tab-${ id }`,
+			label: generator.word( { length: 10 } ),
+		};
+	}, amount );
 
-    const component = getByTestId('cb-tabbed');
-    const activeIndicator = getByTestId('active-indicator');
+	it( 'renders correctly', () => {
+		const props = {
+			tabs,
+			children: tabs.map( ( tab ) => (
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
+					<h1>{ tab.label }</h1>
+					<p>{ generator.paragraph() }</p>
+				</Tabbed.Panel>
+			) ),
+		};
 
-    expect(component).toBeTruthy();
-    expect(activeIndicator).toBeTruthy();
-  });
+		render( <Playground { ...props } /> );
 
-  it('renders all the individual tabs', () => {
-    const props = {
-      tabs,
-      children: tabs.map(tab => (
-        <Tabbed.Panel key={tab.for} id={tab.for}>
-          <h1>{tab.label}</h1>
-          <p>{generator.paragraph()}</p>
-        </Tabbed.Panel>
-      )),
-    };
+		const component = screen.getByTestId( 'cb-tabbed' );
+		const activeIndicator = screen.getByTestId( 'active-indicator' );
 
-    const { getAllByTestId } = render(<Tabbed {...props} />);
+		expect( component ).toBeTruthy();
+		expect( activeIndicator ).toBeTruthy();
+	} );
 
-    expect(getAllByTestId('tab')).toHaveLength(amount);
-  });
+	it( 'renders all the individual tabs', () => {
+		const props = {
+			tabs,
+			children: tabs.map( ( tab ) => (
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
+					<h1>{ tab.label }</h1>
+					<p>{ generator.paragraph() }</p>
+				</Tabbed.Panel>
+			) ),
+		};
 
-  it('sets tab as active on tab click', () => {
-    const props = {
-      tabs,
-      children: tabs.map(tab => (
-        <Tabbed.Panel key={tab.for} id={tab.for}>
-          <h1>{tab.label}</h1>
-          <p>{generator.paragraph()}</p>
-        </Tabbed.Panel>
-      )),
-    };
+		render( <Playground { ...props } /> );
 
-    const { getAllByRole } = render(<Tabbed {...props} />);
+		expect( screen.getAllByTestId( 'tab' ) ).toHaveLength( amount );
+	} );
 
-    const tabComponents = getAllByRole('tab');
-    const at = generator.natural({ min: 0, max: amount - 1 });
+	it( 'sets tab as active on tab click', () => {
+		const props = {
+			tabs,
+			children: tabs.map( ( tab ) => (
+				<Tabbed.Panel key={ tab.id } id={ tab.id }>
+					<h1>{ tab.label }</h1>
+					<p>{ generator.paragraph() }</p>
+				</Tabbed.Panel>
+			) ),
+		};
 
-    userEvent.click(tabComponents[at]);
-    expect(tabComponents[at]).toHaveClass('is-active');
-  });
+		render( <Playground { ...props } /> );
 
-  it('shows the referred panel when a tab is clicked', () => {
-    const props = {
-      tabs,
-      children: tabs.map(tab => (
-        <Tabbed.Panel
-          key={tab.for}
-          id={tab.for}
-          data-testid={`panel-${tab.for}`}
-        >
-          <h1>{tab.label}</h1>
-          <p>{generator.paragraph()}</p>
-        </Tabbed.Panel>
-      )),
-    };
+		const tabComponents = screen.getAllByRole( 'tab' );
+		const at = generator.natural( { min: 0, max: amount - 1 } );
 
-    const { getAllByRole, getByTestId } = render(<Tabbed {...props} />);
+		userEvent.click( tabComponents[ at ] );
+		expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
+	} );
 
-    const tabComponents = getAllByRole('tab');
+	it( 'shows the referred panel when a tab is clicked', () => {
+		const props = {
+			tabs,
+			children: tabs.map( ( tab ) => (
+				<Tabbed.Panel
+					key={ tab.id }
+					id={ tab.id }
+					data-testid={ `panel-${ tab.id }` }
+				>
+					<h1>{ tab.label }</h1>
+					<p>{ generator.paragraph() }</p>
+				</Tabbed.Panel>
+			) ),
+		};
 
-    const at = generator.natural({ min: 0, max: amount - 1 });
+		render( <Playground { ...props } /> );
 
-    userEvent.click(tabComponents[at]);
+		const tabComponents = screen.getAllByRole( 'tab' );
 
-    expect(tabComponents[at]).toHaveClass('is-active');
-    expect(getByTestId(`panel-${tabs[at].for}`)).toBeVisible();
-  });
-});
+		const at = generator.natural( { min: 0, max: amount - 1 } );
+
+		userEvent.click( tabComponents[ at ] );
+
+		expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
+		expect( screen.getByTestId( `panel-${ tabs[ at ].id }` ) ).toBeVisible();
+	} );
+} );

@@ -1,21 +1,38 @@
 import React from 'react';
 
-import generator from '../../../test/data-generator';
+import generator from 'test/data-generator';
 import Link from './link';
 
 export default {
-  title: 'Atoms/Link',
-  component: Link,
+	title: 'Components/Atoms/Link',
+	component: Link,
+	argTypes: {
+		download: {
+			table: {
+				disable: true,
+			},
+		},
+		rel: {
+			table: {
+				disable: true,
+			},
+		},
+	},
 };
 
 export function Playground(args) {
-  return (
-    <div className="block">
-      <p className="mb-2">
-        This is me, a cool Link ready to be played around. Try me :)
-      </p>
+	return (
+		<div className="block">
+			<p className="mb-2">
+				This is me, a cool Link ready to be played around. Try me :)
+			</p>
 
-      <Link {...args}>{generator.profession()}</Link>
-    </div>
-  );
+			<Link {...args} />
+		</div>
+	);
 }
+
+Playground.args = {
+	children: generator.profession(),
+	href: generator.url(),
+};

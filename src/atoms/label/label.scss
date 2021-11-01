@@ -1,65 +1,29 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-label {
-  @include font;
-  @include disableable;
+	@include font;
+	@include disableable;
 
-  display: flex;
-  flex-flow: column wrap;
+	@include var(font-size, font-size-xs);
+	@include var(font-weight, font-weight-medium);
 
-  & > .label {
-    @include var(font-size, font-size-xs);
-    @include var(font-weight, font-weight-medium);
+	display: inline-flex;
+	flex-flow: row wrap;
+	text-transform: uppercase;
 
-    display: inline-flex;
-    text-transform: uppercase;
-  }
+	&.-success {
+		@include var(color, color-success);
+	}
 
-  & > .prompt {
-    @include var(font-size, font-size-sm);
-    @include var(margin-top, spacing-1);
+	&.-danger {
+		@include var(color, color-danger);
+	}
 
-    display: inline-flex;
-  }
+	&.-warn {
+		@include var(color, color-warn);
+	}
 
-  & > .content {
-    @include var(margin-top, spacing-1);
-
-    display: flex;
-
-    width: 100%;
-  }
-
-  // .tooltip {
-  //   // @include var(color, color-gray-600);
-
-  //   display: inline-flex;
-
-  //   justify-content: center;
-  //   align-items: center;
-  // }
-
-  &.-success {
-    & > .prompt {
-      @include var(color, color-success);
-    }
-  }
-
-  &.-danger {
-    & > .prompt {
-      @include var(color, color-danger);
-    }
-  }
-
-  &.-warn {
-    & > .prompt {
-      @include var(color, color-warn);
-    }
-  }
-
-  &.-info {
-    & > .prompt {
-      @include var(color, color-info);
-    }
-  }
+	&.-info {
+		@include var(color, color-info);
+	}
 }

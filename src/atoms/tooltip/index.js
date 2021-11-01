@@ -1,1 +1,1 @@
-export { default as Tooltip, Mode, Placement } from './tooltip';
+export { default as Tooltip } from './tooltip';

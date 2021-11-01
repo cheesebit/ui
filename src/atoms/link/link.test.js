@@ -1,108 +1,120 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { screen, render } from '../../../test/helpers';
-import { Link } from './index';
-import { Target, Rel } from './link';
-import { values } from '../../common/toolset';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import * as stories from './link.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories(stories);
 
 describe('Link', () => {
-  describe('default', () => {
-    const props = {
-      href: generator.url(),
-      alt: generator.sentence(),
-      title: generator.sentence(),
-      children: generator.word(),
-      target: generator.pick(values(Target)),
-    };
+	describe('default', () => {
+		it('renders correctly', () => {
+			const props = {
+				href: generator.url(),
+				title: generator.sentence(),
+				children: generator.word(),
+				target: generator.pick(['_self', '_blank', '_parent', '_top']),
+			};
 
-    render(<Link {...props} />);
+			render(<Playground {...props} />);
 
-    const component = screen.getByTestId('cb-link');
+			const component = screen.getByTitle(props.title);
 
-    it('renders correctly', () => {
-      expect(component).toBeTruthy();
-      expect(component).toHaveAttribute('href', props.href);
-      expect(component).toHaveAttribute('alt', props.alt);
-      expect(component).toHaveAttribute('title', props.title);
-      expect(component).toHaveAttribute('target', props.target);
-      expect(component).toHaveTextContent(props.children);
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveAttribute('href', props.href);
+			expect(component).toHaveAttribute('title', props.title);
+			expect(component).toHaveAttribute('target', props.target);
+			expect(component).toHaveTextContent(props.children);
+		});
 
-    it(`adds ${Rel.noreferrer} to anchor element rel attribute`, () => {
-      expect(component.getAttribute('rel').includes(Rel.noreferrer)).toBe(true);
-    });
+		it(`adds noreferrer to anchor element rel attribute`, () => {
+			const props = {
+				href: generator.url(),
+				alt: generator.sentence(),
+				title: generator.sentence(),
+				children: generator.word(),
+				target: generator.pick(['_self', '_blank', '_parent', '_top']),
+			};
 
-    it('sets aria-label as the provided alt prop', () => {
-      expect(component).toHaveAttribute('aria-label', props.alt);
-    });
+			render(<Playground {...props} />);
 
-    it('renders alt prop as aria-label, if provided', () => {
-      const props = {
-        href: generator.url(),
-        alt: generator.sentence(),
-      };
+			const component = screen.getByTestId('cb-link');
 
-      render(<Link {...props} />);
-      const component = screen.getByLabelText(props.alt);
+			expect(component.getAttribute('rel').includes('noreferrer')).toBe(
+				true
+			);
+		});
 
-      expect(component).toBeTruthy();
-    });
+		it('sets aria-label as the provided title prop', () => {
+			const props = {
+				href: generator.url(),
+				title: generator.sentence(),
+				children: generator.word(),
+				target: generator.pick(['_self', '_blank', '_parent', '_top']),
+			};
 
-    it('renders title prop as aria-label, if no alt is provided', () => {
-      const props = {
-        href: generator.url(),
-        title: generator.sentence(),
-      };
+			render(<Playground {...props} />);
 
-      render(<Link {...props} />);
-      const component = screen.getByLabelText(props.title);
+			const component = screen.getByTitle(props.title);
 
-      expect(component).toBeTruthy();
-    });
+			expect(component).toHaveAttribute('aria-label', props.alt);
+		});
 
-    it('renders "#" as href if none is provided', () => {
-      const props = {
-        title: generator.sentence(),
-      };
+		it('renders title prop as aria-label, if provided', () => {
+			const props = {
+				href: generator.url(),
+				title: generator.sentence(),
+			};
 
-      render(<Link {...props} />);
-      const component = screen.getByTitle(props.title);
+			render(<Playground {...props} />);
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveAttribute('href', '#');
-    });
+			expect(screen.getByLabelText(props.title)).toBeTruthy();
+		});
 
-    it(`renders "${Target.blank}" as target if none is provided`, () => {
-      const props = {
-        title: generator.sentence(),
-      };
+		it('renders title prop as aria-label, if no alt is provided', () => {
+			const props = {
+				href: generator.url(),
+				title: generator.sentence(),
+			};
 
-      render(<Link {...props} />);
-      const component = screen.getByTitle(props.title);
+			render(<Playground {...props} />);
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveAttribute('target', Target.blank);
-    });
-  });
+			expect(screen.getByLabelText(props.title)).toBeTruthy();
+		});
 
-  describe('with sanitized props', () => {
-    const props = {
-      href: 'javascript:copySecureData()',
-      alt: generator.sentence(),
-      children: generator.word(),
-      target: Target.blank,
-    };
+		it(`renders _blank as target if none is provided`, () => {
+			const props = {
+				title: generator.sentence(),
+			};
 
-    render(<Link {...props} />);
-    const component = screen.getByTitle(props.alt);
+			render(<Playground {...props} />);
+			const component = screen.getByTitle(props.title);
 
-    it('removes the insecure href prop', () => {
-      expect(component).not.toHaveAttribute('href');
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveAttribute('target', '_blank');
+		});
+	});
 
-    it(`adds ${Rel.noopener} to anchor element rel attribute, due to the target ${Target.blank}`, () => {
-      expect(component.getAttribute('rel').includes(Rel.noopener)).toBe(true);
-    });
-  });
+	describe('with sanitized props', () => {
+		const props = {
+			href: 'javascript:copySecureData()',
+			title: generator.sentence(),
+			children: generator.word(),
+			target: '_blank',
+		};
+
+		render(<Playground {...props} />);
+		const component = screen.getByTitle(props.title);
+
+		it('removes the insecure href prop', () => {
+			expect(component).not.toHaveAttribute('href');
+		});
+
+		it(`adds noopener to anchor element rel attribute, due to the target _blank`, () => {
+			expect(component.getAttribute('rel').includes('noopener')).toBe(
+				true
+			);
+		});
+	});
 });

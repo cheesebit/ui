@@ -1,101 +1,117 @@
-@import '../../styles/index.scss';
+@import '../../styles/index';
 
 .cb-button {
-  @include transition(all);
+	@include transition(all);
 
-  @include font;
-  @include interactable;
-  @include disableable;
-  @include rounded;
+	@include font;
 
-  align-items: center;
-  justify-content: center;
+	@include interactable;
+	@include disableable;
+	@include rounded;
 
-  text-decoration: none;
-  text-transform: uppercase;
+	position: relative;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	text-transform: uppercase;
+	text-decoration: none;
 
-  @include var(background, color-transparent);
-  @include var(border-color, color-gray-400);
-  @include var(color, color-gray-600);
-  @include m(spacing-0);
+	@include var(background, color-transparent);
+	@include var(border-color, color-gray-400);
+	@include var(color, color-gray-600);
+	@include m(spacing-0);
 
-  & > .children {
-    @include truncate;
+	@include focusable {
+		@include var(z-index, layer-1);
+	}
 
-    display: inline-block;
-    text-align: center;
-    line-height: 2rem;
-  }
+	& > .children {
+		@include truncate;
 
-  @include focusable {
-    @include var(z-index, layer-1);
-  }
+		display: inline-block;
+		text-align: center;
+	}
 
-  @include hoverable {
-    @include var(background, color-transparent);
-    @include var(border-color, color-gray-500);
-    @include var(color, color-gray-600);
-  }
+	& > .leading,
+	& > .children,
+	& > .trailing {
+		line-height: 1rem;
+	}
 
-  &.-flat {
-    @include var(background, color-primary-500);
-    @include var(border-color, color-primary-500);
-    @include var(color, color-white);
+	&.-flat {
+		@include var(background, color-primary-500);
+		@include var(border-color, color-primary-500);
+		@include var(color, color-white);
 
-    @include hoverable {
-      @include var(background, color-secondary-300);
-      @include var(border-color, color-secondary-300);
-      @include var(color, color-white);
-    }
-  }
+		@include hoverable {
+			@include var(background, color-secondary-500);
+			@include var(border-color, color-secondary-500);
+			@include var(color, color-white);
+		}
 
-  &.-ghost {
-    @include var(background, color-transparent);
-    @include var(border-color, color-primary-500);
-    @include var(color, color-primary-500);
+		@include activable {
+			@include var(background, color-secondary-300);
+			@include var(border-color, color-secondary-300);
+			@include var(color, color-white);
+		}
+	}
 
-    @include hoverable {
-      @include var(background, color-primary-500);
-      @include var(border-color, color-primary-500);
-      @include var(color, color-white);
-    }
-  }
+	&.-ghost {
+		@include var(background, color-transparent);
+		@include var(border-color, color-primary-500);
+		@include var(color, color-primary-500);
 
-  &.-text {
-    @include var(background, color-transparent);
-    @include var(border-color, color-transparent);
-    @include var(color, color-primary-500);
+		@include hoverable {
+			@include var(background, color-primary-500);
+			@include var(border-color, color-primary-500);
+			@include var(color, color-white);
+		}
 
-    @include hoverable {
-      @include var(background, color-transparent);
-      @include var(border-color, color-transparent);
-      @include var(color, color-secondary-300);
-    }
-  }
+		@include activable {
+			@include var(background, color-primary-300);
+			@include var(border-color, color-primary-300);
+			@include var(color, color-white);
+		}
+	}
 
-  &.-small {
-    @include var(font-size, font-size-sm);
-    height: 40px;
-    min-width: 40px;
+	&.-text {
+		@include var(background, color-transparent);
+		@include var(border-color, color-transparent);
+		@include var(color, color-primary-500);
 
-    @include px(spacing-2);
-  }
+		@include hoverable {
+			@include var(background, color-transparent);
+			@include var(border-color, color-transparent);
+			@include var(color, color-secondary-500);
+		}
 
-  &.-medium {
-    @include var(font-size, font-size-sm);
-    height: 56px;
-    min-width: 56px;
-  }
+		@include activable {
+			@include var(background, color-transparent);
+			@include var(border-color, color-transparent);
+			@include var(color, color-secondary-300);
+		}
+	}
 
-  &.-large {
-    @include var(font-size, font-size-base);
-    height: 72px;
-    min-width: 72px;
-  }
+	&.-small {
+		@include var(font-size, font-size-sm);
 
-  .leading,
-  .trailing,
-  .children {
-    pointer-events: none;
-  }
+		min-width: 40px;
+		height: 40px;
+
+		@include px(spacing-2);
+	}
+
+	&.-medium {
+		@include var(font-size, font-size-sm);
+
+		min-width: 56px;
+		height: 56px;
+	}
+
+	&.-large {
+		@include var(font-size, font-size-base);
+
+		min-width: 72px;
+		height: 72px;
+	}
 }

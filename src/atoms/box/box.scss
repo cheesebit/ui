@@ -1,67 +1,34 @@
-@import '../../styles/index.scss';
+@import '../../styles/index';
 
 .cb-box {
-  @include font;
-  @include bordered;
+	@include font;
+	@include bordered;
 
-  display: inline-flex;
-  align-items: center;
+	display: inline-flex;
+	flex-flow: row nowrap;
+	align-items: center;
 
-  @include m(spacing-0);
-  @include px(spacing-4);
-  @include py(spacing-2);
+	@include m(spacing-0);
+	@include px(spacing-4);
+	@include py(spacing-2);
 
-  text-decoration: none;
+	text-decoration: none;
 
-  & > .leading,
-  & > .trailing {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+	& > .leading,
+	& > .trailing {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
 
-    @include px(spacing-0);
-    @include py(spacing-0);
-    @include mx(spacing-0);
-    @include my(spacing-0);
+		@include px(spacing-0);
+		@include py(spacing-0);
+		@include mx(spacing-0);
+		@include my(spacing-0);
+	}
 
-    line-height: 1rem;
-  }
-
-  & > .children {
-    display: inline-block;
-    text-align: left;
-    // line-height: 2rem;
-
-    @include px(spacing-0);
-    @include py(spacing-0);
-    @include mx(spacing-0);
-    @include my(spacing-0);
-  }
-
-  // .leading + .children,
-  // .children + .trailing,
-  // .leading + .trailing {
-  //   @include var(margin-left, spacing-2);
-  // }
-
-  .leading:not(:only-child) {
-    @include my(spacing-0);
-    @include var(margin-right, spacing-2);
-  }
-
-  .trailing:not(:only-child) {
-    @include var(margin-left, spacing-2);
-  }
-
-  // & > .leading,
-  // & > .trailing,
-  // & > .children {
-  //   pointer-events: none;
-  // }
-
-  &.-block {
-    & > .children {
-      flex-grow: 1;
-    }
-  }
+	& > .leading + .children:not(:empty),
+	& > .leading + .trailing,
+	& > .children:not(:empty) + .trailing {
+		@include var(margin-left, spacing-2);
+	}
 }

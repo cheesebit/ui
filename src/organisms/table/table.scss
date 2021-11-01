@@ -1,25 +1,25 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-table {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
+	display: flex;
+	flex-direction: column;
+	width: 100%;
 
-  & > .header,
-  & > .body {
-    flex: 1;
-  }
+	& > .header,
+	& > .body {
+		flex: 1;
+	}
 
-  & > .header {
-    @include var(border-color, color-gray-500);
-  }
+	& > .header {
+		@include var(border-color, color-gray-500);
+	}
 
-  & > .header .cell {
-    @include var(font-size, font-size-sm);
-    @include var(font-weight, font-weight-bold);
-    @include var(color, color-gray-500);
+	& > .header .cell {
+		@include var(font-size, font-size-sm);
+		@include var(font-weight, font-weight-bold);
+		@include var(color, color-gray-500);
 
-    text-decoration: none;
-    text-transform: capitalize;
-  }
+		text-transform: capitalize;
+		text-decoration: none;
+	}
 }

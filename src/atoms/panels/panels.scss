@@ -1,26 +1,20 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-panels {
-  width: 100%;
-  margin: 0;
-  padding: 0;
+	width: 100%;
+	margin: 0;
+	padding: 0;
 
-  & > .panel {
-    @include font;
+	& > .panel {
+		@include font;
 
-    position: relative;
-    animation: cb-animation-enter normal 0.25s ease-out 1;
-  }
+		position: relative;
+		display: none;
+		animation: cb-animation-enter normal 0.25s ease-out 1;
+	}
 
-  > input[type='radio'] {
-    @include hidden;
-
-    & + .panel {
-      display: none;
-    }
-
-    &:checked + .panel {
-      display: block;
-    }
-  }
+	& > .panel:target {
+		display: block;
+		height: 100px;
+	}
 }

@@ -1,65 +1,69 @@
 import React from 'react';
 import clsx from 'clsx';
-import PropTypes from 'prop-types';
 
-import { FormHTMLAttributes } from '../../common/props-dom';
-import { Label } from '../../atoms/label';
-import { mergeDeepWith } from '../../common/toolset';
-import { useForm } from './use-form';
-//import Field from './form-field';
-import FormContext from './form-context';
-
-import './form.scss';
+import { Box } from 'atoms/box';
+import { mergeDeepWith } from 'common/toolset';
+import { useForm } from 'hooks/form';
+import FormField from './form-field';
+import FormContext from './form.context';
 
 const merge = mergeDeepWith((l, r) => {
-  return [l, r];
+	return [l, r];
 });
+
 /**
- *
- * @param {object} initial - Fields with the initial value to be managed by the form hook.
- * @param {object} schema - Validation schema for the given fields.
+ * @param {FormProps} props - Fields with the initial value to be managed by the form hook.
  */
-function Form({ className, children, initial, schema }) {
-  const { values, status, dispatch } = useForm(initial, schema);
-  const [contextValue, setContextValue] = React.useState({
-    values,
-    status,
-    dispatch,
-  });
+function Form(props) {
+	const { as = 'form', className, children, initial, schema } = props;
+	const { values, status, dispatch } = useForm(initial, schema);
+	const [context, setContext] = React.useState({
+		values,
+		status,
+		dispatch,
+	});
 
-  React.useEffect(
-    function updateContextValue() {
-      setContextValue({ values, status, dispatch });
-    },
-    [values, status, dispatch],
-  );
+	React.useEffect(
+		function updateContext() {
+			setContext({ values, status, dispatch });
+		},
+		[values, status, dispatch]
+	);
 
-  return (
-    <div className={clsx('cb-form', className)}>
-      <div className="my-4">
-        <code>{JSON.stringify(merge(values, status))}</code>
-      </div>
-      <FormContext.Provider value={contextValue}>
-        {children}
-      </FormContext.Provider>
-    </div>
-  );
+	return (
+		<Box
+			className={clsx('cb-form', className)}
+			as={as}
+			borderless
+			paddingless
+		>
+			<div className="my-4">
+				<code>{JSON.stringify(merge(values, status))}</code>
+			</div>
+			<FormContext.Provider value={context}>
+				<dl>{children}</dl>
+			</FormContext.Provider>
+		</Box>
+	);
 }
 
-Form.Field = function FormField({ className, children, name, id, ...others }) {
-  return (
-    <Label className={clsx('cb-field', className)} {...others}>
-      {children}
-    </Label>
-  );
-};
+Form.Field = FormField;
 
 Form.Context = FormContext;
 
-Form.propTypes = {
-  ...FormHTMLAttributes,
-  initial: PropTypes.object,
-  schema: PropTypes.object,
-};
-
 export default Form;
+
+/**
+ * @typedef {React.FormHTMLAttributes<HTMLFormElement>} DefaultFormProps
+ */
+
+/**
+ * @typedef {Object} CustomFormProps
+ * @property {keyof JSX.IntrinsicElements} [as] - Tag to render.
+ * @property {Object} initial - initial values
+ * @property {Object} schema - validation schema
+ */
+
+/**
+ * @typedef {DefaultFormProps & CustomFormProps} FormProps
+ */

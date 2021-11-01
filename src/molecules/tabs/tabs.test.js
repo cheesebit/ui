@@ -1,102 +1,97 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, userEvent } from '../../../test/helpers';
-import { Tabs } from './index';
-import generator from '../../../test/data-generator';
-import Tab from './tabs-tab';
+import { generateTabs } from './tabs.fixtures';
+import { screen, render, userEvent } from 'test/helpers';
+import * as stories from './tabs.stories';
+import generator from 'test/data-generator';
 
-describe('Tabs', () => {
-  describe('default', () => {
-    const amount = generator.natural({ min: 2, max: 10 });
-    const tabs = generator.array(() => {
-      return {
-        id: generator.id(),
-        for: generator.id(),
-        label: generator.word({ length: 10 }),
-      };
-    }, amount);
+const { Playground } = composeStories( stories );
 
-    it('renders correctly', () => {
-      const props = {
-        items: tabs,
-      };
+describe( 'Tabs', () => {
+	describe( 'default', () => {
+		const tabs = generateTabs( { min: 2, max: 10 } );
 
-      const { getByTestId } = render(<Tabs {...props} />);
+		it( 'renders correctly', () => {
+			const props = {
+				items: tabs,
+			};
 
-      const component = getByTestId('cb-tabs');
-      const activeIndicator = getByTestId('active-indicator');
+			render( <Playground { ...props } /> );
 
-      expect(component).toBeTruthy();
-      expect(activeIndicator).toBeTruthy();
-    });
+			const component = screen.getByTestId( 'cb-tabs' );
+			const activeIndicator = screen.getByTestId( 'active-indicator' );
 
-    it('renders all the individual tabs', () => {
-      const props = {
-        items: tabs,
-      };
+			expect( component ).toBeTruthy();
+			expect( activeIndicator ).toBeTruthy();
+		} );
 
-      const { getAllByRole } = render(<Tabs {...props} />);
+		it( 'renders all the individual tabs', () => {
+			const props = {
+				items: tabs,
+			};
 
-      expect(getAllByRole('tab')).toHaveLength(amount);
-    });
+			const { getAllByRole } = render( <Playground { ...props } /> );
 
-    it('sets tab as active on tab click', () => {
-      const props = {
-        items: tabs,
-      };
+			expect( getAllByRole( 'tab' ) ).toHaveLength( tabs.length );
+		} );
 
-      const { getAllByRole } = render(<Tabs {...props} />);
+		it( 'sets tab as active on tab click', () => {
+			const props = {
+				items: tabs,
+			};
 
-      const tabComponents = getAllByRole('tab');
-      const at = generator.natural({ min: 0, max: amount - 1 });
+			const { getAllByRole } = render( <Playground { ...props } /> );
 
-      userEvent.click(tabComponents[at]);
-      expect(tabComponents[at]).toHaveClass('is-active');
-    });
+			const tabComponents = getAllByRole( 'tab' );
+			const at = generator.natural( { min: 0, max: tabs.length - 1 } );
 
-    it('renders children as function', () => {
-      const props = {
-        id: generator.id(),
-        active: generator.bool(),
-        children: jest.fn(),
-      };
+			userEvent.click( tabComponents[ at ] );
+			expect( tabComponents[ at ] ).toHaveClass( 'is-active' );
+		} );
 
-      const { getByRole } = render(<Tab {...props} />);
-      const component = getByRole('tab');
+		// it( 'renders children as function', () => {
+		// 	const props = {
+		// 		id: generator.id(),
+		// 		active: generator.bool(),
+		// 		children: jest.fn(),
+		// 	};
 
-      expect(component).toBeTruthy();
-      expect(props.children).toHaveBeenCalledWith({
-        id: props.id,
-        active: props.active,
-      });
-    });
-  });
+		// 	const { getByRole } = render( <Tab { ...props } /> );
+		// 	const component = getByRole( 'tab' );
 
-  describe('overflow tabs to dropdown', () => {
-    const amount = generator.natural({ min: 10, max: 15 });
+		// 	expect( component ).toBeTruthy();
+		// 	expect( props.children ).toHaveBeenCalledWith( {
+		// 		id: props.id,
+		// 		active: props.active,
+		// 	} );
+		// } );
+	} );
 
-    const tabs = generator.array(() => {
-      return {
-        id: generator.id(),
-        for: generator.id(),
-        label: generator.word({ length: 10 }),
-      };
-    }, amount);
+	describe( 'overflow tabs to dropdown', () => {
+		const amount = generator.natural( { min: 10, max: 15 } );
 
-    const props = {
-      items: tabs,
-    };
+		const tabs = generator.array( () => {
+			return {
+				id: generator.id(),
+				label: generator.word( { length: 10 } ),
+			};
+		}, amount );
 
-    it(`renders a dropdown`, () => {
-      const { getByTestId } = render(<Tabs {...props} />);
+		const props = {
+			items: tabs,
+		};
 
-      const component = getByTestId('cb-tabs');
-      const dropdown = getByTestId('cb-dropdown');
+		it( `renders a dropdown`, () => {
+			render( <Playground { ...props } /> );
 
-      expect(component).toBeTruthy();
-      expect(dropdown).toBeTruthy();
-    });
+			const component = screen.getByTestId( 'cb-tabs' );
+			const dropdown = screen.getByTestId( 'cb-dropdown' );
 
-    // TODO: test amount of tabs and dropdown items
-  });
-});
+			expect( component ).toBeTruthy();
+			expect( dropdown ).toBeTruthy();
+		} );
+
+		// TODO: test amount of tabs and dropdown items
+	} );
+} );

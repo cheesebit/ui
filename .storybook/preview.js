@@ -3,7 +3,15 @@ export const parameters = {
   layout: 'fullscreen',
   options: {
     storySort: {
-      order: ['Welcome', 'Atoms', 'Organisms', 'Molecules', 'HOCs'],
+      order: [
+        'Welcome',
+        'Components',
+        'Hooks',
+        'HOCs',
+        'Atoms',
+        'Organisms',
+        'Molecules',
+      ],
     },
   },
 };
@@ -11,7 +19,7 @@ export const parameters = {
 export const decorators = [
   Story => {
     return (
-      <div className="flex items-center justify-center w-full h-full p-16">
+      <div className="flex items-start justify-center w-full h-full p-16">
         <Story />
       </div>
     );

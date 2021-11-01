@@ -1,35 +1,38 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { render, userEvent, mount, asTestAttr } from '../../../test/helpers';
-import { Copy } from './index';
-import generator from '../../../test/data-generator';
+import { render, screen, userEvent } from 'test/helpers';
+import * as stories from './copy.stories';
+import generator from 'test/data-generator';
 
-describe('Copy', () => {
-  it('renders correctly', () => {
-    const props = {
-      value: generator.animal(),
-    };
+const { Playground } = composeStories( stories );
 
-    const { getByTestId } = render(<Copy {...props} />);
+describe( 'Copy', () => {
+	it( 'renders correctly', () => {
+		const props = {
+			value: generator.animal(),
+		};
 
-    expect(getByTestId('cb-copy-button')).toBeTruthy();
-    expect(getByTestId('cb-input')).toBeTruthy();
-  });
+		render( <Playground { ...props } /> );
 
-  it('copies content', () => {
-    document.execCommand = jest.fn();
+		expect( screen.getByTestId( 'cb-copy-button' ) ).toBeTruthy();
+		expect( screen.getByTestId( 'cb-input' ) ).toBeTruthy();
+	} );
 
-    const props = {
-      value: generator.animal(),
-      onCopy: jest.fn(),
-    };
+	it( 'copies content', () => {
+		document.execCommand = jest.fn();
 
-    const { getByTestId } = render(<Copy {...props} />);
+		const props = {
+			value: generator.animal(),
+			onCopy: jest.fn(),
+		};
 
-    userEvent.click(getByTestId('cb-copy-button'));
+		render( <Playground { ...props } /> );
 
-    expect(document.execCommand).toHaveBeenCalledWith('copy');
-  });
+		userEvent.click( screen.getByTestId( 'cb-copy-button' ) );
 
-  // TODO: test paste
-});
+		expect( document.execCommand ).toHaveBeenCalledWith( 'copy' );
+	} );
+
+	// TODO: test paste
+} );

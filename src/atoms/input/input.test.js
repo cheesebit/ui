@@ -1,107 +1,110 @@
 import React from 'react';
+import { composeStories } from '@storybook/testing-react';
 
-import { Input, Variant } from './index';
-import { render } from '../../../test/helpers';
-import generator from '../../../test/data-generator';
+import { render, screen } from 'test/helpers';
+import * as stories from './input.stories';
+import generator from 'test/data-generator';
+
+const { Playground } = composeStories(stories);
 
 describe('Input', () => {
-  it('renders correctly', () => {
-    const props = {
-      type: 'text',
-    };
+	it('renders correctly', () => {
+		const props = {
+			type: 'text',
+		};
 
-    const { getByTestId } = render(<Input {...props} />);
-    const component = getByTestId('cb-input');
+		render(<Playground {...props} />);
+		const component = screen.getByTestId('cb-input');
 
-    expect(component).toBeTruthy();
+		expect(component).toBeTruthy();
 
-    expect(component).toHaveAttribute('type', props.type);
-  });
+		expect(component).toHaveAttribute('type', props.type);
+	});
 
-  it('renders type correctly', () => {
-    const props = {
-      type: generator.pick([
-        'button',
-        'color',
-        'date',
-        'datetime-local',
-        'email',
-        'file',
-        'hidden',
-        'image',
-        'month',
-        'number',
-        'password',
-        'range',
-        'reset',
-        'search',
-        'submit',
-        'tel',
-        'text',
-        'time',
-        'url',
-        'week',
-      ]),
-    };
+	it('renders type correctly', () => {
+		const props = {
+			type: generator.pick([
+				'button',
+				'color',
+				'date',
+				'datetime-local',
+				'email',
+				'file',
+				'hidden',
+				'image',
+				'month',
+				'number',
+				'password',
+				'range',
+				'reset',
+				'search',
+				'submit',
+				'tel',
+				'text',
+				'time',
+				'url',
+				'week',
+			]),
+		};
 
-    const { getByTestId } = render(<Input {...props} />);
-    const component = getByTestId('cb-input');
+		render(<Playground {...props} />);
+		const component = screen.getByTestId('cb-input');
 
-    expect(component).toBeTruthy();
-    expect(component).toHaveAttribute('type', props.type);
-  });
+		expect(component).toBeTruthy();
+		expect(component).toHaveAttribute('type', props.type);
+	});
 
-  describe('with variant', () => {
-    it(`renders correctly with variant ${Variant.danger}`, () => {
-      const props = {
-        type: 'text',
-        variant: Variant.danger,
-      };
+	describe('with variant', () => {
+		it(`renders correctly with variant danger`, () => {
+			const props = {
+				type: 'text',
+				variant: 'danger',
+			};
 
-      const { getByTestId } = render(<Input {...props} />);
-      const component = getByTestId('cb-input');
+			render(<Playground {...props} />);
+			const component = screen.getByTestId('cb-input-wrapper');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-danger');
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-danger');
+		});
 
-    it(`renders correctly with variant ${Variant.info}`, () => {
-      const props = {
-        type: 'text',
-        variant: Variant.info,
-      };
+		it(`renders correctly with variant info`, () => {
+			const props = {
+				type: 'text',
+				variant: 'info',
+			};
 
-      const { getByTestId } = render(<Input {...props} />);
-      const component = getByTestId('cb-input');
+			render(<Playground {...props} />);
+			const component = screen.getByTestId('cb-input-wrapper');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-info');
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-info');
+		});
 
-    it(`renders correctly with variant ${Variant.success}`, () => {
-      const props = {
-        type: 'text',
-        variant: Variant.success,
-      };
+		it(`renders correctly with variant success`, () => {
+			const props = {
+				type: 'text',
+				variant: 'success',
+			};
 
-      const { getByTestId } = render(<Input {...props} />);
-      const component = getByTestId('cb-input');
+			render(<Playground {...props} />);
+			const component = screen.getByTestId('cb-input-wrapper');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-success');
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-success');
+		});
 
-    it(`renders correctly with variant ${Variant.warn}`, () => {
-      const props = {
-        type: 'text',
-        variant: Variant.warn,
-      };
+		it(`renders correctly with variant warn`, () => {
+			const props = {
+				type: 'text',
+				variant: 'warn',
+			};
 
-      const { getByTestId } = render(<Input {...props} />);
-      const component = getByTestId('cb-input');
+			render(<Playground {...props} />);
+			const component = screen.getByTestId('cb-input-wrapper');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-warn');
-    });
-  });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-warn');
+		});
+	});
 });

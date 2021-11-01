@@ -1,53 +1,55 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-checkbox {
-  @include font;
-  @include disableable;
-  @include interactable;
+	@include font;
+	@include disableable;
+	@include interactable;
 
-  align-items: center;
-  justify-content: flex-start;
+	align-items: center;
+	justify-content: flex-start;
+	cursor: pointer;
 
-  .check {
-    @include var(color, color-white);
+	.check {
+		@include var(color, color-white);
 
-    fill: currentColor;
-    position: absolute;
-  }
+		position: absolute;
+		fill: currentColor;
+	}
 
-  .selector:first-of-type {
-    @include focusable;
-    @include bordered;
-    @include rounded;
+	.selector {
+		@include bordered;
+		@include focusable;
+		@include rounded;
+		@include disableable($opacity: inherit);
 
-    @include transition(background color border-color);
+		@include transition(background color border-color);
 
-    cursor: pointer !important;
-    appearance: none;
-    outline: none;
+		flex-shrink: 0;
+		outline: none;
+		appearance: none;
 
-    @include var(border-color, color-gray-400);
-    @include var(background-color, color-white);
+		@include var(border-color, color-gray-400);
+		@include var(background-color, color-white);
 
-    flex-shrink: 0;
+		@include var(height, spacing-4);
+		@include var(width, spacing-4);
 
-    @include var(height, spacing-4);
-    @include var(width, spacing-4);
+		&:checked {
+			@include var(border-color, color-primary-500);
+			@include var(background-color, color-primary-500);
+		}
+	}
 
-    &:checked {
-      @include var(border-color, color-primary-500);
-      @include var(background-color, color-primary-500);
-    }
-  }
+	@include hoverable {
+		.selector {
+			@include var(border-color, color-gray-500);
 
-  @include hoverable {
-    .selector {
-      @include var(border-color, color-gray-500);
+			cursor: pointer;
 
-      &:checked {
-        @include var(border-color, color-primary-700);
-        @include var(background-color, color-primary-700);
-      }
-    }
-  }
+			&:checked {
+				@include var(border-color, color-primary-700);
+				@include var(background-color, color-primary-700);
+			}
+		}
+	}
 }

@@ -1,59 +1,62 @@
 @keyframes cb-animation-pulse {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
+	0% {
+		transform: scale(1);
+		opacity: 100%;
+	}
 
-  50% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
+	50% {
+		transform: scale(1.5);
+		opacity: 0%;
+	}
 
-  100% {
-    opacity: 0;
-    transform: scale(1.5);
-  }
+	100% {
+		transform: scale(1.5);
+		opacity: 0%;
+	}
 }
 
 @keyframes cb-animation-fade-in {
-  from {
-    opacity: 0;
-  }
+	from {
+		opacity: 0%;
+	}
 
-  to {
-    opacity: 1;
-  }
+	to {
+		opacity: 100%;
+	}
 }
 
 @keyframes cb-animation-enter {
-  from {
-    opacity: 0;
-    transform: translateX(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0%);
-  }
+	from {
+		transform: translateX(5px);
+		opacity: 0%;
+	}
+
+	to {
+		transform: translateX(0%);
+		opacity: 100%;
+	}
 }
 
 @keyframes cb-animation-enter-up {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0%);
-  }
+	from {
+		transform: translateY(5px);
+		opacity: 0%;
+	}
+
+	to {
+		transform: translateY(0%);
+		opacity: 100%;
+	}
 }
 
 @keyframes cb-animation-exit-down {
-  from {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateY(5px);
-  }
+	from {
+		transform: translateY(0);
+		opacity: 100%;
+	}
+
+	to {
+		transform: translateY(5px);
+		opacity: 0%;
+	}
 }

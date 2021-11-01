@@ -1,48 +1,54 @@
 import React from 'react';
 
-import { Overlay, Theme } from './index';
+import { Overlay } from './index';
 
 import { render } from '../../../test/helpers';
 import generator from '../../../test/data-generator';
 
 describe('Overlay', () => {
-  it('renders correctly', () => {
-    const props = {
-      children: generator.word(),
-    };
+	it('renders correctly', () => {
+		const props = {
+			children: generator.word(),
+		};
 
-    const { getByTestId } = render(<Overlay {...props} />);
-    const component = getByTestId('cb-overlay');
+		const { getByTestId } = render(<Overlay {...props} />);
+		const component = getByTestId('cb-overlay');
 
-    expect(component).toBeTruthy();
-    expect(component).toHaveTextContent(props.children);
-  });
+		expect(component).toBeTruthy();
+		expect(component).toHaveTextContent(props.children);
+	});
 
-  describe('with theme', () => {
-    it(`renders correctly with theme ${Theme.light}`, () => {
-      const props = {
-        children: generator.word(),
-        theme: Theme.light,
-      };
+	describe('with theme', () => {
+		it(`renders correctly with theme light`, () => {
+			const props = {
+				children: generator.word(),
+				/** @type {OverlayTheme} */
+				theme: 'light',
+			};
 
-      const { getByTestId } = render(<Overlay {...props} />);
-      const component = getByTestId('cb-overlay');
+			const { getByTestId } = render(<Overlay {...props} />);
+			const component = getByTestId('cb-overlay');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-light');
-    });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-light');
+		});
 
-    it(`renders correctly with theme ${Theme.dark}`, () => {
-      const props = {
-        children: generator.word(),
-        theme: Theme.dark,
-      };
+		it(`renders correctly with themedark`, () => {
+			const props = {
+				children: generator.word(),
+				/** @type {OverlayTheme} */
+				theme: 'dark',
+			};
 
-      const { getByTestId } = render(<Overlay {...props} />);
-      const component = getByTestId('cb-overlay');
+			const { getByTestId } = render(<Overlay {...props} />);
+			const component = getByTestId('cb-overlay');
 
-      expect(component).toBeTruthy();
-      expect(component).toHaveClass('-dark');
-    });
-  });
+			expect(component).toBeTruthy();
+			expect(component).toHaveClass('-dark');
+		});
+	});
 });
+
+/**
+ * @typedef {import('./overlay').OverlayTheme} OverlayTheme
+ */

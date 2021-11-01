@@ -1,29 +1,36 @@
 import React from 'react';
 
-import { isFunction } from '../../common/toolset';
-
 /**
  * Applies thunk approach to default React's `useReducer`.
  * In a nutshell, you can dispatcher either action object or function, which receives
  * as argument the dispatch.
- * @param {function} reducer
- * @param {*} initializerArg
- * @param {function} initializer
+ *
+ * @template S, A
+ * @param {React.Reducer<S, A>} reducer
+ * @param {S} initializerArg
+ * @param {(arg: any) => S} [initializer]
+ * @return {[S, (action: A | ((dispatch: (value: A) => void) => void)) => void]}
  */
 export default function useAsyncReducer(reducer, initializerArg, initializer) {
-  const [state, dispatch] = React.useReducer(
-    reducer,
-    initializerArg,
-    initializer,
-  );
+	const [state, dispatch] = React.useReducer(
+		reducer,
+		initializerArg,
+		initializer
+	);
 
-  const dispatcher = React.useRef(function thunkenize(action) {
-    if (isFunction(action)) {
-      return action(dispatch);
-    }
+	/**
+	 *
+	 * @param {A | ((dispatch: (value: A) => void) => void)} action
+	 * @returns
+	 */
+	function thunkenize(action) {
+		if (action instanceof Function) {
+			action(dispatch);
+			return;
+		}
 
-    return dispatch(action);
-  });
+		dispatch(action);
+	}
 
-  return [state, dispatcher.current];
+	return [state, thunkenize];
 }

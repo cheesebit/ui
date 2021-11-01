@@ -1,1 +1,1 @@
-export { default as useUnmounted } from './use-unmounted'
+export { default as useUnmounted } from './use-unmounted';

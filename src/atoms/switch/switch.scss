@@ -1,61 +1,64 @@
-@import '../../styles/tools/_tools.mixins';
+@import '../../styles/tools/tools.mixins';
 
 .cb-switch {
-  @include font;
-  @include disableable;
-  @include interactable;
+	@include font;
+	@include disableable;
+	@include interactable;
 
-  align-items: center;
-  justify-content: flex-start;
+	align-items: center;
+	justify-content: flex-start;
 
-  .check {
-    @include transition(left);
+	.leading {
+		position: relative;
+	}
 
-    @include var(color, color-white);
+	.check {
+		@include transition(left);
 
-    fill: currentColor;
-    position: absolute;
-    left: 0;
-  }
+		@include var(color, color-white);
 
-  .selector:first-of-type {
-    @include focusable;
-    @include bordered;
-    @include rounded(0.5rem);
+		position: absolute;
+		left: 0;
+		fill: currentColor;
+	}
 
-    @include transition(background color border-color);
+	.selector:first-of-type {
+		@include focusable;
+		@include bordered;
+		@include rounded(0.5rem);
 
-    cursor: pointer !important;
-    appearance: none;
-    outline: none;
+		@include transition(background color border-color);
 
-    @include var(border-color, color-gray-300);
-    @include var(background-color, color-gray-300);
+		flex-shrink: 0;
+		outline: none;
+		cursor: pointer !important;
+		appearance: none;
 
-    flex-shrink: 0;
+		@include var(border-color, color-gray-300);
+		@include var(background-color, color-gray-300);
 
-    @include var(height, spacing-4);
-    @include var(width, spacing-8);
+		@include var(height, spacing-4);
+		@include var(width, spacing-8);
 
-    &:checked {
-      @include var(border-color, color-secondary-400);
-      @include var(background-color, color-secondary-400);
-    }
+		&:checked {
+			@include var(border-color, color-primary-400);
+			@include var(background-color, color-primary-400);
+		}
 
-    &:checked + .check {
-      left: calc(32px - 16px);
-    }
-  }
+		&:checked + .check {
+			left: calc(32px - 16px);
+		}
+	}
 
-  @include hoverable {
-    .selector {
-      @include var(border-color, color-gray-400);
-      @include var(background-color, color-gray-400);
+	@include hoverable {
+		.selector {
+			@include var(border-color, color-gray-400);
+			@include var(background-color, color-gray-400);
 
-      &:checked {
-        @include var(border-color, color-secondary-500);
-        @include var(background-color, color-secondary-500);
-      }
-    }
-  }
+			&:checked {
+				@include var(border-color, color-primary-500);
+				@include var(background-color, color-primary-500);
+			}
+		}
+	}
 }

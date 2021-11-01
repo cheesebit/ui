@@ -2,79 +2,66 @@ import React from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 
-import { equals, isNil } from '../../common/toolset';
-import { DEFAULT } from '../../common/constants';
-import { SVGAttributes } from '../../common/props-dom';
+import { equals, isNil, pick } from 'common/toolset';
+import { DEFAULT } from 'common/constants';
+import { SVGAttributes } from 'common/props-dom';
 import mapping from './icon-mapping';
 
 import './icon.scss';
 
-export const Variant = {
-  danger: 'danger',
-  info: 'info',
-  success: 'success',
-  warn: 'warn',
-};
-
-/**
- * This is our component to render Icons.
- */
+const SVGAttributesProps = Object.keys(SVGAttributes);
 class Icon extends React.PureComponent {
-  get classes() {
-    const { className, variant } = this.props;
+	get classes() {
+		const { className, variant } = this.props;
 
-    return clsx(
-      'cb-icon',
-      {
-        '-danger': equals(variant, Variant.danger),
-        '-info': equals(variant, Variant.info),
-        '-success': equals(variant, Variant.success),
-        '-warn': equals(variant, Variant.warn),
-      },
-      className,
-    );
-  }
+		return clsx(
+			'cb-icon',
+			{
+				'-danger': equals(variant, 'danger'),
+				'-info': equals(variant, 'info'),
+				'-success': equals(variant, 'success'),
+				'-warn': equals(variant, 'warn'),
+			},
+			className
+		);
+	}
 
-  get style() {
-    const { size, style = DEFAULT.OBJECT } = this.props;
+	get style() {
+		const { size, style = DEFAULT.OBJECT } = this.props;
 
-    return { ...style, width: size, height: size };
-  }
+		return { ...style, width: size, height: size };
+	}
 
-  render() {
-    const { name } = this.props;
+	render() {
+		const { name } = this.props;
 
-    const IconSVG = mapping[name];
+		const IconSVG = mapping[name];
 
-    if (isNil(IconSVG)) {
-      return '?';
-    }
+		if (isNil(IconSVG)) {
+			return '?';
+		}
 
-    return (
-      <IconSVG
-        className={this.classes}
-        aria-label={name}
-        focusable="false"
-        aria-hidden="true"
-        style={this.style}
-        data-testid="cb-icon"
-      />
-    );
-  }
+		return (
+			<IconSVG
+				{...pick(SVGAttributesProps, this.props)}
+				data-testid="cb-icon"
+				aria-label={name}
+				aria-hidden="true"
+				className={this.classes}
+				focusable="false"
+				style={this.style}
+			/>
+		);
+	}
 }
 
 Icon.propTypes = {
-  ...SVGAttributes,
-  size: PropTypes.number,
-  name: PropTypes.string,
-  variant: PropTypes.oneOf([
-    Variant.danger,
-    Variant.info,
-    Variant.success,
-    Variant.warn,
-  ]),
+	...SVGAttributes,
+	size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	name: PropTypes.oneOf(Object.keys(mapping)).isRequired,
+	variant: PropTypes.oneOf(['danger', 'info', 'success', 'warn']),
 };
 
-Icon.defaultProps = { size: 16 };
+Icon.defaultProps = { size: '1em' };
 
 export default Icon;
