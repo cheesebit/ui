@@ -106,7 +106,7 @@ export function getDisplayValue(adapters, selection, multiple) {
 	}
 
 	if (multiple) {
-		return `${selection.size} items selected`;
+		return `${selection.size} item${selection.size == 1 ? '' : 's'} selected`;
 	}
 
 	const value = getValue(selection, multiple);

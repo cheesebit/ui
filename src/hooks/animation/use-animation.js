@@ -1,6 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
-
+import { classy } from '@cheesebit/classy';
 import { useAutomaton } from '@cheesebit/use-automaton';
 
 const DEFAULT_STATES = {
@@ -23,10 +22,7 @@ const DEFAULT_CLASSES = {
 
 function useAnimation(states, classes, currentProp = 'out') {
 	const timeoutIDRef = React.useRef(null);
-	const { transition, current } = useAutomaton(
-		states || DEFAULT_STATES,
-		currentProp
-	);
+	const { transition, current } = useAutomaton(states || DEFAULT_STATES, currentProp);
 	const safeClasses = classes || DEFAULT_CLASSES;
 
 	// TODO: Create a more generic way to manage animation
@@ -50,7 +46,7 @@ function useAnimation(states, classes, currentProp = 'out') {
 		current,
 		onEnter: handleMouseEnter,
 		onExit: handleMouseLeave,
-		className: clsx({
+		className: classy({
 			[safeClasses.entering]: current == 'entering',
 			[safeClasses.in]: current == 'in',
 			[safeClasses.exiting]: current == 'exiting',

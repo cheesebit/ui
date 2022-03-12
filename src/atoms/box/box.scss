@@ -31,4 +31,12 @@
 	& > .children:not(:empty) + .trailing {
 		@include var(margin-left, spacing-2);
 	}
+
+	&.-block {
+		width: 100%;
+
+		& > .children {
+			flex: 1;
+		}
+	}
 }

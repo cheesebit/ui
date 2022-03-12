@@ -1,10 +1,10 @@
-import { RefObject, useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Keys } from 'common/constants';
 
 /**
  * useClickOutside
  *
- * @param {RefObject<HTMLElement>} ref
+ * @param {React.RefObject<HTMLElement>} ref
  * @param {Function} callback
  * @param {boolean} disabled
  */

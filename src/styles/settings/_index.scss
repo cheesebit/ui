@@ -8,9 +8,7 @@
 
 	@each $map in $maps {
 		@each $key, $value in $map {
-			/* stylelint-disable */
 			$collection: map-merge($collection, (#{$key}: $value));
-			/* stylelint-enable */
 		}
 	}
 

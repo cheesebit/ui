@@ -1,7 +1,14 @@
-import { Meta } from '@storybook/addon-docs/blocks';
-import pkg from '../../package.json';
+import { Meta } from '@storybook/addon-docs';
+import Code from './assets/code-brackets.svg';
+import Colors from './assets/colors.svg';
+import Comments from './assets/comments.svg';
+import Direction from './assets/direction.svg';
+import Flow from './assets/flow.svg';
+import Plugin from './assets/plugin.svg';
+import Repo from './assets/repo.svg';
+import StackAlt from './assets/stackalt.svg';
 
-<Meta title="Welcome/Introduction" />
+<Meta title="Example/Introduction" />
 
 <style>{`
   .subheading {
@@ -66,7 +73,7 @@ import pkg from '../../package.json';
     display: block;
     margin-bottom: 2px;
   }
-
+  
   .link-item img {
     height: 40px;
     width: 40px;
@@ -104,69 +111,27 @@ import pkg from '../../package.json';
     display: inline-block;
   }
 
-
+  
 `}</style>
 
-<p>
-  <a href="http://ui.cheesebit.io/" rel="noopener" target="_blank">
-    <img
-      width="120"
-      src="https://cheesebit-static.s3.amazonaws.com/img/cheese-primary.svg"
-      alt="Cheesebit UI logo"
-    />
-  </a>
-</p>
+# Welcome to Storybook
 
-# Welcome to Cheesebit UI
+Storybook helps you build UI components in isolation from your app's business logic, data, and context.
+That makes it easy to develop hard-to-reach states. Save these UI states as **stories** to revisit during development, testing, or QA.
 
-**Hi there,** thank you very much for being here.
-
-This is my very own library of components I'm building for my own delight and/or
-to be used in one of my projects.
-
-I've put my heart here and I do hope someone can make good use of it - for
-learning or productivity purposes - as much as I did (actually still do).
-
-You will see that the components are organized in a quite interesting structure,
-inspired in the book Atomic Design, by Brad Frost.
-
-**This is (and it might always be) an ongoing work**, since I will keep adding,
-changing, upgrading, improving and fixing components as they go live in my own
-applications.
-
-The last stable version is
-
-<code>{pkg.version}</code>
-
-# Prerequisites
-
-- [Node.js](http://nodejs.org/) &gt;= `12.13.0` must be installed;
-- [React](https://reactjs.org/) &gt;= `17.0.1` must be installed.
-
-# Checkout some nice custom React hooks:
-
-
-
-- [@cheesebit/use-value](https://www.npmjs.com/package/@cheesebit/use-value) - A custom React hook that wraps the existing `useState` to be used similarly to jQuery's `val()`, where you can set/get a value using a single function.
-- [@cheesebit/classy](https://www.npmjs.com/package/@cheesebit/classy) - This library helps you to handle assigning style that relies on multiple combinations of props or conditionals; no more inline verbose conditionals.
-- [@cheesebit/use-automaton](https://www.npmjs.com/package/@cheesebit/use-automaton) -
-  React hook that implements the basic mechanism of an automaton. It can be used
-  to implement a more generic reducer-like logic.
-- [@cheesebit/use-slice](https://www.npmjs.com/package/@cheesebit/use-slice) - A
-  custom hook that provides a React hook similar to the Redux Toolkit
-  [createSlice](https://redux-toolkit.js.org/usage/usage-with-typescript#createslice);
-- [@cheesebit/logical](https://www.npmjs.com/package/@cheesebit/logical) - Execute, chain & compose logical operations.
-
+Browse example stories now by navigating to them in the sidebar.
+View their code in the `src/stories` directory to learn how they work.
+We recommend building UIs with a [**component-driven**](https://componentdriven.org) process starting with atomic components and ending with pages.
 
 <div className="subheading">Configure</div>
 
 <div className="link-list">
   <a
     className="link-item"
-    href="https://storybook.js.org/docs/react/api/presets"
+    href="https://storybook.js.org/docs/react/addons/addon-types"
     target="_blank"
   >
-    <img src="./plugin.svg" alt="plugin" />
+    <img src={Plugin} alt="plugin" />
     <span>
       <strong>Presets for popular tools</strong>
       Easy setup for TypeScript, SCSS and more.
@@ -177,7 +142,7 @@ The last stable version is
     href="https://storybook.js.org/docs/react/configure/webpack"
     target="_blank"
   >
-    <img src="./stackalt.svg" alt="Build" />
+    <img src={StackAlt} alt="Build" />
     <span>
       <strong>Build configuration</strong>
       How to customize webpack and Babel
@@ -188,7 +153,7 @@ The last stable version is
     href="https://storybook.js.org/docs/react/configure/styling-and-css"
     target="_blank"
   >
-    <img src="./colors.svg" alt="colors" />
+    <img src={Colors} alt="colors" />
     <span>
       <strong>Styling</strong>
       How to load and configure CSS libraries
@@ -199,7 +164,7 @@ The last stable version is
     href="https://storybook.js.org/docs/react/get-started/setup#configure-storybook-for-your-stack"
     target="_blank"
   >
-    <img src="./flow.svg" alt="flow" />
+    <img src={Flow} alt="flow" />
     <span>
       <strong>Data</strong>
       Providers and mocking for data libraries
@@ -211,36 +176,28 @@ The last stable version is
 
 <div className="link-list">
   <a className="link-item" href="https://storybook.js.org/docs" target="_blank">
-    <img src="./repo.svg" alt="repo" />
+    <img src={Repo} alt="repo" />
     <span>
       <strong>Storybook documentation</strong>
       Configure, customize, and extend
     </span>
   </a>
-  <a
-    className="link-item"
-    href="https://www.learnstorybook.com"
-    target="_blank"
-  >
-    <img src="./direction.svg" alt="direction" />
+  <a className="link-item" href="https://storybook.js.org/tutorials/" target="_blank">
+    <img src={Direction} alt="direction" />
     <span>
       <strong>In-depth guides</strong>
       Best practices from leading teams
     </span>
   </a>
-  <a
-    className="link-item"
-    href="https://github.com/storybookjs/storybook"
-    target="_blank"
-  >
-    <img src="./code-brackets.svg" alt="code" />
+  <a className="link-item" href="https://github.com/storybookjs/storybook" target="_blank">
+    <img src={Code} alt="code" />
     <span>
       <strong>GitHub project</strong>
       View the source and add issues
     </span>
   </a>
-  <a className="link-item" href="https://discord.gg/UUt2PJb" target="_blank">
-    <img src="./comments.svg" alt="comments" />
+  <a className="link-item" href="https://discord.gg/storybook" target="_blank">
+    <img src={Comments} alt="comments" />
     <span>
       <strong>Discord chat</strong>
       Chat with maintainers and the community
@@ -250,5 +207,5 @@ The last stable version is
 
 <div className="tip-wrapper">
   <span className="tip">Tip</span>Edit the Markdown in{' '}
-  <code>src/storybook-examples/welcome.mdx</code>
+  <code>src/stories/Introduction.stories.mdx</code>
 </div>

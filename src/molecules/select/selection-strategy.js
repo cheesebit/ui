@@ -90,16 +90,21 @@ export function MultipleSelectionStrategy(context) {
 		},
 		toggle(items, selection) {
 			/** @type {SelectionState} */
-			const newSelection = new Map();
+			const newSelection = new Map(selection);
 
+			console.log({ items, selection });
 			for (let i = 0; i < items.length; i++) {
 				const adapter = context.getAdapter(items[i]._type);
+				const key = adapter.getID(items[i]);
 
-				if (!selection.has(adapter.getID(items[i]))) {
-					newSelection.set(adapter.getID(items[i]), items[i]);
+				if (!selection.has(key)) {
+					newSelection.set(key, items[i]);
+				} else {
+					newSelection.delete(key);
 				}
 			}
 
+			console.log(newSelection);
 			return newSelection;
 		},
 		clear() {

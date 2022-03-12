@@ -1,12 +1,7 @@
 import React from 'react';
 
 import { createSelectionBoundary } from './use-selection';
-import {
-	getDatasources,
-	extractAdapters,
-	getValue,
-	getDisplayValue,
-} from './use-select.helpers';
+import { getDatasources, extractAdapters, getValue, getDisplayValue } from './use-select.helpers';
 import { toArray } from 'common/toolset';
 import { useDropdown } from '../dropdown';
 import { useFocusTrap } from 'hooks/focus-trap';
@@ -33,15 +28,11 @@ function useSelect(props) {
 	const { multiple, onChange, name, disabled = false } = props;
 	const dropdown = useDropdown(props);
 
-	// eslint-disable-next-line react-hooks/exhaustive-deps
 	const datasources = React.useMemo(
 		() => getDatasources(props),
 		[props.datasources, props.options]
 	);
-	const adapters = React.useMemo(
-		() => extractAdapters(datasources),
-		[datasources]
-	);
+	const adapters = React.useMemo(() => extractAdapters(datasources), [datasources]);
 
 	const selection = useSelection({
 		selected: toArray(props.value || []),
@@ -111,21 +102,12 @@ function useSelect(props) {
 				toggle: dropdown.toggle,
 				expanded: dropdown.expanded,
 				onBlur() {
-					setQuery(
-						getDisplayValue(adapters, selection.selected, multiple)
-					);
+					setQuery(getDisplayValue(adapters, selection.selected, multiple));
 					options.fetch('');
 				},
 			};
 		},
-		[
-			adapters,
-			dropdown.expanded,
-			dropdown.toggle,
-			multiple,
-			options,
-			selection.selected,
-		]
+		[adapters, dropdown.expanded, dropdown.toggle, multiple, options, selection.selected]
 	);
 
 	/** @type {useSelectReturn['getTriggerProps']} */
@@ -188,16 +170,21 @@ function useSelect(props) {
 	/** @type {useSelectReturn['getOptionProps']} */
 	const getOptionProps = React.useCallback(
 		function getOptionProps(option) {
-			const { value, checked } = getOption(option);
+			const { label, value, checked } = getOption(option);
 
 			return {
 				role: 'option',
 				'aria-selected': checked,
 				id: value,
 				onClick() {
-					const { label, checked } = getOption(option);
 					setQuery(checked ? '' : label);
 					toggleOption(option);
+
+					/**
+					 * This return tells DropdownMenuItem if it should or should not
+					 * togle the dropdown.
+					 */
+					return multiple;
 				},
 				tabIndex: -1,
 			};
@@ -209,9 +196,7 @@ function useSelect(props) {
 		function onInit() {
 			void options.fetch('');
 		},
-		// we just want to load any initial options that a datasource may have available
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[]
+		[datasources]
 	);
 
 	React.useEffect(
@@ -226,7 +211,6 @@ function useSelect(props) {
 		 * We are interested in activating/deactivating our
 		 * focus trap when the dropdown changes its expanded state.
 		 */
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 		[dropdown.expanded]
 	);
 

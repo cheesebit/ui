@@ -48,6 +48,10 @@
 		}
 	}
 
+	& > .menu > .item + .item {
+		margin-top: 1px;
+	}
+
 	&.-unroll-block {
 		& > .menu {
 			right: 0 !important;

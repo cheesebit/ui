@@ -1,4 +1,3 @@
-/* stylelint-disable scss/at-extend-no-missing-placeholder */
 .cb-no-border {
 	border: none !important;
 }
@@ -58,4 +57,3 @@
 	@extend .cb-no-right-padding;
 	@extend .cb-no-left-padding;
 }
-/* stylelint-enable scss/at-extend-no-missing-placeholder */

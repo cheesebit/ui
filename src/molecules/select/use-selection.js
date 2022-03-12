@@ -59,11 +59,7 @@ function createUseSelection() {
 		}
 
 		/** @type {[SelectionState, React.Dispatch<SelectionAction>]} */
-		const [selected, dispatch] = React.useReducer(
-			reducer,
-			new Map(),
-			initializer
-		);
+		const [selected, dispatch] = React.useReducer(reducer, new Map(), initializer);
 		const { resetFingerprint, hasSameFingerprint } = useFingerprint({
 			adapter: identity,
 			items: Array.from(selected.keys()),
@@ -154,7 +150,6 @@ function createUseSelection() {
 			/**
 			 * initializer is not relevant for our changes, that's why its ommitted.
 			 */
-			// eslint-disable-next-line react-hooks/exhaustive-deps
 			[props.selected, hasSameFingerprint, resetFingerprint]
 		);
 
@@ -180,9 +175,7 @@ const INITIAL_SELECTABLE_CONTEXT_VALUE = {
  */
 export function createSelectionBoundary() {
 	/** @type {React.Context<useSelectionReturn>}*/
-	const SelectionContext = React.createContext(
-		INITIAL_SELECTABLE_CONTEXT_VALUE
-	);
+	const SelectionContext = React.createContext(INITIAL_SELECTABLE_CONTEXT_VALUE);
 
 	const useSelection = createUseSelection();
 

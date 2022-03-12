@@ -5,6 +5,8 @@
 	flex-direction: column;
 	width: 100%;
 
+	max-width: initial;
+
 	& > .header,
 	& > .body {
 		flex: 1;

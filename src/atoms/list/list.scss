@@ -4,16 +4,14 @@
 	display: flex;
 	flex-direction: column;
 
+	padding: 0;
+	margin: 0;
+
 	> .item {
 		@include font;
 		@include disableable;
 		@include transition(background);
-		@include bordered(
-			$top: false,
-			$right: false,
-			$bottom: false,
-			$left: false
-		);
+		@include bordered($top: false, $right: false, $bottom: false, $left: false);
 
 		@include var(background, color-white);
 
@@ -26,6 +24,10 @@
 
 		&.is-hidden {
 			@include hidden;
+		}
+
+		> .trailing {
+			margin-left: auto;
 		}
 	}
 

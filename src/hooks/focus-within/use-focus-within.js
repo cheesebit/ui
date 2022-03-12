@@ -1,18 +1,12 @@
-import {
-	useEffect,
-	useState,
-	useCallback,
-	useRef,
-	FocusEventHandler,
-} from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 /**
  * As CSS's focus-within is not fully supported, this hook
  * helps with identifying focus within elements.
  *
  * @param {Object} [props] - Hook props
- * @param {FocusEventHandler<HTMLElement>} [props.onFocus] - focus handler
- * @param {FocusEventHandler<HTMLElement>} [props.onBlur] - blur handler
+ * @param {React.FocusEventHandler<HTMLElement>} [props.onFocus] - focus handler
+ * @param {React.FocusEventHandler<HTMLElement>} [props.onBlur] - blur handler
  * @return {FocusWithinController} Returns the container ref and a boolean indicating if container is focused.
  */
 function useFocusWithin(props) {

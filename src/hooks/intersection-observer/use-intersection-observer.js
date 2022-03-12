@@ -7,12 +7,12 @@ import { mandatory } from 'common/toolset';
  * In a nutshell, you can dispatcher either action object or function, which receives
  * as argument the dispatch.
  *
- * @param {React.MutableRefObject} imageRef - Image element to be observed.
+ * @param {React.MutableRefObject} targetRef - Image element to be observed.
  * @param {IntersectionHandler} onIntersect - Callback handler for when the image is intersecting the current viewport.
  * @return {React.MutableRefObject} Reference to the IntersectionObserver.
  */
 export default function useIntersectionObserver(
-	imageRef = mandatory('imageRef is required'),
+	targetRef = mandatory('targetRef is required'),
 	onIntersect = mandatory('onIntersect is required')
 ) {
 	/** @type {React.MutableRefObject<IntersectionObserver> | null} */
@@ -34,7 +34,7 @@ export default function useIntersectionObserver(
 	React.useEffect(function initObserve() {
 		observerRef.current = new IntersectionObserver(handleIntersection);
 
-		observerRef.current.observe(imageRef.current);
+		observerRef.current.observe(targetRef.current);
 
 		return function cleanObserver() {
 			observerRef.current?.disconnect();

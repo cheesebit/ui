@@ -1,5 +1,5 @@
 import React from 'react';
-import clsx from 'clsx';
+import { classy } from '@cheesebit/classy';
 
 import { equals, isNil, isBoolean, isObject, toArray } from './toolset';
 import { DEFAULT } from './constants';
@@ -12,9 +12,7 @@ import { DEFAULT } from './constants';
  */
 export function compareProps(props) {
 	return function (prevProps, currProps) {
-		return toArray(props).every((prop) =>
-			equals(prevProps[prop], currProps[prop])
-		);
+		return toArray(props).every((prop) => equals(prevProps[prop], currProps[prop]));
 	};
 }
 
@@ -62,21 +60,13 @@ function evaluateSidedProp(prop, value) {
 
 	const valueAsArray = toArray(value);
 
-	return clsx({
+	return classy({
 		[`cb-no-top-${prop}`]: valueAsArray.some((v) => ['top'].includes(v)),
-		[`cb-no-right-${prop}`]: valueAsArray.some((v) =>
-			['right'].includes(v)
-		),
-		[`cb-no-bottom-${prop}`]: valueAsArray.some((v) =>
-			['bottom'].includes(v)
-		),
+		[`cb-no-right-${prop}`]: valueAsArray.some((v) => ['right'].includes(v)),
+		[`cb-no-bottom-${prop}`]: valueAsArray.some((v) => ['bottom'].includes(v)),
 		[`cb-no-left-${prop}`]: valueAsArray.some((v) => ['left'].includes(v)),
-		[`cb-no-vertical-${prop}`]: valueAsArray.some((v) =>
-			['vertical'].includes(v)
-		),
-		[`cb-no-horizontal-${prop}`]: valueAsArray.some((v) =>
-			['horizontal'].includes(v)
-		),
+		[`cb-no-vertical-${prop}`]: valueAsArray.some((v) => ['vertical'].includes(v)),
+		[`cb-no-horizontal-${prop}`]: valueAsArray.some((v) => ['horizontal'].includes(v)),
 	});
 }
 
