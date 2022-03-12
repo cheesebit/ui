@@ -1,3 +1,16 @@
+# [0.6.0](https://github.com/cheesebit/ui/compare/v0.5.0...v0.6.0) (2022-03-12)
+
+
+### Bug Fixes
+
+* build step fixes ([09f14b4](https://github.com/cheesebit/ui/commit/09f14b4816c044e4b77c16fcfdc58062adf3a5a9))
+* deps update ([29de652](https://github.com/cheesebit/ui/commit/29de652012624d28f67be5074dc7cb8789537811))
+
+
+### Features
+
+* project cleanup ([4cee049](https://github.com/cheesebit/ui/commit/4cee0491644a25f5d7da64282d6cbe585e377cbb))
+
 # [0.5.0](https://github.com/cheesebit/ui/compare/v0.4.0...v0.5.0) (2022-01-29)
 
 
