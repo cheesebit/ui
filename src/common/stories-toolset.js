@@ -11,7 +11,7 @@ import { DEFAULT } from './constants';
  */
 export function setupDefaultStory(Story, overrides) {
 	Story.parameters = merge(
-		{ options: { showPanel: true } },
+		{ options: { showPanel: true }, docs: { source: { type: 'code' } } },
 		overrides?.parameters || DEFAULT.OBJECT
 	);
 }
@@ -27,7 +27,7 @@ export function setupDefaultStory(Story, overrides) {
 export function setupDerivedStory(Stories, overrides) {
 	each(function setupStory(Story) {
 		Story.parameters = merge(
-			{ options: { showPanel: false } },
+			{ options: { showPanel: false }, docs: { source: { type: 'code' } } },
 			overrides?.parameters || DEFAULT.OBJECT
 		);
 	}, toArray(Stories));
