@@ -35,8 +35,8 @@ Playground.args = {
 	children: generator.name(),
 };
 
-export const Default = Playground.bind({});
-Default.args = { ...Playground.args, variant: 'neutral' };
+export const Neutral = Playground.bind({});
+Neutral.args = { ...Playground.args, variant: 'neutral' };
 
 export const Primary = Playground.bind({});
 Primary.args = { ...Playground.args, variant: 'primary' };
@@ -48,4 +48,4 @@ export const Terciary = Playground.bind({});
 Terciary.args = { ...Playground.args, variant: 'terciary' };
 
 setupDefaultStory(Playground);
-setupDerivedStory([Default, Primary, Secondary, Terciary]);
+setupDerivedStory([Neutral, Primary, Secondary, Terciary]);
