@@ -24,7 +24,7 @@ const Box = React.forwardRef(
 	 * @param {React.ForwardedRef<any>} ref
 	 * @return {JSX.Element} Box component.
 	 */
-	function Box(props, ref) {
+	function Box( props, ref ) {
 		const {
 			as: Tag = 'div',
 			block = false,
@@ -36,27 +36,31 @@ const Box = React.forwardRef(
 			trailing,
 			...others
 		} = props;
-		const { prop, classy } = useClassy({ block });
+		const { when, classy } = useClassy( { block } );
 
 		function renderLeading() {
 			return (
-				!isNil(leading) && (
+				! isNil( leading ) && (
 					<span aria-hidden="true" className="leading">
-						{leading}
+						{ leading }
 					</span>
 				)
 			);
 		}
 
 		function renderChildren() {
-			return !isNil(children) && <span className="children">{children}</span>;
+			return (
+				! isNil( children ) && (
+					<span className="children">{ children }</span>
+				)
+			);
 		}
 
 		function renderTrailing() {
 			return (
-				!isNil(trailing) && (
+				! isNil( trailing ) && (
 					<span aria-hidden="true" className="trailing">
-						{trailing}
+						{ trailing }
 					</span>
 				)
 			);
@@ -65,19 +69,19 @@ const Box = React.forwardRef(
 		return (
 			<Tag
 				data-testid="cb-box"
-				{...omit(OMITTED_PROPS, others)}
-				ref={ref}
-				className={classy(
+				{ ...omit( OMITTED_PROPS, others ) }
+				ref={ ref }
+				className={ classy(
 					'cb-box',
-					{ '-block': prop({ block: true }) },
-					evaluateBorderless(borderless),
-					evaluatePaddingless(paddingless),
+					{ '-block': when( { block: true } ) },
+					evaluateBorderless( borderless ),
+					evaluatePaddingless( paddingless ),
 					className
-				)}
+				) }
 			>
-				{renderLeading()}
-				{renderChildren()}
-				{renderTrailing()}
+				{ renderLeading() }
+				{ renderChildren() }
+				{ renderTrailing() }
 			</Tag>
 		);
 	}

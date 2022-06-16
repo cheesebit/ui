@@ -1,9 +1,9 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-tabbed {
 	& > .cb-tabs {
-		@include mx(spacing-0);
-		@include var(margin-top, spacing-0);
-		@include var(margin-bottom, spacing-2);
+		@include mx($spacing-0);
+		@include mt($spacing-0);
+		@include mb($spacing-2);
 	}
 }

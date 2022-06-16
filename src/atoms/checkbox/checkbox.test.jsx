@@ -5,29 +5,29 @@ import { render, screen, fireEvent } from 'test/helpers';
 import * as stories from './checkbox.stories';
 import generator from 'test/data-generator';
 
-const { Playground } = composeStories(stories);
+const { Playground } = composeStories( stories );
 
-describe('Checkbox', () => {
+describe( 'Checkbox', () => {
 	const props = {
 		children: generator.word(),
 		onChange: jest.fn(),
 	};
 
-	render(<Playground {...props} />);
+	render( <Playground { ...props } /> );
 
-	const component = screen.getByTestId('cb-checkbox');
+	const component = screen.getByTestId( 'cb-checkbox' );
 	/** @type {HTMLInputElement} */
 	// @ts-ignore
-	const selector = screen.getByTestId('selector');
+	const selector = screen.getByTestId( 'selector' );
 
-	it('renders correctly', () => {
-		expect(component).toHaveTextContent(props.children);
-		expect(selector).toHaveAttribute('type', 'checkbox');
-	});
+	it( 'renders correctly', () => {
+		expect( component ).toHaveTextContent( props.children );
+		expect( selector ).toHaveAttribute( 'type', 'checkbox' );
+	} );
 
-	it('triggers onChange when clicked', () => {
-		expect(selector.checked).toBe(false);
-		fireEvent.click(selector);
-		expect(selector.checked).toBe(true);
-	});
-});
+	it( 'triggers onChange when clicked', () => {
+		expect( selector.checked ).toBe( false );
+		fireEvent.click( selector );
+		expect( selector.checked ).toBe( true );
+	} );
+} );

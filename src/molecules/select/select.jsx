@@ -11,7 +11,7 @@ import { Spinner } from 'atoms/spinner';
 import SelectOption from './select-option';
 import useSelect, { SelectionContext } from './use-select';
 
-const OMITTED_PROPS = ['adapter', 'options', 'placeholder'];
+const OMITTED_PROPS = [ 'adapter', 'options', 'placeholder' ];
 
 /**
  * Select component.
@@ -19,30 +19,30 @@ const OMITTED_PROPS = ['adapter', 'options', 'placeholder'];
  * @param {SelectProps} props
  * @return {JSX.Element} Select element
  */
-function Select(props) {
+function Select( props ) {
 	const { placeholder, ...others } = props;
 
-	const select = useSelect(props);
-	const { classy } = useClassy(props);
+	const select = useSelect( props );
+	const { classy } = useClassy( props );
 	const { dropdown } = select;
 
 	function renderTrigger() {
 		return (
 			<Input
-				{...select.getTriggerProps()}
+				{ ...select.getTriggerProps() }
 				autoComplete="off"
 				data-testid="trigger"
-				placeholder={placeholder}
-				paddingless={['vertical', 'right']}
+				placeholder={ placeholder }
+				paddingless={ [ 'vertical', 'right' ] }
 				trailing={
 					<>
-						{select.query ? (
+						{ select.query ? (
 							<Button
 								aria-hidden="true"
-								{...select.getClearProps()}
+								{ ...select.getClearProps() }
 								size="small"
 								emphasis="text"
-								busy={status === 'querying'}
+								busy={ status === 'querying' }
 							>
 								<Icon name="close" />
 							</Button>
@@ -51,18 +51,18 @@ function Select(props) {
 								aria-hidden="true"
 								size="small"
 								emphasis="text"
-								tabIndex={-1}
-								onClick={dropdown.toggle}
-								busy={status === 'querying'}
+								tabIndex={ -1 }
+								onClick={ dropdown.toggle }
+								busy={ status === 'querying' }
 							>
 								<Icon
-									className={classy({
+									className={ classy( {
 										'cb-u-rotate-180': dropdown.expanded,
-									})}
+									} ) }
 									name="expand-more"
 								/>
 							</Button>
-						)}
+						) }
 					</>
 				}
 			/>
@@ -70,42 +70,50 @@ function Select(props) {
 	}
 
 	function renderOptions() {
-		if (isEmpty(select.options)) {
+		if ( isEmpty( select.options ) ) {
 			return (
-				<Empty>{status !== 'querying' ? 'No options available.' : 'Searching...'}</Empty>
+				<Empty>
+					{ status !== 'querying'
+						? 'No options available.'
+						: 'Searching...' }
+				</Empty>
 			);
 		}
 
-		return select.options.map(function renderOption(option) {
-			const { label, value, checked } = select.getOption(option);
+		return select.options.map( function renderOption( option ) {
+			const { label, value, checked } = select.getOption( option );
 
 			return (
 				<SelectOption
-					key={value}
-					className={classy({
+					key={ value }
+					className={ classy( {
 						'is-highlighted': checked,
-					})}
-					{...select.getOptionProps(option)}
-					trailing={checked ? <Icon name="check" /> : null}
+					} ) }
+					{ ...select.getOptionProps( option ) }
+					trailing={ checked ? <Icon name="check" /> : null }
 				>
-					{label}
+					{ label }
 				</SelectOption>
 			);
-		});
+		} );
 	}
 
 	return (
 		<GenericDropdown
-			{...omit(OMITTED_PROPS, others)}
-			{...select.getDropdownProps()}
-			className={classy('cb-select', props.className)}
+			{ ...omit( OMITTED_PROPS, others ) }
+			{ ...select.getDropdownProps() }
+			className={ classy( 'cb-select', props.className ) }
 			data-testid="cb-select"
 		>
-			<SelectionContext.Provider value={select.selection}>
-				{renderTrigger()}
-				<Dropdown.Menu {...select.getMenuProps()} hoverable data-testid="options">
-					<Spinner appear={select.status === 'querying'} />
-					{renderOptions()}
+			<SelectionContext.Provider value={ select.selection }>
+				{ renderTrigger() }
+				<Dropdown.Menu
+					{ ...select.getMenuProps() }
+					hoverable
+					data-testid="options"
+				>
+					<Spinner appear={ select.status === 'querying' } />
+					{ renderOptions() }
 				</Dropdown.Menu>
 			</SelectionContext.Provider>
 		</GenericDropdown>

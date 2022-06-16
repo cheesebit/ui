@@ -11,12 +11,12 @@ import { getID, keys } from 'common/toolset';
  * @param {useFingerprintProps} props -
  * @return {useFingerprintReturn} functions to manage and check the fingerprint.
  */
-function useFingerprint(props) {
+function useFingerprint( props ) {
 	const { adapter, items } = props;
 	/** @type {React.MutableRefObject<Record<string, any | string>>} */
-	const knownRef = React.useRef({});
-	const [fingerprint, setFingerprint] = React.useState(() =>
-		getFingerprint('', items, true)
+	const knownRef = React.useRef( {} );
+	const [ fingerprint, setFingerprint ] = React.useState( () =>
+		getFingerprint( '', items, true )
 	);
 
 	/**
@@ -27,7 +27,7 @@ function useFingerprint(props) {
 	 * @param {boolean} update - update `known` with the provided `items`, if it contains different set of items.
 	 * @return {string} fingerprint of the provided set of items.
 	 */
-	function getFingerprint(currentFingerprint, items, update = false) {
+	function getFingerprint( currentFingerprint, items, update = false ) {
 		const safeItems = items || [];
 		/** @type {Record<string, any | string>} */
 		const known = knownRef.current;
@@ -38,49 +38,49 @@ function useFingerprint(props) {
 		 * if `known` and `safeItems` have the same length, then they possibly have the same items.
 		 * if they don't [have the same items], the check `known[key] != null` inside the iteration will prove otherwise.
 		 */
-		let hasSameItens = keys(known).length == safeItems.length;
+		let hasSameItens = keys( known ).length == safeItems.length;
 
-		for (let i = 0; i < safeItems.length; i++) {
-			const item = safeItems[i];
-			const key = adapter(item);
+		for ( let i = 0; i < safeItems.length; i++ ) {
+			const item = safeItems[ i ];
+			const key = adapter( item );
 
-			hasSameItens = hasSameItens && known[key] != null;
+			hasSameItens = hasSameItens && known[ key ] != null;
 
 			newKnown = {
 				...newKnown,
 				// we associate a previously created or a new generated ID to represent this item in the fingerprint
-				[key]: known[key] ?? getID(),
+				[ key ]: known[ key ] ?? getID(),
 			};
 		}
 
-		if (hasSameItens) {
+		if ( hasSameItens ) {
 			// if we are dealing with the same set of items, we don't even need to bother generating a new fingerprint.
 			return currentFingerprint;
 		}
 
-		if (update) {
+		if ( update ) {
 			knownRef.current = newKnown;
 		}
 
-		const fingerprint = Object.keys(newKnown)
+		const fingerprint = Object.keys( newKnown )
 			.sort()
-			.reduce((fingerprint, item) => {
-				return `${fingerprint}${newKnown[item]}`;
-			}, '');
+			.reduce( ( fingerprint, item ) => {
+				return `${ fingerprint }${ newKnown[ item ] }`;
+			}, '' );
 
 		return fingerprint;
 	}
 
 	return {
 		fingerprint,
-		getFingerprint(items, update = false) {
-			return getFingerprint(fingerprint, items, update);
+		getFingerprint( items, update = false ) {
+			return getFingerprint( fingerprint, items, update );
 		},
-		resetFingerprint(items) {
-			setFingerprint(getFingerprint(fingerprint, items, true));
+		resetFingerprint( items ) {
+			setFingerprint( getFingerprint( fingerprint, items, true ) );
 		},
-		hasSameFingerprint(otherItems) {
-			return fingerprint === getFingerprint(fingerprint, otherItems);
+		hasSameFingerprint( otherItems ) {
+			return fingerprint === getFingerprint( fingerprint, otherItems );
 		},
 	};
 }

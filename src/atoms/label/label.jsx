@@ -14,30 +14,30 @@ const OMITTED_PROPS = [];
  * @param {LabelProps} props
  * @return {JSX.Element} Label component.
  */
-function Label(props) {
+function Label( props ) {
 	const { children, className, variant = 'neutral', ...others } = props;
-	const { prop, classy } = useClassy({ variant });
+	const { when, classy } = useClassy( { variant } );
 
 	return (
 		<Box
 			as="label"
-			{...omit(OMITTED_PROPS, others)}
+			{ ...omit( OMITTED_PROPS, others ) }
 			borderless
 			paddingless
-			className={classy(
+			className={ classy(
 				'cb-label',
 				{
-					'-neutral': prop({ variant: 'neutral' }),
-					'-danger': prop({ variant: 'danger' }),
-					'-info': prop({ variant: 'info' }),
-					'-success': prop({ variant: 'success' }),
-					'-warn': prop({ variant: 'warn' }),
+					'-neutral': when( { variant: 'neutral' } ),
+					'-danger': when( { variant: 'danger' } ),
+					'-info': when( { variant: 'info' } ),
+					'-success': when( { variant: 'success' } ),
+					'-warn': when( { variant: 'warn' } ),
 				},
 				className
-			)}
+			) }
 			data-testid="cb-label"
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

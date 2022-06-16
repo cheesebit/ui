@@ -10,11 +10,17 @@ const FloatingList = React.forwardRef(
 	 * @param {React.Ref<HTMLElement>} ref
 	 * @return {JSX.Element} Floating list component
 	 */
-	function FloatingList(props, ref) {
+	function FloatingList( props, ref ) {
 		const { className, ...others } = props;
-		const { classy } = useClassy(props);
+		const { classy } = useClassy( props );
 
-		return <List className={classy('-floatable', className)} ref={ref} {...others} />;
+		return (
+			<List
+				className={ classy( '-floatable', className ) }
+				ref={ ref }
+				{ ...others }
+			/>
+		);
 	}
 );
 

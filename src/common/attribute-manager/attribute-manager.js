@@ -40,7 +40,7 @@ class AttributeManager {
 					[ attribute ]: handler,
 				};
 			},
-			{},
+			{}
 		);
 	}
 
@@ -92,7 +92,7 @@ class AttributeManager {
 	set(
 		attribute = mandatory( 'Attribute is required' ),
 		id = mandatory( 'ID is required' ),
-		value,
+		value
 	) {
 		const mode = this._modeByAttribute[ attribute ];
 
@@ -102,7 +102,7 @@ class AttributeManager {
 	unset(
 		attribute = mandatory( 'Attribute is required' ),
 		id = mandatory( 'ID is required' ),
-		value,
+		value
 	) {
 		const mode = this._modeByAttribute[ attribute ];
 

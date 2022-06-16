@@ -5,25 +5,25 @@ import { isFunction } from 'common/toolset';
 import { Panels } from '../../atoms/panels';
 import WizardContext from './wizard.context';
 
-function Step({ id, children, className, ...others }) {
-	const { id: wizardID, transition } = React.useContext(WizardContext);
+function Step( { id, children, className, ...others } ) {
+	const { id: wizardID, transition } = React.useContext( WizardContext );
 
-	const renderChildren = React.useCallback(() => {
-		if (isFunction(children)) {
-			return children({ transition });
+	const renderChildren = React.useCallback( () => {
+		if ( isFunction( children ) ) {
+			return children( { transition } );
 		}
 
 		return children;
-	}, [children, transition, wizardID]);
+	}, [ children, transition, wizardID ] );
 
 	return (
 		<Panels.Panel
-			id={id}
-			{...others}
-			className={classy('step', className)}
+			id={ id }
+			{ ...others }
+			className={ classy( 'step', className ) }
 			data-testid="wizard-step"
 		>
-			{renderChildren()}
+			{ renderChildren() }
 		</Panels.Panel>
 	);
 }

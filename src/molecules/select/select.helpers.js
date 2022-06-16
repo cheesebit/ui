@@ -9,9 +9,11 @@ import { toArray, join } from 'common/toolset';
  * @return {string} - String representation of the selected value.
  */
 export function toValue( selected, adapter ) {
-	return join( toArray( selected || DEFAULT.ARRAY ).reduce( ( array, item ) => {
-		return array.concat( [ adapter.getLabel( item ) ] );
-	}, [] ) );
+	return join(
+		toArray( selected || DEFAULT.ARRAY ).reduce( ( array, item ) => {
+			return array.concat( [ adapter.getLabel( item ) ] );
+		}, [] )
+	);
 }
 
 /**

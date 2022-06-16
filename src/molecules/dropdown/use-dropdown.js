@@ -6,50 +6,50 @@ import { useValue } from '@cheesebit/use-value';
  * @param {useDropdownProps} props
  * @return {useDropdownReturn} functions to manage dropdown state.
  */
-export function useDropdown(props) {
+export function useDropdown( props ) {
 	const { disabled = false } = props;
-	const expanded = useValue(Boolean(props.expanded));
+	const expanded = useValue( Boolean( props.expanded ) );
 
 	React.useEffect(
 		function update() {
-			if (disabled && expanded()) {
-				expanded(Boolean(props.expanded));
+			if ( disabled && expanded() ) {
+				expanded( Boolean( props.expanded ) );
 			}
 		},
-		[disabled, props.expanded]
+		[ disabled, props.expanded ]
 	);
 
 	const toggle = React.useCallback(
 		function toggle() {
-			if (disabled) {
+			if ( disabled ) {
 				return;
 			}
 
-			expanded((isExpanded) => !isExpanded);
+			expanded( ( isExpanded ) => ! isExpanded );
 		},
-		[expanded]
+		[ expanded ]
 	);
 
 	const expand = React.useCallback(
 		function expand() {
-			if (disabled) {
+			if ( disabled ) {
 				return;
 			}
 
-			expanded(true);
+			expanded( true );
 		},
-		[disabled]
+		[ disabled ]
 	);
 
 	const collapse = React.useCallback(
 		function collapse() {
-			if (disabled) {
+			if ( disabled ) {
 				return;
 			}
 
-			expanded(false);
+			expanded( false );
 		},
-		[disabled]
+		[ disabled ]
 	);
 
 	return { expanded: expanded(), disabled, toggle, expand, collapse };

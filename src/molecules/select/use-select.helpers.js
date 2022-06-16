@@ -7,14 +7,14 @@ import GenericAdapter from './generic-adapter';
  * @param {SelectProps} props
  * @return {SelectDatasource[]} includes provided datasources and datasource generated from the provided options (if any).
  */
-export function getDatasources(props) {
+export function getDatasources( props ) {
 	/**
 	 *
 	 * @param {GenericOption[] | null} [options]
 	 * @return {SelectDatasourceFunction[]} datasource function that returns the provided options.
 	 */
-	function getDatasourceFromOptions(options) {
-		if (!options) {
+	function getDatasourceFromOptions( options ) {
+		if ( ! options ) {
 			return [];
 		}
 
@@ -23,8 +23,10 @@ export function getDatasources(props) {
 				return {
 					type: 'generic',
 					adapter: GenericAdapter,
-					fetch: function fetch({ regex }) {
-						return options.filter(({ label }) => regex.test(label));
+					fetch: function fetch( { regex } ) {
+						return options.filter( ( { label } ) =>
+							regex.test( label )
+						);
 					},
 				};
 			},
@@ -34,10 +36,12 @@ export function getDatasources(props) {
 	/** @type {SelectDatasourceFunction[]} */
 	let datasources = [];
 
-	datasources = datasources.concat(props.datasources || []);
-	datasources = datasources.concat(getDatasourceFromOptions(props.options));
+	datasources = datasources.concat( props.datasources || [] );
+	datasources = datasources.concat(
+		getDatasourceFromOptions( props.options )
+	);
 
-	return datasources.map((ds) => ds());
+	return datasources.map( ( ds ) => ds() );
 }
 
 /**
@@ -45,13 +49,13 @@ export function getDatasources(props) {
  * @param {SelectDatasource[]} datasources
  * @return {Record<string, SelectDatasourceAdapter>} adapters for the provided datasources.
  */
-export function extractAdapters(datasources) {
-	return toArray(datasources).reduce((map, ds) => {
+export function extractAdapters( datasources ) {
+	return toArray( datasources ).reduce( ( map, ds ) => {
 		return {
 			...map,
-			[ds.type]: ds.adapter,
+			[ ds.type ]: ds.adapter,
 		};
-	}, {});
+	}, {} );
 }
 
 /**
@@ -60,12 +64,12 @@ export function extractAdapters(datasources) {
  * @param {string} [type]
  * @return {SelectDatasourceAdapter} return the adapter for the given type, or a generic adapter if no adapter was found.
  */
-export function getAdapter(adapters, type) {
-	if (type == null) {
+export function getAdapter( adapters, type ) {
+	if ( type == null ) {
 		return GenericAdapter;
 	}
 
-	return adapters[type] || GenericAdapter;
+	return adapters[ type ] || GenericAdapter;
 }
 
 /**
@@ -74,22 +78,22 @@ export function getAdapter(adapters, type) {
  * @param {boolean} [multiple]
  * @return { Option | Option[] | null} get select value base on the current selection.
  */
-export function getValue(selection, multiple) {
-	const pairs = Array.from(selection);
+export function getValue( selection, multiple ) {
+	const pairs = Array.from( selection );
 
-	if (isEmpty(pairs)) {
+	if ( isEmpty( pairs ) ) {
 		return null;
 	}
 
-	if (multiple) {
+	if ( multiple ) {
 		const options = [];
-		for (const [, option] of pairs) {
-			options.push(option);
+		for ( const [ , option ] of pairs ) {
+			options.push( option );
 		}
 
 		return options;
 	}
-	const [[, option]] = pairs;
+	const [ [ , option ] ] = pairs;
 	return option;
 }
 
@@ -100,19 +104,21 @@ export function getValue(selection, multiple) {
  * @param {boolean} [multiple]
  * @return {string} get displayable value for the current selection.
  */
-export function getDisplayValue(adapters, selection, multiple) {
-	if (selection.size == 0) {
+export function getDisplayValue( adapters, selection, multiple ) {
+	if ( selection.size == 0 ) {
 		return '';
 	}
 
-	if (multiple) {
-		return `${selection.size} item${selection.size == 1 ? '' : 's'} selected`;
+	if ( multiple ) {
+		return `${ selection.size } item${
+			selection.size == 1 ? '' : 's'
+		} selected`;
 	}
 
-	const value = getValue(selection, multiple);
+	const value = getValue( selection, multiple );
 	// @ts-ignore
-	const adapter = getAdapter(adapters, value._type);
-	return adapter.getLabel(value);
+	const adapter = getAdapter( adapters, value._type );
+	return adapter.getLabel( value );
 }
 
 /**

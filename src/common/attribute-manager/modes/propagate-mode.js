@@ -46,7 +46,9 @@ export default function PropagateMode( manager, attribute ) {
 			} )( getParentOf( id ) );
 
 			const children = getChildrenOf( id );
-			const unassignedChildren = children.filter( ( id ) => ! getAttribute( id ) );
+			const unassignedChildren = children.filter(
+				( id ) => ! getAttribute( id )
+			);
 
 			for ( let i = 0; i < unassignedChildren.length; i++ ) {
 				const id = unassignedChildren[ i ];
@@ -63,7 +65,9 @@ export default function PropagateMode( manager, attribute ) {
 			} )( getParentOf( id ) );
 
 			const children = getChildrenOf( id );
-			const assignedChildren = children.filter( ( id ) => ! isNil( getAttribute( id ) ) );
+			const assignedChildren = children.filter(
+				( id ) => ! isNil( getAttribute( id ) )
+			);
 
 			for ( let i = 0; i < assignedChildren.length; i++ ) {
 				const id = assignedChildren[ i ];

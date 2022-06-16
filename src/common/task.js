@@ -11,14 +11,16 @@ function safeRun( bodyInvokee, finallyInvokee ) {
 }
 
 class Task extends Promise {
-/**
- * @class
- * @param {*} executor
- * @param {AbortController} controller
- */
+	/**
+	 * @class
+	 * @param {*} executor
+	 * @param {AbortController} controller
+	 */
 	constructor( executor, controller = new AbortController() ) {
 		if ( controller.signal.aborted ) {
-			throw new Error( 'Cannot attach task to an already aborted controller' );
+			throw new Error(
+				'Cannot attach task to an already aborted controller'
+			);
 		}
 
 		const listeners = new Set();
@@ -45,8 +47,8 @@ class Task extends Promise {
 
 			const onAbort = ( callback ) => {
 				const listener = safeRun(
-					() => callback( ),
-					() => removeListener( listener ),
+					() => callback(),
+					() => removeListener( listener )
 				);
 
 				addListener( listener );
@@ -66,7 +68,7 @@ class Task extends Promise {
 		return this.signal.aborted;
 	}
 
-	abort( ) {
+	abort() {
 		this.controller.abort();
 
 		return this;

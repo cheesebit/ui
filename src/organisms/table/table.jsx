@@ -13,7 +13,7 @@ class Table extends React.PureComponent {
 	get classes() {
 		const { className } = this.props;
 
-		return classy('cb-table', {}, className);
+		return classy( 'cb-table', {}, className );
 	}
 
 	get columns() {
@@ -31,13 +31,13 @@ class Table extends React.PureComponent {
 	get style() {
 		const widths = [];
 
-		for (const column of this.columns) {
-			widths.push(column?.props?.style?.width ?? '1fr');
+		for ( const column of this.columns ) {
+			widths.push( column?.props?.style?.width ?? '1fr' );
 		}
 
 		return {
 			display: 'grid',
-			gridTemplateColumns: widths.join(' '),
+			gridTemplateColumns: widths.join( ' ' ),
 		};
 	}
 
@@ -51,65 +51,69 @@ class Table extends React.PureComponent {
 		 * TODO: Break this component into super small parts
 		 */
 		return (
-			<section id={id} className={this.classes} data-testid="cb-table">
+			<section
+				id={ id }
+				className={ this.classes }
+				data-testid="cb-table"
+			>
 				<Box
 					block
 					data-testid="header"
 					className="header row"
 					paddingless="vertical"
-					borderless={['horizontal', 'top']}
-					leading={<Checkbox />}
+					borderless={ [ 'horizontal', 'top' ] }
+					leading={ <Checkbox /> }
 				>
-					<div style={this.style}>
-						{this.columns.map((column) => (
+					<div style={ this.style }>
+						{ this.columns.map( ( column ) => (
 							<Box
-								key={column.name}
+								key={ column.name }
 								as="span"
 								borderless
 								paddingless="horizontal"
 								className="cell"
-								data-testid={column.name}
-								style={column?.props?.style}
+								data-testid={ column.name }
+								style={ column?.props?.style }
 							>
-								{column.name}
+								{ column.name }
 							</Box>
-						))}
+						) ) }
 					</div>
 				</Box>
 				<List
 					as="div"
 					data-testid="body"
 					className="body"
-					bordered={bordered}
-					hoverable={hoverable}
-					striped={striped}
+					bordered={ bordered }
+					hoverable={ hoverable }
+					striped={ striped }
 				>
-					{this.data.map((entry) => (
+					{ this.data.map( ( entry ) => (
 						<List.Item
-							key={entry.id}
+							key={ entry.id }
 							block
 							className="row"
 							data-testid="row"
-							leading={<Checkbox />}
+							leading={ <Checkbox /> }
 							padding="vertical"
 						>
-							<div style={this.style}>
-								{this.columns.map((column) => (
+							<div style={ this.style }>
+								{ this.columns.map( ( column ) => (
 									<Box
-										key={column.name}
+										key={ column.name }
 										as="span"
 										borderless
 										className="cell"
 										paddingless
-										data-testid={column.name}
-										style={column?.props?.style}
+										data-testid={ column.name }
+										style={ column?.props?.style }
 									>
-										{entry[column.name]}
+										{ entry[ column.name ] }
 									</Box>
-								))}
+								) ) }
 							</div>
 						</List.Item>
-					))}
+					) ) }
 				</List>
 			</section>
 		);
@@ -118,10 +122,10 @@ class Table extends React.PureComponent {
 
 Table.propTypes = {
 	columns: PropTypes.arrayOf(
-		PropTypes.shape({
+		PropTypes.shape( {
 			name: PropTypes.string.isRequired,
 			label: PropTypes.string,
-		})
+		} )
 	),
 	bordered: PropTypes.bool,
 	striped: PropTypes.bool,

@@ -14,7 +14,7 @@ import './radio.scss';
  * @param {RadioProps} props
  * @return {JSX.Element} Radio component.
  */
-function Radio(props) {
+function Radio( props ) {
 	const {
 		block = false,
 		borderless = true,
@@ -25,31 +25,35 @@ function Radio(props) {
 		trailing,
 		...others
 	} = props;
-	const { classy } = useClassy({ disabled });
+	const { classy } = useClassy( { disabled } );
 
 	return (
 		<Box
 			data-testid="cb-radio"
 			as="label"
-			borderless={borderless}
-			paddingless={paddingless}
-			block={block}
-			trailing={trailing}
-			className={classy('cb-radio', { 'is-disabled': disabled }, className)}
+			borderless={ borderless }
+			paddingless={ paddingless }
+			block={ block }
+			trailing={ trailing }
+			className={ classy(
+				'cb-radio',
+				{ 'is-disabled': disabled },
+				className
+			) }
 			leading={
 				<React.Fragment>
 					<input
 						data-testid="selector"
-						{...others}
+						{ ...others }
 						type="radio"
-						disabled={disabled}
+						disabled={ disabled }
 						className="selector"
 					/>
-					<Icon name="circle" className="circle" size={16} />
+					<Icon name="circle" className="circle" size={ 16 } />
 				</React.Fragment>
 			}
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

@@ -20,4 +20,3 @@ export function validateRequired( value ) {
 
 	return ! isNil( value );
 }
-

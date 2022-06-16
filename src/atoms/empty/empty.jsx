@@ -8,10 +8,10 @@ import './empty.scss';
  * @param {EmptyProps} props
  * @return {JSX.Element} Empty component.
  */
-function Empty(props) {
+function Empty( props ) {
 	const { children } = props;
 
-	return <div className="cb-empty">{children}</div>;
+	return <div className="cb-empty">{ children }</div>;
 }
 
 export default Empty;

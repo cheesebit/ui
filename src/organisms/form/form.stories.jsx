@@ -23,46 +23,46 @@ export function Playground() {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool Form, <b>still a work in progress</b>, but you can play me
-				around. Try me :)
+				This is me, a cool Form, <b>still a work in progress</b>, but
+				you can play me around. Try me :)
 			</p>
 
 			<Form
-				initial={{
+				initial={ {
 					name: generator.name(),
 					email: generator.email(),
 					age: 18,
-				}}
-				schema={{
+				} }
+				schema={ {
 					name: [
 						'required',
-						['string.length.min', 8],
+						[ 'string.length.min', 8 ],
 						{
 							name: 'custom-validator',
-							handler: function validate({ name }) {
-								return new Promise((resolve) => {
-									setTimeout(() => {
-										resolve(name === 'Welington Silva');
-									}, 2000);
-								});
+							handler: function validate( { name } ) {
+								return new Promise( ( resolve ) => {
+									setTimeout( () => {
+										resolve( name === 'Welington Silva' );
+									}, 2000 );
+								} );
 							},
 						},
 					],
-					email: ['required', ['string.length.min', 12]],
-					age: [['number.range', 18, 65]],
-				}}
+					email: [ 'required', [ 'string.length.min', 12 ] ],
+					age: [ [ 'number.range', 18, 65 ] ],
+				} }
 			>
 				<FormContext.Consumer>
-					{({ values, status, dispatch }) => {
-						const onChange = ({ target: { name, value } }) => {
-							dispatch({
+					{ ( { values, status, dispatch } ) => {
+						const onChange = ( { target: { name, value } } ) => {
+							dispatch( {
 								type: 'field.set',
 								payload: {
 									name,
 									value,
 									validate: true,
 								},
-							});
+							} );
 						};
 
 						return (
@@ -75,15 +75,24 @@ export function Playground() {
 												<Tooltip
 													text={
 														<ul className="pl-2 text-left list-disc">
-															<li>Min length 8 characters</li>
 															<li>
-																Custom async validator that checks
-																if name is "Welington Silva"
+																Min length 8
+																characters
+															</li>
+															<li>
+																Custom async
+																validator that
+																checks if name
+																is "Welington
+																Silva"
 															</li>
 														</ul>
 													}
 												>
-													<Icon name="help" size={18} />
+													<Icon
+														name="help"
+														size={ 18 }
+													/>
 												</Tooltip>
 											}
 										>
@@ -92,15 +101,15 @@ export function Playground() {
 									}
 									className="w-full md:w-auto"
 									prompt="Type you first and last name"
-									{...getFieldProperties(status.name)}
+									{ ...getFieldProperties( status.name ) }
 								>
 									<Input
-										variant={toVariant(status.name)}
+										variant={ toVariant( status.name ) }
 										name="name"
 										type="text"
-										value={values.name}
-										onChange={onChange}
-										trailing={<span>&spades;</span>}
+										value={ values.name }
+										onChange={ onChange }
+										trailing={ <span>&spades;</span> }
 									/>
 								</Form.Field>
 
@@ -113,12 +122,19 @@ export function Playground() {
 													text={
 														<ul className="pl-2 text-left list-disc">
 															<li>
-																<li>Min length 12 characters</li>
+																<li>
+																	Min length
+																	12
+																	characters
+																</li>
 															</li>
 														</ul>
 													}
 												>
-													<Icon name="help" size={18} />
+													<Icon
+														name="help"
+														size={ 18 }
+													/>
 												</Tooltip>
 											}
 										>
@@ -127,14 +143,14 @@ export function Playground() {
 									}
 									className="w-full md:w-auto"
 									prompt="Type your email"
-									{...getFieldProperties(status.email)}
+									{ ...getFieldProperties( status.email ) }
 								>
 									<Input
-										variant={toVariant(status.email)}
+										variant={ toVariant( status.email ) }
 										name="email"
 										type="email"
-										value={values.email}
-										onChange={onChange}
+										value={ values.email }
+										onChange={ onChange }
 									/>
 								</Form.Field>
 
@@ -146,15 +162,20 @@ export function Playground() {
 													text={
 														<ul className="pl-2 text-left list-disc">
 															<li>
-																Min value <i>18</i>
+																Min value{ ' ' }
+																<i>18</i>
 															</li>
 															<li>
-																Max value <i>65</i>
+																Max value{ ' ' }
+																<i>65</i>
 															</li>
 														</ul>
 													}
 												>
-													<Icon name="help" size={18} />
+													<Icon
+														name="help"
+														size={ 18 }
+													/>
 												</Tooltip>
 											}
 										>
@@ -163,26 +184,28 @@ export function Playground() {
 									}
 									className="w-full md:w-auto"
 									prompt="Type your age"
-									{...getFieldProperties(status.age)}
+									{ ...getFieldProperties( status.age ) }
 								>
 									<Input
-										variant={toVariant(status.age)}
+										variant={ toVariant( status.age ) }
 										name="age"
 										type="number"
-										value={values.age}
-										onChange={onChange}
+										value={ values.age }
+										onChange={ onChange }
 									/>
 								</Form.Field>
 
 								<Form.Field
-									label={<Label>Favorite character</Label>}
+									label={ <Label>Favorite character</Label> }
 									className="w-full md:w-auto"
-									{...getFieldProperties(status['favorite-character'])}
+									{ ...getFieldProperties(
+										status[ 'favorite-character' ]
+									) }
 								>
 									<Select
 										multiple
 										placeholder="Pick your favorite characters"
-										options={[
+										options={ [
 											{
 												label: 'Mickey Mouse',
 												value: 'mickey',
@@ -191,25 +214,33 @@ export function Playground() {
 												label: 'Shrek',
 												value: 'shrek',
 											},
-										]}
+										] }
 										name="favorite-character"
-										onChange={onChange}
+										onChange={ onChange }
 									/>
 								</Form.Field>
 
 								<Form.Field
-									label={<Label id="notifications-label">Notification</Label>}
+									label={
+										<Label id="notifications-label">
+											Notification
+										</Label>
+									}
 									className="flex flex-col w-full md:w-auto"
 									prompt="We will not spam you"
-									{...getFieldProperties(status.notifications)}
+									{ ...getFieldProperties(
+										status.notifications
+									) }
 								>
 									<div className="flex space-x-4">
 										<Radio
 											aria-labelledby="notifications-label"
 											name="notifications"
 											value="1"
-											checked={values.notifications == '1'}
-											onChange={onChange}
+											checked={
+												values.notifications == '1'
+											}
+											onChange={ onChange }
 										>
 											Yes
 										</Radio>
@@ -218,8 +249,10 @@ export function Playground() {
 											aria-labelledby="notifications-label"
 											name="notifications"
 											value="0"
-											checked={values.notifications == '0'}
-											onChange={onChange}
+											checked={
+												values.notifications == '0'
+											}
+											onChange={ onChange }
 										>
 											No
 										</Radio>
@@ -231,7 +264,10 @@ export function Playground() {
 										<Label
 											trailing={
 												<Tooltip text="We are cool like that">
-													<Icon name="help" size={18} />
+													<Icon
+														name="help"
+														size={ 18 }
+													/>
 												</Tooltip>
 											}
 										>
@@ -240,8 +276,8 @@ export function Playground() {
 									}
 									className="flex flex-col w-full md:w-auto"
 									// @ts-ignore
-									onChange={onChange}
-									{...getFieldProperties(status.type)}
+									onChange={ onChange }
+									{ ...getFieldProperties( status.type ) }
 								>
 									<div className="flex space-x-4">
 										<Checkbox
@@ -263,22 +299,22 @@ export function Playground() {
 								</Form.Field>
 
 								<Button
-									onClick={function reset() {
-										dispatch({
+									onClick={ function reset() {
+										dispatch( {
 											type: 'reset',
 											payload: {
 												name: '',
 												email: '',
 												notifications: null,
 											},
-										});
-									}}
+										} );
+									} }
 								>
 									Reset
 								</Button>
 							</React.Fragment>
 						);
-					}}
+					} }
 				</FormContext.Consumer>
 			</Form>
 		</div>

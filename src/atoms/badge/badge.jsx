@@ -10,25 +10,25 @@ import './badge.scss';
  * @param {BadgeProps} props
  * @return {JSX.Element} Badge component.
  */
-function Badge(props) {
+function Badge( props ) {
 	const { className, children, variant = 'neutral', ...others } = props;
-	const { prop, classy } = useClassy({ variant });
+	const { when, classy } = useClassy( { variant } );
 
 	return (
 		<span
 			data-testid="cb-badge"
-			className={classy(
+			className={ classy(
 				'cb-badge',
 				{
-					'-primary': prop({ variant: 'primary' }),
-					'-secondary': prop({ variant: 'secondary' }),
-					'-terciary': prop({ variant: 'terciary' }),
+					'-primary': when( { variant: 'primary' } ),
+					'-secondary': when( { variant: 'secondary' } ),
+					'-terciary': when( { variant: 'terciary' } ),
 				},
 				className
-			)}
-			{...others}
+			) }
+			{ ...others }
 		>
-			{children}
+			{ children }
 		</span>
 	);
 }
@@ -37,7 +37,12 @@ export default Badge;
 
 // storybook use only
 Badge.propTypes = {
-	variant: PropTypes.oneOf(['neutral', 'primary', 'secondary', 'terciary']),
+	variant: PropTypes.oneOf( [
+		'neutral',
+		'primary',
+		'secondary',
+		'terciary',
+	] ),
 };
 
 /**

@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-page {
 	display: block;
@@ -13,8 +13,8 @@
 		display: flex;
 		align-items: center;
 
-		@include px(spacing-0);
-		@include py(spacing-4);
+		@include px($spacing-0);
+		@include py($spacing-4);
 
 		margin: 0;
 	}
@@ -26,13 +26,13 @@
 		display: block;
 		margin: 0;
 		padding: 0;
-		@include var(border-color, color-gray-400);
+		border-color: rgba($color-gray-400, 1);
 	}
 
 	& > .footer {
 		display: block;
 		margin: 0;
 		padding: 0;
-		@include var(border-color, color-gray-400);
+		border-color: rgba($color-gray-400, 1);
 	}
 }

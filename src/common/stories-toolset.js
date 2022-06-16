@@ -9,7 +9,7 @@ import { DEFAULT } from './constants';
  * @param {Object} overrides - overrides to story configuration.
  * @return {void}
  */
-export function setupDefaultStory(Story, overrides) {
+export function setupDefaultStory( Story, overrides ) {
 	Story.parameters = merge(
 		{ options: { showPanel: true }, docs: { source: { type: 'code' } } },
 		overrides?.parameters || DEFAULT.OBJECT
@@ -24,11 +24,14 @@ export function setupDefaultStory(Story, overrides) {
  * @param {Object} overrides - overrides to story configuration.
  * @return {void}
  */
-export function setupDerivedStory(Stories, overrides) {
-	each(function setupStory(Story) {
+export function setupDerivedStory( Stories, overrides ) {
+	each( function setupStory( Story ) {
 		Story.parameters = merge(
-			{ options: { showPanel: false }, docs: { source: { type: 'code' } } },
+			{
+				options: { showPanel: false },
+				docs: { source: { type: 'code' } },
+			},
 			overrides?.parameters || DEFAULT.OBJECT
 		);
-	}, toArray(Stories));
+	}, toArray( Stories ) );
 }

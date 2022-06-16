@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cc-wizard {
 	display: block;
@@ -7,10 +7,9 @@
 		@include font;
 		@include bordered($top: false, $right: false, $left: false);
 		@include p(spacing-0);
-		@include mx(spacing-0);
-
-		@include var(margin-top, spacing-0);
-		@include var(margin-bottom, spacing-4);
+		@include mx($spacing-0);
+		@include mt(spacing-0);
+		@include mb(spacing-4);
 
 		display: flex;
 		flex-flow: row wrap;
@@ -20,6 +19,6 @@
 
 	> .header > .title {
 		@include truncate(90%);
-		@include var(font-weight, font-weight-bold);
+		font-weight: $font-weight-bold;
 	}
 }

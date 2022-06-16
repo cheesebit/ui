@@ -11,15 +11,21 @@ import './spinner.scss';
  * @param {SpinnerProps} props
  * @return {JSX.Element} Spinner component.
  */
-function Spinner(props) {
+function Spinner( props ) {
 	const { children, className, appear = false, ...others } = props;
-	const { classy } = useClassy(props);
+	const { classy } = useClassy( props );
 
 	return (
-		<div className={classy('cb-spinner', className)} {...others} data-testid="cb-spinner">
-			{appear && <div className="bar" />}
+		<div
+			className={ classy( 'cb-spinner', className ) }
+			{ ...others }
+			data-testid="cb-spinner"
+		>
+			{ appear && <div className="bar" /> }
 
-			{appear && !isNil(children) && <span className="message">{children}</span>}
+			{ appear && ! isNil( children ) && (
+				<span className="message">{ children }</span>
+			) }
 		</div>
 	);
 }
@@ -29,28 +35,28 @@ function Spinner(props) {
  * @param {SpinnerProps} props
  * @return {JSX.Element} Spinner component.
  */
-export function CircularSpinner(props) {
+export function CircularSpinner( props ) {
 	const { children, className, variant = 'neutral', size, ...others } = props;
-	const { prop, classy } = useClassy({ variant });
+	const { when, classy } = useClassy( { variant } );
 	const classes = classy(
 		'cb-circular-spinner',
 		{
-			'-primary': prop({ variant: 'primary' }),
-			'-secondary': prop({ variant: 'secondary' }),
-			'-terciary': prop({ variant: 'terciary' }),
+			'-primary': when( { variant: 'primary' } ),
+			'-secondary': when( { variant: 'secondary' } ),
+			'-terciary': when( { variant: 'terciary' } ),
 		},
 		className
 	);
 
 	return (
 		<div
-			className={classes}
-			{...others}
-			style={{ fontSize: size }}
+			className={ classes }
+			{ ...others }
+			style={ { fontSize: size } }
 			data-testid="cb-circular-spinner"
 		>
 			<span className="circle" />
-			<span>{children}</span>
+			<span>{ children }</span>
 		</div>
 	);
 }
@@ -60,7 +66,7 @@ Spinner.propTypes = {
 	appear: PropTypes.bool,
 };
 
-export default React.memo(Spinner);
+export default React.memo( Spinner );
 
 /**
  * @typedef {('neutral' | 'primary' | 'secondary' | 'terciary')} SpinnerVariant

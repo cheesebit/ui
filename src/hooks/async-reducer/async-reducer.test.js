@@ -7,7 +7,9 @@ describe( 'useAsyncReducer', () => {
 		const { result } = renderHook( () => useAsyncReducer( () => {}, 0 ) );
 
 		expect( result.current[ 0 ] /* state */ ).toBe( 0 );
-		expect( typeof result.current[ 1 ] /* dispatcher */ ).toBe( 'function' );
+		expect( typeof result.current[ 1 ] /* dispatcher */ ).toBe(
+			'function'
+		);
 	} );
 
 	it( 'initializes correctly with initializer', () => {
@@ -15,15 +17,17 @@ describe( 'useAsyncReducer', () => {
 			useAsyncReducer(
 				() => {},
 				0,
-				function() {
+				function () {
 					return 1;
-				},
-			),
+				}
+			)
 		);
 
 		expect( result.current[ 0 ] /* state */ ).not.toBe( 0 );
 		expect( result.current[ 0 ] /* state */ ).toBe( 1 );
-		expect( typeof result.current[ 1 ] /* dispatcher */ ).toBe( 'function' );
+		expect( typeof result.current[ 1 ] /* dispatcher */ ).toBe(
+			'function'
+		);
 	} );
 
 	it( 'triggers sync action correctly', () => {

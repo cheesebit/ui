@@ -12,8 +12,8 @@ import { withResizeWatcher } from '../resize-watcher';
  * Use `initial` to indicates that match media should be run when component is mounted.
  */
 class MediaQueryWatcher extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			currentQuery: null,
@@ -26,10 +26,10 @@ class MediaQueryWatcher extends React.Component {
 		initial && this.executeQueries();
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate( prevProps ) {
 		const { width, initial } = this.props;
 
-		if ((initial || prevProps.width) && width !== prevProps.width) {
+		if ( ( initial || prevProps.width ) && width !== prevProps.width ) {
 			this.executeQueries();
 		}
 	}
@@ -44,20 +44,20 @@ class MediaQueryWatcher extends React.Component {
 		const { currentQuery } = this.state;
 		const queries = this.queries;
 
-		if (isEmpty(queries)) {
+		if ( isEmpty( queries ) ) {
 			return;
 		}
 
 		let newCurrentQuery = null;
-		for (let i = 0; i < queries.length && !newCurrentQuery; i++) {
-			const query = queries[i];
+		for ( let i = 0; i < queries.length && ! newCurrentQuery; i++ ) {
+			const query = queries[ i ];
 
-			if (window.matchMedia(query).matches) {
+			if ( window.matchMedia( query ).matches ) {
 				newCurrentQuery = query;
 			}
 		}
 
-		if (currentQuery !== newCurrentQuery) {
+		if ( currentQuery !== newCurrentQuery ) {
 			this.setState(
 				{
 					currentQuery: newCurrentQuery,
@@ -71,7 +71,7 @@ class MediaQueryWatcher extends React.Component {
 		const { currentQuery } = this.state;
 		const { onQueryMatch } = this.props;
 
-		onQueryMatch && onQueryMatch({ query: currentQuery });
+		onQueryMatch && onQueryMatch( { query: currentQuery } );
 	};
 
 	render() {
@@ -84,7 +84,7 @@ class MediaQueryWatcher extends React.Component {
 MediaQueryWatcher.propTypes = {
 	initial: PropTypes.bool,
 	onQueryMatch: PropTypes.func.isRequired,
-	queries: PropTypes.arrayOf(PropTypes.string).isRequired,
+	queries: PropTypes.arrayOf( PropTypes.string ).isRequired,
 };
 
 MediaQueryWatcher.defaultProps = {
@@ -92,4 +92,4 @@ MediaQueryWatcher.defaultProps = {
 };
 
 // @ts-ignore
-export default withResizeWatcher(MediaQueryWatcher, { wait: DEFAULT_WAIT });
+export default withResizeWatcher( MediaQueryWatcher, { wait: DEFAULT_WAIT } );

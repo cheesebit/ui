@@ -9,42 +9,42 @@ import { useEffect, useState, useCallback, useRef } from 'react';
  * @param {React.FocusEventHandler<HTMLElement>} [props.onBlur] - blur handler
  * @return {FocusWithinController} Returns the container ref and a boolean indicating if container is focused.
  */
-function useFocusWithin(props) {
+function useFocusWithin( props ) {
 	const { onFocus, onBlur } = props || {};
-	const [focused, setFocused] = useState(false);
-	const containerRef = useRef(null);
+	const [ focused, setFocused ] = useState( false );
+	const containerRef = useRef( null );
 
 	function getContainer() {
 		return containerRef.current;
 	}
 
 	const handleFocus = useCallback(
-		function handleFocus(e) {
-			onFocus?.(e);
-			setFocused(true);
+		function handleFocus( e ) {
+			onFocus?.( e );
+			setFocused( true );
 		},
-		[onFocus]
+		[ onFocus ]
 	);
 
 	const handleBlur = useCallback(
-		function handleBlur(e) {
-			onBlur?.(e);
-			setFocused(false);
+		function handleBlur( e ) {
+			onBlur?.( e );
+			setFocused( false );
 		},
-		[onBlur]
+		[ onBlur ]
 	);
 
 	useEffect(
 		function updateContainerRef() {
-			getContainer()?.addEventListener('focusin', handleFocus);
-			getContainer()?.addEventListener('focusout', handleBlur);
+			getContainer()?.addEventListener( 'focusin', handleFocus );
+			getContainer()?.addEventListener( 'focusout', handleBlur );
 
 			return function unsubscribe() {
-				getContainer()?.removeEventListener('focusin', handleFocus);
-				getContainer()?.removeEventListener('focusout', handleBlur);
+				getContainer()?.removeEventListener( 'focusin', handleFocus );
+				getContainer()?.removeEventListener( 'focusout', handleBlur );
 			};
 		},
-		[containerRef, handleBlur, handleFocus]
+		[ containerRef, handleBlur, handleFocus ]
 	);
 
 	return {

@@ -128,12 +128,15 @@ export function getComparable( date ) {
 		return null;
 	}
 
-	return `${ getYear( date ) ?? '9999' }${ String( getMonth( date ) ?? 11 ).padStart(
+	return `${ getYear( date ) ?? '9999' }${ String(
+		getMonth( date ) ?? 11
+	).padStart( 2, '0' ) }${ String( getDay( date ) ?? 31 ).padStart(
 		2,
-		'0',
-	) }${ String( getDay( date ) ?? 31 ).padStart( 2, '0' ) }${ String(
-		getHours( date ) ?? 23,
-	).padStart( 2, '0' ) }${ String( getMinutes( date ) ?? 59 ).padStart( 2, '0' ) }${ String(
-		getSeconds( date ) ?? 59,
-	).padStart( 2, '0' ) }${ String( getMilliseconds( date ) ?? 999 ).padStart( 3, '0' ) }`;
+		'0'
+	) }${ String( getHours( date ) ?? 23 ).padStart( 2, '0' ) }${ String(
+		getMinutes( date ) ?? 59
+	).padStart( 2, '0' ) }${ String( getSeconds( date ) ?? 59 ).padStart(
+		2,
+		'0'
+	) }${ String( getMilliseconds( date ) ?? 999 ).padStart( 3, '0' ) }`;
 }

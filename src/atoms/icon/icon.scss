@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-icon {
 	@include transition(color fill opacity transform);
@@ -11,18 +11,18 @@
 	fill: currentColor;
 
 	&.-success {
-		@include var(fill, color-success);
+		fill: rgba($color-success, 1);
 	}
 
 	&.-danger {
-		@include var(fill, color-danger);
+		fill: rgba($color-danger, 1);
 	}
 
 	&.-warn {
-		@include var(fill, color-warn);
+		fill: rgba($color-warn, 1);
 	}
 
 	&.-info {
-		@include var(fill, color-info);
+		fill: rgba($color-info, 1);
 	}
 }

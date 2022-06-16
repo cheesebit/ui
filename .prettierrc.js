@@ -1,7 +1,7 @@
 module.exports = {
 	useTabs: true,
 	tabWidth: 4,
-	printWidth: 100,
+	printWidth: 80,
 	singleQuote: true,
 	trailingComma: 'es5',
 	bracketSpacing: true,
@@ -9,4 +9,15 @@ module.exports = {
 	jsxBracketSameLine: false,
 	semi: true,
 	arrowParens: 'always',
+	parenSpacing: true,
+	jsxBracketSameLine: false,
+	overrides: [
+		{
+			files: '*.{css,sass,scss}',
+			options: {
+				singleQuote: false,
+				parenSpacing: false,
+			},
+		},
+	],
 };

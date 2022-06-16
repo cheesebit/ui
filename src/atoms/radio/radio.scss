@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-radio {
 	@include font;
@@ -10,7 +10,7 @@
 	cursor: pointer;
 
 	.circle {
-		@include var(color, color-white);
+		color: rgba($color-white, 1);
 
 		position: absolute;
 		fill: currentColor;
@@ -28,32 +28,32 @@
 		outline: none;
 		appearance: none;
 
-		@include var(border-color, color-gray-400);
-		@include var(background-color, color-white);
+		border-color: rgba($color-gray-400, 1);
+		background-color: rgba($color-white, 1);
 
-		@include var(height, spacing-4);
-		@include var(width, spacing-4);
+		height: $spacing-4;
+		width: $spacing-4;
 
 		&:checked {
-			@include var(border-color, color-primary-500);
+			border-color: rgba($color-primary-500, 1);
 
 			~ .circle {
-				@include var(color, color-primary-500);
+				color: rgba($color-primary-500, 1);
 			}
 		}
 	}
 
 	@include hoverable {
 		.selector {
-			@include var(border-color, color-gray-500);
+			border-color: rgba($color-gray-500, 1);
 
 			cursor: pointer;
 
 			&:checked {
-				@include var(border-color, color-primary-700);
+				border-color: rgba($color-primary-700, 1);
 
 				~ .circle {
-					@include var(color, color-primary-700);
+					color: rgba($color-primary-700, 1);
 				}
 			}
 		}

@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-checkbox {
 	@include font;
@@ -10,7 +10,7 @@
 	cursor: pointer;
 
 	.check {
-		@include var(color, color-white);
+		color: rgba($color-white, 1);
 
 		position: absolute;
 		fill: currentColor;
@@ -19,7 +19,7 @@
 	.selector {
 		@include bordered;
 		@include focusable;
-		@include rounded;
+		@include rounded(0);
 		@include disableable($opacity: inherit);
 
 		@include transition(background color border-color);
@@ -28,27 +28,27 @@
 		outline: none;
 		appearance: none;
 
-		@include var(border-color, color-gray-400);
-		@include var(background-color, color-white);
+		border-color: rgba($color-gray-400, 1);
+		background-color: rgba($color-white, 1);
 
-		@include var(height, spacing-4);
-		@include var(width, spacing-4);
+		height: $spacing-4;
+		width: $spacing-4;
 
 		&:checked {
-			@include var(border-color, color-primary-500);
-			@include var(background-color, color-primary-500);
+			border-color: rgba($color-primary-500, 1);
+			background-color: rgba($color-primary-500, 1);
 		}
 	}
 
 	@include hoverable {
 		.selector {
-			@include var(border-color, color-gray-500);
+			border-color: rgba($color-gray-500, 1);
 
 			cursor: pointer;
 
 			&:checked {
-				@include var(border-color, color-primary-700);
-				@include var(background-color, color-primary-700);
+				border-color: rgba($color-primary-700, 1);
+				background-color: rgba($color-primary-700, 1);
 			}
 		}
 	}

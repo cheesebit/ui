@@ -7,11 +7,11 @@ import React from 'react';
  * @return {boolean} Whether the component is mounted or not.
  */
 function useMounted() {
-	const mounted = React.useRef(false);
+	const mounted = React.useRef( false );
 
-	React.useEffect(function onMount() {
+	React.useEffect( function onMount() {
 		mounted.current = true;
-	}, []);
+	}, [] );
 
 	return mounted.current;
 }

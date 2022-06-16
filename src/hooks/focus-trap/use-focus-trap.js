@@ -10,7 +10,7 @@ import KeyboardKey, { getKeyboardKey } from 'common/keyboard';
  * @param {number} focusableCounter
  * @return {number} get index of new focused element
  */
-function getFocusedIndexAfterKeyPress(e, currentFocused, focusableCounter) {
+function getFocusedIndexAfterKeyPress( e, currentFocused, focusableCounter ) {
 	/** @type {Record<React.KeyboardEvent['key'], ( e: React.KeyboardEvent ) => number>} */
 	const keyHandler = {
 		/**
@@ -18,7 +18,7 @@ function getFocusedIndexAfterKeyPress(e, currentFocused, focusableCounter) {
 		 * @param {React.KeyboardEvent} e
 		 * @return {number} increment for new focused element index
 		 */
-		Tab(e) {
+		Tab( e ) {
 			return e.shiftKey ? -1 : 1;
 		},
 		ArrowUp() {
@@ -33,19 +33,19 @@ function getFocusedIndexAfterKeyPress(e, currentFocused, focusableCounter) {
 		return 0;
 	}
 
-	const key = getKeyboardKey(e);
-	const increment = (keyHandler[key] || unknownKey)(e);
+	const key = getKeyboardKey( e );
+	const increment = ( keyHandler[ key ] || unknownKey )( e );
 
-	if (currentFocused === -1 && increment === -1) {
+	if ( currentFocused === -1 && increment === -1 ) {
 		/**
 		 * Prevent to skip one element when the initial increment is -1
 		 * and `currentFocused` is -1, we don't .
 		 * e.g.: focus has just been activated and user presses arrow up.
 		 */
-		return (increment + focusableCounter) % focusableCounter;
+		return ( increment + focusableCounter ) % focusableCounter;
 	}
 
-	return (currentFocused + increment + focusableCounter) % focusableCounter;
+	return ( currentFocused + increment + focusableCounter ) % focusableCounter;
 }
 
 /**
@@ -54,13 +54,13 @@ function getFocusedIndexAfterKeyPress(e, currentFocused, focusableCounter) {
  * @return {HTMLElement[]} Array of tabbable elements inside `container`.
  * For now, only `button`s are considered.
  */
-function getTabbableDescendants(container) {
-	if (container == null) {
+function getTabbableDescendants( container ) {
+	if ( container == null ) {
 		return [];
 	}
 
 	// TODO: add support for other focusable elements
-	return Array.from(container.querySelectorAll('button') || []);
+	return Array.from( container.querySelectorAll( 'button' ) || [] );
 }
 
 /**
@@ -71,31 +71,31 @@ function getTabbableDescendants(container) {
  * @param {useFocusTrapProps} props
  * @return {useFocusTrapReturn} focus trap utilities.
  */
-function useFocusTrap(props) {
+function useFocusTrap( props ) {
 	const { keys, onActivate, onDeactivate } = props;
 
-	const [active, setActive] = useState(false);
-	const [currentFocused, setCurrentFocused] = useState(-1);
+	const [ active, setActive ] = useState( false );
+	const [ currentFocused, setCurrentFocused ] = useState( -1 );
 	/** @type {React.MutableRefObject<MutationObserver | undefined>} */
 	const mutationObserverRef = useRef();
 	/** @type {[HTMLElement[], React.Dispatch<React.SetStateAction<HTMLElement[]>>]}*/
-	const [focusableDescendants, setFocusableDescendants] = useState([]);
+	const [ focusableDescendants, setFocusableDescendants ] = useState( [] );
 
 	/**
 	 *
 	 * @param {HTMLElement} container
 	 */
-	function subscribeToDOMMutationEvents(container) {
-		mutationObserverRef.current = new MutationObserver(function () {
-			setFocusableDescendants(getTabbableDescendants(container));
-		});
+	function subscribeToDOMMutationEvents( container ) {
+		mutationObserverRef.current = new MutationObserver( function () {
+			setFocusableDescendants( getTabbableDescendants( container ) );
+		} );
 
-		mutationObserverRef.current.observe(container, { childList: true });
+		mutationObserverRef.current.observe( container, { childList: true } );
 	}
 
 	function unsubscribeToDOMMutationEvents() {
-		setCurrentFocused(-1);
-		if (mutationObserverRef.current) {
+		setCurrentFocused( -1 );
+		if ( mutationObserverRef.current ) {
 			mutationObserverRef.current?.disconnect();
 		}
 	}
@@ -105,10 +105,10 @@ function useFocusTrap(props) {
 		 *
 		 * @param {HTMLElement | null} container
 		 */
-		function initialize(container) {
-			if (container != null) {
-				setFocusableDescendants(getTabbableDescendants(container));
-				subscribeToDOMMutationEvents(container);
+		function initialize( container ) {
+			if ( container != null ) {
+				setFocusableDescendants( getTabbableDescendants( container ) );
+				subscribeToDOMMutationEvents( container );
 			} else {
 				unsubscribeToDOMMutationEvents();
 			}
@@ -116,11 +116,11 @@ function useFocusTrap(props) {
 		[]
 	);
 
-	useEffect(function onMount() {
+	useEffect( function onMount() {
 		return function onUnmount() {
 			unsubscribeToDOMMutationEvents();
 		};
-	}, []);
+	}, [] );
 
 	useEffect(
 		function subscribeToKeyEvents() {
@@ -129,7 +129,7 @@ function useFocusTrap(props) {
 			 * @param {KeyboardEvent} evt
 			 * @return {void}
 			 */
-			function handleKeyDownEvent(evt) {
+			function handleKeyDownEvent( evt ) {
 				/**
 				 * Brace yourselves for the nasty casting from globalThis.KeyboardEvent, which is
 				 * the type used in the `addEventListener` callback, to React.KeyboardEvent ¯\_(ツ)_/¯
@@ -138,11 +138,11 @@ function useFocusTrap(props) {
 				// @ts-ignore
 				const e = evt;
 
-				const supportedKeys = [...(keys || ['TAB'])];
+				const supportedKeys = [ ...( keys || [ 'TAB' ] ) ];
 
 				if (
-					!KeyboardKey(e).is(supportedKeys) ||
-					isEmpty(focusableDescendants)
+					! KeyboardKey( e ).is( supportedKeys ) ||
+					isEmpty( focusableDescendants )
 				) {
 					return;
 				}
@@ -154,19 +154,19 @@ function useFocusTrap(props) {
 					currentFocused,
 					focusableDescendants.length
 				);
-				setCurrentFocused(newCurrentFocused);
-				focusableDescendants[newCurrentFocused].focus();
+				setCurrentFocused( newCurrentFocused );
+				focusableDescendants[ newCurrentFocused ].focus();
 			}
 
 			function subscribe() {
-				document.addEventListener('keydown', handleKeyDownEvent);
+				document.addEventListener( 'keydown', handleKeyDownEvent );
 			}
 
 			function unsubscribe() {
-				document.removeEventListener('keydown', handleKeyDownEvent);
+				document.removeEventListener( 'keydown', handleKeyDownEvent );
 			}
 
-			if (active) {
+			if ( active ) {
 				subscribe();
 			}
 
@@ -174,24 +174,24 @@ function useFocusTrap(props) {
 				unsubscribe();
 			};
 		},
-		[active, keys, currentFocused, focusableDescendants]
+		[ active, keys, currentFocused, focusableDescendants ]
 	);
 
 	const activate = useCallback(
 		function activate() {
-			setActive(true);
+			setActive( true );
 			onActivate?.();
 		},
-		[onActivate]
+		[ onActivate ]
 	);
 
 	const deactivate = useCallback(
 		function deactivate() {
-			setCurrentFocused(-1);
-			setActive(false);
+			setCurrentFocused( -1 );
+			setActive( false );
 			onDeactivate?.();
 		},
-		[onDeactivate]
+		[ onDeactivate ]
 	);
 
 	return {

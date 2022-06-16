@@ -13,7 +13,12 @@ export const IS_MATCH_MEDIA_SUPPORTED = typeof window.matchMedia === 'function';
  * @param {number} props.width - Current window width to be considered.
  * @param {Function} props.onQueryMatch - Callback function to run when a media query is matched.
  */
-function useMediaQuery( { initial = false, queries, width = 0, onQueryMatch } ) {
+function useMediaQuery( {
+	initial = false,
+	queries,
+	width = 0,
+	onQueryMatch,
+} ) {
 	const [ currentQuery, setCurrentQuery ] = useState( null );
 
 	function getQueries() {
@@ -53,14 +58,14 @@ function useMediaQuery( { initial = false, queries, width = 0, onQueryMatch } ) 
 		function executeQueriesOnUpdate() {
 			executeQueries();
 		},
-		[ width ],
+		[ width ]
 	);
 
 	useEffect(
 		function publishChanges() {
 			onQueryMatch?.( { query: currentQuery } );
 		},
-		[ currentQuery, onQueryMatch ],
+		[ currentQuery, onQueryMatch ]
 	);
 
 	return { currentQuery };

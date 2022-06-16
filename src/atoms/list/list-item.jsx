@@ -10,30 +10,36 @@ import ListContext from './list.context';
  * @param {ListItemProps} props
  * @return {JSX.Element} List item component.
  */
-function ListItem(props) {
-	const { as = 'div', disabled = false, className, children, ...others } = props;
-	const { classy } = useClassy(props);
-	const { bordered } = React.useContext(ListContext);
+function ListItem( props ) {
+	const {
+		as = 'div',
+		disabled = false,
+		className,
+		children,
+		...others
+	} = props;
+	const { classy } = useClassy( props );
+	const { bordered } = React.useContext( ListContext );
 
 	return (
 		<Box
 			data-testid="list-item"
-			as={as}
+			as={ as }
 			// @ts-ignore
 			role="listitem"
-			{...others}
-			borderless={bordered && ['horizontal', 'top']}
+			{ ...others }
+			borderless={ bordered && [ 'horizontal', 'top' ] }
 			paddingless="vertical"
-			className={classy(
+			className={ classy(
 				'item',
 				{
 					'is-disabled': disabled,
 				},
 				className
-			)}
-			disabled={disabled}
+			) }
+			disabled={ disabled }
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

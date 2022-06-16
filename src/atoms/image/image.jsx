@@ -9,7 +9,7 @@ import { Spinner } from '../spinner';
 
 import './image.scss';
 
-const ImgHTMLAttributesProps = Object.keys(ImgHTMLAttributes);
+const ImgHTMLAttributesProps = Object.keys( ImgHTMLAttributes );
 
 export const Status = {
 	loading: 'loading',
@@ -25,53 +25,53 @@ export const Status = {
  * @param {ImageProps} props
  * @return
  */
-function Image(props) {
+function Image( props ) {
 	const { className, onLoad, onError, ...others } = props;
-	const [status, setStatus] = React.useState(Status.loading);
+	const [ status, setStatus ] = React.useState( Status.loading );
 
-	function handleLoad(e) {
-		setStatus(Status.loaded);
+	function handleLoad( e ) {
+		setStatus( Status.loaded );
 
-		onLoad?.(e);
+		onLoad?.( e );
 	}
 
-	function handleError(e) {
-		setStatus(Status.failed);
+	function handleError( e ) {
+		setStatus( Status.failed );
 
-		onError?.(e);
+		onError?.( e );
 	}
 
 	return (
 		<div
-			className={classy(
+			className={ classy(
 				'cb-image',
 				{
 					'has-failed': status === Status.failed,
 					'is-loading': status === Status.idle,
 				},
 				className
-			)}
+			) }
 			data-testid="cb-image"
 		>
 			<img
 				alt=""
 				loading="lazy"
-				{...pick(ImgHTMLAttributesProps, others)}
-				onLoad={handleLoad}
-				onError={handleError}
+				{ ...pick( ImgHTMLAttributesProps, others ) }
+				onLoad={ handleLoad }
+				onError={ handleError }
 			/>
 
-			{status === Status.loading && (
+			{ status === Status.loading && (
 				<Overlay theme="light">
 					<Spinner />
 				</Overlay>
-			)}
+			) }
 
-			{status === Status.failed && (
+			{ status === Status.failed && (
 				<div className="error" data-testid="image-error">
 					:(
 				</div>
-			)}
+			) }
 		</div>
 	);
 }

@@ -1,7 +1,7 @@
 import generator from 'test/data-generator';
 
 export function generateTableData() {
-	return generator.array( ( ) => {
+	return generator.array( () => {
 		return {
 			company: generator.company(),
 			id: generator.guid(),

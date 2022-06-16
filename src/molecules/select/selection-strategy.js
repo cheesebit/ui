@@ -4,44 +4,44 @@
  * @param {SelectionStrategyContext} context - Strategy context.
  * @return {SelectionStrategy} Strategy instance to manage single selection
  */
-export function SingleSelectionStrategy(context) {
+export function SingleSelectionStrategy( context ) {
 	return {
 		type() {
 			return 'single';
 		},
-		init(items) {
-			return this.select(items, new Map());
+		init( items ) {
+			return this.select( items, new Map() );
 		},
-		select(items) {
+		select( items ) {
 			/** @type {SelectionState} */
 			const newSelection = new Map();
 
-			for (let i = 0; i < items.slice(0, 1).length; i++) {
-				const adapter = context.getAdapter(items[i]._type);
-				newSelection.set(adapter.getID(items[i]), items[i]);
+			for ( let i = 0; i < items.slice( 0, 1 ).length; i++ ) {
+				const adapter = context.getAdapter( items[ i ]._type );
+				newSelection.set( adapter.getID( items[ i ] ), items[ i ] );
 			}
 
 			return newSelection;
 		},
-		unselect(keys, selection) {
+		unselect( keys, selection ) {
 			/** @type {SelectionState} */
-			const newSelection = new Map(selection);
+			const newSelection = new Map( selection );
 
-			for (let i = 0; i < keys.length; i++) {
-				newSelection.delete(keys[i]);
+			for ( let i = 0; i < keys.length; i++ ) {
+				newSelection.delete( keys[ i ] );
 			}
 
 			return newSelection;
 		},
-		toggle(items, selection) {
+		toggle( items, selection ) {
 			/** @type {SelectionState} */
 			const newSelection = new Map();
 
-			for (let i = 0; i < items.slice(0, 1).length; i++) {
-				const adapter = context.getAdapter(items[i]._type);
+			for ( let i = 0; i < items.slice( 0, 1 ).length; i++ ) {
+				const adapter = context.getAdapter( items[ i ]._type );
 
-				if (!selection.has(adapter.getID(items[i]))) {
-					newSelection.set(adapter.getID(items[i]), items[i]);
+				if ( ! selection.has( adapter.getID( items[ i ] ) ) ) {
+					newSelection.set( adapter.getID( items[ i ] ), items[ i ] );
 				}
 			}
 
@@ -59,52 +59,52 @@ export function SingleSelectionStrategy(context) {
  * @param {SelectionStrategyContext} context - Strategy context.
  * @return {SelectionStrategy} Strategy instance to manage multiple selection
  */
-export function MultipleSelectionStrategy(context) {
+export function MultipleSelectionStrategy( context ) {
 	return {
 		type() {
 			return 'multiple';
 		},
-		init(items) {
-			return this.select(items, new Map());
+		init( items ) {
+			return this.select( items, new Map() );
 		},
-		select(items, selection) {
+		select( items, selection ) {
 			/** @type {SelectionState} */
-			const newSelection = new Map(selection);
+			const newSelection = new Map( selection );
 
-			for (let i = 0; i < items.length; i++) {
-				const adapter = context.getAdapter(items[i]._type);
-				newSelection.set(adapter.getID(items[i]), items[i]);
+			for ( let i = 0; i < items.length; i++ ) {
+				const adapter = context.getAdapter( items[ i ]._type );
+				newSelection.set( adapter.getID( items[ i ] ), items[ i ] );
 			}
 
 			return newSelection;
 		},
-		unselect(keys, selection) {
+		unselect( keys, selection ) {
 			/** @type {SelectionState} */
-			const newSelection = new Map(selection);
+			const newSelection = new Map( selection );
 
-			for (let i = 0; i < keys.length; i++) {
-				newSelection.delete(keys[i]);
+			for ( let i = 0; i < keys.length; i++ ) {
+				newSelection.delete( keys[ i ] );
 			}
 
 			return newSelection;
 		},
-		toggle(items, selection) {
+		toggle( items, selection ) {
 			/** @type {SelectionState} */
-			const newSelection = new Map(selection);
+			const newSelection = new Map( selection );
 
-			console.log({ items, selection });
-			for (let i = 0; i < items.length; i++) {
-				const adapter = context.getAdapter(items[i]._type);
-				const key = adapter.getID(items[i]);
+			console.log( { items, selection } );
+			for ( let i = 0; i < items.length; i++ ) {
+				const adapter = context.getAdapter( items[ i ]._type );
+				const key = adapter.getID( items[ i ] );
 
-				if (!selection.has(key)) {
-					newSelection.set(key, items[i]);
+				if ( ! selection.has( key ) ) {
+					newSelection.set( key, items[ i ] );
 				} else {
-					newSelection.delete(key);
+					newSelection.delete( key );
 				}
 			}
 
-			console.log(newSelection);
+			console.log( newSelection );
 			return newSelection;
 		},
 		clear() {
@@ -121,22 +121,22 @@ export function MultipleSelectionStrategy(context) {
  * @param {Record<string, SelectionAdapter>} [props.adapters]
  * @return {SelectionStrategy} Proper strategy instance to manage selection.
  */
-export function createSelectionStrategy(props) {
+export function createSelectionStrategy( props ) {
 	const { adapters, type } = props;
 
 	/** @type {SelectionStrategyContext} */
 	const context = {
-		getAdapter(type) {
-			return adapters[type];
+		getAdapter( type ) {
+			return adapters[ type ];
 		},
 	};
 
-	switch (type) {
+	switch ( type ) {
 		case 'multiple':
-			return MultipleSelectionStrategy(context);
+			return MultipleSelectionStrategy( context );
 		case 'single':
 		default:
-			return SingleSelectionStrategy(context);
+			return SingleSelectionStrategy( context );
 	}
 }
 

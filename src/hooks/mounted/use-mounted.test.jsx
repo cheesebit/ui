@@ -3,36 +3,39 @@ import { screen, render } from 'test/helpers';
 import useMounted from './use-mounted';
 
 function Experiment() {
-	const [logs, setLogs] = React.useState([]);
+	const [ logs, setLogs ] = React.useState( [] );
 	const mounted = useMounted();
 
 	React.useEffect(
 		function () {
-			setLogs((logs) => [...logs, mounted ? 'did mount' : 'not mounted']);
+			setLogs( ( logs ) => [
+				...logs,
+				mounted ? 'did mount' : 'not mounted',
+			] );
 		},
-		[mounted]
+		[ mounted ]
 	);
 
 	return (
 		<div data-testid="logs">
-			{logs.map((log, index) => (
-				<p key={index}>{log}</p>
-			))}
+			{ logs.map( ( log, index ) => (
+				<p key={ index }>{ log }</p>
+			) ) }
 		</div>
 	);
 }
 
-const setup = (props) => render(<Experiment {...props} />);
+const setup = ( props ) => render( <Experiment { ...props } /> );
 
-describe('useMounted', () => {
-	it('returns true after component is mounted', () => {
+describe( 'useMounted', () => {
+	it( 'returns true after component is mounted', () => {
 		setup();
 
-		const logs = screen.getByTestId('logs');
+		const logs = screen.getByTestId( 'logs' );
 
-		expect(logs.children).toHaveLength(2);
+		expect( logs.children ).toHaveLength( 2 );
 
-		expect(logs.children[0]).toHaveTextContent('not mounted');
-		expect(logs.children[1]).toHaveTextContent('did mount');
-	});
-});
+		expect( logs.children[ 0 ] ).toHaveTextContent( 'not mounted' );
+		expect( logs.children[ 1 ] ).toHaveTextContent( 'did mount' );
+	} );
+} );

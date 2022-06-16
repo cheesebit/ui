@@ -11,14 +11,14 @@ import { pick } from 'common/toolset';
 
 import './checkbox.scss';
 
-const InputHTMLAttributesProps = Object.keys(InputHTMLAttributes);
+const InputHTMLAttributesProps = Object.keys( InputHTMLAttributes );
 
 /**
  *
  * @param {CheckboxProps} props
  * @return {JSX.Element} Checkbox component.
  */
-function Checkbox(props) {
+function Checkbox( props ) {
 	const {
 		block = false,
 		borderless = true,
@@ -29,35 +29,39 @@ function Checkbox(props) {
 		trailing,
 		...others
 	} = props;
-	const { classy } = useClassy(props);
-	const id = useID(props);
+	const { classy } = useClassy( props );
+	const id = useID( props );
 
 	return (
 		<Box
 			data-testid="cb-checkbox"
 			as="label"
-			className={classy('cb-checkbox', { 'is-disabled': disabled }, className)}
-			borderless={borderless}
-			paddingless={paddingless}
-			block={block}
-			trailing={trailing}
+			className={ classy(
+				'cb-checkbox',
+				{ 'is-disabled': disabled },
+				className
+			) }
+			borderless={ borderless }
+			paddingless={ paddingless }
+			block={ block }
+			trailing={ trailing }
 			// @ts-ignore
-			htmlFor={id}
+			htmlFor={ id }
 			leading={
 				<React.Fragment>
 					<input
 						data-testid="selector"
-						{...pick(InputHTMLAttributesProps, others)}
+						{ ...pick( InputHTMLAttributesProps, others ) }
 						type="checkbox"
 						className="selector"
-						id={id}
-						disabled={disabled}
+						id={ id }
+						disabled={ disabled }
 					/>
-					<Icon name="check" className="check" size={14} />
+					<Icon name="check" className="check" size={ 14 } />
 				</React.Fragment>
 			}
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

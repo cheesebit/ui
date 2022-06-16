@@ -11,8 +11,12 @@ import React from 'react';
  * @param {(arg: any) => S} [initializer]
  * @return {[S, (action: A | ((dispatch: (value: A) => void) => void)) => void]}
  */
-export default function useAsyncReducer(reducer, initializerArg, initializer) {
-	const [state, dispatch] = React.useReducer(
+export default function useAsyncReducer(
+	reducer,
+	initializerArg,
+	initializer
+) {
+	const [ state, dispatch ] = React.useReducer(
 		reducer,
 		initializerArg,
 		initializer
@@ -23,14 +27,14 @@ export default function useAsyncReducer(reducer, initializerArg, initializer) {
 	 * @param {A | ((dispatch: (value: A) => void) => void)} action
 	 * @returns
 	 */
-	function thunkenize(action) {
-		if (action instanceof Function) {
-			action(dispatch);
+	function thunkenize( action ) {
+		if ( action instanceof Function ) {
+			action( dispatch );
 			return;
 		}
 
-		dispatch(action);
+		dispatch( action );
 	}
 
-	return [state, thunkenize];
+	return [ state, thunkenize ];
 }

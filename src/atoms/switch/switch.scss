@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-switch {
 	@include font;
@@ -15,7 +15,7 @@
 	.check {
 		@include transition(left);
 
-		@include var(color, color-white);
+		color: rgba($color-white, 1);
 
 		position: absolute;
 		left: 0;
@@ -34,15 +34,15 @@
 		cursor: pointer !important;
 		appearance: none;
 
-		@include var(border-color, color-gray-300);
-		@include var(background-color, color-gray-300);
+		border-color: rgba($color-gray-300, 1);
+		background-color: rgba($color-gray-300, 1);
 
-		@include var(height, spacing-4);
-		@include var(width, spacing-8);
+		height: $spacing-4;
+		width: $spacing-8;
 
 		&:checked {
-			@include var(border-color, color-primary-400);
-			@include var(background-color, color-primary-400);
+			border-color: rgba($color-primary-400, 1);
+			background-color: rgba($color-primary-400, 1);
 		}
 
 		&:checked + .check {
@@ -52,12 +52,12 @@
 
 	@include hoverable {
 		.selector {
-			@include var(border-color, color-gray-400);
-			@include var(background-color, color-gray-400);
+			border-color: rgba($color-gray-400, 1);
+			background-color: rgba($color-gray-400, 1);
 
 			&:checked {
-				@include var(border-color, color-primary-500);
-				@include var(background-color, color-primary-500);
+				border-color: rgba($color-primary-500, 1);
+				background-color: rgba($color-primary-500, 1);
 			}
 		}
 	}

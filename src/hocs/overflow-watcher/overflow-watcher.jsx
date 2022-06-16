@@ -11,8 +11,8 @@ import { ResizeWatcher } from '../resize-watcher';
  * of its children it can fit.
  */
 class OverflowWatcher extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 
 		const { from = 0, to = 0 } = props;
 		this.state = {
@@ -31,38 +31,40 @@ class OverflowWatcher extends React.Component {
 		return options || DEFAULT.OBJECT;
 	}
 
-	getChildren = ({ ref }) => {
+	getChildren = ( { ref } ) => {
 		const hostElement = ref.current;
 
-		if (!hostElement) {
+		if ( ! hostElement ) {
 			return DEFAULT.ARRAY;
 		}
 
 		const { selector } = this.props;
-		const matchingChildren = Array.from(hostElement.querySelectorAll(selector));
+		const matchingChildren = Array.from(
+			hostElement.querySelectorAll( selector )
+		);
 
 		return matchingChildren;
 	};
 
-	calculateOverflow = ({ width, ref }) => {
+	calculateOverflow = ( { width, ref } ) => {
 		const { offset = 0, options } = this.props;
 
-		const matchingChildren = this.getChildren({ ref });
+		const matchingChildren = this.getChildren( { ref } );
 		const totalChildren = matchingChildren.length;
 
 		const from = 0;
 		let to = from;
 
-		if (totalChildren > 0) {
+		if ( totalChildren > 0 ) {
 			let occupiedWidth = offset;
 			const availableWidth = width - DEFAULT_WIDTH_GAP;
 
-			while (to < totalChildren) {
-				const childElement = matchingChildren[to];
-				const childWidth = getWidth(childElement, options);
+			while ( to < totalChildren ) {
+				const childElement = matchingChildren[ to ];
+				const childWidth = getWidth( childElement, options );
 				const nextOccupiedWidth = occupiedWidth + childWidth;
 
-				if (nextOccupiedWidth > availableWidth) {
+				if ( nextOccupiedWidth > availableWidth ) {
 					to--;
 					break;
 				}
@@ -86,20 +88,20 @@ class OverflowWatcher extends React.Component {
 		const { from, to } = this.state;
 		const { onUpdate } = this.props;
 
-		onUpdate && onUpdate({ from, to });
+		onUpdate && onUpdate( { from, to } );
 	};
 
-	renderChildren = ({ width, ref }) => {
+	renderChildren = ( { width, ref } ) => {
 		const { children } = this.props;
 		const { from, to } = this.state;
 
 		// @ts-ignore
-		return children({
+		return children( {
 			ref,
 			from,
 			to,
 			width,
-		});
+		} );
 	};
 
 	render() {
@@ -107,11 +109,11 @@ class OverflowWatcher extends React.Component {
 
 		return (
 			<ResizeWatcher
-				forwardedRef={containerRef}
-				onResize={this.calculateOverflow}
-				wait={wait}
+				forwardedRef={ containerRef }
+				onResize={ this.calculateOverflow }
+				wait={ wait }
 			>
-				{this.renderChildren}
+				{ this.renderChildren }
 			</ResizeWatcher>
 		);
 	}
@@ -119,15 +121,15 @@ class OverflowWatcher extends React.Component {
 
 OverflowWatcher.propTypes = {
 	children: PropTypes.func.isRequired,
-	containerRef: PropTypes.oneOfType([
+	containerRef: PropTypes.oneOfType( [
 		PropTypes.func,
-		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	]),
+		PropTypes.shape( { current: PropTypes.instanceOf( Element ) } ),
+	] ),
 	offset: PropTypes.number,
 	onUpdate: PropTypes.func.isRequired,
-	options: PropTypes.shape({
+	options: PropTypes.shape( {
 		add: PropTypes.func,
-	}),
+	} ),
 	selector: PropTypes.string.isRequired,
 	wait: PropTypes.number,
 };

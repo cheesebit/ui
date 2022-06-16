@@ -8,8 +8,8 @@ import { Keys } from 'common/constants';
  * @param {Function} callback
  * @param {boolean} disabled
  */
-function useClickOutside(ref, callback, disabled = false) {
-	const [active, setActive] = useState(false);
+function useClickOutside( ref, callback, disabled = false ) {
+	const [ active, setActive ] = useState( false );
 
 	const handleEvent = useCallback(
 		/**
@@ -18,25 +18,26 @@ function useClickOutside(ref, callback, disabled = false) {
 		 *
 		 * @param {MouseEvent & KeyboardEvent} e
 		 */
-		function handleEvent(e) {
+		function handleEvent( e ) {
 			function activate() {
-				setActive(true);
+				setActive( true );
 			}
 
 			function deactivate() {
-				setActive(false);
+				setActive( false );
 			}
 
-			if (!ref.current || disabled) {
+			if ( ! ref.current || disabled ) {
 				return;
 			}
 
 			// @ts-ignore
-			if (ref.current.contains(e.target) && !active) {
+			if ( ref.current.contains( e.target ) && ! active ) {
 				activate();
 			} else if (
 				// @ts-ignore
-				(!ref.current.contains(e.target) || e.key === Keys.ESCAPE) &&
+				( ! ref.current.contains( e.target ) ||
+					e.key === Keys.ESCAPE ) &&
 				active
 			) {
 				deactivate();
@@ -44,20 +45,20 @@ function useClickOutside(ref, callback, disabled = false) {
 				callback();
 			}
 		},
-		[active, callback, ref]
+		[ active, callback, ref ]
 	);
 
-	useEffect(() => {
+	useEffect( () => {
 		function subscribe() {
-			document.addEventListener('mousedown', handleEvent, true);
-			document.addEventListener('touchend', handleEvent, true);
-			document.addEventListener('keyup', handleEvent);
+			document.addEventListener( 'mousedown', handleEvent, true );
+			document.addEventListener( 'touchend', handleEvent, true );
+			document.addEventListener( 'keyup', handleEvent );
 		}
 
 		function unsubscribe() {
-			document.removeEventListener('mousedown', handleEvent, true);
-			document.removeEventListener('touchend', handleEvent, true);
-			document.removeEventListener('keyup', handleEvent);
+			document.removeEventListener( 'mousedown', handleEvent, true );
+			document.removeEventListener( 'touchend', handleEvent, true );
+			document.removeEventListener( 'keyup', handleEvent );
 		}
 
 		subscribe();
@@ -65,7 +66,7 @@ function useClickOutside(ref, callback, disabled = false) {
 		return () => {
 			unsubscribe();
 		};
-	}, [handleEvent]);
+	}, [ handleEvent ] );
 }
 
 export default useClickOutside;

@@ -1,4 +1,4 @@
-@import '../../styles/index';
+@import "../../styles/mixins";
 
 .cb-button {
 	@include transition(all);
@@ -7,7 +7,9 @@
 
 	@include interactable;
 	@include disableable;
-	@include rounded;
+	@include rounded(0);
+
+	@include m($spacing-0);
 
 	position: relative;
 	align-items: center;
@@ -16,13 +18,12 @@
 	text-transform: uppercase;
 	text-decoration: none;
 
-	@include var(background, color-transparent);
-	@include var(border-color, color-gray-400);
-	@include var(color, color-gray-600);
-	@include m(spacing-0);
+	background: transparent;
+	border-color: rgba($color-gray-400, 1);
+	color: rgba($color-gray-600, 1);
 
 	@include focusable {
-		@include var(z-index, layer-1);
+		z-index: $layer-1;
 	}
 
 	& > .children {
@@ -39,77 +40,77 @@
 	}
 
 	&.-flat {
-		@include var(background, color-primary-500);
-		@include var(border-color, color-primary-500);
-		@include var(color, color-white);
+		background: rgba($color-primary-500, 1);
+		border-color: rgba($color-primary-500, 1);
+		color: rgba($color-white, 1);
 
 		@include hoverable {
-			@include var(background, color-secondary-500);
-			@include var(border-color, color-secondary-500);
-			@include var(color, color-white);
+			background: rgba($color-secondary-500, 1);
+			border-color: rgba($color-secondary-500, 1);
+			color: rgba($color-white, 1);
 		}
 
 		@include activable {
-			@include var(background, color-secondary-300);
-			@include var(border-color, color-secondary-300);
-			@include var(color, color-white);
+			background: rgba($color-secondary-300, 1);
+			border-color: rgba($color-secondary-300, 1);
+			color: rgba($color-white, 1);
 		}
 	}
 
 	&.-ghost {
-		@include var(background, color-transparent);
-		@include var(border-color, color-primary-500);
-		@include var(color, color-primary-500);
+		background: transparent;
+		border-color: rgba($color-primary-500, 1);
+		color: rgba($color-primary-500, 1);
 
 		@include hoverable {
-			@include var(background, color-primary-500);
-			@include var(border-color, color-primary-500);
-			@include var(color, color-white);
+			background: rgba($color-primary-500, 1);
+			border-color: rgba($color-primary-500, 1);
+			color: rgba($color-white, 1);
 		}
 
 		@include activable {
-			@include var(background, color-primary-300);
-			@include var(border-color, color-primary-300);
-			@include var(color, color-white);
+			background: rgba($color-primary-300, 1);
+			border-color: rgba($color-primary-300, 1);
+			color: rgba($color-white, 1);
 		}
 	}
 
 	&.-text {
-		@include var(background, color-transparent);
-		@include var(border-color, color-transparent);
-		@include var(color, color-primary-500);
+		background: transparent;
+		border-color: transparent;
+		color: rgba($color-primary-500, 1);
 
 		@include hoverable {
-			@include var(background, color-transparent);
-			@include var(border-color, color-transparent);
-			@include var(color, color-secondary-500);
+			background: transparent;
+			border-color: transparent;
+			color: rgba($color-secondary-500, 1);
 		}
 
 		@include activable {
-			@include var(background, color-transparent);
-			@include var(border-color, color-transparent);
-			@include var(color, color-secondary-300);
+			background: transparent;
+			border-color: transparent;
+			color: rgba($color-secondary-300, 1);
 		}
 	}
 
 	&.-small {
-		@include var(font-size, font-size-sm);
+		@include px($spacing-2);
+
+		font-size: $font-size-sm;
 
 		min-width: 40px;
 		height: 40px;
-
-		@include px(spacing-2);
 	}
 
 	&.-medium {
-		@include var(font-size, font-size-sm);
+		font-size: $font-size-sm;
 
 		min-width: 56px;
 		height: 56px;
 	}
 
 	&.-large {
-		@include var(font-size, font-size-base);
+		font-size: $font-size-base;
 
 		min-width: 72px;
 		height: 72px;

@@ -1,12 +1,12 @@
 /** @type {TreeAdapter} */
 const DEFAULT_ADAPTER = {
-	getID(item) {
+	getID( item ) {
 		return item.value;
 	},
-	getLabel(item) {
+	getLabel( item ) {
 		return item.label;
 	},
-	getChildren(item) {
+	getChildren( item ) {
 		return item.options;
 	},
 };

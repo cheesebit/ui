@@ -32,7 +32,7 @@ describe( 'useValidation', () => {
 		const { result, waitForNextUpdate } = renderHook( () =>
 			useValidation( {
 				name: [],
-			} ),
+			} )
 		);
 
 		expect( result.current.status ).toEqual( {} );
@@ -57,14 +57,18 @@ describe( 'useValidation', () => {
 				name: [],
 				email: [],
 				type: [],
-			} ),
+			} )
 		);
 
 		expect( result.current.status ).toEqual( {} );
 
 		result.current.dispatch( 'field.validate', {
 			id: 'name',
-			values: { name: 'John Doe', email: 'john.doe@gmail.com', type: 'client' },
+			values: {
+				name: 'John Doe',
+				email: 'john.doe@gmail.com',
+				type: 'client',
+			},
 		} );
 
 		await waitForNextUpdate();

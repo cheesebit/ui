@@ -3,7 +3,14 @@ import PropTypes from 'prop-types';
 
 import { compareProps } from 'common/props-toolset';
 import { DEFAULT, Keys } from 'common/constants';
-import { lowercase, compact, isEmpty, isNil, toArray, values } from 'common/toolset';
+import {
+	lowercase,
+	compact,
+	isEmpty,
+	isNil,
+	toArray,
+	values,
+} from 'common/toolset';
 
 export function getNormalizedKeys( keys ) {
 	return `${ toArray( keys ).map( lowercase ).sort().join( '&' ) }`;
@@ -42,12 +49,15 @@ class ShortcutWatcher extends React.Component {
 		super( props );
 
 		const { shortcuts } = this.props;
-		this.shortcuts = toArray( shortcuts ).reduce( ( map, { keys, event } ) => {
-			return {
-				...map,
-				[ getNormalizedKeys( keys ) ]: event,
-			};
-		}, {} );
+		this.shortcuts = toArray( shortcuts ).reduce(
+			( map, { keys, event } ) => {
+				return {
+					...map,
+					[ getNormalizedKeys( keys ) ]: event,
+				};
+			},
+			{}
+		);
 
 		this.handleKeyPress = this.handleKeyPress.bind( this );
 	}
@@ -89,53 +99,54 @@ class ShortcutWatcher extends React.Component {
 		return whitelist || DEFAULT.ARRAY;
 	}
 
-subscribeToKeyEvents = () => {
-	document.addEventListener( 'keypress', this.handleKeyPress, false );
-};
+	subscribeToKeyEvents = () => {
+		document.addEventListener( 'keypress', this.handleKeyPress, false );
+	};
 
-unsubscribeToKeyEvents = () => {
-	document.removeEventListener( 'keypress', this.handleKeyPress, false );
-};
+	unsubscribeToKeyEvents = () => {
+		document.removeEventListener( 'keypress', this.handleKeyPress, false );
+	};
 
-handleKeyPress( event ) {
-	const tag = getCurrentTag();
-	if (
-		( ! isEmpty( this.blacklist ) && this.blacklist[ tag ] ) ||
-( ! isEmpty( this.whitelist ) && ! this.whitelist[ tag ] )
-	) {
-		return;
+	handleKeyPress( event ) {
+		const tag = getCurrentTag();
+		if (
+			( ! isEmpty( this.blacklist ) && this.blacklist[ tag ] ) ||
+			( ! isEmpty( this.whitelist ) && ! this.whitelist[ tag ] )
+		) {
+			return;
+		}
+
+		this.handleShortcut( event );
 	}
 
-	this.handleShortcut( event );
-}
+	handleShortcut = ( event ) => {
+		const { key } = event;
 
-handleShortcut = ( event ) => {
-	const { key } = event;
+		const shortcut =
+			this.shortcuts[
+				getNormalizedKeys(
+					compact( [
+						event.altKey && Keys.ALT,
+						event.ctrlKey && Keys.CONTROL,
+						event.shiftKey && Keys.SHIFT,
+						key,
+					] )
+				)
+			];
 
-	const shortcut = this.shortcuts[
-		getNormalizedKeys(
-			compact( [
-				event.altKey && Keys.ALT,
-				event.ctrlKey && Keys.CONTROL,
-				event.shiftKey && Keys.SHIFT,
-				key,
-			] ),
-		)
-	];
+		if ( isNil( shortcut ) ) {
+			return;
+		}
 
-	if ( isNil( shortcut ) ) {
-		return;
+		const shortcutEvent = createCustomEvent( shortcut );
+		document.dispatchEvent( shortcutEvent );
+	};
+
+	render() {
+		const { children } = this.props;
+
+		return children;
 	}
-
-	const shortcutEvent = createCustomEvent( shortcut );
-	document.dispatchEvent( shortcutEvent );
-};
-
-render() {
-	const { children } = this.props;
-
-	return children;
-}
 }
 
 ShortcutWatcher.propTypes = {
@@ -146,7 +157,7 @@ ShortcutWatcher.propTypes = {
 				PropTypes.arrayOf( PropTypes.oneOf( values( Keys ) ) ),
 			] ).isRequired,
 			event: PropTypes.string.isRequired,
-		} ),
+		} )
 	),
 };
 

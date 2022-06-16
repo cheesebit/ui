@@ -15,32 +15,34 @@ import DropdownContext from './dropdown.context';
  * @param {DropdownMenuItemProps} props
  * @return {JSX.Element} Dropdown menu item component.
  */
-export function DropdownMenuItem(props) {
+export function DropdownMenuItem( props ) {
 	const { onClick, children, disabled, ...others } = props;
 	/** @type {DropdownContextValue} */
-	const dropdown = React.useContext(DropdownContext);
+	const dropdown = React.useContext( DropdownContext );
 
 	return (
 		<List.Item
 			data-testid="item"
 			role="menuitem"
-			{...others}
-			{...(!dropdown.expanded && { tabIndex: '-1' })}
+			{ ...others }
+			{ ...( ! dropdown.expanded && { tabIndex: '-1' } ) }
 			block
 			borderless
 			// {/* we disable when not expanded so it becomes unfocusable */}
-			disabled={Boolean(!dropdown.expanded || dropdown.disabled || disabled)}
-			onClick={(e) => {
-				const shouldToggle = !onClick?.(e);
+			disabled={ Boolean(
+				! dropdown.expanded || dropdown.disabled || disabled
+			) }
+			onClick={ ( e ) => {
+				const shouldToggle = ! onClick?.( e );
 
-				if (shouldToggle) {
+				if ( shouldToggle ) {
 					dropdown.toggle();
 				}
-			}}
+			} }
 			as="button"
 			type="button"
 		>
-			<span className="children">{children}</span>
+			<span className="children">{ children }</span>
 		</List.Item>
 	);
 }
@@ -51,23 +53,29 @@ export const DropdownMenu = React.forwardRef(
 	 * @param {React.Ref<HTMLElement>} ref
 	 * @return {JSX.Element} Dropdown Menu  component.
 	 */
-	function DropdownMenu(props, ref) {
+	function DropdownMenu( props, ref ) {
 		/** @type {DropdownContextValue} */
-		const dropdown = React.useContext(DropdownContext);
+		const dropdown = React.useContext( DropdownContext );
 
-		const { classy } = useClassy(props);
-		const focusTrap = useFocusTrap({
-			keys: ['ARROW_UP', 'ARROW_DOWN'],
+		const { classy } = useClassy( props );
+		const focusTrap = useFocusTrap( {
+			keys: [ 'ARROW_UP', 'ARROW_DOWN' ],
 			onDeactivate() {
 				// triggerRef.current?.focus();
 			},
-		});
+		} );
 
-		const { className, children, hoverable = true, items, ...others } = props;
+		const {
+			className,
+			children,
+			hoverable = true,
+			items,
+			...others
+		} = props;
 
 		React.useEffect(
 			function onDropdownToggle() {
-				if (dropdown.expanded) {
+				if ( dropdown.expanded ) {
 					focusTrap.activate();
 				} else {
 					focusTrap.deactivate();
@@ -77,30 +85,30 @@ export const DropdownMenu = React.forwardRef(
 			 * We are interested in activating/deactivating our
 			 * focus trap when the dropdown changes its expanded state.
 			 */
-			[dropdown.expanded]
+			[ dropdown.expanded ]
 		);
 
 		function renderItems() {
-			if (!isNil(children)) {
+			if ( ! isNil( children ) ) {
 				return children;
 			}
 
-			return (items || DEFAULT.ARRAY).map((item, index) => (
+			return ( items || DEFAULT.ARRAY ).map( ( item, index ) => (
 				// TODO: use adapter here, instead of assuming the item has an ID
-				<DropdownMenuItem key={item.id ?? index} {...item} />
-			));
+				<DropdownMenuItem key={ item.id ?? index } { ...item } />
+			) );
 		}
 
 		return (
 			<FloatingList
 				data-testid="items"
-				className={classy('menu', className)}
-				hoverable={hoverable}
+				className={ classy( 'menu', className ) }
+				hoverable={ hoverable }
 				role="menu"
-				ref={ref || focusTrap.containerRef}
-				{...others}
+				ref={ ref || focusTrap.containerRef }
+				{ ...others }
 			>
-				{renderItems()}
+				{ renderItems() }
 			</FloatingList>
 		);
 	}

@@ -9,8 +9,8 @@ import { useID } from 'hooks/id';
 
 import './copy.scss';
 
-function Copy({ className, value, editable = false, onCopy, ...others }) {
-	const id = useID(others);
+function Copy( { className, value, editable = false, onCopy, ...others } ) {
+	const id = useID( others );
 
 	function handleClick() {
 		// based on https://www.w3schools.com/howto/howto_js_copy_clipboard.asp
@@ -18,38 +18,38 @@ function Copy({ className, value, editable = false, onCopy, ...others }) {
 		/* Get the text field */
 		/** @type {HTMLInputElement} */
 		// @ts-ignore
-		const copyText = document.getElementById(id);
+		const copyText = document.getElementById( id );
 
 		/* Select the text field */
 		copyText.select();
-		copyText.setSelectionRange(0, 99999); /* For mobile devices */
+		copyText.setSelectionRange( 0, 99999 ); /* For mobile devices */
 
 		/* Copy the text inside the text field */
-		document.execCommand('copy');
+		document.execCommand( 'copy' );
 
-		navigator?.clipboard?.readText?.().then((text) => {
-			onCopy?.(text);
-		});
+		navigator?.clipboard?.readText?.().then( ( text ) => {
+			onCopy?.( text );
+		} );
 	}
 
 	return (
 		<Box
 			borderless
 			paddingless
-			className={classy('cb-copy', className)}
+			className={ classy( 'cb-copy', className ) }
 			trailing={
 				<Button
 					emphasis="ghost"
 					icon="content-copy"
-					onClick={handleClick}
+					onClick={ handleClick }
 					data-testid="cb-copy-button"
 				/>
 			}
 		>
 			<Input
-				id={id}
-				{...(editable ? { value } : { defaultValue: value })}
-				readOnly={!editable}
+				id={ id }
+				{ ...( editable ? { value } : { defaultValue: value } ) }
+				readOnly={ ! editable }
 			/>
 		</Box>
 	);

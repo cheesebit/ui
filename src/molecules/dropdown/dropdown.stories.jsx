@@ -8,9 +8,9 @@ export default {
 	component: Dropdown,
 	argTypes: {
 		unroll: {
-			options: ['right', 'left', 'block'],
+			options: [ 'right', 'left', 'block' ],
 			control: {
-				type: 'select',
+				type: 'radio',
 			},
 		},
 		className: {
@@ -23,16 +23,16 @@ export default {
 
 const ITEMS = generateDropdownOptions();
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
-		<Dropdown {...args}>
+		<Dropdown { ...args }>
 			<Dropdown.Trigger>Actions</Dropdown.Trigger>
 			<Dropdown.Menu>
-				{ITEMS.map(({ label, onClick }) => (
-					<Dropdown.Item key={label} onClick={onClick}>
-						{label}
+				{ ITEMS.map( ( { label, onClick } ) => (
+					<Dropdown.Item key={ label } onClick={ onClick }>
+						{ label }
 					</Dropdown.Item>
-				))}
+				) ) }
 			</Dropdown.Menu>
 		</Dropdown>
 	);

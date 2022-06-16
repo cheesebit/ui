@@ -13,25 +13,32 @@ import './block.scss';
  * @param {BlockProps} props
  * @return {JSX.Element} Page block component.
  */
-function Block(props) {
-	const { main = false, borderless, children, className, paddingless, ...others } = props;
-	const { classy } = useClassy(props);
+function Block( props ) {
+	const {
+		main = false,
+		borderless,
+		children,
+		className,
+		paddingless,
+		...others
+	} = props;
+	const { classy } = useClassy( props );
 	return (
 		<Box
-			{...others}
+			{ ...others }
 			as="section"
-			className={classy(
+			className={ classy(
 				'cb-block',
 				{
 					'-main': main,
 				},
-				evaluateBorderless(borderless),
-				evaluatePaddingless(paddingless),
+				evaluateBorderless( borderless ),
+				evaluatePaddingless( paddingless ),
 				className
-			)}
+			) }
 			data-testid="cb-block"
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

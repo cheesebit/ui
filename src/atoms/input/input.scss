@@ -1,32 +1,32 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-input-wrapper {
 	@include transition(all);
 
-	@include rounded;
+	@include rounded(0);
 
 	@include focusable {
-		@include var(border-color, color-primary-400);
+		border-color: rgba($color-primary-400, 1);
 	}
 
 	@include hoverable {
-		@include var(border-color, color-gray-500);
+		border-color: rgba($color-gray-500, 1);
 	}
 
 	&.-success {
-		@include var(border-color, color-success);
+		border-color: rgba($color-success, 1);
 	}
 
 	&.-danger {
-		@include var(border-color, color-danger);
+		border-color: rgba($color-danger, 1);
 	}
 
 	&.-warn {
-		@include var(border-color, color-warn);
+		border-color: rgba($color-warn, 1);
 	}
 
 	&.-info {
-		@include var(border-color, color-info);
+		border-color: rgba($color-info, 1);
 	}
 }
 
@@ -40,13 +40,13 @@
 	// @include bordered;
 	@include rounded;
 
-	@include var(background, color-white);
-	@include var(border-color, color-gray-400);
-	@include var(color, color-gray-600);
-	@include var(caret-color, color-primary-400);
+	background: rgba($color-white, 1);
+	border-color: rgba($color-gray-400, 1);
+	color: rgba($color-gray-600, 1);
+	caret-color: rgba($color-primary-400, 1);
 
-	@include px(spacing-0);
-	@include py(spacing-2);
+	@include px($spacing-0);
+	@include py($spacing-2);
 
 	height: 40px;
 	outline: none !important;

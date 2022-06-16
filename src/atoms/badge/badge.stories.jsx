@@ -22,11 +22,13 @@ export default {
  * @param {import('./badge').BadgeProps} args - Badge props.
  * @return {JSX.Element} Badge playground.
  */
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Badge ready to be played around. Try me :)</p>
-			<Badge {...args} />
+			<p className="mb-2">
+				This is me, a cool Badge ready to be played around. Try me :)
+			</p>
+			<Badge { ...args } />
 		</div>
 	);
 }
@@ -35,17 +37,17 @@ Playground.args = {
 	children: generator.name(),
 };
 
-export const Neutral = Playground.bind({});
+export const Neutral = Playground.bind( {} );
 Neutral.args = { ...Playground.args, variant: 'neutral' };
 
-export const Primary = Playground.bind({});
+export const Primary = Playground.bind( {} );
 Primary.args = { ...Playground.args, variant: 'primary' };
 
-export const Secondary = Playground.bind({});
+export const Secondary = Playground.bind( {} );
 Secondary.args = { ...Playground.args, variant: 'secondary' };
 
-export const Terciary = Playground.bind({});
+export const Terciary = Playground.bind( {} );
 Terciary.args = { ...Playground.args, variant: 'terciary' };
 
-setupDefaultStory(Playground);
-setupDerivedStory([Neutral, Primary, Secondary, Terciary]);
+setupDefaultStory( Playground );
+setupDerivedStory( [ Neutral, Primary, Secondary, Terciary ] );

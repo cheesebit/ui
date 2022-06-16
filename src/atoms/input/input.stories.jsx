@@ -19,7 +19,7 @@ export default {
 				text: generator.word(),
 				nothing: null,
 			},
-			control: { type: 'select' },
+			control: { type: 'radio' },
 		},
 		trailing: {
 			options: {
@@ -27,32 +27,36 @@ export default {
 				text: generator.word(),
 				nothing: null,
 			},
-			control: { type: 'select' },
+			control: { type: 'radio' },
 		},
 		variant: {
-			options: ['info', 'success', 'warn', 'danger'],
-			control: { type: 'select' },
+			options: [ 'info', 'success', 'warn', 'danger' ],
+			control: { type: 'radio' },
 		},
 	},
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Input ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Input ready to be played around. Try me :)
+			</p>
 
-			<Input {...args} />
+			<Input { ...args } />
 		</div>
 	);
 }
 
-export function Mask(args) {
-	const mask = useMask({ mask: 'ddd.dd' });
+export function Mask( args ) {
+	const mask = useMask( { mask: 'ddd.dd' } );
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Input ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Input ready to be played around. Try me :)
+			</p>
 
-			<Input {...args} {...mask} />
+			<Input { ...args } { ...mask } />
 		</div>
 	);
 }

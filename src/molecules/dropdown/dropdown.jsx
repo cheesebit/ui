@@ -12,7 +12,15 @@ import useDropdown from './use-dropdown';
 
 import './dropdown.scss';
 
-const OMITTED_PROPS = ['trigger', 'expanded', 'expand', 'collapse', 'items', 'unroll', 'hoverable'];
+const OMITTED_PROPS = [
+	'trigger',
+	'expanded',
+	'expand',
+	'collapse',
+	'items',
+	'unroll',
+	'hoverable',
+];
 
 // TODO: throw error if props.toggle is undefined for GenericDropdown
 
@@ -21,46 +29,54 @@ const OMITTED_PROPS = ['trigger', 'expanded', 'expand', 'collapse', 'items', 'un
  * @param {GenericDropdownProps} props
  * @return {JSX.Element} Generic dropdown component that can have its `disabled`, `expanded`, and `toggle` customized.
  */
-export function GenericDropdown(props) {
+export function GenericDropdown( props ) {
 	const ref = useRef();
-	const id = useID(props);
-	const { prop, classy } = useClassy(props);
+	const id = useID( props );
+	const { when, classy } = useClassy( props );
 
-	const { children, className, disabled, expanded, onBlur, toggle, ...others } = props;
+	const {
+		children,
+		className,
+		disabled,
+		expanded,
+		onBlur,
+		toggle,
+		...others
+	} = props;
 
 	/** @type {DropdownContextValue} */
 	const contextValue = { disabled, expanded, toggle };
 
-	useClickOutside(ref, function handleClickOutside() {
-		if (!expanded) {
+	useClickOutside( ref, function handleClickOutside() {
+		if ( ! expanded ) {
 			return;
 		}
 
 		toggle();
 		onBlur?.();
-	});
+	} );
 
 	return (
-		<DropdownContext.Provider value={contextValue}>
+		<DropdownContext.Provider value={ contextValue }>
 			<div
 				data-testid="cb-dropdown"
-				{...omit(OMITTED_PROPS, others)}
-				ref={ref}
-				className={classy(
+				{ ...omit( OMITTED_PROPS, others ) }
+				ref={ ref }
+				className={ classy(
 					'cb-dropdown',
 					{
-						'-unroll-right': prop({ unroll: 'right' }),
-						'-unroll-left': prop({ unroll: 'left' }),
-						'-unroll-block': prop({ unroll: 'block' }),
+						'-unroll-right': when( { unroll: 'right' } ),
+						'-unroll-left': when( { unroll: 'left' } ),
+						'-unroll-block': when( { unroll: 'block' } ),
 					},
 					{
 						'is-expanded': expanded,
 					},
 					className
-				)}
-				id={id}
+				) }
+				id={ id }
 			>
-				{children}
+				{ children }
 			</div>
 		</DropdownContext.Provider>
 	);
@@ -71,15 +87,17 @@ export function GenericDropdown(props) {
  * @param {DropdownProps} props
  * @return {JSX.Element} Dropdown component.
  */
-function Dropdown(props) {
+function Dropdown( props ) {
 	const { unroll = 'right' } = props;
-	const dropdownProps = useDropdown(props);
+	const dropdownProps = useDropdown( props );
 
-	return <GenericDropdown {...props} {...dropdownProps} unroll={unroll} />;
+	return (
+		<GenericDropdown { ...props } { ...dropdownProps } unroll={ unroll } />
+	);
 }
 
 Dropdown.propTypes = {
-	unroll: PropTypes.oneOf(['right', 'left', 'block']),
+	unroll: PropTypes.oneOf( [ 'right', 'left', 'block' ] ),
 };
 
 Dropdown.Menu = DropdownMenu;

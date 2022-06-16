@@ -26,20 +26,21 @@ describe( 'validator', () => {
 		} );
 
 		it( 'returns an array with the validator name when previous status is true and current status is false', () => {
-			expect( getStatus( true, false, 'validator-name' ) ).toEqual( [ 'validator-name' ] );
+			expect( getStatus( true, false, 'validator-name' ) ).toEqual( [
+				'validator-name',
+			] );
 		} );
 
 		it( 'returns an array with the validator name when previous status is false and current status is true', () => {
-			expect( getStatus( [ 'validator-name-1' ], true, 'validator-name-2' ) ).toEqual( [
-				'validator-name-1',
-			] );
+			expect(
+				getStatus( [ 'validator-name-1' ], true, 'validator-name-2' )
+			).toEqual( [ 'validator-name-1' ] );
 		} );
 
 		it( 'returns an array with the validator names when previous status is false and current status is false', () => {
-			expect( getStatus( [ 'validator-name-1' ], false, 'validator-name-2' ) ).toEqual( [
-				'validator-name-1',
-				'validator-name-2',
-			] );
+			expect(
+				getStatus( [ 'validator-name-1' ], false, 'validator-name-2' )
+			).toEqual( [ 'validator-name-1', 'validator-name-2' ] );
 		} );
 	} );
 
@@ -70,7 +71,9 @@ describe( 'validator', () => {
 	describe( 'getValidator', () => {
 		it( 'returns a predefined validator if the given rule name matches an existing validator', () => {
 			each( ( ruleName ) => {
-				expect( getValidator( ruleName ) ).toEqual( validators[ ruleName ] );
+				expect( getValidator( ruleName ) ).toEqual(
+					validators[ ruleName ]
+				);
 			}, keys( validators ) );
 		} );
 
@@ -131,7 +134,9 @@ describe( 'validator', () => {
 				handler: generator.word(),
 			};
 
-			expect( () => handleObjectRule( rule ) ).toThrowError( InvalidValidatorError );
+			expect( () => handleObjectRule( rule ) ).toThrowError(
+				InvalidValidatorError
+			);
 		} );
 
 		it( 'throws an error if the provided except is not a Promise or a function', () => {
@@ -141,7 +146,9 @@ describe( 'validator', () => {
 				handler: jest.fn(),
 			};
 
-			expect( () => handleObjectRule( rule ) ).toThrowError( InvalidExceptCheckerError );
+			expect( () => handleObjectRule( rule ) ).toThrowError(
+				InvalidExceptCheckerError
+			);
 		} );
 	} );
 
@@ -212,7 +219,12 @@ describe( 'validator', () => {
 		} );
 
 		it( 'returns status true for all fields if schema is empty', async () => {
-			expect( await validate( { name: 'John Doe', email: 'john@doe.com' }, {} ) ).toEqual( {
+			expect(
+				await validate(
+					{ name: 'John Doe', email: 'john@doe.com' },
+					{}
+				)
+			).toEqual( {
 				name: true,
 				email: true,
 			} );
@@ -225,8 +237,8 @@ describe( 'validator', () => {
 					{
 						name: [],
 						email: [],
-					},
-				),
+					}
+				)
 			).toEqual( {
 				name: true,
 				email: true,
@@ -237,8 +249,8 @@ describe( 'validator', () => {
 			expect(
 				await validate(
 					{ name: 'John Doe', email: 'john@doe.com' },
-					{},
-				),
+					{}
+				)
 			).toEqual( {
 				name: true,
 				email: true,
@@ -255,9 +267,7 @@ describe( 'validator', () => {
 
 			await validate( { name: 'John Doe' }, schema );
 
-			expect(
-				schema.name.handler,
-			).not.toHaveBeenCalled();
+			expect( schema.name.handler ).not.toHaveBeenCalled();
 		} );
 
 		it( 'proceeds with validation if `except` returns `false`', async () => {
@@ -270,9 +280,7 @@ describe( 'validator', () => {
 
 			await validate( { name: 'John Doe' }, schema );
 
-			expect(
-				schema.name.handler,
-			).toHaveBeenCalled();
+			expect( schema.name.handler ).toHaveBeenCalled();
 		} );
 
 		it( 'runs validator successfully', async () => {
@@ -301,7 +309,10 @@ describe( 'validator', () => {
 
 			await validate( values, schema );
 
-			expect( schema.name.handler ).toHaveBeenCalledWith( values, ...schema.name.args );
+			expect( schema.name.handler ).toHaveBeenCalledWith(
+				values,
+				...schema.name.args
+			);
 		} );
 	} );
 } );

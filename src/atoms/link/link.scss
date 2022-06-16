@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-link {
 	@include font;
@@ -14,23 +14,23 @@
 
 	&,
 	&:visited {
-		@include var(color, color-primary-500);
+		color: rgba($color-primary-500, 1);
 	}
 
 	@include hoverable {
-		@include var(color, color-secondary-400);
+		color: rgba($color-secondary-400, 1);
 	}
 
 	& + & {
-		@include my(spacing-0);
-		@include var(margin-left, spacing-4);
-		@include var(margin-right, spacing-0);
+		@include my($spacing-0);
+		margin-left: $spacing-4;
+		margin-right: $spacing-0;
 	}
 
 	&.-animated {
 		&::after {
 			@include transition(transform, $duration: 0.25s);
-			@include var(background-color, color-secondary-100);
+			background-color: rgba($color-secondary-100, 1);
 
 			position: absolute;
 			bottom: 0;
@@ -39,7 +39,7 @@
 			height: 2px;
 			transform: scaleX(0);
 			transform-origin: bottom right;
-			content: '';
+			content: "";
 		}
 
 		@include hoverable {

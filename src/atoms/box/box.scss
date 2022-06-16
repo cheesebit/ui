@@ -1,4 +1,4 @@
-@import '../../styles/index';
+@import "../../styles/mixins";
 
 .cb-box {
 	@include font;
@@ -8,9 +8,9 @@
 	flex-flow: row nowrap;
 	align-items: center;
 
-	@include m(spacing-0);
-	@include px(spacing-4);
-	@include py(spacing-2);
+	@include m($spacing-0);
+	@include px($spacing-4);
+	@include py($spacing-2);
 
 	text-decoration: none;
 
@@ -20,16 +20,16 @@
 		align-items: center;
 		justify-content: center;
 
-		@include px(spacing-0);
-		@include py(spacing-0);
-		@include mx(spacing-0);
-		@include my(spacing-0);
+		@include px($spacing-0);
+		@include py($spacing-0);
+		@include mx($spacing-0);
+		@include my($spacing-0);
 	}
 
 	& > .leading + .children:not(:empty),
 	& > .leading + .trailing,
 	& > .children:not(:empty) + .trailing {
-		@include var(margin-left, spacing-2);
+		@include ml($spacing-2);
 	}
 
 	&.-block {

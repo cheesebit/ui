@@ -27,7 +27,9 @@ const CLASSES = {
 describe( 'useAnimation', () => {
 	it( 'returns successfully', () => {
 		const current = 'out';
-		const { result } = renderHook( () => useAnimation( STATES, CLASSES, current ) );
+		const { result } = renderHook( () =>
+			useAnimation( STATES, CLASSES, current )
+		);
 
 		expect( typeof result.current.transition ).toBe( 'function' );
 		expect( result.current.current ).toBe( 'out' );

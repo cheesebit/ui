@@ -12,8 +12,8 @@ import logger from 'common/logger';
  * @param {Object} valuesProp - values to be managed by the form hook.
  * @param {Object} schema - Validation schema for the given values.
  */
-export function useForm(valuesProp, schema) {
-	const { status, dispatch: dispatchValidate } = useValidation(schema);
+export function useForm( valuesProp, schema ) {
+	const { status, dispatch: dispatchValidate } = useValidation( schema );
 
 	/**
 	 *
@@ -21,20 +21,20 @@ export function useForm(valuesProp, schema) {
 	 * @param {FormAction} action
 	 * @return {FormState} new state
 	 */
-	function reducer(state, action) {
+	function reducer( state, action ) {
 		// TODO: investigate why it is not identifying the payload
 		// @ts-ignore
 		const { type, payload } = action;
 		const safePayload = payload || DEFAULT.OBJECT;
 
-		switch (type) {
+		switch ( type ) {
 			case 'reset':
 				return state;
 			case 'validate':
 			case 'field.validate': {
-				dispatchValidate('validate', {
+				dispatchValidate( 'validate', {
 					values: state,
-				});
+				} );
 
 				return state;
 			}
@@ -42,12 +42,12 @@ export function useForm(valuesProp, schema) {
 				const { id, name, value, validate = false } = safePayload;
 				const safeID = name || id;
 
-				if (isBlank(safeID)) {
+				if ( isBlank( safeID ) ) {
 					// TODO: throw error
 					return state;
 				}
 
-				logger.debug('field.set', safeID, ' = ', value);
+				logger.debug( 'field.set', safeID, ' = ', value );
 				const newState = set(
 					{
 						...state,
@@ -56,11 +56,11 @@ export function useForm(valuesProp, schema) {
 					value
 				);
 
-				if (validate) {
-					dispatchValidate('validate', {
+				if ( validate ) {
+					dispatchValidate( 'validate', {
 						id: safeID,
 						values: newState,
-					});
+					} );
 				}
 
 				return newState;
@@ -70,7 +70,7 @@ export function useForm(valuesProp, schema) {
 		}
 	}
 
-	const [values, dispatch] = React.useReducer(reducer, valuesProp || {});
+	const [ values, dispatch ] = React.useReducer( reducer, valuesProp || {} );
 
 	return { values, status, dispatch };
 }

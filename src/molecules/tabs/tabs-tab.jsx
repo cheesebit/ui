@@ -9,18 +9,24 @@ import { Box } from 'atoms/box';
  * @param {TabProps} props
  * @return {JSX.Element} Tab component.
  */
-function Tab(props) {
-	const { active = false, disabled = false, label, className, ...others } = props;
+function Tab( props ) {
+	const {
+		active = false,
+		disabled = false,
+		label,
+		className,
+		...others
+	} = props;
 
 	return (
 		<Box
 			borderless
-			{...others}
+			{ ...others }
 			role="tab"
-			aria-disabled={disabled}
-			aria-selected={active}
+			aria-disabled={ disabled }
+			aria-selected={ active }
 			as="a"
-			className={classy(
+			className={ classy(
 				'tab',
 				{
 					'is-active': active,
@@ -28,10 +34,10 @@ function Tab(props) {
 					'is-disabled': disabled,
 				},
 				className
-			)}
+			) }
 			data-testid="tab"
 		>
-			{label}
+			{ label }
 		</Box>
 	);
 }
@@ -39,10 +45,10 @@ function Tab(props) {
 // storybook use only
 Tab.propTypes = {
 	active: PropTypes.bool,
-	children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+	children: PropTypes.oneOfType( [ PropTypes.node, PropTypes.func ] ),
 	disabled: PropTypes.bool,
-	id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-	label: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+	id: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
+	label: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
 	onClick: PropTypes.func,
 };
 

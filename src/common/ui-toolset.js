@@ -11,8 +11,8 @@ import { isNil } from './toolset';
  *  as named parameters the offsetWidth and the element itselfl
  * @return {number} Width of the given element, or `0` if anything went wrong.
  */
-export function getWidth(element, options) {
-	const { width = 0 } = getMeasurements(element, options);
+export function getWidth( element, options ) {
+	const { width = 0 } = getMeasurements( element, options );
 
 	return width;
 }
@@ -27,8 +27,8 @@ export function getWidth(element, options) {
  *  It's useful for when you need to add a non-measurable value to your width.
  * @return {Object} Object containing `width`, `top`, `left`, `padding`, `margin` values.
  */
-export function getMeasurements(element, options) {
-	if (isNil(element)) {
+export function getMeasurements( element, options ) {
+	if ( isNil( element ) ) {
 		return DEFAULT.OBJECT;
 	}
 
@@ -36,16 +36,16 @@ export function getMeasurements(element, options) {
 	const top = element.offsetTop;
 	let width = element.offsetWidth;
 
-	const style = getComputedStyle(element);
+	const style = getComputedStyle( element );
 
 	const { margin = false, add } = options || DEFAULT.OBJECT;
 
-	if (margin) {
-		width += parseInt(style.marginLeft) + parseInt(style.marginRight);
+	if ( margin ) {
+		width += parseInt( style.marginLeft ) + parseInt( style.marginRight );
 	}
 
-	if (add) {
-		width += add({ width, element });
+	if ( add ) {
+		width += add( { width, element } );
 	}
 
 	return {
@@ -53,16 +53,16 @@ export function getMeasurements(element, options) {
 		top,
 		width,
 		padding: {
-			top: parseInt(style.paddingTop, 10),
-			right: parseInt(style.paddingRight, 10),
-			bottom: parseInt(style.paddingBottom, 10),
-			left: parseInt(style.paddingLeft, 10),
+			top: parseInt( style.paddingTop, 10 ),
+			right: parseInt( style.paddingRight, 10 ),
+			bottom: parseInt( style.paddingBottom, 10 ),
+			left: parseInt( style.paddingLeft, 10 ),
 		},
 		margin: {
-			top: parseInt(style.marginTop, 10),
-			right: parseInt(style.marginRight, 10),
-			bottom: parseInt(style.marginBottom, 10),
-			left: parseInt(style.marginLeft, 10),
+			top: parseInt( style.marginTop, 10 ),
+			right: parseInt( style.marginRight, 10 ),
+			bottom: parseInt( style.marginBottom, 10 ),
+			left: parseInt( style.marginLeft, 10 ),
 		},
 	};
 }
@@ -77,12 +77,12 @@ export function getMeasurements(element, options) {
  *
  * @return {boolean} - `true` if style attribute was successfuly assigned; `false` otherwise.
  */
-export const setElementStyle = (element, attribute, value) => {
-	if (!element) {
+export const setElementStyle = ( element, attribute, value ) => {
+	if ( ! element ) {
 		return false;
 	}
 
-	element.style[attribute] = value;
+	element.style[ attribute ] = value;
 	return true;
 };
 
@@ -92,7 +92,7 @@ export const setElementStyle = (element, attribute, value) => {
  * @param {ChangeEvent} e
  * @return {string}|boolean
  */
-export function getValueFromEvent(e) {
+export function getValueFromEvent( e ) {
 	const {
 		target,
 		target: { type },

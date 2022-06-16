@@ -16,14 +16,15 @@ export default {
 	},
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool Copy to Clipboard ready to be played around. Try me :)
+				This is me, a cool Copy to Clipboard ready to be played around.
+				Try me :)
 			</p>
 
-			<Copy {...args} />
+			<Copy { ...args } />
 		</div>
 	);
 }

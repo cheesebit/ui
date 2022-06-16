@@ -33,12 +33,14 @@ export default {
 	},
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool List ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool List ready to be played around. Try me :)
+			</p>
 
-			<List {...args} />
+			<List { ...args } />
 		</div>
 	);
 }
@@ -46,17 +48,24 @@ export function Playground(args) {
 Playground.args = {
 	children: (
 		<React.Fragment>
-			{range(0, generator.natural({ min: 5, max: 10 })).map((value) => (
-				<List.Item
-					key={value}
-					leading={
-						<Checkbox id={value} aria-label="List item 1" name="list" value={value} />
-					}
-					as="label"
-				>
-					{generator.sentence()}
-				</List.Item>
-			))}
+			{ range( 0, generator.natural( { min: 5, max: 10 } ) ).map(
+				( value ) => (
+					<List.Item
+						key={ value }
+						leading={
+							<Checkbox
+								id={ value }
+								aria-label="List item 1"
+								name="list"
+								value={ value }
+							/>
+						}
+						as="label"
+					>
+						{ generator.sentence() }
+					</List.Item>
+				)
+			) }
 		</React.Fragment>
 	),
 };

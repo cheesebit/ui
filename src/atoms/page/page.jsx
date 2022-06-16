@@ -12,13 +12,17 @@ import './page.scss';
  * @param {React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>} props
  * @return {JSX.Element} Page component.
  */
-function Page(props) {
+function Page( props ) {
 	const { className, children, ...others } = props;
-	const { classy } = useClassy(props);
+	const { classy } = useClassy( props );
 
 	return (
-		<article data-testid="cb-page" className={classy('cb-page', className)} {...others}>
-			{children}
+		<article
+			data-testid="cb-page"
+			className={ classy( 'cb-page', className ) }
+			{ ...others }
+		>
+			{ children }
 		</article>
 	);
 }

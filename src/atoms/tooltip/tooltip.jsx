@@ -20,7 +20,7 @@ import './tooltip.scss';
  * @param {TooltipProps} props
  * @return {JSX.Element} Tooltip component.
  */
-function Tooltip(props) {
+function Tooltip( props ) {
 	const {
 		mode = 'dark',
 		placement = 'top-start',
@@ -29,47 +29,51 @@ function Tooltip(props) {
 		className,
 		text,
 	} = props;
-	const { classy, prop } = useClassy({ mode, variant });
+	const { classy, when } = useClassy( { mode, variant } );
 
-	if ((typeof text == 'string' && isBlank(text)) || !Boolean(text) || isNil(children)) {
+	if (
+		( typeof text == 'string' && isBlank( text ) ) ||
+		! Boolean( text ) ||
+		isNil( children )
+	) {
 		return null;
 	}
 
 	return (
 		<div className="cb-tooltip-container">
-			{children}
+			{ children }
 			<span
 				data-testid="cb-tooltip"
-				className={classy(
+				className={ classy(
 					'cb-tooltip',
 					{
-						'-top': TOP_REGEX.test(placement),
-						'-right': RIGHT_REGEX.test(placement),
-						'-bottom': BOTTOM_REGEX.test(placement),
-						'-left': LEFT_REGEX.test(placement),
+						'-top': TOP_REGEX.test( placement ),
+						'-right': RIGHT_REGEX.test( placement ),
+						'-bottom': BOTTOM_REGEX.test( placement ),
+						'-left': LEFT_REGEX.test( placement ),
 					},
 					{
-						'-start': START_REGEX.test(placement),
-						'-center': CENTER_REGEX.test(placement),
-						'-end': END_REGEX.test(placement),
+						'-start': START_REGEX.test( placement ),
+						'-center': CENTER_REGEX.test( placement ),
+						'-end': END_REGEX.test( placement ),
 					},
 					{
-						'-light': prop({ mode: 'light' }),
-						'-dark': prop({ mode: 'dark' }),
+						'-light': when( { mode: 'light' } ),
+						'-dark': when( { mode: 'dark' } ),
 					},
 					{
-						'-danger': prop({ variant: 'danger' }),
-						'-info': prop({ variant: 'info' }),
-						'-success': prop({ variant: 'success' }),
-						'-warn': prop({ variant: 'warn' }),
+						'-danger': when( { variant: 'danger' } ),
+						'-info': when( { variant: 'info' } ),
+						'-success': when( { variant: 'success' } ),
+						'-warn': when( { variant: 'warn' } ),
 					},
 					// animationClassName,
 					className
-				)}
-				title={null}
-				aria-label={typeof text == 'string' ? text : ''}
+				) }
+				title={ null }
+				aria-label={ typeof text == 'string' ? text : '' }
 			>
-				{text}
+				{ text }
 			</span>
 		</div>
 	);

@@ -5,23 +5,23 @@ import { Box } from '../box';
 import { BorderlessPropType, PaddinglessPropType } from 'common/prop-types';
 import { evaluateBorderless, evaluatePaddingless } from 'common/props-toolset';
 
-const PageBody = (props) => {
+const PageBody = ( props ) => {
 	const { className, children, borderless, paddingless, ...others } = props;
-	const { classy } = useClassy(props);
+	const { classy } = useClassy( props );
 
 	return (
 		<Box
 			data-testid="page-body"
-			{...others}
+			{ ...others }
 			as="article"
-			className={classy(
+			className={ classy(
 				'body',
 				className,
-				evaluateBorderless(borderless),
-				evaluatePaddingless(paddingless)
-			)}
+				evaluateBorderless( borderless ),
+				evaluatePaddingless( paddingless )
+			) }
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 };

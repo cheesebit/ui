@@ -1,11 +1,11 @@
 import React from 'react';
 
 /** @type {React.Context<{ values: FormState, status: ValidationStatus, dispatch: FormDispatcher }>} */
-const FormContext = React.createContext({
+const FormContext = React.createContext( {
 	values: {},
 	status: {},
 	dispatch: function noop() {},
-});
+} );
 
 export default FormContext;
 

@@ -17,7 +17,7 @@ export default {
 			},
 		},
 		icon: {
-			options: keys(icons),
+			options: keys( icons ),
 			control: {
 				type: 'select',
 			},
@@ -28,7 +28,7 @@ export default {
 				text: generator.word(),
 				nothing: null,
 			},
-			control: { type: 'select' },
+			control: { type: 'radio' },
 		},
 		trailing: {
 			options: {
@@ -36,16 +36,18 @@ export default {
 				text: generator.word(),
 				nothing: null,
 			},
-			control: { type: 'select' },
+			control: { type: 'radio' },
 		},
 	},
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Button ready to be played around. Try me :)</p>
-			<Button {...args} />
+			<p className="mb-2">
+				This is me, a cool Button ready to be played around. Try me :)
+			</p>
+			<Button { ...args } />
 		</div>
 	);
 }
@@ -54,18 +56,18 @@ Playground.args = {
 	children: 'Button',
 };
 
-export const Text = Playground.bind({});
+export const Text = Playground.bind( {} );
 Text.args = { ...Playground.args, emphasis: 'text', size: 'medium' };
 
-export const Ghost = Playground.bind({});
+export const Ghost = Playground.bind( {} );
 Ghost.args = {
 	...Playground.args,
 	emphasis: 'ghost',
 	size: 'medium',
 };
 
-export const Flat = Playground.bind({});
+export const Flat = Playground.bind( {} );
 Flat.args = { ...Playground.args, emphasis: 'flat', size: 'medium' };
 
-setupDefaultStory(Playground);
-setupDerivedStory([Text, Ghost, Flat]);
+setupDefaultStory( Playground );
+setupDerivedStory( [ Text, Ghost, Flat ] );

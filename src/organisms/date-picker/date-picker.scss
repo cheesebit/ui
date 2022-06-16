@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-date-picker {
 	@include font;
@@ -18,37 +18,37 @@
 		align-items: center;
 		justify-content: center;
 
-		@include px(spacing-6);
-		@include var(padding-top, spacing-6);
-		@include var(padding-bottom, spacing-0);
+		@include px($spacing-6);
+		@include pt($spacing-6);
+		@include pb($spacing-0);
 	}
 
 	.year-month-display {
 		display: grid;
 		grid-template-rows: 24px 12px;
 
-		@include px(spacing-4);
-		@include var(font-size, font-size-2xl);
+		@include px($spacing-4);
+		font-size: $font-size-2xl;
 	}
 
 	.batata {
 		@include rounded(50%);
-		@include var(background, color-gray-100);
+		background: $color-gray-100;
 
-		// @include var(border-color, color-primary-500);
-		// @include var(color, color-primary-500);
-		@include var(font-size, font-size-2xl);
+		// border-color: $color-primary-500;
+		// color: $color-primary-500;
+		font-size: $font-size-2xl;
 		@include hoverable {
-			@include var(background, color-gray-300);
-			@include var(color, color-primary-500);
+			background: $color-gray-300;
+			color: $color-primary-500;
 
-			// @include var(border-color, color-primary-500);
-			// @include var(color, color-white);
+			// border-color: $color-primary-500;
+			// color: $color-white;
 		}
 	}
 
 	.batata + .batata {
-		@include var(margin-left, spacing-2);
+		margin-left: $spacing-2;
 	}
 
 	.year {
@@ -58,7 +58,7 @@
 	}
 
 	.month {
-		@include var(font-size, font-size-xs);
+		font-size: $font-size-xs;
 
 		display: flex;
 		align-items: center;
@@ -74,8 +74,8 @@
 	//   @include transition(max-height opacity);
 
 	//   @include shadow;
-	//   @include var(z-index, layer-3);
-	//   @include var(background, color-white);
+	//   z-index: $layer-3;
+	//   background: $color-white;
 
 	//   overflow-x: hidden;
 	//   overflow-y: auto;
@@ -84,9 +84,9 @@
 
 	//   position: absolute;
 
-	//   @include mx(spacing-0);
-	//   @include var(margin-bottom, spacing-0);
-	//   @include var(margin-top, spacing-2);
+	//   @include mx($spacing-0);
+	//   margin-bottom: $spacing-0;
+	//   margin-top: $spacing-2;
 	//   padding: 0;
 
 	//   top: calc(100% - 1px);

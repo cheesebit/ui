@@ -2,9 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import useClassy from '@cheesebit/classy';
 
-import { AnchorHTMLAttributes } from 'common/props-dom';
 import { Box } from '../box';
-import { pick } from 'common/toolset';
 import { sanitizeProps } from './link.helpers';
 
 import './link.scss';
@@ -16,7 +14,7 @@ import './link.scss';
  * @param {LinkProps} props
  * @return {JSX.Element} Link component.
  */
-function Link(props) {
+function Link( props ) {
 	const {
 		animated = false,
 		disabled = false,
@@ -27,28 +25,28 @@ function Link(props) {
 		...others
 	} = props;
 	let { href, rel } = others;
-	const { classy } = useClassy({ disabled, animated });
-	({ rel, href } = sanitizeProps({ target, rel, href }));
+	const { classy } = useClassy( { disabled, animated } );
+	( { rel, href } = sanitizeProps( { target, rel, href } ) );
 
 	return (
 		<Box
 			data-testid="cb-link"
 			borderless
 			paddingless
-			{...others}
+			{ ...others }
 			as="a"
-			aria-label={title}
-			className={classy(className, 'cb-link', {
+			aria-label={ title }
+			className={ classy( className, 'cb-link', {
 				'is-disabled': disabled,
 				'-animated': animated,
-			})}
+			} ) }
 			// @ts-ignore
-			href={href}
-			rel={rel}
-			target={target}
-			title={title}
+			href={ href }
+			rel={ rel }
+			target={ target }
+			title={ title }
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

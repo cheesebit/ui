@@ -20,38 +20,41 @@ const DEFAULT_CLASSES = {
 	in: 'animate-in',
 };
 
-function useAnimation(states, classes, currentProp = 'out') {
-	const timeoutIDRef = React.useRef(null);
-	const { transition, current } = useAutomaton(states || DEFAULT_STATES, currentProp);
+function useAnimation( states, classes, currentProp = 'out' ) {
+	const timeoutIDRef = React.useRef( null );
+	const { transition, current } = useAutomaton(
+		states || DEFAULT_STATES,
+		currentProp
+	);
 	const safeClasses = classes || DEFAULT_CLASSES;
 
 	// TODO: Create a more generic way to manage animation
 
-	const handleMouseEnter = React.useCallback(() => {
-		clearTimeout(timeoutIDRef.current);
+	const handleMouseEnter = React.useCallback( () => {
+		clearTimeout( timeoutIDRef.current );
 
-		transition('enter');
-	}, []);
+		transition( 'enter' );
+	}, [] );
 
-	const handleMouseLeave = React.useCallback(() => {
-		clearTimeout(timeoutIDRef.current);
+	const handleMouseLeave = React.useCallback( () => {
+		clearTimeout( timeoutIDRef.current );
 
-		timeoutIDRef.current = setTimeout(() => {
-			transition('exit');
-		}, 1500);
-	}, []);
+		timeoutIDRef.current = setTimeout( () => {
+			transition( 'exit' );
+		}, 1500 );
+	}, [] );
 
 	return {
 		transition,
 		current,
 		onEnter: handleMouseEnter,
 		onExit: handleMouseLeave,
-		className: classy({
-			[safeClasses.entering]: current == 'entering',
-			[safeClasses.in]: current == 'in',
-			[safeClasses.exiting]: current == 'exiting',
-			[safeClasses.out]: current == 'out',
-		}),
+		className: classy( {
+			[ safeClasses.entering ]: current == 'entering',
+			[ safeClasses.in ]: current == 'in',
+			[ safeClasses.exiting ]: current == 'exiting',
+			[ safeClasses.out ]: current == 'out',
+		} ),
 	};
 }
 

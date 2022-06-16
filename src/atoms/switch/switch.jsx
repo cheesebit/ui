@@ -11,7 +11,7 @@ import { useID } from 'hooks/id';
 
 import './switch.scss';
 
-const InputHTMLAttributesProps = Object.keys(InputHTMLAttributes);
+const InputHTMLAttributesProps = Object.keys( InputHTMLAttributes );
 
 /**
  * Switch component.
@@ -19,7 +19,7 @@ const InputHTMLAttributesProps = Object.keys(InputHTMLAttributes);
  * @param {SwitchProps} props
  * @return {JSX.Element} Switch component.
  */
-function Switch(props) {
+function Switch( props ) {
 	const {
 		borderless = true,
 		paddingless = 'horizontal',
@@ -30,36 +30,45 @@ function Switch(props) {
 		trailing,
 		...others
 	} = props;
-	const { classy } = useClassy(props);
-	const id = useID(props);
+	const { classy } = useClassy( props );
+	const id = useID( props );
 
 	return (
 		<Box
 			data-testid="cb-switch"
 			as="label"
-			className={classy('cb-switch', { 'is-disabled': disabled }, className)}
-			borderless={borderless}
-			paddingless={paddingless}
-			block={block}
-			trailing={trailing}
+			className={ classy(
+				'cb-switch',
+				{ 'is-disabled': disabled },
+				className
+			) }
+			borderless={ borderless }
+			paddingless={ paddingless }
+			block={ block }
+			trailing={ trailing }
 			// @ts-ignore
-			htmlFor={id}
+			htmlFor={ id }
 			leading={
 				<React.Fragment>
 					<input
 						data-testid="selector"
-						{...pick(InputHTMLAttributesProps, others)}
+						{ ...pick( InputHTMLAttributesProps, others ) }
 						role="switch"
 						type="checkbox"
 						className="selector"
-						id={id}
-						disabled={disabled}
+						id={ id }
+						disabled={ disabled }
 					/>
-					<Icon aria-hidden="true" name="circle" className="check" size={16} />
+					<Icon
+						aria-hidden="true"
+						name="circle"
+						className="check"
+						size={ 16 }
+					/>
 				</React.Fragment>
 			}
 		>
-			{children}
+			{ children }
 		</Box>
 	);
 }

@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-table {
 	display: flex;
@@ -13,13 +13,13 @@
 	}
 
 	& > .header {
-		@include var(border-color, color-gray-500);
+		border-color: $color-gray-500;
 	}
 
 	& > .header .cell {
-		@include var(font-size, font-size-sm);
-		@include var(font-weight, font-weight-bold);
-		@include var(color, color-gray-500);
+		font-size: $font-size-sm;
+		font-weight: $font-weight-bold;
+		color: $color-gray-500;
 
 		text-transform: capitalize;
 		text-decoration: none;

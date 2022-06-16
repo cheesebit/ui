@@ -1,1 +1,81 @@
-@import './utilities/index';
+@import "./mixins";
+
+.cb-no-border {
+	border: none !important;
+}
+
+.cb-no-top-border {
+	border-top: none !important;
+}
+
+.cb-no-right-border {
+	border-right: none !important;
+}
+
+.cb-no-bottom-border {
+	border-bottom: none !important;
+}
+
+.cb-no-left-border {
+	border-left: none !important;
+}
+
+.cb-no-vertical-border {
+	@extend .cb-no-top-border;
+	@extend .cb-no-bottom-border;
+}
+
+.cb-no-horizontal-border {
+	@extend .cb-no-right-border;
+	@extend .cb-no-left-border;
+}
+
+.cb-no-padding {
+	padding: 0 !important;
+}
+
+.cb-no-top-padding {
+	padding-top: 0 !important;
+}
+
+.cb-no-right-padding {
+	padding-right: 0 !important;
+}
+
+.cb-no-bottom-padding {
+	padding-bottom: 0 !important;
+}
+
+.cb-no-left-padding {
+	padding-left: 0 !important;
+}
+
+.cb-no-vertical-padding {
+	@extend .cb-no-top-padding;
+	@extend .cb-no-bottom-padding;
+}
+
+.cb-no-horizontal-padding {
+	@extend .cb-no-right-padding;
+	@extend .cb-no-left-padding;
+}
+
+.cb-is-hidden {
+	@include hidden;
+}
+
+.cb-is-invisible {
+	visibility: hidden !important;
+}
+
+.cb-is-visually-hidden {
+	@include hidden(true);
+}
+
+.cb-opacity-0 {
+	opacity: 0% !important;
+}
+
+.cb-opacity-1 {
+	opacity: 100% !important;
+}

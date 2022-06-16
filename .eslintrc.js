@@ -6,8 +6,12 @@ module.exports = {
 	parserOptions: {
 		ecmaVersion: 12,
 		sourceType: 'module',
-		project: ['./jsconfig.json'],
+		project: [ './jsconfig.json' ],
+		ecmaFeatures: {
+			jsx: true,
+		},
 	},
+	extends: [ 'plugin:react/recommended' ],
 	rules: {
 		'no-shadow': 'warn',
 		'no-unused-expressions': 'warn',
@@ -19,8 +23,8 @@ module.exports = {
 	settings: {
 		'import/resolver': {
 			node: {
-				extensions: ['.js', '.jsx', '.ts', '.tsx'],
-				moduleDirectory: ['node_modules', '.'],
+				extensions: [ '.js', '.jsx', '.ts', '.tsx' ],
+				moduleDirectory: [ 'node_modules', '.' ],
 			},
 		},
 	},

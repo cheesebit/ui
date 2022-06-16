@@ -20,7 +20,7 @@ function Required() {
  * @param {FieldProps} props
  * @return {JSX.Element} Field component.
  */
-function Field(props) {
+function Field( props ) {
 	const {
 		required = false,
 		variant = 'neutral',
@@ -32,20 +32,28 @@ function Field(props) {
 		trailing,
 		...others
 	} = props;
-	const { prop, classy } = useClassy({ variant, required });
+	const { when, classy } = useClassy( { variant, required } );
 
 	function renderTrailing() {
-		if (isEmpty(feedback)) {
+		if ( isEmpty( feedback ) ) {
 			return trailing;
 		}
 
 		const { icon } = feedback;
 
-		return Boolean(icon) && <Icon size={24} variant={variant} {...resolveProp(icon, 'name')} />;
+		return (
+			Boolean( icon ) && (
+				<Icon
+					size={ 24 }
+					variant={ variant }
+					{ ...resolveProp( icon, 'name' ) }
+				/>
+			)
+		);
 	}
 
 	function renderPrompt() {
-		if (isEmpty(feedback)) {
+		if ( isEmpty( feedback ) ) {
 			return prompt;
 		}
 
@@ -55,25 +63,31 @@ function Field(props) {
 
 	return (
 		<div
-			{...omit(OMITTED_PROPS, others)}
-			className={classy(
+			{ ...omit( OMITTED_PROPS, others ) }
+			className={ classy(
 				'cb-form-field',
 				{
-					'-neutral': prop({ variant: 'neutral' }),
-					'-danger': prop({ variant: 'danger' }),
-					'-info': prop({ variant: 'info' }),
-					'-success': prop({ variant: 'success' }),
-					'-warn': prop({ variant: 'warn' }),
+					'-neutral': when( { variant: 'neutral' } ),
+					'-danger': when( { variant: 'danger' } ),
+					'-info': when( { variant: 'info' } ),
+					'-success': when( { variant: 'success' } ),
+					'-warn': when( { variant: 'warn' } ),
 				},
 				{
-					'is-required': prop({ required: true }),
+					'is-required': when( { required: true } ),
 				},
 				className
-			)}
+			) }
 			data-testid="cb-form-field"
 		>
-			<Box as="dt" borderless paddingless className="label" data-testid="field-label">
-				{label}
+			<Box
+				as="dt"
+				borderless
+				paddingless
+				className="label"
+				data-testid="field-label"
+			>
+				{ label }
 			</Box>
 			<Box
 				as="dd"
@@ -81,12 +95,12 @@ function Field(props) {
 				paddingless
 				className="content"
 				data-testid="field-content"
-				trailing={renderTrailing()}
+				trailing={ renderTrailing() }
 			>
-				{children}
+				{ children }
 			</Box>
 			<span className="prompt" data-testid="field-prompt">
-				{renderPrompt()}
+				{ renderPrompt() }
 			</span>
 		</div>
 	);

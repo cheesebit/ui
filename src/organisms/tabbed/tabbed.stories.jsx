@@ -8,12 +8,14 @@ export default {
 	component: Tabbed,
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Tabbed ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Tabbed ready to be played around. Try me :)
+			</p>
 
-			<Tabbed {...args} />
+			<Tabbed { ...args } />
 		</div>
 	);
 }
@@ -42,33 +44,33 @@ Playground.args = {
 			<Tabbed.Panel id="sample-tabbed-tab-home">
 				<h3>Home</h3>
 				<p>
-					{generator.paragraph({
-						sentences: generator.natural({ min: 5, max: 15 }),
-					})}
+					{ generator.paragraph( {
+						sentences: generator.natural( { min: 5, max: 15 } ),
+					} ) }
 				</p>
 			</Tabbed.Panel>
 			<Tabbed.Panel id="sample-tabbed-tab-atoms">
 				<h3>Atoms</h3>
 				<p>
-					{generator.paragraph({
-						sentences: generator.natural({ min: 5, max: 15 }),
-					})}
+					{ generator.paragraph( {
+						sentences: generator.natural( { min: 5, max: 15 } ),
+					} ) }
 				</p>
 			</Tabbed.Panel>
 			<Tabbed.Panel id="sample-tabbed-tab-molecules">
 				<h3>Molecules</h3>
 				<p>
-					{generator.paragraph({
-						sentences: generator.natural({ min: 5, max: 15 }),
-					})}
+					{ generator.paragraph( {
+						sentences: generator.natural( { min: 5, max: 15 } ),
+					} ) }
 				</p>
 			</Tabbed.Panel>
 			<Tabbed.Panel id="sample-tabbed-tab-organisms">
 				<h3>Organisms</h3>
 				<p>
-					{generator.paragraph({
-						sentences: generator.natural({ min: 5, max: 15 }),
-					})}
+					{ generator.paragraph( {
+						sentences: generator.natural( { min: 5, max: 15 } ),
+					} ) }
 				</p>
 			</Tabbed.Panel>
 		</React.Fragment>

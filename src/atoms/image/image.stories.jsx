@@ -10,7 +10,9 @@ export default {
 export function Playground() {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Image ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Image ready to be played around. Try me :)
+			</p>
 
 			<Image src="https://images.unsplash.com/photo-1578030639376-8e9cf3f26b68" />
 

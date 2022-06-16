@@ -21,18 +21,18 @@ function createUseSelection() {
 	 * @param {useSelectionProps} props
 	 * @return {useSelectionReturn} selection functions.
 	 */
-	function useSelection(props) {
+	function useSelection( props ) {
 		const { adapters, type, onChange } = props;
 
 		const isMounted = useMounted();
 		/** @type {SelectionStrategy} */
 		const strategy = React.useMemo(
 			() =>
-				createSelectionStrategy({
+				createSelectionStrategy( {
 					adapters: adapters || DEFAULT_ADAPTERS,
 					type: type ?? 'single',
-				}),
-			[adapters, type]
+				} ),
+			[ adapters, type ]
 		);
 
 		/**
@@ -41,44 +41,48 @@ function createUseSelection() {
 		 * @param {SelectionAction} action
 		 * @return {SelectionState} new selection state.
 		 */
-		function reducer(state, action) {
-			switch (action.type) {
+		function reducer( state, action ) {
+			switch ( action.type ) {
 				case 'select':
-					return strategy.select(action.payload, state);
+					return strategy.select( action.payload, state );
 				case 'unselect':
-					return strategy.unselect(action.payload, state);
+					return strategy.unselect( action.payload, state );
 				case 'toggle':
-					return strategy.toggle(action.payload, state);
+					return strategy.toggle( action.payload, state );
 				case 'clear':
-					return strategy.clear(state);
+					return strategy.clear( state );
 			}
 		}
 
 		function initializer() {
-			return strategy.init(toArray(props.selected));
+			return strategy.init( toArray( props.selected ) );
 		}
 
 		/** @type {[SelectionState, React.Dispatch<SelectionAction>]} */
-		const [selected, dispatch] = React.useReducer(reducer, new Map(), initializer);
-		const { resetFingerprint, hasSameFingerprint } = useFingerprint({
+		const [ selected, dispatch ] = React.useReducer(
+			reducer,
+			new Map(),
+			initializer
+		);
+		const { resetFingerprint, hasSameFingerprint } = useFingerprint( {
 			adapter: identity,
-			items: Array.from(selected.keys()),
-		});
+			items: Array.from( selected.keys() ),
+		} );
 		/** @type {React.MutableRefObject<SelectionAction['type'][]>} */
-		const pendingOnChangeCallForRef = React.useRef([]);
+		const pendingOnChangeCallForRef = React.useRef( [] );
 
 		/**
 		 * Select items.
 		 *
 		 * @param {Selectable | Selectable[]} items - Items to select.
 		 */
-		function select(items) {
-			pendingOnChangeCallForRef.current.push('select');
+		function select( items ) {
+			pendingOnChangeCallForRef.current.push( 'select' );
 
-			dispatch({
+			dispatch( {
 				type: 'select',
-				payload: toArray(items),
-			});
+				payload: toArray( items ),
+			} );
 		}
 
 		/**
@@ -86,13 +90,13 @@ function createUseSelection() {
 		 *
 		 * @param {string | string[]} keys - Keys from items to be unselect.
 		 */
-		function unselect(keys) {
-			pendingOnChangeCallForRef.current.push('unselect');
+		function unselect( keys ) {
+			pendingOnChangeCallForRef.current.push( 'unselect' );
 
-			dispatch({
+			dispatch( {
 				type: 'unselect',
-				payload: toArray(keys),
-			});
+				payload: toArray( keys ),
+			} );
 		}
 
 		/**
@@ -100,21 +104,21 @@ function createUseSelection() {
 		 *
 		 * @param {Selectable | Selectable[]} items - Items to be toggled.
 		 */
-		function toggle(items) {
-			pendingOnChangeCallForRef.current.push('toggle');
+		function toggle( items ) {
+			pendingOnChangeCallForRef.current.push( 'toggle' );
 
-			dispatch({
+			dispatch( {
 				type: 'toggle',
-				payload: toArray(items),
-			});
+				payload: toArray( items ),
+			} );
 		}
 
 		function clear() {
-			pendingOnChangeCallForRef.current.push('clear');
+			pendingOnChangeCallForRef.current.push( 'clear' );
 
-			dispatch({
+			dispatch( {
 				type: 'clear',
-			});
+			} );
 		}
 
 		React.useEffect(
@@ -123,34 +127,37 @@ function createUseSelection() {
 				 * `pendingOnChangeCallForRef` will ensure that will trigger the `onChange` callback
 				 * only if any relevant change(s) happened (i.e. all actions except 'reset').
 				 */
-				if (isMounted && !isEmpty(pendingOnChangeCallForRef.current)) {
+				if (
+					isMounted &&
+					! isEmpty( pendingOnChangeCallForRef.current )
+				) {
 					pendingOnChangeCallForRef.current.shift();
 
-					onChange?.(selected);
+					onChange?.( selected );
 				}
 			},
-			[isMounted, selected, onChange]
+			[ isMounted, selected, onChange ]
 		);
 
 		React.useEffect(
 			function updateOnSelectedPropChange() {
 				const newSelected = initializer();
-				const keys = Array.from(newSelected.keys());
+				const keys = Array.from( newSelected.keys() );
 
-				if (hasSameFingerprint(keys)) {
+				if ( hasSameFingerprint( keys ) ) {
 					return;
 				}
 
-				resetFingerprint(keys);
-				dispatch({
+				resetFingerprint( keys );
+				dispatch( {
 					type: 'reset',
 					payload: newSelected,
-				});
+				} );
 			},
 			/**
 			 * initializer is not relevant for our changes, that's why its ommitted.
 			 */
-			[props.selected, hasSameFingerprint, resetFingerprint]
+			[ props.selected, hasSameFingerprint, resetFingerprint ]
 		);
 
 		return { selected, select, unselect, toggle, clear };
@@ -175,7 +182,9 @@ const INITIAL_SELECTABLE_CONTEXT_VALUE = {
  */
 export function createSelectionBoundary() {
 	/** @type {React.Context<useSelectionReturn>}*/
-	const SelectionContext = React.createContext(INITIAL_SELECTABLE_CONTEXT_VALUE);
+	const SelectionContext = React.createContext(
+		INITIAL_SELECTABLE_CONTEXT_VALUE
+	);
 
 	const useSelection = createUseSelection();
 

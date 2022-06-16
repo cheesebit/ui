@@ -1,7 +1,12 @@
 import React from 'react';
 
 import { createSelectionBoundary } from './use-selection';
-import { getDatasources, extractAdapters, getValue, getDisplayValue } from './use-select.helpers';
+import {
+	getDatasources,
+	extractAdapters,
+	getValue,
+	getDisplayValue,
+} from './use-select.helpers';
 import { toArray } from 'common/toolset';
 import { useDropdown } from '../dropdown';
 import { useFocusTrap } from 'hooks/focus-trap';
@@ -14,7 +19,7 @@ export const { SelectionContext, useSelection } = createSelectionBoundary();
  *
  * @param {React.FocusEvent<HTMLInputElement>} e
  */
-function TriggerOnFocusHandler(e) {
+function TriggerOnFocusHandler( e ) {
 	e.target.select();
 }
 
@@ -24,44 +29,47 @@ function TriggerOnFocusHandler(e) {
  * @param {SelectProps} props
  * @return {useSelectReturn} select data and components configurations.
  */
-function useSelect(props) {
+function useSelect( props ) {
 	const { multiple, onChange, name, disabled = false } = props;
-	const dropdown = useDropdown(props);
+	const dropdown = useDropdown( props );
 
 	const datasources = React.useMemo(
-		() => getDatasources(props),
-		[props.datasources, props.options]
+		() => getDatasources( props ),
+		[ props.datasources, props.options ]
 	);
-	const adapters = React.useMemo(() => extractAdapters(datasources), [datasources]);
+	const adapters = React.useMemo(
+		() => extractAdapters( datasources ),
+		[ datasources ]
+	);
 
-	const selection = useSelection({
-		selected: toArray(props.value || []),
+	const selection = useSelection( {
+		selected: toArray( props.value || [] ),
 		type: multiple ? 'multiple' : 'single',
 		adapters,
 		onChange: React.useCallback(
-			function handleSelectionChange(selected) {
-				onChange?.({
-					target: { name, value: getValue(selected, multiple) },
-				});
+			function handleSelectionChange( selected ) {
+				onChange?.( {
+					target: { name, value: getValue( selected, multiple ) },
+				} );
 			},
-			[multiple, name, onChange]
+			[ multiple, name, onChange ]
 		),
-	});
+	} );
 
 	/** @type {React.MutableRefObject<HTMLInputElement>} */
 	const triggerRef = React.useRef();
-	const focusTrap = useFocusTrap({
-		keys: ['ARROW_UP', 'ARROW_DOWN'],
+	const focusTrap = useFocusTrap( {
+		keys: [ 'ARROW_UP', 'ARROW_DOWN' ],
 		onDeactivate() {
 			triggerRef.current?.focus();
 		},
-	});
+	} );
 
-	const [query, setQuery] = React.useState(
-		getDisplayValue(adapters, selection.selected, multiple)
+	const [ query, setQuery ] = React.useState(
+		getDisplayValue( adapters, selection.selected, multiple )
 	);
 
-	const options = useOptions({ datasources });
+	const options = useOptions( { datasources } );
 
 	/** @type {useSelectReturn['getOption']} */
 	const getOption = React.useCallback(
@@ -70,16 +78,16 @@ function useSelect(props) {
 		 * @param {Option} option
 		 * @return {{ label: any; value: any; checked: boolean; }} option label, value and checked state.
 		 */
-		function getOption(option) {
-			const adapter = adapters[option._type || ''] || GenericAdapter;
+		function getOption( option ) {
+			const adapter = adapters[ option._type || '' ] || GenericAdapter;
 
-			const value = adapter.getID(option);
-			const label = adapter.getLabel(option);
-			const checked = selection.selected.has(value);
+			const value = adapter.getID( option );
+			const label = adapter.getLabel( option );
+			const checked = selection.selected.has( value );
 
 			return { label, value, checked };
 		},
-		[adapters, selection.selected]
+		[ adapters, selection.selected ]
 	);
 
 	const toggleOption = React.useCallback(
@@ -88,10 +96,10 @@ function useSelect(props) {
 		 * @param {Option} option
 		 * @return {void}
 		 */
-		function toggleOption(option) {
-			selection.toggle(option);
+		function toggleOption( option ) {
+			selection.toggle( option );
 		},
-		[selection]
+		[ selection ]
 	);
 
 	/** @type {useSelectReturn['getDropdownProps']} */
@@ -102,12 +110,25 @@ function useSelect(props) {
 				toggle: dropdown.toggle,
 				expanded: dropdown.expanded,
 				onBlur() {
-					setQuery(getDisplayValue(adapters, selection.selected, multiple));
-					options.fetch('');
+					setQuery(
+						getDisplayValue(
+							adapters,
+							selection.selected,
+							multiple
+						)
+					);
+					options.fetch( '' );
 				},
 			};
 		},
-		[adapters, dropdown.expanded, dropdown.toggle, multiple, options, selection.selected]
+		[
+			adapters,
+			dropdown.expanded,
+			dropdown.toggle,
+			multiple,
+			options,
+			selection.selected,
+		]
 	);
 
 	/** @type {useSelectReturn['getTriggerProps']} */
@@ -115,27 +136,27 @@ function useSelect(props) {
 		function getTriggerProps() {
 			return {
 				disabled,
-				ref(node) {
-					if (node != null) {
+				ref( node ) {
+					if ( node != null ) {
 						triggerRef.current = node;
 					}
 				},
 				value: query,
 				onClick() {
-					if (!dropdown.expanded) {
+					if ( ! dropdown.expanded ) {
 						dropdown.expand();
 					}
 				},
-				onChange(e) {
+				onChange( e ) {
 					const newQuery = e.target.value;
-					setQuery(newQuery);
+					setQuery( newQuery );
 					dropdown.expand();
-					options.fetch(newQuery);
+					options.fetch( newQuery );
 				},
 				onFocus: TriggerOnFocusHandler,
 			};
 		},
-		[query, dropdown, options]
+		[ query, dropdown, options ]
 	);
 
 	/** @type {useSelectReturn['getClearProps']} */
@@ -143,17 +164,17 @@ function useSelect(props) {
 		function getClearProps() {
 			return {
 				async onClick() {
-					setQuery('');
+					setQuery( '' );
 					selection.clear();
 					options.clear();
 
 					triggerRef.current?.focus();
 
-					await options.fetch('');
+					await options.fetch( '' );
 				},
 			};
 		},
-		[options, selection]
+		[ options, selection ]
 	);
 
 	/** @type {useSelectReturn['getMenuProps']} */
@@ -164,21 +185,21 @@ function useSelect(props) {
 				role: 'listbox',
 			};
 		},
-		[focusTrap.containerRef]
+		[ focusTrap.containerRef ]
 	);
 
 	/** @type {useSelectReturn['getOptionProps']} */
 	const getOptionProps = React.useCallback(
-		function getOptionProps(option) {
-			const { label, value, checked } = getOption(option);
+		function getOptionProps( option ) {
+			const { label, value, checked } = getOption( option );
 
 			return {
 				role: 'option',
 				'aria-selected': checked,
 				id: value,
 				onClick() {
-					setQuery(checked ? '' : label);
-					toggleOption(option);
+					setQuery( checked ? '' : label );
+					toggleOption( option );
 
 					/**
 					 * This return tells DropdownMenuItem if it should or should not
@@ -189,19 +210,19 @@ function useSelect(props) {
 				tabIndex: -1,
 			};
 		},
-		[getOption, toggleOption]
+		[ getOption, toggleOption ]
 	);
 
 	React.useEffect(
 		function onInit() {
-			void options.fetch('');
+			void options.fetch( '' );
 		},
-		[datasources]
+		[ datasources ]
 	);
 
 	React.useEffect(
 		function onDropdownToggle() {
-			if (dropdown.expanded) {
+			if ( dropdown.expanded ) {
 				focusTrap.activate();
 			} else {
 				focusTrap.deactivate();
@@ -211,21 +232,23 @@ function useSelect(props) {
 		 * We are interested in activating/deactivating our
 		 * focus trap when the dropdown changes its expanded state.
 		 */
-		[dropdown.expanded]
+		[ dropdown.expanded ]
 	);
 
 	React.useEffect(
 		function updateOnSelectedChange() {
-			setQuery(getDisplayValue(adapters, selection.selected, multiple));
+			setQuery(
+				getDisplayValue( adapters, selection.selected, multiple )
+			);
 		},
-		[adapters, multiple, selection.selected]
+		[ adapters, multiple, selection.selected ]
 	);
 
 	return {
 		status: options.status,
 		options: options.get(),
 		query: query ?? '',
-		value: getValue(selection.selected, multiple),
+		value: getValue( selection.selected, multiple ),
 
 		dropdown,
 		selection,

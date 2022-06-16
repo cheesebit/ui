@@ -10,8 +10,8 @@ import { getWidth } from 'common/ui-toolset';
  * returns its width whenever window resizes.
  */
 class ResizeWatcher extends React.Component {
-	constructor(props) {
-		super(props);
+	constructor( props ) {
+		super( props );
 
 		this.state = {
 			width: 0,
@@ -22,18 +22,18 @@ class ResizeWatcher extends React.Component {
 		this.ref = forwardedRef ?? React.createRef();
 		this.unmounted = false;
 
-		this.updateWidth = debounce(this.updateWidth.bind(this), wait);
+		this.updateWidth = debounce( this.updateWidth.bind( this ), wait );
 	}
 
 	componentDidMount() {
-		window.addEventListener('resize', this.updateWidth, false);
+		window.addEventListener( 'resize', this.updateWidth, false );
 
 		const { initial } = this.props;
 		initial && this.updateWidth();
 	}
 
 	componentWillUnmount() {
-		window.removeEventListener('resize', this.updateWidth, false);
+		window.removeEventListener( 'resize', this.updateWidth, false );
 
 		this.unmounted = true;
 	}
@@ -43,11 +43,11 @@ class ResizeWatcher extends React.Component {
 		const ref = this.ref.current;
 
 		let newWidth = window.innerWidth;
-		if (ref) {
-			newWidth = getWidth(ref);
+		if ( ref ) {
+			newWidth = getWidth( ref );
 		}
 
-		if (width === newWidth || this.unmounted) {
+		if ( width === newWidth || this.unmounted ) {
 			return;
 		}
 
@@ -63,7 +63,7 @@ class ResizeWatcher extends React.Component {
 		const { width } = this.state;
 		const { onResize } = this.props;
 
-		onResize && onResize({ width, ref: this.ref });
+		onResize && onResize( { width, ref: this.ref } );
 	};
 
 	render() {
@@ -71,16 +71,16 @@ class ResizeWatcher extends React.Component {
 		const { width } = this.state;
 
 		// @ts-ignore
-		return children({ width, ref: this.ref });
+		return children( { width, ref: this.ref } );
 	}
 }
 
 ResizeWatcher.propTypes = {
 	children: PropTypes.func.isRequired,
-	forwardedRef: PropTypes.oneOfType([
+	forwardedRef: PropTypes.oneOfType( [
 		PropTypes.func,
-		PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
-	]),
+		PropTypes.shape( { current: PropTypes.instanceOf( Element ) } ),
+	] ),
 	onResize: PropTypes.func,
 	wait: PropTypes.number,
 };

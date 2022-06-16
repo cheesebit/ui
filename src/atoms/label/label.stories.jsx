@@ -19,20 +19,25 @@ export default {
 				text: generator.word(),
 				nothing: null,
 			},
-			control: { type: 'select' },
+			control: { type: 'radio' },
+		},
+		variant: {
+			options: [ 'neutral', 'info', 'success', 'warn', 'danger' ],
+			control: { type: 'radio' },
 		},
 	},
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool Label (Field) ready to be played around. Try me :)
+				This is me, a cool Label (Field) ready to be played around. Try
+				me :)
 			</p>
 
 			<div className="flex flex-col space-y-1">
-				<Label {...args} />
+				<Label { ...args } />
 				<Input />
 			</div>
 		</div>

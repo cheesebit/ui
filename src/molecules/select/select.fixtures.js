@@ -78,25 +78,25 @@ export function useSyncFruits() {
 	return {
 		type: 'fruit',
 		adapter: {
-			getID: (fruit) => fruit.id,
-			getLabel: (fruit) => fruit.name,
+			getID: ( fruit ) => fruit.id,
+			getLabel: ( fruit ) => fruit.name,
 		},
-		fetch: async function fetch({ regex }) {
-			return FRUITS.filter(({ name }) => regex.test(name));
+		fetch: async function fetch( { regex } ) {
+			return FRUITS.filter( ( { name } ) => regex.test( name ) );
 		},
 	};
 }
 
 export function generateSelectOptions() {
-	return generator.array(() => {
+	return generator.array( () => {
 		const name = generator.name();
 
 		return {
 			uuid: generator.id(),
 			name,
-			icon: generator.pick(icons),
+			icon: generator.pick( icons ),
 		};
-	}, generator.natural({ min: 10, max: 20 }));
+	}, generator.natural( { min: 10, max: 20 } ) );
 }
 
 export const USERS = generateSelectOptions();
@@ -105,15 +105,17 @@ export function useAsyncUsers() {
 	return {
 		type: 'user',
 		adapter: {
-			getID: (user) => user.uuid,
-			getLabel: (user) => user.name,
+			getID: ( user ) => user.uuid,
+			getLabel: ( user ) => user.name,
 		},
-		fetch: async function fetch({ regex }) {
-			return new Promise((resolve) => {
-				setTimeout(() => {
-					resolve(USERS.filter(({ name }) => regex.test(name)));
-				}, 5000);
-			});
+		fetch: async function fetch( { regex } ) {
+			return new Promise( ( resolve ) => {
+				setTimeout( () => {
+					resolve(
+						USERS.filter( ( { name } ) => regex.test( name ) )
+					);
+				}, 5000 );
+			} );
 		},
 	};
 }

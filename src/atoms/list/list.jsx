@@ -14,7 +14,7 @@ const List = React.forwardRef(
 	 * @param {React.Ref<HTMLElement>} ref
 	 * @return {JSX.Element} List component.
 	 */
-	function List(props, ref) {
+	function List( props, ref ) {
 		const {
 			as: Tag = 'section',
 			bordered = false,
@@ -24,16 +24,16 @@ const List = React.forwardRef(
 			children,
 			...others
 		} = props;
-		const { classy } = useClassy({ bordered, hoverable, striped });
+		const { classy } = useClassy( { bordered, hoverable, striped } );
 
 		return (
-			<ListContext.Provider value={{ bordered }}>
+			<ListContext.Provider value={ { bordered } }>
 				<Tag
 					data-testid="cb-list"
 					role="list"
-					{...others}
-					ref={ref}
-					className={classy(
+					{ ...others }
+					ref={ ref }
+					className={ classy(
 						'cb-list',
 						{
 							'-bordered': bordered,
@@ -41,9 +41,9 @@ const List = React.forwardRef(
 							'-striped': striped,
 						},
 						className
-					)}
+					) }
 				>
-					{children}
+					{ children }
 				</Tag>
 			</ListContext.Provider>
 		);

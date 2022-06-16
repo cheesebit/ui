@@ -36,8 +36,9 @@ function useDate( initialDate ) {
 			// TODO: add object support to allow operation like add({days:7,months:1})
 			const newDate = new Date(
 				getYear( state ) + ( increment.years || increment.year || 0 ),
-				getMonth( state ) + ( increment.months || increment.month || 0 ),
-				getDay( state ) + ( increment.days || increment.day || 0 ),
+				getMonth( state ) +
+					( increment.months || increment.month || 0 ),
+				getDay( state ) + ( increment.days || increment.day || 0 )
 			);
 
 			return newDate;
@@ -66,8 +67,9 @@ function useDate( initialDate ) {
 			// TODO: add object support to allow operation like add({days:7,months:1})
 			const newDate = new Date(
 				getYear( state ) - ( decrement.years || decrement.year || 0 ),
-				getMonth( state ) - ( decrement.months || decrement.month || 0 ),
-				getDay( state ) - ( decrement.days || decrement.day || 0 ),
+				getMonth( state ) -
+					( decrement.months || decrement.month || 0 ),
+				getDay( state ) - ( decrement.days || decrement.day || 0 )
 			);
 
 			return newDate;
@@ -84,7 +86,7 @@ function useDate( initialDate ) {
 			const newDate = new Date(
 				params.year || getYear( state ),
 				params.month || getMonth( state ),
-				params.day || getDay( state ),
+				params.day || getDay( state )
 			);
 
 			return newDate;

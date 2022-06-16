@@ -2,11 +2,11 @@ import { get } from 'common/toolset';
 
 /** @type {SelectDatasourceAdapter} */
 const GenericAdapter = {
-	getID(o) {
-		return get(o, 'value');
+	getID( o ) {
+		return get( o, 'value' );
 	},
-	getLabel(o) {
-		return get(o, 'label');
+	getLabel( o ) {
+		return get( o, 'label' );
 	},
 };
 

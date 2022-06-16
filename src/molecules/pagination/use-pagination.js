@@ -10,14 +10,14 @@ import { PAGE_SIZE, MAX_PAGES } from './constants';
  * @param {usePaginationProps} props
  * @return {usePaginationReturn} pagination configuration
  */
-function usePagination(props) {
+function usePagination( props ) {
 	const { itemCount, maxPages = MAX_PAGES, pageSize = PAGE_SIZE } = props;
 
-	const currentPage = useValue(props.currentPage ?? 0);
-	const pageCount = useValue(0);
-	const startIndex = useValue(0);
-	const endIndex = useValue(0);
-	const pages = useValue([]);
+	const currentPage = useValue( props.currentPage ?? 0 );
+	const pageCount = useValue( 0 );
+	const startIndex = useValue( 0 );
+	const endIndex = useValue( 0 );
+	const pages = useValue( [] );
 
 	/**
 	 *
@@ -27,10 +27,10 @@ function usePagination(props) {
 	 * @param {number} params.maxPages
 	 * @param {number} params.pageSize
 	 */
-	function recalculate(params) {
+	function recalculate( params ) {
 		const { currentPage, itemCount, pageSize } = params;
 		// we discount the first and last pages and ensure that we can show at least 3 page indicators
-		const maxPages = Math.max(params.maxPages - 2, 2);
+		const maxPages = Math.max( params.maxPages - 2, 2 );
 
 		const newPages = [
 			{
@@ -39,10 +39,10 @@ function usePagination(props) {
 			},
 		];
 
-		const newPageCount = Math.ceil(itemCount / pageSize);
+		const newPageCount = Math.ceil( itemCount / pageSize );
 		const newCurrentPage = clamp(
 			0,
-			Math.max(0, newPageCount - 1),
+			Math.max( 0, newPageCount - 1 ),
 			currentPage
 		);
 
@@ -57,45 +57,45 @@ function usePagination(props) {
 			0,
 			Math.min(
 				newPageCount - maxPages,
-				Math.floor(newCurrentPage / maxPages) * maxPages
+				Math.floor( newCurrentPage / maxPages ) * maxPages
 			)
 		);
 
-		const newEndPage = Math.min(newStartPage + maxPages, newPageCount); //?
+		const newEndPage = Math.min( newStartPage + maxPages, newPageCount ); //?
 
-		if (newPageCount > 1) {
+		if ( newPageCount > 1 ) {
 			// We add an `...` item to cover from the start page to the current page window start
-			if (newStartPage > 1) {
-				newPages.push({
+			if ( newStartPage > 1 ) {
+				newPages.push( {
 					label: '...',
 					value: newStartPage - 1,
-				});
+				} );
 			}
 
 			// From window start to window.start + window.size
 			for (
-				let page = Math.max(newStartPage, 1);
-				page < Math.min(newEndPage, newPageCount - 1);
+				let page = Math.max( newStartPage, 1 );
+				page < Math.min( newEndPage, newPageCount - 1 );
 				page++
 			) {
-				newPages.push({
-					label: String(page + 1),
+				newPages.push( {
+					label: String( page + 1 ),
 					value: page,
-				});
+				} );
 			}
 
 			// We add an `...` item to cover from the current page window end to the last page
-			if (newEndPage < newPageCount - 1) {
-				newPages.push({
+			if ( newEndPage < newPageCount - 1 ) {
+				newPages.push( {
 					label: '...',
 					value: newEndPage,
-				});
+				} );
 			}
 
-			newPages.push({
-				label: String(newPageCount),
+			newPages.push( {
+				label: String( newPageCount ),
 				value: newPageCount - 1,
-			});
+			} );
 		}
 
 		return {
@@ -130,8 +130,8 @@ function usePagination(props) {
 	 *
 	 * @param {number} index - new page index
 	 */
-	function goToPage(index) {
-		if (isNil(index)) {
+	function goToPage( index ) {
+		if ( isNil( index ) ) {
 			return;
 		}
 
@@ -141,26 +141,26 @@ function usePagination(props) {
 			newStartIndex,
 			newEndIndex,
 			newPages,
-		} = recalculate({
+		} = recalculate( {
 			currentPage: index,
 			itemCount,
 			maxPages,
 			pageSize,
-		});
+		} );
 
-		currentPage(newCurrentPage);
-		startIndex(newStartIndex);
-		endIndex(newEndIndex);
-		pageCount(newPageCount);
-		pages(newPages);
+		currentPage( newCurrentPage );
+		startIndex( newStartIndex );
+		endIndex( newEndIndex );
+		pageCount( newPageCount );
+		pages( newPages );
 	}
 
 	/**
 	 * Navigate to the previous page, if possible.
 	 */
 	function goToPreviousPage() {
-		if (canPreviousPage()) {
-			goToPage(currentPage() - 1);
+		if ( canPreviousPage() ) {
+			goToPage( currentPage() - 1 );
 		}
 	}
 
@@ -168,16 +168,16 @@ function usePagination(props) {
 	 * Navigate to the next page, if possible.
 	 */
 	function goToNextPage() {
-		if (canNextPage()) {
-			goToPage(currentPage() + 1);
+		if ( canNextPage() ) {
+			goToPage( currentPage() + 1 );
 		}
 	}
 
 	React.useEffect(
 		function onUpdate() {
-			goToPage(currentPage());
+			goToPage( currentPage() );
 		},
-		[props.currentPage, props.itemCount, props.maxPages, props.pageSize]
+		[ props.currentPage, props.itemCount, props.maxPages, props.pageSize ]
 	);
 
 	return {

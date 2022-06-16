@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-list {
 	display: flex;
@@ -11,15 +11,20 @@
 		@include font;
 		@include disableable;
 		@include transition(background);
-		@include bordered($top: false, $right: false, $bottom: false, $left: false);
+		@include bordered(
+			$top: false,
+			$right: false,
+			$bottom: false,
+			$left: false
+		);
 
-		@include var(background, color-white);
+		background: rgba($color-white, 1);
 
 		align-items: center;
 		min-height: 48px;
 
 		&.is-highlighted {
-			@include var(background, color-gray-300);
+			background: rgba($color-gray-300, 1);
 		}
 
 		&.is-hidden {
@@ -33,7 +38,7 @@
 
 	&.-bordered {
 		> .item {
-			@include bordered($color: color(gray-300), $style: dotted);
+			@include bordered($color: rgba($color-gray-300, 1), $style: dotted);
 		}
 	}
 
@@ -41,24 +46,24 @@
 		> .item {
 			@include interactable;
 			@include hoverable {
-				@include var(background, color-gray-200);
+				background: rgba($color-gray-200, 1);
 			}
 		}
 	}
 
 	&.-striped {
 		> .item:nth-of-type(odd) {
-			@include var(background, color-gray-100);
+			background: rgba($color-gray-100, 1);
 		}
 	}
 
 	&.-floatable {
-		@include rounded;
+		@include rounded(0);
 		@include transition(opacity, $duration: 75ms);
-		@include var(background, color-white);
+		background: rgba($color-white, 1);
 
 		@include shadow;
-		@include var(z-index, layer-3);
+		z-index: $layer-3;
 
 		padding: 0;
 		overflow-x: hidden;

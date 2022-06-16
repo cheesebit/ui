@@ -9,7 +9,7 @@ const INITIAL_CONTEXT_VALUE = {
 	},
 };
 
-const DropdownContext = React.createContext(INITIAL_CONTEXT_VALUE);
+const DropdownContext = React.createContext( INITIAL_CONTEXT_VALUE );
 
 export default DropdownContext;
 

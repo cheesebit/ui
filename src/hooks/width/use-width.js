@@ -28,7 +28,7 @@ function useWidth( { initial = false, ref, onWidthChange } ) {
 
 			setWidth( newWidth );
 		},
-		[ width, isUnmounted ],
+		[ width, isUnmounted ]
 	);
 
 	useEffect( function subscribeToResizeEvent() {
@@ -47,14 +47,14 @@ function useWidth( { initial = false, ref, onWidthChange } ) {
 		function updateMeasurable() {
 			measurableRef.current = ref?.current;
 		},
-		[ ref?.current ],
+		[ ref?.current ]
 	);
 
 	useEffect(
 		function publishChanges() {
 			onWidthChange?.( { width, ref: measurableRef } );
 		},
-		[ width, onWidthChange, measurableRef ],
+		[ width, onWidthChange, measurableRef ]
 	);
 
 	return { width };

@@ -10,9 +10,11 @@ import { DEFAULT } from './constants';
  * @param {any | any[]} props - properties to be compared.
  * @return {Function} function to perform props comparison.
  */
-export function compareProps(props) {
-	return function (prevProps, currProps) {
-		return toArray(props).every((prop) => equals(prevProps[prop], currProps[prop]));
+export function compareProps( props ) {
+	return function ( prevProps, currProps ) {
+		return toArray( props ).every( ( prop ) =>
+			equals( prevProps[ prop ], currProps[ prop ] )
+		);
 	};
 }
 
@@ -29,16 +31,16 @@ export function compareProps(props) {
  *  resolveProp({ name: 'John Doe ' }, 'author')
  * @return {Object} Prop itself or prop mapped to given key
  */
-export function resolveProp(prop, key) {
-	if (isObject(prop) && !React.isValidElement(prop)) {
+export function resolveProp( prop, key ) {
+	if ( isObject( prop ) && ! React.isValidElement( prop ) ) {
 		return prop;
 	}
 
-	if (isNil(key)) {
+	if ( isNil( key ) ) {
 		return DEFAULT.OBJECT;
 	}
 
-	return { [key]: prop };
+	return { [ key ]: prop };
 }
 
 /**
@@ -51,23 +53,35 @@ export function resolveProp(prop, key) {
  * to which sides the property should be applied.
  * @return {string} Classes generated based on the given param
  */
-function evaluateSidedProp(prop, value) {
-	const suppressAllSides = isBoolean(value) && value;
+function evaluateSidedProp( prop, value ) {
+	const suppressAllSides = isBoolean( value ) && value;
 
-	if (suppressAllSides) {
-		return `cb-no-${prop}`;
+	if ( suppressAllSides ) {
+		return `cb-no-${ prop }`;
 	}
 
-	const valueAsArray = toArray(value);
+	const valueAsArray = toArray( value );
 
-	return classy({
-		[`cb-no-top-${prop}`]: valueAsArray.some((v) => ['top'].includes(v)),
-		[`cb-no-right-${prop}`]: valueAsArray.some((v) => ['right'].includes(v)),
-		[`cb-no-bottom-${prop}`]: valueAsArray.some((v) => ['bottom'].includes(v)),
-		[`cb-no-left-${prop}`]: valueAsArray.some((v) => ['left'].includes(v)),
-		[`cb-no-vertical-${prop}`]: valueAsArray.some((v) => ['vertical'].includes(v)),
-		[`cb-no-horizontal-${prop}`]: valueAsArray.some((v) => ['horizontal'].includes(v)),
-	});
+	return classy( {
+		[ `cb-no-top-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'top' ].includes( v )
+		),
+		[ `cb-no-right-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'right' ].includes( v )
+		),
+		[ `cb-no-bottom-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'bottom' ].includes( v )
+		),
+		[ `cb-no-left-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'left' ].includes( v )
+		),
+		[ `cb-no-vertical-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'vertical' ].includes( v )
+		),
+		[ `cb-no-horizontal-${ prop }` ]: valueAsArray.some( ( v ) =>
+			[ 'horizontal' ].includes( v )
+		),
+	} );
 }
 
 /**
@@ -83,8 +97,8 @@ function evaluateSidedProp(prop, value) {
  *  which sides should have no border
  * @return {string} Classes for the given paddingless param
  */
-export function evaluatePaddingless(paddingless) {
-	return evaluateSidedProp('padding', paddingless);
+export function evaluatePaddingless( paddingless ) {
+	return evaluateSidedProp( 'padding', paddingless );
 }
 
 /**
@@ -100,8 +114,8 @@ export function evaluatePaddingless(paddingless) {
  *  which sides should have no border
  * @return {string} Classes for the given borderless param
  */
-export function evaluateBorderless(borderless) {
-	return evaluateSidedProp('border', borderless);
+export function evaluateBorderless( borderless ) {
+	return evaluateSidedProp( 'border', borderless );
 }
 
 /**

@@ -7,15 +7,15 @@ export default {
 	component: Calendar,
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
 			<p className="mb-2">
-				This is me, a cool Calendar still under development, but don&apos;t feel afraid to
-				try me :)
+				This is me, a cool Calendar still under development, but
+				don&apos;t feel afraid to try me :)
 			</p>
 
-			<Calendar {...args} className="p-4 border" />
+			<Calendar { ...args } className="p-4 border" />
 		</div>
 	);
 }

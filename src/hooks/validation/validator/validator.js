@@ -50,36 +50,36 @@ export const validators = {
  * @param {Object} values - Values object from where `field` will be retrieved.
  * @param {Object} schema - Object containing validation rules to be applied.
  */
-export function validate(values, schema) {
-	const safeSchema = schema || mandatory('Schema is required');
-	const status = keys(values).reduce((status, field) => {
+export function validate( values, schema ) {
+	const safeSchema = schema || mandatory( 'Schema is required' );
+	const status = keys( values ).reduce( ( status, field ) => {
 		return {
 			...status,
-			[field]: true,
+			[ field ]: true,
 		};
-	}, {});
+	}, {} );
 
-	return new Task(async (resolve, reject, _, onAbort) => {
-		onAbort(() => {
-			reject('Aborted');
-		});
+	return new Task( async ( resolve, reject, _, onAbort ) => {
+		onAbort( () => {
+			reject( 'Aborted' );
+		} );
 
 		try {
-			for (const field in safeSchema) {
-				const rules = toArray(safeSchema[field]);
+			for ( const field in safeSchema ) {
+				const rules = toArray( safeSchema[ field ] );
 
-				for (const rule of rules) {
+				for ( const rule of rules ) {
 					const {
 						name,
 						validator,
 						isCustomHandler = false,
 						except,
 						args,
-					} = resolveRule(rule); //?
+					} = resolveRule( rule ); //?
 
 					if (
-						(isFunction(except) || isPromise(except)) &&
-						(await except(values))
+						( isFunction( except ) || isPromise( except ) ) &&
+						( await except( values ) )
 					) {
 						logger.debug(
 							'rule',
@@ -90,26 +90,26 @@ export function validate(values, schema) {
 					}
 
 					const valid = await validator(
-						getValue(values, field, isCustomHandler),
-						...(args || DEFAULT.ARRAY)
+						getValue( values, field, isCustomHandler ),
+						...( args || DEFAULT.ARRAY )
 					);
 
-					status[field] = getStatus(status[field], valid, name);
+					status[ field ] = getStatus( status[ field ], valid, name );
 
 					logger.debug(
 						'rule',
 						name,
 						': ',
-						Boolean(valid) ? 'VALID' : 'INVALID'
+						Boolean( valid ) ? 'VALID' : 'INVALID'
 					);
 				}
 			}
 
-			resolve(status);
-		} catch (err) {
-			reject(err);
+			resolve( status );
+		} catch ( err ) {
+			reject( err );
 		}
-	});
+	} );
 }
 
 /**
@@ -129,15 +129,15 @@ export function resolveRule(
 	resolveObjectRule = handleObjectRule,
 	resolveStringRule = handleStringRule
 ) {
-	if (Array.isArray(rule)) {
-		return resolveArrayRule(rule);
-	} else if (isObject(rule)) {
-		return resolveObjectRule(rule);
-	} else if (isString(rule)) {
-		return resolveStringRule(rule);
+	if ( Array.isArray( rule ) ) {
+		return resolveArrayRule( rule );
+	} else if ( isObject( rule ) ) {
+		return resolveObjectRule( rule );
+	} else if ( isString( rule ) ) {
+		return resolveStringRule( rule );
 	}
 
-	throw new RuleTypeError(`${rule} is not a valid rule type.`);
+	throw new RuleTypeError( `${ rule } is not a valid rule type.` );
 }
 
 /**
@@ -146,9 +146,9 @@ export function resolveRule(
  * @param {Array} rule - Rule as array
  * @return {Object} Complete validation rule object.
  */
-export function handleArrayRule(rule) {
-	const [ruleName, ...args] = rule;
-	const validator = getValidator(ruleName);
+export function handleArrayRule( rule ) {
+	const [ ruleName, ...args ] = rule;
+	const validator = getValidator( ruleName );
 
 	return {
 		name: ruleName,
@@ -166,25 +166,25 @@ export function handleArrayRule(rule) {
  * @throws InvalidValidatorError
  * @throws InvalidExceptCheckerError
  */
-export function handleObjectRule(rule) {
+export function handleObjectRule( rule ) {
 	const { name: ruleName, except, handler, args } = rule;
 
-	const validator = handler || getValidator(ruleName);
+	const validator = handler || getValidator( ruleName );
 
-	if (!isFunction(validator) && !isPromise(validator)) {
+	if ( ! isFunction( validator ) && ! isPromise( validator ) ) {
 		throw new InvalidValidatorError(
-			`Validator for ${ruleName} is nor a function, neither a Promise.`
+			`Validator for ${ ruleName } is nor a function, neither a Promise.`
 		);
 	}
 
-	if (except && !(isFunction(except) || isPromise(except))) {
+	if ( except && ! ( isFunction( except ) || isPromise( except ) ) ) {
 		throw new InvalidExceptCheckerError(
-			`Except checker for ${ruleName} is nor a function, neither a Promise.`
+			`Except checker for ${ ruleName } is nor a function, neither a Promise.`
 		);
 	}
 
 	return {
-		isCustomHandler: Boolean(handler),
+		isCustomHandler: Boolean( handler ),
 		except,
 		name: ruleName,
 		validator,
@@ -198,8 +198,8 @@ export function handleObjectRule(rule) {
  * @param {string} ruleName - Rule as string
  * @return {{name: string, validator: Function}} Complete validation rule object.
  */
-export function handleStringRule(ruleName) {
-	const validator = getValidator(ruleName);
+export function handleStringRule( ruleName ) {
+	const validator = getValidator( ruleName );
 
 	return {
 		name: ruleName,
@@ -214,9 +214,9 @@ export function handleStringRule(ruleName) {
  * @param {string} ruleName - Name of the validation rule to be returned.
  * @return {Function} The validator function
  */
-export function getValidator(ruleName) {
-	if (ruleName in validators) {
-		return validators[ruleName];
+export function getValidator( ruleName ) {
+	if ( ruleName in validators ) {
+		return validators[ ruleName ];
 	}
 
 	return validators.permissive;
@@ -231,14 +231,14 @@ export function getValidator(ruleName) {
  * @param {string} field - Field to be validated.
  * @param {boolean} isCustomHandler - Is a custom validator (not a predefined one).
  */
-export function getValue(values, field, isCustomHandler) {
+export function getValue( values, field, isCustomHandler ) {
 	const safeValues = values || DEFAULT.OBJECT;
 
-	if (isCustomHandler) {
+	if ( isCustomHandler ) {
 		return { ...safeValues };
 	}
 
-	return safeValues[field];
+	return safeValues[ field ];
 }
 
 /**
@@ -251,13 +251,16 @@ export function getValue(values, field, isCustomHandler) {
  * @return {boolean|Array<string>} `true` if resulting status is valid, and array
  * with the validators name otherwise.
  */
-export function getStatus(prev, curr, validator) {
-	if (prev === true && curr) {
+export function getStatus( prev, curr, validator ) {
+	if ( prev === true && curr ) {
 		return true;
 	}
 
 	// @ts-ignore
-	return [...(isBoolean(prev) ? [] : prev), ...(curr ? [] : [validator])]; //?
+	return [
+		...( isBoolean( prev ) ? [] : prev ),
+		...( curr ? [] : [ validator ] ),
+	]; //?
 }
 
 /**

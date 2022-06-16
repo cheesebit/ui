@@ -67,12 +67,19 @@ function parser( expressions, delimiters = [ ' ' ] ) {
 	let map = {};
 
 	for ( const expression of expressions ) {
-		map = serialize( expression ).reduce( function( acc, [ token, counter ] ) {
+		map = serialize( expression ).reduce( function (
+			acc,
+			[ token, counter ]
+		) {
 			return merge( acc, { [ token ]: counter } );
-		}, map );
+		},
+		map );
 	}
 
-	const regex = new RegExp( '(' + toArray( delimiters ).join( '|' ) + ')', 'g' );
+	const regex = new RegExp(
+		'(' + toArray( delimiters ).join( '|' ) + ')',
+		'g'
+	);
 
 	return function parse( pattern ) {
 		const buffer = [];

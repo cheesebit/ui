@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-form-field {
 	@include font;
@@ -14,20 +14,21 @@
 	}
 
 	&.is-required > .label::before {
-		@include var(color, color-danger);
+		color: $color-danger;
 
-		content: '*';
+		content: "*";
 	}
 
 	& > .prompt {
-		@include var(font-size, font-size-sm);
-		@include var(margin-top, spacing-1);
+		@include mt($spacing-1);
+
+		font-size: $font-size-sm;
 
 		display: inline-flex;
 	}
 
 	& > .content {
-		@include var(margin-top, spacing-1);
+		@include mt($spacing-1);
 
 		display: flex;
 		width: 100%;
@@ -35,33 +36,33 @@
 
 	&.-success {
 		& > .prompt {
-			@include var(color, color-success);
+			color: $color-success;
 		}
 	}
 
 	&.-danger {
 		& > .prompt {
-			@include var(color, color-danger);
+			color: $color-danger;
 		}
 	}
 
 	&.-warn {
 		& > .prompt {
-			@include var(color, color-warn);
+			color: $color-warn;
 		}
 	}
 
 	&.-info {
 		& > .prompt {
-			@include var(color, color-info);
+			color: $color-info;
 		}
 	}
 
 	& + & {
-		@include var(margin-top, spacing-4);
+		margin-top: $spacing-4;
 	}
 
 	&:last-of-type {
-		@include var(margin-bottom, spacing-4);
+		margin-bottom: $spacing-4;
 	}
 }

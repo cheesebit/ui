@@ -1,29 +1,29 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-label {
 	@include font;
 	@include disableable;
 
-	@include var(font-size, font-size-xs);
-	@include var(font-weight, font-weight-medium);
+	font-size: $font-size-xs;
+	font-weight: $font-weight-medium;
 
 	display: inline-flex;
 	flex-flow: row wrap;
 	text-transform: uppercase;
 
 	&.-success {
-		@include var(color, color-success);
+		color: rgba($color-success, 1);
 	}
 
 	&.-danger {
-		@include var(color, color-danger);
+		color: rgba($color-danger, 1);
 	}
 
 	&.-warn {
-		@include var(color, color-warn);
+		color: rgba($color-warn, 1);
 	}
 
 	&.-info {
-		@include var(color, color-info);
+		color: rgba($color-info, 1);
 	}
 }

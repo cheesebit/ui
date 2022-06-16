@@ -16,20 +16,20 @@ proper name in your fields to map them to your resulting object.
 
 ```js
 const { values, dispatch } = useForm(
-  {
-    name: 'Jane Doe',
-    children: [
-      {
-        name: 'Mary Poppins',
-        age: 7,
-      },
-      {
-        name: 'James Bond',
-        age: 13,
-      },
-    ],
-  },
-  schema,
+	{
+		name: 'Jane Doe',
+		children: [
+			{
+				name: 'Mary Poppins',
+				age: 7,
+			},
+			{
+				name: 'James Bond',
+				age: 13,
+			},
+		],
+	},
+	schema
 );
 ```
 
@@ -218,14 +218,14 @@ predefined validator.
 
 You can include the following options:
 
-- `validator` - function or promise that will perform your custom validation;
-  the first parameter it will receive is the `values` object, which contains the
-  current values for your fields, followed by any additional arguments you
-  provide using `args`;
-- `args` - Aditional arguments to be provided to your `validator`;
-- `except`- function or promise that you can use to dinamycally prevent your
-  custom validation from being run;
-- `name` - This is name for your custom validator, which will be used to
+-   `validator` - function or promise that will perform your custom validation;
+    the first parameter it will receive is the `values` object, which contains the
+    current values for your fields, followed by any additional arguments you
+    provide using `args`;
+-   `args` - Aditional arguments to be provided to your `validator`;
+-   `except`- function or promise that you can use to dinamycally prevent your
+    custom validation from being run;
+-   `name` - This is name for your custom validator, which will be used to
 reference any error it returns. **If you use the name of an existing predefined
 validator, your customized one will be mercilessly overriden**.
 <!-- - on, -->
@@ -258,9 +258,9 @@ const schema = {{
 
 ## About design decisions
 
-- `useValidation` was created from the idea that changing a field value does not
-  necessarily has to do with validation (you are supposed to run validation
-  whenever you want/need). Besides that, being able to run asynchronous
-  validation must not interfere with field maintenance and its result should not
-  be managed as separate state (using `useState`) inside field set/reset
-  reducer.
+-   `useValidation` was created from the idea that changing a field value does not
+    necessarily has to do with validation (you are supposed to run validation
+    whenever you want/need). Besides that, being able to run asynchronous
+    validation must not interfere with field maintenance and its result should not
+    be managed as separate state (using `useState`) inside field set/reset
+    reducer.

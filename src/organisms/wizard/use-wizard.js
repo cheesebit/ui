@@ -9,17 +9,17 @@ import { getID } from 'common/toolset';
  * @param {WizardProps<T>} props
  * @returns
  */
-function useWizard(props) {
+function useWizard( props ) {
 	const { current: initialCurrent, id, flow } = props;
-	const { current, transition } = useAutomaton(flow, initialCurrent);
-	const contextValueRef = React.useRef({
-		id: getID(id),
+	const { current, transition } = useAutomaton( flow, initialCurrent );
+	const contextValueRef = React.useRef( {
+		id: getID( id ),
 		transition,
-	});
+	} );
 
 	return {
 		transition,
-		states: flow[current]?.on,
+		states: flow[ current ]?.on,
 		current,
 		contextValue: contextValueRef.current,
 	};

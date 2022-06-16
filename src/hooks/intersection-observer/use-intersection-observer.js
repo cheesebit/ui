@@ -12,34 +12,34 @@ import { mandatory } from 'common/toolset';
  * @return {React.MutableRefObject} Reference to the IntersectionObserver.
  */
 export default function useIntersectionObserver(
-	targetRef = mandatory('targetRef is required'),
-	onIntersect = mandatory('onIntersect is required')
+	targetRef = mandatory( 'targetRef is required' ),
+	onIntersect = mandatory( 'onIntersect is required' )
 ) {
 	/** @type {React.MutableRefObject<IntersectionObserver> | null} */
-	const observerRef = React.useRef(null);
+	const observerRef = React.useRef( null );
 
-	function handleIntersection(entries) {
-		const found = entries.find((entry) => {
+	function handleIntersection( entries ) {
+		const found = entries.find( ( entry ) => {
 			const { target } = entry;
 			return target === this.image.current;
-		});
+		} );
 
-		if (!found || !found.isIntersecting) {
+		if ( ! found || ! found.isIntersecting ) {
 			return;
 		}
 
-		onIntersect?.(observerRef.current);
+		onIntersect?.( observerRef.current );
 	}
 
-	React.useEffect(function initObserve() {
-		observerRef.current = new IntersectionObserver(handleIntersection);
+	React.useEffect( function initObserve() {
+		observerRef.current = new IntersectionObserver( handleIntersection );
 
-		observerRef.current.observe(targetRef.current);
+		observerRef.current.observe( targetRef.current );
 
 		return function cleanObserver() {
 			observerRef.current?.disconnect();
 		};
-	}, []);
+	}, [] );
 
 	return observerRef;
 }

@@ -19,16 +19,19 @@ const INITIAL_STATUS = {};
  * @param {Object} schema - Validation schema
  * @return {ValidationSetup} Object with validation status and validation dispatcher.
  */
-function useValidation(schema) {
-	const taskRef = React.useRef(null);
+function useValidation( schema ) {
+	const taskRef = React.useRef( null );
 	const safeSchema = schema || DEFAULT.OBJECT;
 
-	const [status, dispatch] = useAsyncReducer(function reducer(state, action) {
+	const [ status, dispatch ] = useAsyncReducer( function reducer(
+		state,
+		action
+	) {
 		const { type, payload } = action;
 
 		const safePayload = payload || DEFAULT.OBJECT;
 
-		switch (type) {
+		switch ( type ) {
 			case 'validate':
 			case 'field.validate': {
 				const { status } = safePayload;
@@ -42,16 +45,17 @@ function useValidation(schema) {
 			default:
 				return state;
 		}
-	}, INITIAL_STATUS);
+	},
+	INITIAL_STATUS );
 
 	/** @type {DispatchValidation} */
 	const dispatcher = React.useCallback(
-		debounce(async function (type, payload) {
+		debounce( async function ( type, payload ) {
 			const safePayload = payload || DEFAULT.OBJECT;
 			const { values } = safePayload;
 
 			function abortRunningValidation() {
-				if (taskRef.current) {
+				if ( taskRef.current ) {
 					logger.debug(
 						'use-validation',
 						'aborting previous validation'
@@ -63,7 +67,7 @@ function useValidation(schema) {
 			function startValidation() {
 				abortRunningValidation();
 
-				taskRef.current = validate(values, safeSchema);
+				taskRef.current = validate( values, safeSchema );
 			}
 
 			function getValidationTask() {
@@ -74,8 +78,8 @@ function useValidation(schema) {
 				taskRef.current = null;
 			}
 
-			dispatch(async (innerDispatch) => {
-				switch (type) {
+			dispatch( async ( innerDispatch ) => {
+				switch ( type ) {
 					case 'validate':
 					case 'field.validate': {
 						startValidation();
@@ -84,22 +88,22 @@ function useValidation(schema) {
 							const newStatus = await getValidationTask();
 							clearValidationTask();
 
-							logger.debug('use-validation', status);
+							logger.debug( 'use-validation', status );
 
-							innerDispatch({
+							innerDispatch( {
 								type,
 								payload: { status: newStatus },
-							});
-						} catch (err) {
-							logger.error('use-validation', 'error', err);
+							} );
+						} catch ( err ) {
+							logger.error( 'use-validation', 'error', err );
 						}
 
 						break;
 					}
 				}
-			});
-		}, 750),
-		[dispatch]
+			} );
+		}, 750 ),
+		[ dispatch ]
 	);
 
 	return { status, dispatch: dispatcher };

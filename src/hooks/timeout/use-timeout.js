@@ -11,7 +11,7 @@ function useTimeout(
 		// to avoid cancelling on re-renders (but still cancel on unmounts),
 		//    set `persistRenders: true,`.
 		persistRenders = false,
-	} = {},
+	} = {}
 ) {
 	let timeoutID;
 	const cancel = () => timeoutID && clearTimeout( timeoutID );
@@ -24,7 +24,7 @@ function useTimeout(
 		},
 		persistRenders
 			? [ setTimeout, clearTimeout ]
-			: [ callback, delay, setTimeout, clearTimeout ],
+			: [ callback, delay, setTimeout, clearTimeout ]
 	);
 
 	return cancel;

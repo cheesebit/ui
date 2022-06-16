@@ -1,4 +1,4 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-calendar {
 	@include transition(all);
@@ -6,35 +6,36 @@
 	@include font;
 	@include disableable;
 
+	@include p($spacing-4);
+
 	position: relative;
 	display: inline-flex;
 	flex-direction: column;
 
-	@include px(spacing-4);
-	@include py(spacing-4);
-
 	& > .header {
+		@include p(spacing-0);
+
 		display: grid;
 		grid-template-rows: 40px;
 		grid-template-columns: 40px 40px 1fr 40px 40px;
 		align-items: center;
 
-		@include var(column-gap, spacing-2);
-		@include p(spacing-0);
+		column-gap: $spacing-2;
 
 		& > .previous-year,
 		& > .previous-month,
 		& > .next-year,
 		& > .next-month {
 			@include rounded(50%);
+			@include m($spacing-0);
 
-			@include var(background, color-gray-100);
-			@include var(font-size, font-size-2xl);
-			@include m(spacing-0);
+			background: rgba($color-gray-100, 1);
+			border-color: transparent;
+			font-size: $font-size-2xl;
 
 			@include hoverable {
-				@include var(background, color-gray-300);
-				@include var(color, color-primary-500);
+				background: rgba($color-gray-300, 1);
+				color: rgba($color-primary-500, 1);
 			}
 
 			> .cb-icon {
@@ -54,11 +55,11 @@
 			}
 
 			& > .year {
-				@include var(font-size, font-size-2xl);
+				font-size: $font-size-2xl;
 			}
 
 			& > .month {
-				@include var(font-size, font-size-xs);
+				font-size: $font-size-xs;
 			}
 		}
 	}
@@ -67,13 +68,13 @@
 		display: grid;
 		grid-template-columns: repeat(7, 40px);
 
-		@include px(spacing-0);
-		@include var(padding-top, spacing-4);
-		@include var(padding-bottom, spacing-0);
+		@include px($spacing-0);
+		@include pt($spacing-4);
+		@include pb($spacing-0);
 
 		& > .day {
 			@include rounded(0);
-			@include var(font-size, font-size-xs);
+			font-size: $font-size-xs;
 
 			position: relative;
 			display: inline-flex;
@@ -81,15 +82,15 @@
 			justify-content: center;
 
 			&.is-today {
-				@include var(color, color-blue-300);
+				color: rgba($color-blue-300, 1);
 			}
 
 			&.is-selected {
-				@include var(background, color-gray-200);
+				background: rgba($color-gray-200, 1);
 
 				@include hoverable {
-					@include var(background, color-gray-300);
-					@include var(border-color, color-gray-300);
+					background: rgba($color-gray-300, 1);
+					border-color: rgba($color-gray-300, 1);
 				}
 			}
 		}
@@ -108,31 +109,31 @@
 		// }
 
 		// .day.is-selected:after {
-		//   @include bordered($color: color(gray-200));
-		//   @include var(background, color-gray-200);
+		//   @include bordered(rgba($color: color(gray-200)), 1);
+		//   background: rgba($color-gray-200, 1);
 		//   left: 20px;
 		// }
 
 		// .day.is-selected + .day.is-selected:before {
-		//   @include bordered($color: color(gray-200));
-		//   @include var(background, color-gray-200);
+		//   @include bordered(rgba($color: color(gray-200)), 1);
+		//   background: rgba($color-gray-200, 1);
 		//   left: calc(-20px - 0.25rem);
 		// }
 
 		// .day.is-selected + .day:not(.is-selected):before {
-		//   @include bordered($color: color(white));
-		//   @include var(background, color-white);
+		//   @include bordered(rgba($color: color(white)), 1);
+		//   background: rgba($color-white, 1);
 		//   left: calc(-20px - 0.25rem);
 		// }
 
 		& > .week-day {
-			@include var(font-weight, font-weight-bold);
+			font-weight: $font-weight-bold;
 
 			text-decoration: none;
 		}
 	}
 
 	.quick-actions {
-		@include var(margin-top, spacing-4);
+		margin-top: $spacing-4;
 	}
 }

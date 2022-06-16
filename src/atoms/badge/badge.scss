@@ -1,36 +1,38 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-badge {
+	@include font;
+	@include px($spacing-4);
+	@include py($spacing-1);
+
 	display: inline-flex;
 
-	@include var(height, spacing-6);
-	@include var(line-height, spacing-6);
-	@include var(border-radius, spacing-3);
-	@include var(font-size, font-size-sm);
+	height: $spacing-6;
+	line-height: $spacing-6;
+	border-radius: $spacing-3;
+	font-size: $font-size-sm;
 
 	align-items: center;
 
-	@include px(spacing-4);
-	@include py(spacing-1);
-	@include var(background, color-gray-600);
-	@include var(color, color-white);
+	background: rgba($color-gray-600, 1);
+	color: rgba($color-white, 1);
 
 	&.-primary {
-		@include var(background, color-primary-100);
+		background: rgba($color-primary-100, 1);
 	}
 
 	&.-secondary {
-		@include var(background, color-secondary-500);
+		background: rgba($color-secondary-500, 1);
 	}
 
 	&.-terciary {
-		@include var(background, color-terciary-500);
-		@include var(color, color-black);
+		background: rgba($color-terciary-500, 1);
+		color: rgba($color-black, 1);
 	}
 
 	& + & {
-		@include my(spacing-0);
-		@include var(margin-left, spacing-1);
-		@include var(margin-right, spacing-0);
+		@include my($spacing-0);
+		@include ml($spacing-1);
+		@include mr($spacing-0);
 	}
 }

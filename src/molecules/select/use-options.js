@@ -8,21 +8,21 @@ import { to, debounce } from 'common/toolset';
  * @param {string} query -
  * @return {AsyncGenerator<Selectable[], void, unknown>} generator function that fetches and returns the result as soon as it is available for each queried datasource.
  */
-async function* getData(datasources, query) {
-	const regex = new RegExp(query, 'i');
+async function* getData( datasources, query ) {
+	const regex = new RegExp( query, 'i' );
 
-	for (const ds of datasources) {
-		const [error, data] = await to(
-			Promise.resolve(ds.fetch({ query, regex }))
+	for ( const ds of datasources ) {
+		const [ error, data ] = await to(
+			Promise.resolve( ds.fetch( { query, regex } ) )
 		);
 
-		if (!error) {
-			const items = (data || []).map((item) => {
+		if ( ! error ) {
+			const items = ( data || [] ).map( ( item ) => {
 				return {
 					...item,
 					_type: ds.type,
 				};
-			});
+			} );
 
 			yield items;
 		}
@@ -34,15 +34,15 @@ async function* getData(datasources, query) {
  * @param {useOptionsProps} props
  * @return {useOptionsReturn} functions to manage select options.
  */
-function useOptions(props) {
+function useOptions( props ) {
 	const { datasources } = props;
-	const [query, setQuery] = React.useState('');
+	const [ query, setQuery ] = React.useState( '' );
 
 	/** @type {[Map<string, Selectable[]>, React.Dispatch<React.SetStateAction<Map<string, Selectable[]>>>]} */
-	const [cache, setCache] = React.useState(new Map());
+	const [ cache, setCache ] = React.useState( new Map() );
 
 	/** @type {[QueryStatus, React.Dispatch<React.SetStateAction<QueryStatus>>]} */
-	const [status, setStatus] = React.useState('idle');
+	const [ status, setStatus ] = React.useState( 'idle' );
 
 	const fetch = React.useMemo(
 		() =>
@@ -52,55 +52,55 @@ function useOptions(props) {
 				 * @param {string} query
 				 * @return {Promise<void>}
 				 */
-				async function fetch(query) {
-					setQuery(query);
+				async function fetch( query ) {
+					setQuery( query );
 
-					if (cache.has(query)) {
-						setStatus('idle');
+					if ( cache.has( query ) ) {
+						setStatus( 'idle' );
 						return;
 					}
 
-					setStatus('querying');
+					setStatus( 'querying' );
 
 					// TODO: keep cache to a maximum size
 					// TODO: remove startsWith `query` from cache
 
-					setCache((cache) => {
-						const newCache = new Map(cache);
-						newCache.set(query, []);
+					setCache( ( cache ) => {
+						const newCache = new Map( cache );
+						newCache.set( query, [] );
 						return newCache;
-					});
+					} );
 
-					for await (const items of getData(datasources, query)) {
-						setCache((cache) => {
-							const newCache = new Map(cache);
-							newCache.set(query, [
-								...(cache.get(query) || []),
-								...(items || []),
-							]);
+					for await ( const items of getData( datasources, query ) ) {
+						setCache( ( cache ) => {
+							const newCache = new Map( cache );
+							newCache.set( query, [
+								...( cache.get( query ) || [] ),
+								...( items || [] ),
+							] );
 							return newCache;
-						});
+						} );
 					}
 
-					setStatus('idle');
+					setStatus( 'idle' );
 				},
 				250
 			),
-		[cache, datasources]
+		[ cache, datasources ]
 	);
 
 	const clear = React.useCallback(
 		function clear() {
 			cache.clear();
 		},
-		[cache]
+		[ cache ]
 	);
 
 	const get = React.useCallback(
 		function get() {
-			return cache.get(query) || [];
+			return cache.get( query ) || [];
 		},
-		[cache, query]
+		[ cache, query ]
 	);
 
 	return {

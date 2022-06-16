@@ -1,7 +1,7 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-image {
-	@include var(background, color-background);
+	background: $color-background;
 
 	position: relative;
 	overflow: hidden;

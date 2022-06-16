@@ -23,10 +23,14 @@ const SUPPORTED_KEYS = {
  * @param {React.KeyboardEvent} e - keyboard event
  * @return {React.KeyboardEvent['key']} Normalized key code
  */
-export function getKeyboardKey(e) {
+export function getKeyboardKey( e ) {
 	// IE
-	if (e.keyCode >= 37 && e.keyCode <= 40 && e.key.indexOf('Arrow') !== 0) {
-		return `Arrow${e.key}`;
+	if (
+		e.keyCode >= 37 &&
+		e.keyCode <= 40 &&
+		e.key.indexOf( 'Arrow' ) !== 0
+	) {
+		return `Arrow${ e.key }`;
 	}
 
 	return e.key;
@@ -37,8 +41,8 @@ export function getKeyboardKey(e) {
  * @param {React.KeyboardEvent} e
  * @return {{ is( otherKeys: SupportedKey | SupportedKey[] ): boolean }} helper functions to be used on the provided keyboard event.
  */
-function KeyboardKey(e) {
-	const key = getKeyboardKey(e);
+function KeyboardKey( e ) {
+	const key = getKeyboardKey( e );
 
 	return {
 		/**
@@ -46,12 +50,12 @@ function KeyboardKey(e) {
 		 * @param {SupportedKey | SupportedKey[]} otherKeys - key or keys that the keyboard event should be considered against.
 		 * @return {boolean} `true` if the keyboard event happened in any of the provided keys.
 		 */
-		is(otherKeys) {
-			const expectedKeys = toArray(otherKeys).map(
-				(otherKey) => SUPPORTED_KEYS[otherKey]
+		is( otherKeys ) {
+			const expectedKeys = toArray( otherKeys ).map(
+				( otherKey ) => SUPPORTED_KEYS[ otherKey ]
 			);
 
-			return toArray(expectedKeys).includes(key);
+			return toArray( expectedKeys ).includes( key );
 		},
 	};
 }

@@ -1,23 +1,73 @@
-@import '../settings/index';
-@import './tools.functions';
+@import "./variables";
 
-@mixin var($property, $name, $important: false) {
-	@if $important == 'important' {
-		$important: unquote('!important');
-	} @else {
-		$important: null;
-	}
+@mixin px($value: $spacing-4) {
+	padding-right: $value;
+	padding-left: $value;
+}
 
-	#{$property}: get-var($name) $important;
-	#{$property}: var(get-var-name($name), get-var($name)) $important;
+@mixin py($value: $spacing-4) {
+	padding-top: $value;
+	padding-bottom: $value;
+}
+
+@mixin pl($value: $spacing-4) {
+	padding-left: $value;
+}
+
+@mixin pr($value: $spacing-4) {
+	padding-right: $value;
+}
+
+@mixin pt($value: $spacing-4) {
+	padding-top: $value;
+}
+
+@mixin pb($value: $spacing-4) {
+	padding-bottom: $value;
+}
+
+@mixin p($value: $spacing-4) {
+	@include px($value);
+	@include py($value);
+}
+
+@mixin mx($value: $spacing-4) {
+	margin-right: $value;
+	margin-left: $value;
+}
+
+@mixin my($value: $spacing-4) {
+	margin-top: $value;
+	margin-bottom: $value;
+}
+
+@mixin ml($value: $spacing-4) {
+	margin-left: $value;
+}
+
+@mixin mr($value: $spacing-4) {
+	margin-right: $value;
+}
+
+@mixin mt($value: $spacing-4) {
+	margin-top: $value;
+}
+
+@mixin mb($value: $spacing-4) {
+	margin-bottom: $value;
+}
+
+@mixin m($value: $spacing-4) {
+	@include mx($value);
+	@include my($value);
 }
 
 @mixin font() {
-	@include var(font-family, font-family-default);
-	@include var(font-weight, font-weight-default);
-	@include var(font-size, font-size-base);
-	@include var(line-height, line-height-default);
-	@include var(color, color-gray-700);
+	font-family: $font-family-default;
+	font-weight: $font-weight-default;
+	font-size: $font-size-base;
+	line-height: $line-height-default;
+	color: rgba($color-gray-700, 1);
 
 	font-style: normal;
 	font-stretch: normal;
@@ -27,7 +77,12 @@
 }
 
 @mixin gradient($start, $end) {
-	background-image: linear-gradient(to right, $start 0%, $end 51%, $start 100%);
+	background-image: linear-gradient(
+		to right,
+		$start 0%,
+		$end 51%,
+		$start 100%
+	);
 }
 
 @mixin shadow($opacity: 0.25) {
@@ -76,22 +131,18 @@
 }
 
 @mixin interactable {
-	// position: relative;
-	// overflow: visible;
-
 	outline: none !important;
 	cursor: pointer;
 	opacity: 100%;
 }
 
-@mixin focusable($color: rgba(color(primary-200), 0.25)) {
+@mixin focusable($color: rgba($color-primary-200, 0.25)) {
 	outline: none;
 
 	&:not(.is-disabled),
 	&:enabled {
 		&:focus,
 		&.is-focused {
-			// box-shadow: 0 0 0.45rem $color;
 			box-shadow: 0 0 0 0.2rem $color;
 
 			@content;
@@ -167,7 +218,7 @@
 	$right: true,
 	$bottom: true,
 	$left: true,
-	$color: color(gray-400),
+	$color: rgba($color-gray-400, 1),
 	$style: solid
 ) {
 	@if $top {
@@ -195,39 +246,9 @@
 	}
 }
 
-@mixin p($value: spacing-4) {
-	@include px($value);
-	@include py($value);
-}
-
-@mixin px($value: spacing-4) {
-	@include var(padding-right, $value);
-	@include var(padding-left, $value);
-}
-
-@mixin py($value: spacing-4) {
-	@include var(padding-top, $value);
-	@include var(padding-bottom, $value);
-}
-
-@mixin m($value: spacing-4) {
-	@include mx($value);
-	@include my($value);
-}
-
-@mixin mx($value: spacing-4) {
-	@include var(margin-right, $value);
-	@include var(margin-left, $value);
-}
-
-@mixin my($value: spacing-4) {
-	@include var(margin-top, $value);
-	@include var(margin-bottom, $value);
-}
-
 @mixin truncate($limit: 100%, $important: false) {
-	@if $important == 'important' {
-		$important: unquote('!important');
+	@if $important == "important" {
+		$important: unquote("!important");
 	} @else {
 		$important: null;
 	}

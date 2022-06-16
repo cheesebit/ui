@@ -3,7 +3,11 @@ import { dissoc, isNil, mandatory, toArray } from '../toolset';
 import { Tree, adapter as defaultAdapter } from '../tree';
 
 class DataManager {
-	constructor( { adapter, attributes, data = mandatory( 'data is required' ) } ) {
+	constructor( {
+		adapter,
+		attributes,
+		data = mandatory( 'data is required' ),
+	} ) {
 		this._adapter = { ...defaultAdapter, ...adapter };
 		this._attributes = attributes;
 
@@ -16,7 +20,7 @@ class DataManager {
 		if ( isNil( this._attributeManager ) ) {
 			this._attributeManager = new AttributeManager(
 				this._attributes,
-				this._tree,
+				this._tree
 			);
 		} else {
 			this._attributeManager.tree = this._tree;

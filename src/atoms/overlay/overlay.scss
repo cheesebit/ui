@@ -1,8 +1,11 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
 .cb-overlay {
 	@include transition(background);
 	@include font;
+
+	@include m($spacing-0);
+	@include p($spacing-4);
 
 	position: absolute;
 	top: 0;
@@ -15,8 +18,6 @@
 	text-align: center;
 	background: inherit;
 	backdrop-filter: blur(10px);
-	@include var(margin, spacing-0);
-	@include var(padding, spacing-4);
 
 	&.-light {
 		background: white;

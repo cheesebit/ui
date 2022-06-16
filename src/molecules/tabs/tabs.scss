@@ -1,13 +1,13 @@
-@import '../../styles/tools/tools.mixins';
+@import "../../styles/mixins";
 
-$active-indicator-height: spacing(1);
+$active-indicator-height: $spacing-1;
 
 .cb-tabs {
-	@include m(spacing-0);
+	@include m($spacing-0);
 
-	@include px(spacing-0);
-	@include var(padding-top, spacing-0);
-	@include var(padding-bottom, spacing-1);
+	@include px($spacing-0);
+	padding-top: $spacing-0;
+	padding-bottom: $spacing-1;
 
 	position: relative;
 	display: flex;
@@ -15,7 +15,7 @@ $active-indicator-height: spacing(1);
 	align-items: center;
 	justify-content: flex-start;
 
-	& > input[type='radio'] {
+	& > input[type="radio"] {
 		@include hidden;
 	}
 
@@ -25,16 +25,16 @@ $active-indicator-height: spacing(1);
 		@include interactable;
 		@include disableable;
 
-		@include var(z-index, layer-1);
+		z-index: $layer-1;
 
-		@include var(color, color-gray-400);
-		@include px(spacing-0);
-		@include py(spacing-2);
-		@include m(spacing-0);
+		color: rgba($color-gray-400, 1);
+		@include px($spacing-0);
+		@include py($spacing-2);
+		@include m($spacing-0);
 
-		@include var(background, color-transparent);
-		@include var(font-size, font-size-sm);
-		@include var(font-weight, font-weight-default);
+		background: transparent;
+		font-size: $font-size-sm;
+		font-weight: $font-weight-default;
 
 		position: relative;
 		display: inline-flex;
@@ -45,22 +45,22 @@ $active-indicator-height: spacing(1);
 		// text-transform: uppercase;
 
 		&:not(:last-child) {
-			@include my(spacing-0);
-			@include var(margin-right, spacing-8);
-			@include var(margin-left, spacing-0);
+			@include my($spacing-0);
+			margin-right: $spacing-8;
+			margin-left: $spacing-0;
 		}
 
 		&:hover:not(.is-active) {
-			@include var(color, color-gray-500);
+			color: rgba($color-gray-500, 1);
 		}
 
 		&.is-active {
-			@include var(color, color-primary-600);
-			@include var(font-weight, font-weight-medium);
+			color: rgba($color-primary-600, 1);
+			font-weight: $font-weight-medium;
 		}
 
 		&.is-hidden {
-			@include var(z-index, layer-0);
+			z-index: $layer-0;
 
 			position: absolute;
 			right: 0;
@@ -74,7 +74,7 @@ $active-indicator-height: spacing(1);
 			$duration: 0.45s,
 			$easing: cubic-bezier(0.38, 0.8, 0.32, 1.07)
 		);
-		@include var(background, color-primary-500);
+		background: rgba($color-primary-500, 1);
 
 		position: absolute;
 		bottom: 0;

@@ -7,13 +7,15 @@ export default {
 	component: Spinner,
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Spinner ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Spinner ready to be played around. Try me :)
+			</p>
 
 			<div className="flex flex-row space-x-4">
-				<Spinner {...args} />
+				<Spinner { ...args } />
 			</div>
 		</div>
 	);
@@ -24,13 +26,15 @@ Playground.args = {
 	children: 'The quick brown fox jumps over the lazy dog',
 };
 
-export function Circular(args) {
+export function Circular( args ) {
 	return (
 		<div className="block">
-			<p className="mb-2">This is me, a cool Spinner ready to be played around. Try me :)</p>
+			<p className="mb-2">
+				This is me, a cool Spinner ready to be played around. Try me :)
+			</p>
 
 			<div className="flex flex-row space-x-4">
-				<CircularSpinner {...args} />
+				<CircularSpinner { ...args } />
 			</div>
 		</div>
 	);

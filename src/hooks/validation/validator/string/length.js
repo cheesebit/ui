@@ -37,7 +37,10 @@ export function validateMaxLength( text, maxLength ) {
  * @return {boolean} `true` if `text` has length between the provided range, `false` otherwise.
  */
 export function validateRangeLength( text, minLength, maxLength ) {
-	return validateMinLength( text, minLength ) && validateMaxLength( text, maxLength );
+	return (
+		validateMinLength( text, minLength ) &&
+		validateMaxLength( text, maxLength )
+	);
 }
 
 /**
@@ -50,7 +53,7 @@ export function validateRangeLength( text, minLength, maxLength ) {
 export function validateLength( text, length ) {
 	const safeLength = Math.min(
 		Math.max( 0, length ),
-		Number.MAX_SAFE_INTEGER,
+		Number.MAX_SAFE_INTEGER
 	);
 
 	const trimmedText = trim( text );

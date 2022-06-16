@@ -14,7 +14,7 @@ import './button.scss';
  * @param {ButtonProps} props
  * @return {JSX.Element} Button component.
  */
-function Button({
+function Button( {
 	borderless = false,
 	busy = false,
 	disabled = false,
@@ -28,12 +28,12 @@ function Button({
 	leading,
 	trailing,
 	...others
-}) {
-	const { prop, classy } = useClassy({ emphasis, size });
+} ) {
+	const { when, classy } = useClassy( { emphasis, size } );
 
 	function renderLeading() {
-		if (icon) {
-			return <Icon {...resolveProp(icon, 'name')} />;
+		if ( icon ) {
+			return <Icon { ...resolveProp( icon, 'name' ) } />;
 		}
 
 		return leading;
@@ -43,35 +43,35 @@ function Button({
 		<Box
 			as="button"
 			data-testid="cb-button"
-			paddingless={paddingless}
-			borderless={borderless}
-			{...others}
+			paddingless={ paddingless }
+			borderless={ borderless }
+			{ ...others }
 			// @ts-ignore
-			type={type}
-			disabled={disabled || busy}
-			leading={renderLeading()}
-			trailing={trailing}
-			className={classy(
+			type={ type }
+			disabled={ disabled || busy }
+			leading={ renderLeading() }
+			trailing={ trailing }
+			className={ classy(
 				'cb-button',
 				{
-					'-flat': prop({ emphasis: 'flat' }),
-					'-ghost': prop({ emphasis: 'ghost' }),
-					'-text': prop({ emphasis: 'text' }),
+					'-flat': when( { emphasis: 'flat' } ),
+					'-ghost': when( { emphasis: 'ghost' } ),
+					'-text': when( { emphasis: 'text' } ),
 				},
 				{
-					'-small': prop({ size: 'small' }),
-					'-medium': prop({ size: 'medium' }),
-					'-large': prop({ size: 'large' }),
+					'-small': when( { size: 'small' } ),
+					'-medium': when( { size: 'medium' } ),
+					'-large': when( { size: 'large' } ),
 				},
 				className
-			)}
+			) }
 		>
-			{busy && (
+			{ busy && (
 				<Overlay as="span" theme="light">
 					&middot;&middot;&middot;
 				</Overlay>
-			)}
-			{children}
+			) }
+			{ children }
 		</Box>
 	);
 }
@@ -81,17 +81,17 @@ Button.propTypes = {
 	borderless: BorderlessPropType,
 	busy: PropTypes.bool,
 	disabled: PropTypes.bool,
-	emphasis: PropTypes.oneOf(['text', 'ghost', 'flat']),
-	icon: PropTypes.oneOfType([
+	emphasis: PropTypes.oneOf( [ 'text', 'ghost', 'flat' ] ),
+	icon: PropTypes.oneOfType( [
 		PropTypes.string,
-		PropTypes.shape({
+		PropTypes.shape( {
 			name: PropTypes.string.isRequired,
-			size: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-		}),
-	]),
+			size: PropTypes.oneOfType( [ PropTypes.number, PropTypes.string ] ),
+		} ),
+	] ),
 	paddingless: PaddinglessPropType,
-	size: PropTypes.oneOf(['small', 'medium', 'large']),
-	type: PropTypes.oneOf(['button', 'submit', 'reset']),
+	size: PropTypes.oneOf( [ 'small', 'medium', 'large' ] ),
+	type: PropTypes.oneOf( [ 'button', 'submit', 'reset' ] ),
 };
 
 export default Button;

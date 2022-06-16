@@ -5,11 +5,11 @@ import { isBoolean } from 'common/toolset';
  * @param {*} status
  * @return {StatusVariant} Variant that represents the given status.
  */
-export function toVariant(status) {
-	if (Array.isArray(status)) {
+export function toVariant( status ) {
+	if ( Array.isArray( status ) ) {
 		return 'danger';
 	}
-	if (isBoolean(status) && status) {
+	if ( isBoolean( status ) && status ) {
 		return 'success';
 	}
 
@@ -21,10 +21,10 @@ export function toVariant(status) {
  * @param {*} status
  * @return {FieldFeedback} Feedback that represents the given status.
  */
-export function toFeedback(status) {
-	const variant = toVariant(status);
+export function toFeedback( status ) {
+	const variant = toVariant( status );
 
-	if (variant === 'neutral') {
+	if ( variant === 'neutral' ) {
 		return {};
 	}
 
@@ -46,13 +46,13 @@ export function toFeedback(status) {
 		},
 	};
 
-	return { message: String(status), ...map[variant] };
+	return { message: String( status ), ...map[ variant ] };
 }
 
-export function getFieldProperties(status) {
+export function getFieldProperties( status ) {
 	return {
-		variant: toVariant(status),
-		feedback: toFeedback(status),
+		variant: toVariant( status ),
+		feedback: toFeedback( status ),
 	};
 }
 

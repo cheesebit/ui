@@ -5,22 +5,22 @@ import { render, screen, userEvent } from 'test/helpers';
 import * as stories from './select.stories';
 import generator from 'test/data-generator';
 
-const { Playground } = composeStories(stories);
+const { Playground } = composeStories( stories );
 
 // TODO: this definitely should be properly tested
-describe('Select', () => {
-	it('renders correctly', () => {
+describe( 'Select', () => {
+	it( 'renders correctly', () => {
 		const props = {
 			options: generator.array(
-				() => ({
+				() => ( {
 					label: generator.name(),
 					value: generator.id(),
-				}),
+				} ),
 				4
 			),
 		};
 
-		render(<Playground {...props} />);
-		const component = screen.getByTestId('cb-select');
-	});
-});
+		render( <Playground { ...props } /> );
+		const component = screen.getByTestId( 'cb-select' );
+	} );
+} );

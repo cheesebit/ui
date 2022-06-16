@@ -8,15 +8,16 @@ export default {
 	component: Table,
 };
 
-export function Playground(args) {
+export function Playground( args ) {
 	return (
 		<div className="block w-full">
 			<p className="mb-2">
-				This is me, a cool Table, I&apos;m still a work in progress, there&apos;s some
-				maintenance going on, but soon enough you will be able to try me :)
+				This is me, a cool Table, I&apos;m still a work in progress,
+				there&apos;s some maintenance going on, but soon enough you will
+				be able to try me :)
 			</p>
 
-			<Table {...args} />
+			<Table { ...args } />
 		</div>
 	);
 }

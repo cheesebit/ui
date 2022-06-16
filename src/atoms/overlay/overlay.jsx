@@ -8,25 +8,31 @@ import './overlay.scss';
  * @param {OverlayProps} props
  * @return {JSX.Element} Overlay component
  */
-function Overlay(props) {
-	const { as = 'div', theme = 'dark', className, children, ...others } = props;
-	const { prop, classy } = useClassy({ theme });
+function Overlay( props ) {
+	const {
+		as = 'div',
+		theme = 'dark',
+		className,
+		children,
+		...others
+	} = props;
+	const { when, classy } = useClassy( { theme } );
 	const Tag = as;
 
 	return (
 		<Tag
-			className={classy(
+			className={ classy(
 				'cb-overlay',
 				{
-					'-light': prop({ theme: 'light' }),
-					'-dark': prop({ theme: 'dark' }),
+					'-light': when( { theme: 'light' } ),
+					'-dark': when( { theme: 'dark' } ),
 				},
 				className
-			)}
+			) }
 			data-testid="cb-overlay"
-			{...others}
+			{ ...others }
 		>
-			{children}
+			{ children }
 		</Tag>
 	);
 }

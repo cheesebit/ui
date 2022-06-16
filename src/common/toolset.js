@@ -1,11 +1,11 @@
 // @ts-nocheck
-const debounce = require('lodash.debounce');
-const get = require('lodash.get');
-const set = require('lodash.set');
-const unset = require('lodash.unset');
+const debounce = require( 'lodash.debounce' );
+const get = require( 'lodash.get' );
+const set = require( 'lodash.set' );
+const unset = require( 'lodash.unset' );
 
-const { customAlphabet, nanoid: defaultNanoid } = require('nanoid');
-const R = require('ramda');
+const { customAlphabet, nanoid: defaultNanoid } = require( 'nanoid' );
+const R = require( 'ramda' );
 
 const { complement, curryN } = R;
 
@@ -39,7 +39,7 @@ export const {
 	values,
 } = R;
 
-export const merge = mergeDeepWith(concat);
+export const merge = mergeDeepWith( concat );
 
 export { debounce, get, set, unset };
 
@@ -49,13 +49,13 @@ export { debounce, get, set, unset };
  * @param {string} text String to be checked.
  * @return {boolean} `true` if string is null, undefined or empty, `false` otherwise.
  */
-export function isBlank(text) {
-	if (isNil(text)) {
+export function isBlank( text ) {
+	if ( isNil( text ) ) {
 		return true;
 	}
 
-	const trimmedText = trim(text);
-	return isEmpty(trimmedText);
+	const trimmedText = trim( text );
+	return isEmpty( trimmedText );
 }
 
 /**
@@ -64,7 +64,7 @@ export function isBlank(text) {
  * @param {*} value - Value to be checked
  * @return {boolean} `true` if `value` is a boolean value, `false` otherwise.
  */
-export function isBoolean(value) {
+export function isBoolean( value ) {
 	return typeof value === 'boolean';
 }
 
@@ -74,7 +74,7 @@ export function isBoolean(value) {
  * @param {*} value - Value to be checked
  * @return {boolean} `true` if `value` is a string value, `false` otherwise.
  */
-export function isString(value) {
+export function isString( value ) {
 	return typeof value === 'string';
 }
 
@@ -85,8 +85,8 @@ export function isString(value) {
  * @return {boolean} `true` if `value` is an object, `false` otherwise.
  * Source: https://medium.com/javascript-in-plain-english/javascript-check-if-a-variable-is-an-object-and-nothing-else-not-an-array-a-set-etc-a3987ea08fd7
  */
-export function isObject(value) {
-	return Object.prototype.toString.call(value) === '[object Object]';
+export function isObject( value ) {
+	return Object.prototype.toString.call( value ) === '[object Object]';
 }
 
 /**
@@ -96,9 +96,9 @@ export function isObject(value) {
  * @return {boolean} `true` if `value` is a function, `false` otherwise.
  * Source: https://stackoverflow.com/questions/5999998/check-if-a-variable-is-of-function-type
  */
-export function isFunction(value) {
-	return ['[object Function]', '[object AsyncFunction]'].includes(
-		Object.prototype.toString.call(value)
+export function isFunction( value ) {
+	return [ '[object Function]', '[object AsyncFunction]' ].includes(
+		Object.prototype.toString.call( value )
 	);
 }
 
@@ -109,8 +109,8 @@ export function isFunction(value) {
  * @return {boolean} `true` if `value` is a Promise, `false` otherwise.
  * Source: https://futurestud.io/tutorials/detect-if-value-is-a-promise-in-node-js-and-javascript
  */
-export function isPromise(value) {
-	return Boolean(value) && typeof value.then === 'function';
+export function isPromise( value ) {
+	return Boolean( value ) && typeof value.then === 'function';
 }
 
 /**
@@ -118,14 +118,14 @@ export function isPromise(value) {
  * `null`, `undefined`, and `NaN`).
  * Source: https://github.com/char0n/ramda-adjunct/blob/master/src/isTruthy.js
  */
-export const isTruthy = curryN(1, Boolean);
+export const isTruthy = curryN( 1, Boolean );
 
 /**
  * Evaluates to `true` if the provided value is`false`, `0`, `""`,
  * `null`, `undefined`, or `NaN`.
  * Source: https://github.com/char0n/ramda-adjunct/blob/master/src/isFalsy.js
  */
-export const isFalsy = complement(isTruthy);
+export const isFalsy = complement( isTruthy );
 
 /**
  * Produces array for non-array value.
@@ -134,16 +134,16 @@ export const isFalsy = complement(isTruthy);
  * @return {Array<*>} Returns `value` itself if it is an array or
  * an array containing the provided `value`.
  */
-export function toArray(value) {
-	if (isNil(value)) {
+export function toArray( value ) {
+	if ( isNil( value ) ) {
 		return [];
 	}
 
-	if (Array.isArray(value)) {
+	if ( Array.isArray( value ) ) {
 		return value;
 	}
 
-	return [value];
+	return [ value ];
 }
 
 /**
@@ -152,8 +152,8 @@ export function toArray(value) {
  * @param {number|string} [id] - ID to be returned
  * @return {number|string} the given ID or the generated one, if none was provided.
  */
-export const getID = (id) => {
-	if (isNil(id)) {
+export const getID = ( id ) => {
+	if ( isNil( id ) ) {
 		return nanoid();
 	}
 
@@ -167,12 +167,12 @@ export const getID = (id) => {
  * @param {number} size
  * @return {number|string} the given ID or the generated one, if none was provided.
  */
-export const getIDGenerator = (alphabet, size) => {
-	if ([alphabet, size].some(isFalsy)) {
+export const getIDGenerator = ( alphabet, size ) => {
+	if ( [ alphabet, size ].some( isFalsy ) ) {
 		return defaultNanoid;
 	}
 
-	return customAlphabet(alphabet, size);
+	return customAlphabet( alphabet, size );
 };
 
 /**
@@ -185,12 +185,12 @@ export const getIDGenerator = (alphabet, size) => {
  * and data is the object returned by the then block.
  * `error` is `null` for resolved promises and `data` is `null` for rejected promises.
  */
-export function to(promise) {
-	return Promise.resolve(promise)
-		.then((data) => [null, data])
-		.catch((err) => {
-			return [err, void 0];
-		});
+export function to( promise ) {
+	return Promise.resolve( promise )
+		.then( ( data ) => [ null, data ] )
+		.catch( ( err ) => {
+			return [ err, void 0 ];
+		} );
 }
 
 /**
@@ -198,18 +198,18 @@ export function to(promise) {
  *
  * @param {string} message - Custom error message
  */
-export const mandatory = (message = 'required') => {
-	throw new Error(message);
+export const mandatory = ( message = 'required' ) => {
+	throw new Error( message );
 };
 
-export const compact = reject(isFalsy);
+export const compact = reject( isFalsy );
 
 /**
  * Returns the valur given as parameter
  *
  * @param {any} value
  */
-export function identity(value) {
+export function identity( value ) {
 	return value;
 }
 
@@ -221,13 +221,13 @@ export function identity(value) {
  * @param {string} text String to be capitalized.
  * @return {string} Returns capitlized string, if not blank
  */
-export function capitalize(text) {
-	if (isBlank(text)) {
+export function capitalize( text ) {
+	if ( isBlank( text ) ) {
 		return '';
 	}
 
-	const [first, ...rest] = text;
-	return `${first.toUpperCase()}${rest.join('')}`;
+	const [ first, ...rest ] = text;
+	return `${ first.toUpperCase() }${ rest.join( '' ) }`;
 }
 
 /**
@@ -237,12 +237,12 @@ export function capitalize(text) {
  * @param {string} text String to be lowercased.
  * @return {string} Returns lowercase string, if not blank
  */
-export function lowercase(text) {
-	if (isBlank(text)) {
+export function lowercase( text ) {
+	if ( isBlank( text ) ) {
 		return '';
 	}
 
-	return String(text).toLowerCase();
+	return String( text ).toLowerCase();
 }
 
 /**
@@ -252,12 +252,12 @@ export function lowercase(text) {
  * @param {string} text String to be uppercased.
  * @return {string} Returns uppercase string, if not blank
  */
-export function uppercase(text) {
-	if (isBlank(text)) {
+export function uppercase( text ) {
+	if ( isBlank( text ) ) {
 		return '';
 	}
 
-	return String(text).toUpperCase();
+	return String( text ).toUpperCase();
 }
 
 /**
@@ -265,11 +265,11 @@ export function uppercase(text) {
  *
  * @param  {string[]} args - Strings to be joined.
  */
-export function join(args) {
+export function join( args ) {
 	args = args || [];
-	if (args.length < 2) {
-		return (args || []).join(',');
+	if ( args.length < 2 ) {
+		return ( args || [] ).join( ',' );
 	}
 
-	return `${args.slice(0, -1).join(', ')}, and ${args.slice(-1)}`;
+	return `${ args.slice( 0, -1 ).join( ', ' ) }, and ${ args.slice( -1 ) }`;
 }
