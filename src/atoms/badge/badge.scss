@@ -3,16 +3,20 @@
 .cb-badge {
 	@include font;
 	@include px($spacing-4);
-	@include py($spacing-1);
+	@include py($spacing-0);
 
-	display: inline-flex;
+	display: inline-block;
 
-	height: $spacing-6;
-	line-height: $spacing-6;
+	// height: $spacing-6;
+	// line-height: $spacing-6;
 	border-radius: $spacing-3;
 	font-size: $font-size-sm;
 
-	align-items: center;
+	vertical-align: middle;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	max-width: 32rem;
 
 	background: rgba($color-gray-600, 1);
 	color: rgba($color-white, 1);
